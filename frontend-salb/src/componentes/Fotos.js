@@ -3,7 +3,7 @@ import React from 'react';
 const Fotos = () => {
     return (
         <div>
-            <p>Cuadro de fotos del juego</p>
+            <p>Cuadro de fotos</p>
         </div>
     );
 }

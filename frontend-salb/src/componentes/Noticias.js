@@ -3,7 +3,7 @@ import React from 'react';
 const Noticias = () => {
     return (
         <div>
-            <p>Cuadro de Noticias del juego</p>
+            <p>Cuadro de Noticias</p>
         </div>
     );
 }

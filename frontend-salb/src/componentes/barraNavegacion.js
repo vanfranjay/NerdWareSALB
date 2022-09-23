@@ -12,7 +12,7 @@ const BarraNavegacion = () => {
             </div>
             <div className='inicarSesionRegistrarse'>
                 <label className='nombreLigaBasquet'>LIGA MAXI BASQUET</label>
-                <Link className='registrarse' to="/register">REGISTRARSE</Link>
+                <Link className='registrarse' to="/registrarse">REGISTRARSE</Link>
                 <Link className='iniciarSesion' to="/login">INICIAR SESIÓN</Link>
             </div>
             <nav class="navbar navbar-expand-lg bg-light fondoNavBar tamañoFondo">
