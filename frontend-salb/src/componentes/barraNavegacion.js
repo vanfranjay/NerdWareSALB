@@ -24,7 +24,7 @@ const BarraNavegacion = () => {
                     </button>
                     <div class="collapse navbar-collapse tamañoFondo" id="navbarNavAltMarkup">
                         <div class="navbar-nav menuOpciones tamañoFondo">
-                            <a class="nav-link active colorLetra contenedorLetrasNavBar" aria-current="page" href="#">ESTADISTICAS</a>
+                            <Link class="nav-link colorLetra contenedorLetrasNavBar" to="/estadisticas">ESTADISTICAS</Link>
                             <Link class="nav-link colorLetra contenedorLetrasNavBar" to="/fotos">FOTOS</Link>
                             <Link class="nav-link colorLetra contenedorLetrasNavBar" to="/equipos">EQUIPOS</Link>
                             <Link class="nav-link colorLetra contenedorLetrasNavBar" to="/juegos">JUEGOS</Link>

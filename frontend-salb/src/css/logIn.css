@@ -26,6 +26,7 @@
     border-bottom: #BA4A00 3px solid;
     background: linear-gradient(to top, transparent, #2C3E50);
     box-shadow: none;
+    filter: brightness(1.5);
 }
 .inputPassword{
     width: 440px;
@@ -42,6 +43,7 @@
     border-bottom: #BA4A00 3px solid;
     background: linear-gradient(to top, transparent, #2C3E50);
     box-shadow: none;
+    filter: brightness(1.5);
 }
 .iniciarSesionForm{
     width: 220px;
