@@ -1,6 +1,6 @@
 import React from 'react';
 import '../css/styleNavBar.css';
-import logo from '../imagenes/logoLigaBasket1.png';
+import logo from '../imagenes/Logo1SinFondo.png';
 const BarraNavegacion = () => {
     return(
         <div className='contenedorPrincipalNavBar'>
