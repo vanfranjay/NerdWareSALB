@@ -1,0 +1,53 @@
+.colorFondoUser{
+    background-color: #2C3E50 !important;
+}
+.fondoBarraLateralUser{
+    background-color: #212F3D !important;
+}
+.contenedorBarraLateral{
+    height: 100%;
+}
+.colorLetraMenuNavBar{
+    color: #ffffff;
+}
+.colorIcono{
+    color: #E67E22;
+}
+.itemNavBar:hover{
+    background: linear-gradient(to top, transparent, #2C3E50);
+    filter: brightness(1.5);
+}
+.cuadroFoto{
+    display: grid;
+    grid-template-columns: 1fr 70px;
+}
+.cuadro1{
+    justify-self: center;
+}
+.imagenUser{
+    width: 100px;
+    border-radius: 50%;
+    padding-top: 10px;
+}
+.hoverColorIcono{
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 4px;
+}
+.hoverColorIcono:hover{
+    background: linear-gradient(to top, transparent, #2C3E50);
+    filter: brightness(2);
+}
+.iconoMenu{
+    width: 45px !important;
+    height: 45px !important;
+    color: #E67E22;
+    border-radius: 5px;
+}
+.iconoMenu:Hover{
+    background: linear-gradient(to top, transparent, #2C3E50);
+    filter: brightness(2);
+}
+.ocultar{
+    width: 25px !important;
+}
