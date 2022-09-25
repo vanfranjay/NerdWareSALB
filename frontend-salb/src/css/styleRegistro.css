@@ -1,0 +1,59 @@
+.contenedorFormRegistro{
+    padding-top: 30px;
+}
+.formularioRegistro{
+    background: linear-gradient(to bottom, #212F3D, #2C3E50);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 600px;
+    margin: auto;
+    padding-bottom: 30px;
+    border-radius: 10px;
+}
+.centreado{
+    justify-self: center;
+    padding-top: 30px;
+}
+.diseñoCuadroRegistro{
+    background-color: transparent;
+    width: 200px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #ffffff;
+    font-size: 16px;
+    border: none;
+    border-radius: 0;
+    border-bottom: #E67E22 3px solid;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+.diseñoCuadroRegistro:focus{
+    background-color: transparent;
+    color: #ffffff;
+    border: 0;
+    border-bottom: #BA4A00 3px solid;
+    background: linear-gradient(to top, transparent, #2C3E50);
+    box-shadow: none;
+    filter: brightness(1.5);
+    outline: none;
+}
+.botonFormRegistro{
+    color: #ffffff;
+    font-weight: bold;
+    background-color: transparent !important;
+    border: none;
+    background: linear-gradient(to top, transparent, #E67E22);
+    width: 200px;
+}
+.botonFormRegistro:hover{
+    background-color: #BA4A00 !important;
+}
+.botonFormRegistro:focus{
+    background-color: #BA4A00 !important;
+}
+@media(max-width:770px){
+    .formularioRegistro{
+        grid-template-columns: 1fr;
+        width: 300px;
+    }
+}

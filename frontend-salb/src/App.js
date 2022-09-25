@@ -1,5 +1,7 @@
+import { ThemeProvider } from '@emotion/react';
 import './App.css';
 import Router1 from './rutas/Router1';
+
 
 function App() {
   return (
