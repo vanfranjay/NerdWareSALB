@@ -18,8 +18,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import '../css/usuario.css';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems } from './listItems';
 import logo from '../imagenes/user1.png';
+import RegistrarVoucher from './RegistrarVoucher';
 
 const ocultar = document.getElementById('imgUser');
 const text = document.getElementById('imgUser');
@@ -157,7 +158,7 @@ function DashboardContent() {
           <List component="nav" className='fondoBarraLateralUser contenedorBarraLateral'>
             {mainListItems}
             <Divider sx={{ my: 1 }}/>
-            {secondaryListItems}
+            {/*secondaryListItems*/}
           </List>
         </Drawer>
         <Box
@@ -176,9 +177,8 @@ function DashboardContent() {
           {/**_______________Contenedor principal______________ */}
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
           <Grid container spacing={3} className="container">
-            <p>Aqui vendra el contenido del usuario delegado o admi Aqui vendra el contenido del usuario delegado o admi
-            Aqui vendra el contenido del usuario delegado o admi Aqui vendra el contenido del usuario delegado o admi
-            Aqui vendra el contenido del usuario delegado o admi Aqui vendra el contenido del usuario delegado o admi
+            <RegistrarVoucher></RegistrarVoucher>
+            <p>
             
             </p>
               {/* Contenido del primer deposito principal */}

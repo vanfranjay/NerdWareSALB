@@ -5,6 +5,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
@@ -14,16 +15,17 @@ export const mainListItems = (
   <React.Fragment>
     <ListItemButton className='itemNavBar'>
       <ListItemIcon>
-      <DashboardIcon className='colorIcono'/>
+        <DashboardIcon className='colorIcono' />
       </ListItemIcon>
-      <ListItemText primary="Dashboard" className='colorLetraMenuNavBar'/>
+      <ListItemText primary="Dashboard" className='colorLetraMenuNavBar' />
     </ListItemButton>
     <ListItemButton className='itemNavBar'>
       <ListItemIcon>
-        <ShoppingCartIcon className='colorIcono' />
+        <AppRegistrationIcon className='colorIcono' />
       </ListItemIcon>
-      <ListItemText primary="Orders" className='colorLetraMenuNavBar'/>
+      <ListItemText primary="Registrar Voucher" className='colorLetraMenuNavBar' />
     </ListItemButton>
+    {/**
     <ListItemButton>
       <ListItemIcon>
         <PeopleIcon />
@@ -42,9 +44,11 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Integrations" />
     </ListItemButton>
+*/}
   </React.Fragment>
 );
 
+{/**
 export const secondaryListItems = (
   <React.Fragment>
     <ListSubheader component="div" inset className='fondoBarraLateralUser'>
@@ -69,4 +73,5 @@ export const secondaryListItems = (
       <ListItemText primary="Year-end sale" />
     </ListItemButton>
   </React.Fragment>
-);
+); 
+*/}
