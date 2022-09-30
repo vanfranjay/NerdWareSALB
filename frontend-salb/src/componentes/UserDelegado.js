@@ -21,6 +21,7 @@ import '../css/usuario.css';
 import { mainListItems } from './listItems';
 import logo from '../imagenes/user1.png';
 import RegistrarVoucher from './RegistrarVoucher';
+import {Routes, Route, Navigate, useParams, NavLink} from 'react-router-dom';
 
 const ocultar = document.getElementById('imgUser');
 const text = document.getElementById('imgUser');
@@ -156,7 +157,7 @@ function DashboardContent() {
 
           {/*<Divider />   Es un <hr/>*/}
           <List component="nav" className='fondoBarraLateralUser contenedorBarraLateral'>
-            {mainListItems}
+            {mainListItems}     {/* aqui se anda exportando los botones de la lista de item lisItem.js* */}
             <Divider sx={{ my: 1 }}/>
             {/*secondaryListItems*/}
           </List>
@@ -176,46 +177,12 @@ function DashboardContent() {
           <Toolbar />
           {/**_______________Contenedor principal______________ */}
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <Grid container spacing={3} className="container">
-            <RegistrarVoucher></RegistrarVoucher>
-            <p>
-            
-            </p>
-              {/* Contenido del primer deposito principal */}
-              {/*<Grid item xs={12} md={8} lg={9}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  {/*<Chart />*/}
-                {/*</Paper>
-              </Grid>*/}
-              {/* Recent Deposits contenedor lateral*/}
-              {/*<Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                ></Paper>*/}
-                  {/*<Deposits />*/}
-                {/*</Paper>
-              </Grid>*/}
-              {/* Recent Orders contenedor de pie de pagina*/}
-              {/*<Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  {/*<Orders />*/}
-                {/*</Paper>
-              </Grid>*/}
-            </Grid>
-            {/**texto de pie de pagina */}
-            {/*<Copyright sx={{ pt: 4 }} />*/}
+          <div className='container'>
+            <Routes>
+              <Route path="registrarVoucher" element={<RegistrarVoucher/>}/>
+              <Route path="/" element={<Navigate to='RegistrarVoucher'/>}/>
+            </Routes>
+          </div>
           </Container>
         </Box>
       </Box>

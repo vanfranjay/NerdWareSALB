@@ -10,8 +10,11 @@ import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import {Link, NavLink} from 'react-router-dom';
+
 
 export const mainListItems = (
+
   <React.Fragment>
     <ListItemButton className='itemNavBar'>
       <ListItemIcon>
@@ -19,12 +22,14 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Dashboard" className='colorLetraMenuNavBar' />
     </ListItemButton>
-    <ListItemButton className='itemNavBar'>
-      <ListItemIcon>
-        <AppRegistrationIcon className='colorIcono' />
-      </ListItemIcon>
-      <ListItemText primary="Registrar Voucher" className='colorLetraMenuNavBar' />
-    </ListItemButton>
+    <NavLink to="registrarVoucher" activeClassName="voucher">
+      <ListItemButton className='itemNavBar'>
+        <ListItemIcon>
+          <AppRegistrationIcon className='colorIcono' />
+        </ListItemIcon>
+        <ListItemText primary="Registrar Voucher" className='colorLetraMenuNavBar' />
+      </ListItemButton>
+    </NavLink>
     {/**
     <ListItemButton>
       <ListItemIcon>

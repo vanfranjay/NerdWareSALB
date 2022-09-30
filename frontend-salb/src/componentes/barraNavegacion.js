@@ -8,7 +8,7 @@ const BarraNavegacion = () => {
     return(
         <div className='contenedorPrincipalNavBar'>
             <div className='cuadroLogoBasquet'>
-                <img class="logoLigaBasket" src={logo} alt="logo de la liga de basquet" />
+                <img className="logoLigaBasket" src={logo} alt="logo de la liga de basquet" />
             </div>
             <div className='inicarSesionRegistrarse'>
                 <label className='nombreLigaBasquet'>LIGA MAXI BASQUET</label>
@@ -24,13 +24,13 @@ const BarraNavegacion = () => {
                     </button>
                     <div class="collapse navbar-collapse tamañoFondo" id="navbarNavAltMarkup">
                         <div class="navbar-nav menuOpciones tamañoFondo">
-                            <Link class="nav-link colorLetra contenedorLetrasNavBar" to="/estadisticas">ESTADISTICAS</Link>
-                            <Link class="nav-link colorLetra contenedorLetrasNavBar" to="/fotos">FOTOS</Link>
-                            <Link class="nav-link colorLetra contenedorLetrasNavBar" to="/equipos">EQUIPOS</Link>
-                            <Link class="nav-link colorLetra contenedorLetrasNavBar" to="/juegos">JUEGOS</Link>
-                            <Link class="nav-link colorLetra contenedorLetrasNavBar" to="/noticias">NOTICIAS</Link>
-                            <Link class="nav-link colorLetra contenedorLetrasNavBar" to="/en-vivo">EN VIVO</Link>
-                            <Link class="nav-link colorLetra contenedorLetrasNavBar" to="/sobre-nosotros">SOBRE NOSOTROS</Link>
+                            <Link className="nav-link colorLetra contenedorLetrasNavBar" to="/estadisticas">ESTADISTICAS</Link>
+                            <Link className="nav-link colorLetra contenedorLetrasNavBar" to="/fotos">FOTOS</Link>
+                            <Link className="nav-link colorLetra contenedorLetrasNavBar" to="/equipos">EQUIPOS</Link>
+                            <Link className="nav-link colorLetra contenedorLetrasNavBar" to="/juegos">JUEGOS</Link>
+                            <Link className="nav-link colorLetra contenedorLetrasNavBar" to="/noticias">NOTICIAS</Link>
+                            <Link className="nav-link colorLetra contenedorLetrasNavBar" to="/en-vivo">EN VIVO</Link>
+                            <Link className="nav-link colorLetra contenedorLetrasNavBar" to="/sobre-nosotros">SOBRE NOSOTROS</Link>
                         </div>
                     </div>
                 </div>
