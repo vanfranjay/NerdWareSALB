@@ -22,6 +22,7 @@ import { mainListItems } from './listItems';
 import logo from '../imagenes/user1.png';
 import RegistrarVoucher from './RegistrarVoucher';
 import {Routes, Route, Navigate, useParams, NavLink} from 'react-router-dom';
+import Avatar from '@mui/material/Avatar';
 
 const ocultar = document.getElementById('imgUser');
 const text = document.getElementById('imgUser');
@@ -131,15 +132,18 @@ function DashboardContent() {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
+            <div className='avatarUser'>
+              <Avatar alt="Cindy Baker" src="" ><img id='imgUser' class="imagenUser" src={logo} alt="Foto Perfil"/></Avatar>
+            </div>
             {/* ________________________________ */}
             </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
         {/** icono cuando se despliega la barra vertical */}
         <div className='cuadroFoto fondoBarraLateralUser'>
-            <div className='cuadro1'>
+            {/*<div className='cuadro1'>
                 <img id='imgUser' class="imagenUser" src={logo} alt="Foto Perfil"/>
-            </div>
+            </div>*/}
             <Toolbar
             sx={{
               display: 'flex',

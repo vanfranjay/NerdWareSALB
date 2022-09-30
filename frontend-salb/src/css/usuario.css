@@ -19,15 +19,17 @@
 }
 .cuadroFoto{
     display: grid;
-    grid-template-columns: 1fr 70px;
+    grid-template-columns: 1fr;
 }
 .cuadro1{
     justify-self: center;
 }
 .imagenUser{
-    width: 100px;
+    width: 100%;
     border-radius: 50%;
-    padding-top: 10px;
+}
+.avatarUser{
+    padding-left: 10px;
 }
 .hoverColorIcono{
     width: 48px !important;
