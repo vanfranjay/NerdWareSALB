@@ -48,7 +48,7 @@ body{
 .inicarSesionRegistrarse{
     height: 60px;
     display: grid;
-    grid-template-columns: 1fr 140px 140px;
+    grid-template-columns: 1fr 140px 170px;
 }
 @media(max-width:755px){
     .nombreLigaBasquet{
@@ -96,8 +96,6 @@ body{
     cursor: pointer;
     color: #ffffff;
     font-weight: bold;
-    padding-top: 5px;
-    padding-right: 10px;
 }
 .iniciarSesion:hover{
     color: #E67E22;
@@ -144,4 +142,15 @@ body{
     border: #ffffff solid 2px;
     color: #ffffff;
     
+}
+.btnLogin{
+    text-align: center;
+    justify-content: center;
+    width: 160px;
+    height: 30px;
+    background-color: transparent;
+    border: 0;
+}
+.contenedorBtnLogin{
+    align-self: center;
 }

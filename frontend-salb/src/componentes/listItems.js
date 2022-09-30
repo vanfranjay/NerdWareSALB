@@ -11,7 +11,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import {Link, NavLink} from 'react-router-dom';
-
+import '../css/usuario.css';
 
 export const mainListItems = (
 
@@ -22,8 +22,8 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Dashboard" className='colorLetraMenuNavBar' />
     </ListItemButton>
-    <NavLink to="registrarVoucher" activeClassName="voucher">
-      <ListItemButton className='itemNavBar'>
+    <NavLink to="registrarVoucher" activeClassName="active">
+      <ListItemButton className=''>
         <ListItemIcon>
           <AppRegistrationIcon className='colorIcono' />
         </ListItemIcon>

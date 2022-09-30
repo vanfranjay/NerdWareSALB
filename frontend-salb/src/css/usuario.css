@@ -53,3 +53,14 @@
 .ocultar{
     width: 25px !important;
 }
+.active{
+    color: #E67E22 !important;
+    outline: none;
+    background: linear-gradient(to top, transparent, #2C3E50);
+    filter: brightness(1.5);
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+}

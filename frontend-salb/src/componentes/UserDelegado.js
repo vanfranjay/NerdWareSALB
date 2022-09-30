@@ -124,7 +124,8 @@ function DashboardContent() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dashboard {/* Titulo de la Página */}
+              <label className='nombreUserDelegado'>Fulano Fulanes</label>
+              {/*Dashboard Titulo de la Página */}
             </Typography>
             {/* Icono de la campana */}
             <IconButton color="inherit">

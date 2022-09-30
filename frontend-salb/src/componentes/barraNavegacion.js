@@ -1,7 +1,7 @@
 import React from 'react';
 import '../css/styleNavBar.css';
 import logo from '../imagenes/logoLigaBasket1.png';
-import {Link} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 
 
 const BarraNavegacion = () => {
@@ -12,8 +12,16 @@ const BarraNavegacion = () => {
             </div>
             <div className='inicarSesionRegistrarse'>
                 <label className='nombreLigaBasquet'>LIGA MAXI BASQUET</label>
-                <Link className='registrarse' to="/registrarse">REGISTRARSE</Link>
-                <Link className='iniciarSesion' to="/login">INICIAR SESIÓN</Link>
+                <div className='contenedorBtnLogin'>
+                    <button className='btnLogin'>
+                        <NavLink className='registrarse' to="/registrarse">REGISTRARSE</NavLink>
+                    </button>
+                </div>
+                <div className='contenedorBtnLogin'>
+                    <button className='btnLogin'>
+                        <NavLink className='iniciarSesion' to="/login">INICIAR SESIÓN</NavLink>
+                    </button>
+                </div>
             </div>
             <nav class="navbar navbar-expand-lg bg-light fondoNavBar tamañoFondo">
                 <div class="container-fluid tamañoFondo">
@@ -24,13 +32,13 @@ const BarraNavegacion = () => {
                     </button>
                     <div class="collapse navbar-collapse tamañoFondo" id="navbarNavAltMarkup">
                         <div class="navbar-nav menuOpciones tamañoFondo">
-                            <Link className="nav-link colorLetra contenedorLetrasNavBar" to="/estadisticas">ESTADISTICAS</Link>
-                            <Link className="nav-link colorLetra contenedorLetrasNavBar" to="/fotos">FOTOS</Link>
-                            <Link className="nav-link colorLetra contenedorLetrasNavBar" to="/equipos">EQUIPOS</Link>
-                            <Link className="nav-link colorLetra contenedorLetrasNavBar" to="/juegos">JUEGOS</Link>
-                            <Link className="nav-link colorLetra contenedorLetrasNavBar" to="/noticias">NOTICIAS</Link>
-                            <Link className="nav-link colorLetra contenedorLetrasNavBar" to="/en-vivo">EN VIVO</Link>
-                            <Link className="nav-link colorLetra contenedorLetrasNavBar" to="/sobre-nosotros">SOBRE NOSOTROS</Link>
+                            <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/estadisticas">ESTADISTICAS</NavLink>
+                            <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/fotos">FOTOS</NavLink>
+                            <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/equipos">EQUIPOS</NavLink>
+                            <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/juegos">JUEGOS</NavLink>
+                            <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/noticias">NOTICIAS</NavLink>
+                            <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/en-vivo">EN VIVO</NavLink>
+                            <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/sobre-nosotros">SOBRE NOSOTROS</NavLink>
                         </div>
                     </div>
                 </div>
