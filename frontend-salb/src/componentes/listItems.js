@@ -16,20 +16,28 @@ import '../css/usuario.css';
 export const mainListItems = (
 
   <React.Fragment>
-    <ListItemButton className='itemNavBar'>
-      <ListItemIcon>
-        <DashboardIcon className='colorIcono' />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" className='colorLetraMenuNavBar' />
-    </ListItemButton>
-    <NavLink to="registrarVoucher" activeClassName="active">
-      <ListItemButton className=''>
-        <ListItemIcon>
-          <AppRegistrationIcon className='colorIcono' />
-        </ListItemIcon>
-        <ListItemText primary="Registrar Voucher" className='colorLetraMenuNavBar' />
-      </ListItemButton>
-    </NavLink>
+    <div className='cuadroOpciones'>
+      <div className='menuOpcionesUsuario'>
+        <NavLink to="registrarVoucher" className='nombreMenuOpciones'>
+          <div className='contenedorIcono'>
+            <AppRegistrationIcon className='colorIcono' />
+          </div>
+          <div className='nombreOpcionesMenu'>
+            Registrar Voucher
+          </div>
+        </NavLink>
+      </div>
+      <div className='menuOpcionesUsuario'>
+        <NavLink to="registrarEquipo" className='nombreMenuOpciones'>
+            <div className='contenedorIcono'>
+              <AppRegistrationIcon className='colorIcono' />
+            </div>
+            <div className='nombreOpcionesMenu'>
+              Registrar Equipo
+            </div>
+        </NavLink>
+      </div>
+    </div>
     {/**
     <ListItemButton>
       <ListItemIcon>

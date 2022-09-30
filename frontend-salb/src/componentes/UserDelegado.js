@@ -23,6 +23,7 @@ import logo from '../imagenes/user1.png';
 import RegistrarVoucher from './RegistrarVoucher';
 import {Routes, Route, Navigate, useParams, NavLink} from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
+import RegistrarEquipo from './RegistrarEquipo';
 
 const ocultar = document.getElementById('imgUser');
 const text = document.getElementById('imgUser');
@@ -185,6 +186,7 @@ function DashboardContent() {
           <div className='container'>
             <Routes>
               <Route path="registrarVoucher" element={<RegistrarVoucher/>}/>
+              <Route path="registrarEquipo" element={<RegistrarEquipo/>}/>
               <Route path="/" element={<Navigate to='RegistrarVoucher'/>}/>
             </Routes>
           </div>
