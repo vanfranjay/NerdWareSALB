@@ -13,27 +13,27 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import {Link, NavLink} from 'react-router-dom';
 import '../css/usuario.css';
 
-export const mainListItems = (
+export const mainListItemsAdmi = (
 
   <React.Fragment>
     <div className='cuadroOpciones'>
       <div className='menuOpcionesUsuario'>
-        <NavLink to="registrarVoucher" className='nombreMenuOpciones'>
+        <NavLink to="solicitante" className='nombreMenuOpciones'>
           <div className='contenedorIcono'>
             <AppRegistrationIcon className='colorIcono' />
           </div>
           <div className='nombreOpcionesMenu'>
-            Registrar Voucher
+            Solicitantes
           </div>
         </NavLink>
       </div>
       <div className='menuOpcionesUsuario'>
-        <NavLink to="registrarEquipo" className='nombreMenuOpciones'>
+        <NavLink to="rechazado" className='nombreMenuOpciones'>
             <div className='contenedorIcono'>
               <AppRegistrationIcon className='colorIcono' />
             </div>
             <div className='nombreOpcionesMenu'>
-              Registrar Equipo
+              Rechazados
             </div>
         </NavLink>
       </div>

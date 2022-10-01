@@ -10,24 +10,28 @@
 .colorLetraMenuNavBar{
     color: #ffffff;
 }
-.colorIcono{
-    color: #E67E22;
-}
+/*.contenedorIcono{
+    display: grid;
+    justify-content: start;
+    
+}*/
 .itemNavBar:hover{
     background: linear-gradient(to top, transparent, #2C3E50);
     filter: brightness(1.5);
 }
 .cuadroFoto{
     display: grid;
-    grid-template-columns: 1fr 70px;
+    grid-template-columns: 1fr;
 }
 .cuadro1{
     justify-self: center;
 }
 .imagenUser{
-    width: 100px;
+    width: 100%;
     border-radius: 50%;
-    padding-top: 10px;
+}
+.avatarUser{
+    padding-left: 10px;
 }
 .hoverColorIcono{
     width: 48px !important;
@@ -50,4 +54,48 @@
 }
 .ocultar{
     width: 25px !important;
+}
+.menuOpcionesUsuario{
+    display: grid;
+    grid-template-columns: 1fr;
+    height: 40px;
+}
+.nombreMenuOpciones{
+    outline: none;
+    color: #ffffff;
+    cursor: pointer;
+    text-decoration: none;
+    display: grid;
+    grid-template-columns: 60px 180px;
+    grid-template-rows: auto;
+    justify-items: center;
+}
+.contenedorIcono{
+    align-self: center;
+    justify-self: center;
+}
+.nombreOpcionesMenu{
+    justify-self: center;
+    align-self: center;
+}
+.colorIcono{
+    color: #E67E22;
+    justify-self: center;
+}
+.nombreMenuOpciones:hover{
+    color: #E67E22;
+}
+.active{
+    color: #E67E22 !important;
+    outline: none;
+    background: linear-gradient(to top, transparent, #2C3E50);
+    filter: brightness(1.5);
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    text-decoration: none;
+    align-items: center;
+    justify-items: center;
 }

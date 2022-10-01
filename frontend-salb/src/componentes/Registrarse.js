@@ -15,11 +15,17 @@ const Registrarse = () => {
           <div className='apellidoRegistro centreado'>
             <input type='text' placeholder='Apellido' className='apellido diseñoCuadroRegistro' required></input>
           </div>
-          <div className='direccionRegistro centreado'>
-            <input type='text' placeholder='Dirección' className='nombre diseñoCuadroRegistro' required></input>
-            </div>
           <div className='telefonoRegistro centreado'>
             <input type='number' placeholder='Teléfono' className='nombre diseñoCuadroRegistro' required></input>
+          </div>
+          <div className='direccionRegistro centreado'>
+            <input type='email' placeholder='Email' className='nombre diseñoCuadroRegistro' required></input>
+          </div>
+          <div className='direccionRegistro centreado'>
+            <input type='password' placeholder='contraseña' className='nombre diseñoCuadroRegistro' required></input>
+          </div>
+          <div className='direccionRegistro centreado'>
+            <input type='password' placeholder='confirmación de contraseña' className='nombre diseñoCuadroRegistro' required></input>
           </div>
           <div className='fotoCarnetRegistro centreado'>
             <Button variant="contained" component="label" className='botonFormRegistro'>
@@ -34,7 +40,7 @@ const Registrarse = () => {
             </Button>
           </div>
           <div className='registroForm centreado'>
-            <Button variant="contained" className='botonFormRegistro'>Enviar</Button>
+            <Button variant="contained" className='botonFormRegistro'>Registrarse</Button>
           </div>
           <div className='cancelarRegistroForm centreado'>
             <Button variant="contained" className='botonFormRegistro'>Cancelar</Button>

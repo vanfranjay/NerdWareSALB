@@ -18,12 +18,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import '../css/usuario.css';
-import { mainListItems } from './listItems';
+import { mainListItemsAdmi } from './ListItemsAdmi';
 import logo from '../imagenes/user1.png';
 import RegistrarVoucher from './RegistrarVoucher';
 import {Routes, Route, Navigate, useParams, NavLink} from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import RegistrarEquipo from './RegistrarEquipo';
+import SolicitudDelegados from './SolicitudDelegados';
+import SolicitudesRechazadas from './SolicitudesRechazadas';
+import ListaSolicitantes from './ListaSolicitantes';
 
 const ocultar = document.getElementById('imgUser');
 const text = document.getElementById('imgUser');
@@ -163,7 +166,7 @@ function DashboardContent() {
 
           {/*<Divider />   Es un <hr/>*/}
           <List component="nav" className='fondoBarraLateralUser contenedorBarraLateral'>
-            {mainListItems}     {/* aqui se anda exportando los botones de la lista de item lisItem.js* */}
+            {mainListItemsAdmi}     {/* aqui se anda exportando los botones de la lista de item lisItem.js* */}
             <Divider sx={{ my: 1 }}/>
             {/*secondaryListItems*/}
           </List>
@@ -185,9 +188,9 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
           <div className='container'>
             <Routes>
-              <Route path="registrarVoucher" element={<RegistrarVoucher/>}/>
-              <Route path="registrarEquipo" element={<RegistrarEquipo/>}/>
-              <Route path="/" element={<Navigate to='RegistrarVoucher'/>}/>
+              <Route path="solicitante" element={<ListaSolicitantes/>}/>
+              <Route path="rechazado" element={<SolicitudesRechazadas/>}/>
+              <Route path="/" element={<Navigate to='Solicitante'/>}/>
             </Routes>
           </div>
           </Container>
