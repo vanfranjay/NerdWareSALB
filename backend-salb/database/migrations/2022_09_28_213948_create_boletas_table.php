@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateBoletasTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('boletas', function (Blueprint $table) {
+            $table->id('Cod_Boleta');
+            $table->string('N_Transaccion');
+            $table->decimal('Monto');
+            $table->date('Fecha_Registro');
+            $table->binary('Comprobante')->nullable();
+            $table->integer('Estado')->default(0);
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('boletas');
+    }
+}
