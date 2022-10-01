@@ -26,6 +26,7 @@ import Avatar from '@mui/material/Avatar';
 import RegistrarEquipo from './RegistrarEquipo';
 import SolicitudDelegados from './SolicitudDelegados';
 import SolicitudesRechazadas from './SolicitudesRechazadas';
+import ListaSolicitantes from './ListaSolicitantes';
 
 const ocultar = document.getElementById('imgUser');
 const text = document.getElementById('imgUser');
@@ -187,7 +188,7 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
           <div className='container'>
             <Routes>
-              <Route path="solicitante" element={<SolicitudDelegados/>}/>
+              <Route path="solicitante" element={<ListaSolicitantes/>}/>
               <Route path="rechazado" element={<SolicitudesRechazadas/>}/>
               <Route path="/" element={<Navigate to='Solicitante'/>}/>
             </Routes>

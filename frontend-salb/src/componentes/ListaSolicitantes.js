@@ -1,5 +1,5 @@
 import React from 'react';
-const Acordeon = () => {
+const ListaSolicitantes = () => {
     return(
             <div class="accordion" id="accordionExample">
       <div class="accordion-item">
@@ -42,4 +42,4 @@ const Acordeon = () => {
     )
 };
 
-export default Acordeon;
+export default ListaSolicitantes;
