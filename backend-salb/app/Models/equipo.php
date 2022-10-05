@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class equipo extends Model
+{
+    use HasFactory;
+    protected $table = 'equipo';
+    protected $primaryKey = 'codEquipo';
+    protected $fillable = [
+        'codCategoria', 'codJugador', 'codPersona', 'codDelegado', 'nombre', 'logo',
+    ];
+}
