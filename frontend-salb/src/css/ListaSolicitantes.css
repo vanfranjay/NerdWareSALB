@@ -1,0 +1,80 @@
+.accordion-item{
+    border: none;
+}
+.encabezadoListaAcordeon{
+    background-color: #212F3D !important;
+    outline: none !important;
+    text-decoration: none !important;
+}
+.encabezadoListaAcordeon:focus{
+    outline: none !important;
+    text-decoration: none !important;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+.tituloEncabezadoListaAcordeon:focus{
+    outline: none !important;
+    text-decoration: none !important;
+    background-color: transparent;
+    border: none;
+}
+.texto{
+    color: #ffffff;
+}
+.textoTitulo{
+    color: #E67E22;
+}
+.inputNumero{
+    background-color: transparent;
+    outline: none;
+    border: none;
+    border-bottom: #00ffff 2px solid;
+    text-align: center;
+}
+
+.bodyAcordeon{
+    display: grid;
+    grid-template-columns: 190px 1fr 1fr;
+    background-color: #2C3E50;
+    border: none;
+}
+.cuadroImagenAcordeon{
+    grid-column: 3/4;
+    grid-row: 1/4;
+    align-self: center;
+    justify-self: center;
+}
+.cuadroBotonesAcordeon{
+    grid-column: 1/4;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.inputCuadroAcordeon{
+    padding-left: 10px;
+}
+.centreadoBoton{
+    justify-self: center;
+    padding-top: 10px;
+}
+.botonSolicitantes{
+    border-radius: 20px !important;
+    background-color: #E67E22 !important;
+}
+.botonSolicitantes:hover{
+    background-color: #BA4A00 !important;
+}
+.botonSolicitantesHabilitar{
+    border-radius: 20px !important;
+    background-color: #29e610 !important;
+}
+.botonSolicitantesHabilitar:hover{
+    background-color: #1b9d09 !important;
+}
+.botonSolicitantesRechazar{
+    border-radius: 20px !important;
+    background-color: #fa3737 !important;
+}
+.botonSolicitantesRechazar:hover{
+    background-color: #900808 !important;
+}

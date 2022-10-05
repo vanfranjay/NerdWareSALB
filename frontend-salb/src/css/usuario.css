@@ -66,7 +66,7 @@
     cursor: pointer;
     text-decoration: none;
     display: grid;
-    grid-template-columns: 60px 180px;
+    grid-template-columns: 60px 1fr;
     grid-template-rows: auto;
     justify-items: center;
 }
@@ -77,6 +77,7 @@
 .nombreOpcionesMenu{
     justify-self: center;
     align-self: center;
+    padding-left: 11px;
 }
 .colorIcono{
     color: #E67E22;
@@ -98,4 +99,49 @@
     text-decoration: none;
     align-items: center;
     justify-items: center;
+}
+/*REGISTRAR EQUIPO*/
+.registrarEquipo{
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    padding: 20px;
+    background: linear-gradient(to top, transparent, #496581);
+    border-radius: 10px;
+}
+.registrarParticipantes{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding: 20px;
+    border-radius: 10px;
+    background: linear-gradient(to top, transparent, #496581);
+}
+/*.registrarParticipantes > div{
+    border: red 2px solid;
+}*/
+.contenedorBtnAñadirParticipante{
+    grid-column: 2/3;
+    padding-top: 10px;
+    justify-self: center;
+}
+.btnAñadir{
+    background-color: #059d2d !important;
+}
+.btnAñadir:hover{
+    background-color: #035f1b !important;
+}
+.contenedorBtnCancelarParticipante{
+    padding-top: 10px;
+    justify-self: center;
+}
+.btnCancelar{
+    background-color: #a90505 !important;
+}
+.btnCancelar:hover{
+    background-color: #690404 !important;
+}
+.selectCategoria{
+    color: #ffffff !important;
+}
+.selectValor{
+    color: #ffffff !important;
 }
