@@ -1,40 +1,136 @@
 import React from 'react';
+import '../css/ListaSolicitantes.css';
+import Button from '@mui/material/Button';
+
 const ListaSolicitantes = () => {
     return(
             <div class="accordion" id="accordionExample">
       <div class="accordion-item">
-        <h2 class="accordion-header" id="headingOne">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-            Accordion Item #1
+        <h2 class="accordion-header tituloEncabezadoListaAcordeon" id="heading">
+          <button class="accordion-button collapsed encabezadoListaAcordeon" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+            <label className='textoTitulo'>Fulano fulanes</label>
           </button>
         </h2>
-        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-          <div class="accordion-body">
-            <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#accordionExample">
+          <div class="accordion-body bodyAcordeon">
+            <div className='labelCuadroAcordeon'>
+              <label className='texto'>Fecha de deposito:</label>
+            </div>
+            <div className='inputCuadroAcordeon'>
+              <input className='inputNumero texto' type='text' readOnly value={12345689}></input>
+            </div>
+            <div className='labelCuadroAcordeon'>
+              <label className='texto'>Monto de deposito:</label> 
+            </div>
+            <div className='inputCuadroAcordeon'>
+              <input className='inputNumero texto' type='text' readOnly value={12345689}></input>
+            </div>
+            <div className='labelCuadroAcordeon'>
+              <label className='texto'>Número de Transferencia:</label>
+            </div>
+            <div className='inputCuadroAcordeon'>
+              <input  className='inputNumero texto' type='text' readOnly value={12345689}></input>
+            </div>
+            <div className='cuadroImagenAcordeon'>
+              <a href='#'>Descargar Voucher</a>
+            </div>
+            <div className='cuadroBotonesAcordeon'>
+              <div className='centreadoBoton'>
+                <Button variant="contained" className='botonSolicitantesHabilitar'>Habilitar</Button> 
+              </div>
+              <div className='centreadoBoton'>
+                <Button variant="contained" className='botonSolicitantesRechazar'>Rechazar</Button> 
+              </div>
+              <div className='centreadoBoton'>
+                <Button variant="contained" className='botonSolicitantes'>Guardar</Button> 
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <div class="accordion-item">
-        <h2 class="accordion-header" id="headingTwo">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-            Accordion Item #2
+        <h2 class="accordion-header tituloEncabezadoListaAcordeon" id="heading">
+          <button class="accordion-button collapsed encabezadoListaAcordeon" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+            <label className='textoTitulo'>Fulano fulanes</label>
           </button>
         </h2>
-        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-          <div class="accordion-body">
-            <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" data-bs-parent="#accordionExample">
+          <div class="accordion-body bodyAcordeon">
+            <div className='labelCuadroAcordeon'>
+              <label className='texto'>Fecha de deposito:</label>
+            </div>
+            <div className='inputCuadroAcordeon'>
+              <input className='inputNumero texto' type='text' readOnly value={12345689}></input>
+            </div>
+            <div className='labelCuadroAcordeon'>
+              <label className='texto'>Monto de deposito:</label> 
+            </div>
+            <div className='inputCuadroAcordeon'>
+              <input className='inputNumero texto' type='text' readOnly value={12345689}></input>
+            </div>
+            <div className='labelCuadroAcordeon'>
+              <label className='texto'>Número de Transferencia:</label>
+            </div>
+            <div className='inputCuadroAcordeon'>
+              <input  className='inputNumero texto' type='text' readOnly value={12345689}></input>
+            </div>
+            <div className='cuadroImagenAcordeon'>
+              <a href='#'>Descargar Voucher</a>
+            </div>
+            <div className='cuadroBotonesAcordeon'>
+              <div className='centreadoBoton'>
+                <Button variant="contained" className='botonSolicitantesHabilitar'>Habilitar</Button> 
+              </div>
+              <div className='centreadoBoton'>
+                <Button variant="contained" className='botonSolicitantesRechazar'>Rechazar</Button> 
+              </div>
+              <div className='centreadoBoton'>
+                <Button variant="contained" className='botonSolicitantes'>Guardar</Button> 
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <div class="accordion-item">
-        <h2 class="accordion-header" id="headingThree">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-            Accordion Item #3
+        <h2 class="accordion-header tituloEncabezadoListaAcordeon" id="heading">
+          <button class="accordion-button collapsed encabezadoListaAcordeon" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+            <label className='textoTitulo'>Fulano fulanes</label>
           </button>
         </h2>
-        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-          <div class="accordion-body">
-            <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" data-bs-parent="#accordionExample">
+          <div class="accordion-body bodyAcordeon">
+            <div className='labelCuadroAcordeon'>
+              <label className='texto'>Fecha de deposito:</label>
+            </div>
+            <div className='inputCuadroAcordeon'>
+              <input className='inputNumero texto' type='text' readOnly value={12345689}></input>
+            </div>
+            <div className='labelCuadroAcordeon'>
+              <label className='texto'>Monto de deposito:</label> 
+            </div>
+            <div className='inputCuadroAcordeon'>
+              <input className='inputNumero texto' type='text' readOnly value={12345689}></input>
+            </div>
+            <div className='labelCuadroAcordeon'>
+              <label className='texto'>Número de Transferencia:</label>
+            </div>
+            <div className='inputCuadroAcordeon'>
+              <input  className='inputNumero texto' type='text' readOnly value={12345689}></input>
+            </div>
+            <div className='cuadroImagenAcordeon'>
+              <a href='#'>Descargar Voucher</a>
+            </div>
+            <div className='cuadroBotonesAcordeon'>
+              <div className='centreadoBoton'>
+                <Button variant="contained" className='botonSolicitantesHabilitar'>Habilitar</Button> 
+              </div>
+              <div className='centreadoBoton'>
+                <Button variant="contained" className='botonSolicitantesRechazar'>Rechazar</Button> 
+              </div>
+              <div className='centreadoBoton'>
+                <Button variant="contained" className='botonSolicitantes'>Guardar</Button> 
+              </div>
+            </div>
           </div>
         </div>
       </div>
