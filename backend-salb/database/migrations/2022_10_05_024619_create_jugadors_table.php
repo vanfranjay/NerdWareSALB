@@ -27,12 +27,12 @@ class CreateJugadorsTable extends Migration
             $table->integer('Faltas');
             $table->integer('Puntos');
             $table->timestamps();
-          /*  $table->foreignId('Cod_Equipo')
+            $table->foreignId('Cod_Equipo')
                    ->nullable()
-                   ->constrained('Equipos')
+                   ->constrained('equipos')
                    ->cascadeOnUpdate()
                    ->nullOnDelete()
-                   ;*/
+                   ;
         });
     }
 

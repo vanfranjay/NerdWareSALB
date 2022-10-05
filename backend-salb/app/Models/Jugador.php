@@ -13,7 +13,7 @@ class Jugador extends Model
     protected $fillable = [
         'DNI', 'Nombre', 'Apellido','Fecha_Nacimiento', 'Foto', 'Foto_DNI', 'Peso', 'Altura', 'Asistencia', 'Faltas', 'Puntos', 'Cod_Equipo'
     ];
-   /* public function equipo(){
+   public function equipo(){
         return $this->belongsTo(Equipo::class,'id');
-    }*/
+    }
 }

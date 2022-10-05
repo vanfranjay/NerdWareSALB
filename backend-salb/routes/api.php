@@ -2,10 +2,13 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BoletaController;
+use App\Http\Controllers\BoletaController; 
+use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\DelegadoController;
 use App\Http\Controllers\DelBolController;
-use App\Http\Controllers\JugadorController;
+use App\Http\Controllers\JugadorController; /*
+
+*/
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,5 +26,6 @@ use App\Http\Controllers\JugadorController;
 Route::resource('boletas', BoletaController::class);
 Route::resource('delegados', DelegadoController::class);
 Route::resource('delbos', DelBolController::class);
+Route::resource('equipos', EquipoController::class);
 Route::resource('jugadores', JugadorController::class);
 
