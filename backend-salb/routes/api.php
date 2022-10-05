@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BoletaController;
+use App\Http\Controllers\DelegadoController;
+use App\Http\Controllers\DelBolController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,3 +20,6 @@ use App\Http\Controllers\BoletaController;
   //  return $request->user();
 //});
 Route::resource('boletas', BoletaController::class);
+Route::resource('delegados', DelegadoController::class);
+Route::resource('delbos', DelBolController::class);
+
