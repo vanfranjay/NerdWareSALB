@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BoletaController;
 use App\Http\Controllers\DelegadoController;
 use App\Http\Controllers\DelBolController;
+use App\Http\Controllers\JugadorController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,4 +23,5 @@ use App\Http\Controllers\DelBolController;
 Route::resource('boletas', BoletaController::class);
 Route::resource('delegados', DelegadoController::class);
 Route::resource('delbos', DelBolController::class);
+Route::resource('jugadores', JugadorController::class);
 
