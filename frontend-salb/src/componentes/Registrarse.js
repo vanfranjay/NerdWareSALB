@@ -40,7 +40,7 @@ const Registrarse = () => {
             </Button>
           </div>
           <div className='registroForm centreado'>
-            <Button variant="contained" className='botonFormRegistro'>Registrarse</Button>
+            <Button variant="contained" className='botonFormRegistro' type='submit'>Registrarse</Button>
           </div>
           <div className='cancelarRegistroForm centreado'>
             <Button variant="contained" className='botonFormRegistro'>Cancelar</Button>
