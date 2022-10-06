@@ -3,9 +3,19 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import SelectCategoria from '../componentes/SelectCategoria';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import '../css/usuario.css';
 
 const RegistrarEquipo = () => {
+  const [age, setAge] = React.useState('');
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
+
   return (
     <>
       <div>
@@ -15,6 +25,7 @@ const RegistrarEquipo = () => {
             <div>
               <TextField
                 required
+                type="text"
                 id="filled-required"
                 label="Nombre equipo: "
                 defaultValue=""
@@ -64,9 +75,10 @@ const RegistrarEquipo = () => {
               <TextField
                 required
                 id="filled-required"
-                label="Fecha de Nacimiento: "
+                placeholder="Fecha de Nacimiento: "
                 defaultValue=""
                 variant="filled"
+                type="date"
                 sx={{
                   label: { color: '#ffff' },
                   input: { color: '#ffff' },
@@ -77,6 +89,7 @@ const RegistrarEquipo = () => {
             <div>
               <TextField
                 required
+                type="number"
                 id="filled-required"
                 label="Teléfono/Celular: "
                 defaultValue=""
@@ -104,18 +117,23 @@ const RegistrarEquipo = () => {
               />
             </div>
             <div>
-              <TextField
-                required
-                id="filled-required"
-                label="Rol: "
-                defaultValue=""
-                variant="filled"
-                sx={{
-                  label: { color: '#ffff' },
-                  input: { color: '#ffff' },
-                  svg: { color: '#ffff' }
-                }}
-              />
+               <Box sx={{ minWidth: 120}}>
+               <FormControl fullWidth>
+                 <InputLabel id="demo-simple-select-label" className='selectCategoria'>Categoria</InputLabel>
+                 <Select
+                   labelId="demo-simple-select-label"
+                   id="demo-simple-select"
+                   value={age}
+                   label="Categoria"
+                   onChange={handleChange}
+                   className='selectValor'
+                 >
+                   <MenuItem value={10}>Arbitro</MenuItem>
+                   <MenuItem value={20}>Entrenador</MenuItem>
+                   <MenuItem value={30}>Jugador(ra)</MenuItem>
+                 </Select>
+               </FormControl>
+             </Box>
             </div>
             
             <div>
@@ -168,7 +186,7 @@ const RegistrarEquipo = () => {
               <TextField
                 name="upload-photo"
                 type="file"
-                label="Comprobante de pago"
+                label="Foto del participante"
                 InputLabelProps={{ shrink: true }}
                 sx={{
                     label: { color: '#ffff' },
@@ -178,10 +196,10 @@ const RegistrarEquipo = () => {
               />
             </div>
             <div className='contenedorBtnAñadirParticipante'>
-              <Button variant="contained" className='btnAñadir'>Añadir</Button>
+              <Button variant="contained" className='btnAñadir' type='submit'>Añadir</Button>
             </div>
             <div className='contenedorBtnCancelarParticipante'>
-              <Button variant="contained" className='btnCancelar'>Cancelar</Button>
+              <Button variant="contained" className='btnCancelar' type='reset'>Cancelar</Button>
             </div>
           </fieldset>
         </form>
