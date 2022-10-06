@@ -9,12 +9,12 @@ import listItems from '../componentes/listItems';
 const Router1 = ()=>{
     return (
         <>
-        <Routes>
+        {/*<Routes>
             <Route path="/usuario/*" element={<UserDelegado/>}/>
             <Route path="/admi/*" element={<UserAdmi/>}/>
             <Route path='/*' element={<Router2/>}/>
             <Route/>
-        </Routes>
+    </Routes>*/}
         </>
     )
 }
