@@ -13,7 +13,7 @@ class EquipoTable extends Migration
      */
     public function up()
     {
-        Schema::create('equipos', function (Blueprint $table) {
+        Schema::create('Equipos', function (Blueprint $table) {
             $table->id();
             $table->string('Nombre');
             $table->binary('Logo')->nullable();
@@ -31,6 +31,6 @@ class EquipoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('equipo');
+        Schema::dropIfExists('Equipo');
     }
 }

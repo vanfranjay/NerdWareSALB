@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class equipo extends Model
+class Equipo extends Model
 {
     use HasFactory;
-    protected $table = 'equipos';
-    protected $primaryKey = 'id';
+    protected $table = 'Equipos';
+    protected $primaryKey = 'Id';
     protected $fillable = [
          'Nombre', 'Logo', 'Partidos_Jugados', 'Partidos_Ganados', 'Partidos_Perdidos'
     ];
