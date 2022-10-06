@@ -145,3 +145,14 @@
 .selectValor{
     color: #ffffff !important;
 }
+/*opciones del menu del avatar*/
+.avatarUser{
+    cursor: pointer;
+}
+.avatarFotoUsuario:hover{
+    background-color: aqua;
+    opacity: 0.4;
+}
+.optionMenuUser:hover{
+    background: linear-gradient(to top, transparent, #496581);
+}
