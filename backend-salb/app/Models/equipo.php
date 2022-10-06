@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class equipo extends Model
 {
     use HasFactory;
-    protected $table = 'equipo';
-    protected $primaryKey = 'codEquipo';
+    protected $table = 'equipos';
+    protected $primaryKey = 'id';
     protected $fillable = [
-        'codCategoria', 'codJugador', 'codPersona', 'codDelegado', 'nombre', 'logo',
+         'Nombre', 'Logo', 'Partidos_Jugados', 'Partidos_Ganados', 'Partidos_Perdidos'
     ];
+    public function jugadores(){
+        return $this->hasMany(Jugador::class,'Cod_Jugador');
+    }
 }

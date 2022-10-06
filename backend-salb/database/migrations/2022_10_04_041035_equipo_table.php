@@ -13,14 +13,14 @@ class EquipoTable extends Migration
      */
     public function up()
     {
-        Schema::create('equipo', function (Blueprint $table) {
-            $table->id('codEquipo');
-            $table->integer('codCategoria');
-            $table->integer('codJugador');
-            $table->integer('codPersona');
-            $table->integer('codDelegado');
-            $table->string('nombre');
-            $table->binary('logo');
+        Schema::create('equipos', function (Blueprint $table) {
+            $table->id();
+            $table->string('Nombre');
+            $table->binary('Logo')->nullable();
+            $table->integer('Partidos_Jugados');
+            $table->integer('Partidos_Ganados');
+            $table->integer('Partidos_Perdidos');
+            $table->timestamps();
         });
     }
 
