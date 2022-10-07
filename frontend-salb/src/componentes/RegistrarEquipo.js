@@ -48,6 +48,7 @@ const RegistrarEquipo = () => {
                 required
                 id="filled-required"
                 label="Nombre: "
+                className='inputRegistrarEquipo'
                 defaultValue=""
                 variant="filled"
                 sx={{
@@ -62,6 +63,7 @@ const RegistrarEquipo = () => {
                 required
                 id="filled-required"
                 label="Apellido: "
+                className='inputRegistrarEquipo'
                 defaultValue=""
                 variant="filled"
                 sx={{
@@ -75,7 +77,8 @@ const RegistrarEquipo = () => {
               <TextField
                 required
                 id="filled-required"
-                placeholder="Fecha de Nacimiento: "
+                label="Fecha de Nacimiento: "
+                className='inputRegistrarEquipo'
                 defaultValue=""
                 variant="filled"
                 type="date"
@@ -92,6 +95,7 @@ const RegistrarEquipo = () => {
                 type="number"
                 id="filled-required"
                 label="Teléfono/Celular: "
+                className='inputRegistrarEquipo'
                 defaultValue=""
                 variant="filled"
                 sx={{
@@ -106,6 +110,7 @@ const RegistrarEquipo = () => {
                 required
                 id="filled-required"
                 label="E-mail: "
+                className='inputRegistrarEquipo'
                 type="email"
                 defaultValue=""
                 variant="filled"
@@ -118,8 +123,8 @@ const RegistrarEquipo = () => {
             </div>
             <div>
                <Box sx={{ minWidth: 120}}>
-               <FormControl fullWidth>
-                 <InputLabel id="demo-simple-select-label" className='selectCategoria'>Categoria</InputLabel>
+               <FormControl fullWidth className='inputRegistrarEquipo'>
+                 <InputLabel id="demo-simple-select-label" className='selectCategoria'>Rol</InputLabel>
                  <Select
                    labelId="demo-simple-select-label"
                    id="demo-simple-select"
@@ -141,6 +146,7 @@ const RegistrarEquipo = () => {
                 required
                 id="filled-required"
                 label="Dni: "
+                className='inputRegistrarEquipo'
                 defaultValue=""
                 variant="filled"
                 sx={{
@@ -154,6 +160,7 @@ const RegistrarEquipo = () => {
               <TextField
                 id="filled-multiline-static"
                 label="Dirección"
+                className='inputRegistrarEquipo'
                 multiline
                 rows={2}
                 defaultValue=""
@@ -170,6 +177,7 @@ const RegistrarEquipo = () => {
                 name="upload-photo"
                 type="file"
                 label="Foto del Dni: "
+                className='inputRegistrarEquipo'
                 InputLabelProps={{ shrink: true }}
                 sx={{
                     label: { color: '#ffff' },
@@ -187,6 +195,7 @@ const RegistrarEquipo = () => {
                 name="upload-photo"
                 type="file"
                 label="Foto del participante"
+                className='inputRegistrarEquipo'
                 InputLabelProps={{ shrink: true }}
                 sx={{
                     label: { color: '#ffff' },

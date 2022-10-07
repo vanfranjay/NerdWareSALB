@@ -114,10 +114,14 @@
     padding: 20px;
     border-radius: 10px;
     background: linear-gradient(to top, transparent, #496581);
+    gap: 6px;
 }
 /*.registrarParticipantes > div{
     border: red 2px solid;
 }*/
+.inputRegistrarEquipo{
+    width: 100%;
+}
 .contenedorBtnAñadirParticipante{
     grid-column: 2/3;
     padding-top: 10px;
