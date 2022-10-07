@@ -14,6 +14,16 @@ class EquipoController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'Nombre' => 'required | unique:Equipos | ',
+            'Logo' => 'file|size:5000'
+            
+        ],
+        [
+            'Nombre.required' => 'El nombre es necesario',
+            'Logo.file' => 'La imagen supera el tamaño establecido',
+        ]
+        );
         $equipo = new Equipo($request->all());
         $equipo->save();
         return $equipo;//para almacenar
@@ -38,4 +48,5 @@ class EquipoController extends Controller
         $equipo = Equipo::find($id)->get();
         $equipo->delete();
     }
+
 }
