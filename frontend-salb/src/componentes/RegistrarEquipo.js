@@ -20,14 +20,14 @@ const RegistrarEquipo = () => {
     <>
       <div>
         <form>
-          <h4 className='texto'>Equipo: </h4>
+          <h4 className='texto'>Equipo </h4>
           <fieldset className='registrarEquipo'>
             <div>
               <TextField
                 required
                 type="text"
                 id="filled-required"
-                label="Nombre equipo: "
+                label="Nombre equipo "
                 defaultValue=""
                 variant="filled"
                 sx={{
@@ -41,13 +41,13 @@ const RegistrarEquipo = () => {
               <SelectCategoria/>
             </div>
           </fieldset>
-          <h4 className='texto'>Participantes: </h4>
+          <h4 className='texto'>Participantes </h4>
           <fieldset className='registrarParticipantes'>
             <div>
               <TextField
                 required
                 id="filled-required"
-                label="Nombre: "
+                label="Nombre "
                 className='inputRegistrarEquipo'
                 defaultValue=""
                 variant="filled"
@@ -62,7 +62,7 @@ const RegistrarEquipo = () => {
               <TextField
                 required
                 id="filled-required"
-                label="Apellido: "
+                label="Apellido "
                 className='inputRegistrarEquipo'
                 defaultValue=""
                 variant="filled"
@@ -77,7 +77,7 @@ const RegistrarEquipo = () => {
               <TextField
                 required
                 id="filled-required"
-                label="Fecha de Nacimiento: "
+                label="Fecha de Nacimiento "
                 className='inputRegistrarEquipo'
                 defaultValue=""
                 variant="filled"
@@ -94,7 +94,7 @@ const RegistrarEquipo = () => {
                 required
                 type="number"
                 id="filled-required"
-                label="Teléfono/Celular: "
+                label="Teléfono/Celular "
                 className='inputRegistrarEquipo'
                 defaultValue=""
                 variant="filled"
@@ -109,7 +109,7 @@ const RegistrarEquipo = () => {
               <TextField
                 required
                 id="filled-required"
-                label="E-mail: "
+                label="E-mail "
                 className='inputRegistrarEquipo'
                 type="email"
                 defaultValue=""
@@ -124,7 +124,7 @@ const RegistrarEquipo = () => {
             <div>
                <Box sx={{ minWidth: 120}}>
                <FormControl fullWidth className='inputRegistrarEquipo'>
-                 <InputLabel id="demo-simple-select-label" className='selectCategoria'>Rol</InputLabel>
+                 <InputLabel id="demo-simple-select-label" className='selectCategoria' required>Rol </InputLabel>
                  <Select
                    labelId="demo-simple-select-label"
                    id="demo-simple-select"
@@ -145,7 +145,7 @@ const RegistrarEquipo = () => {
               <TextField
                 required
                 id="filled-required"
-                label="Dni: "
+                label="Dni "
                 className='inputRegistrarEquipo'
                 defaultValue=""
                 variant="filled"
@@ -158,8 +158,9 @@ const RegistrarEquipo = () => {
             </div>
             <div>
               <TextField
+                required
                 id="filled-multiline-static"
-                label="Dirección"
+                label="Dirección "
                 className='inputRegistrarEquipo'
                 multiline
                 rows={2}
@@ -174,9 +175,10 @@ const RegistrarEquipo = () => {
             </div>
             <div>
               <TextField
+                required
                 name="upload-photo"
                 type="file"
-                label="Foto del Dni: "
+                label="Foto del Dni "
                 className='inputRegistrarEquipo'
                 InputLabelProps={{ shrink: true }}
                 sx={{
@@ -192,9 +194,10 @@ const RegistrarEquipo = () => {
             
             <div>
               <TextField
+                required
                 name="upload-photo"
                 type="file"
-                label="Foto del participante"
+                label="Foto del participante "
                 className='inputRegistrarEquipo'
                 InputLabelProps={{ shrink: true }}
                 sx={{

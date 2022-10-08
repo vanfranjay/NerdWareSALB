@@ -16,7 +16,7 @@ const Registrarse = () => {
             <input type='text' placeholder='Apellido' className='apellido diseñoCuadroRegistro' required></input>
           </div>
           <div className='telefonoRegistro centreado'>
-            <input type='number' placeholder='Teléfono' className='nombre diseñoCuadroRegistro' required></input>
+            <input type='tel' placeholder='Teléfono' className='nombre diseñoCuadroRegistro' required></input>
           </div>
           <div className='direccionRegistro centreado'>
             <input type='email' placeholder='Email' className='nombre diseñoCuadroRegistro' required></input>

@@ -105,7 +105,7 @@
     display: grid;
     grid-template-columns: 1fr 200px;
     padding: 20px;
-    background: linear-gradient(to top, transparent, #496581);
+    background: linear-gradient(to bottom, #212F3D, #2C3E50);
     border-radius: 10px;
 }
 .registrarParticipantes{
@@ -113,7 +113,7 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
     padding: 20px;
     border-radius: 10px;
-    background: linear-gradient(to top, transparent, #496581);
+    background: linear-gradient(to bottom, #212F3D, #2C3E50);
     gap: 6px;
 }
 /*.registrarParticipantes > div{

@@ -137,7 +137,7 @@ function DashboardContent() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              <label className='nombreUserDelegado'>Fulano Fulanes</label>
+              {/*<label className='nombreUserDelegado'>Fulano Fulanes gonzales</label>*/}
               {/*Dashboard Titulo de la Página */}
             </Typography>
             {/* Icono de la campana */}
@@ -146,6 +146,7 @@ function DashboardContent() {
                 <NotificationsIcon />
               </Badge>
             </IconButton>*/}
+            <label className='nombreUserDelegado'>Fulano Fulanes gonzales</label>
             <div className='avatarUser'>
               <Avatar 
                 className='avatarFotoUsuario'
