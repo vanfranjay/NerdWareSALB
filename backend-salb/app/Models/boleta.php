@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class boleta extends Model
 {
     use HasFactory;
-    protected $table = 'boletas';
+    protected $table = 'Boletas';
     protected $primaryKey = 'Cod_Boleta';
     protected $fillable = [
         'N_Transaccion', 'Monto', 'Fecha_Registro','Comprobante', 'Estado','Cod_Delegado' 

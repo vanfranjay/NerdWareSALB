@@ -9,7 +9,7 @@ class Delegado extends Model
 {
     use HasFactory;
     protected $table = 'Delegados';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'Id';
     protected $fillable = [
         'Nombre', 'Apellido', 'Telefono','Contraseña', 'Correo', 'Foto_Perfil', 'Foto_DNI', 
     ];

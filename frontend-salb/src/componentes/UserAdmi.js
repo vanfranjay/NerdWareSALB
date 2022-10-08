@@ -27,6 +27,9 @@ import RegistrarEquipo from './RegistrarEquipo';
 import SolicitudDelegados from './SolicitudDelegados';
 import SolicitudesRechazadas from './SolicitudesRechazadas';
 import ListaSolicitantes from './ListaSolicitantes';
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 const ocultar = document.getElementById('imgUser');
 const text = document.getElementById('imgUser');
@@ -98,6 +101,15 @@ function DashboardContent() {
     setOpen(!open);
   };
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const opens = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
@@ -132,13 +144,35 @@ function DashboardContent() {
               {/*Dashboard Titulo de la Página */}
             </Typography>
             {/* Icono de la campana */}
-            <IconButton color="inherit">
+            {/*<IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton>*/}
             <div className='avatarUser'>
-              <Avatar alt="Cindy Baker" src="" ><img id='imgUser' class="imagenUser" src={logo} alt="Foto Perfil"/></Avatar>
+            <Avatar 
+                className='avatarFotoUsuario'
+                alt="Cindy Baker" src="" 
+                id="basic-button"
+                aria-controls={opens ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={opens ? 'true' : undefined}
+                onClick={handleClick}>
+                  <img id='imgUser' class="imagenUser" src={logo} alt="Foto Perfil"/>
+              </Avatar>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={opens}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                {/*<MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>My account</MenuItem>*/}
+                <MenuItem onClick={handleClose} className='optionMenuUser'>Cerrar Sesión</MenuItem>
+              </Menu>
             </div>
             {/* ________________________________ */}
             </Toolbar>

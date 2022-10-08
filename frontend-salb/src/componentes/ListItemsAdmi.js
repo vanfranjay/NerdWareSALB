@@ -12,6 +12,8 @@ import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import {Link, NavLink} from 'react-router-dom';
 import '../css/usuario.css';
+import FactCheckIcon from '@mui/icons-material/FactCheck';
+import PersonOffIcon from '@mui/icons-material/PersonOff';
 
 export const mainListItemsAdmi = (
 
@@ -20,7 +22,7 @@ export const mainListItemsAdmi = (
       <div className='menuOpcionesUsuario'>
         <NavLink to="solicitante" className='nombreMenuOpciones'>
           <div className='contenedorIcono'>
-            <AppRegistrationIcon className='colorIcono' />
+            <FactCheckIcon className='colorIcono' />
           </div>
           <div className='nombreOpcionesMenu'>
             Solicitantes
@@ -30,7 +32,7 @@ export const mainListItemsAdmi = (
       <div className='menuOpcionesUsuario'>
         <NavLink to="rechazado" className='nombreMenuOpciones'>
             <div className='contenedorIcono'>
-              <AppRegistrationIcon className='colorIcono' />
+              <PersonOffIcon className='colorIcono' />
             </div>
             <div className='nombreOpcionesMenu'>
               Rechazados

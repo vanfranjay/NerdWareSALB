@@ -12,6 +12,7 @@ import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import {Link, NavLink} from 'react-router-dom';
 import '../css/usuario.css';
+import SportsBasketballIcon from '@mui/icons-material/SportsBasketball';
 
 export const mainListItems = (
 
@@ -30,7 +31,7 @@ export const mainListItems = (
       <div className='menuOpcionesUsuario'>
         <NavLink to="registrarEquipo" className='nombreMenuOpciones'>
             <div className='contenedorIcono'>
-              <AppRegistrationIcon className='colorIcono' />
+              <SportsBasketballIcon className='colorIcono' />
             </div>
             <div className='nombreOpcionesMenu'>
               Registrar Equipo
