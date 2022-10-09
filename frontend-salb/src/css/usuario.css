@@ -105,7 +105,7 @@
     display: grid;
     grid-template-columns: 1fr 200px;
     padding: 20px;
-    background: linear-gradient(to top, transparent, #496581);
+    background: linear-gradient(to bottom, #212F3D, #2C3E50);
     border-radius: 10px;
 }
 .registrarParticipantes{
@@ -113,11 +113,15 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
     padding: 20px;
     border-radius: 10px;
-    background: linear-gradient(to top, transparent, #496581);
+    background: linear-gradient(to bottom, #212F3D, #2C3E50);
+    gap: 6px;
 }
 /*.registrarParticipantes > div{
     border: red 2px solid;
 }*/
+.inputRegistrarEquipo{
+    width: 100%;
+}
 .contenedorBtnAñadirParticipante{
     grid-column: 2/3;
     padding-top: 10px;
@@ -144,4 +148,15 @@
 }
 .selectValor{
     color: #ffffff !important;
+}
+/*opciones del menu del avatar*/
+.avatarUser{
+    cursor: pointer;
+}
+.avatarFotoUsuario:hover{
+    background-color: aqua;
+    opacity: 0.4;
+}
+.optionMenuUser:hover{
+    background: linear-gradient(to top, transparent, #496581);
 }

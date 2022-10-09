@@ -19,6 +19,7 @@ class CreateDelegadosTable extends Migration
             $table->string('Apellido');
             $table->string('Telefono');
             $table->string('Contraseña');
+            $table->string('Contraseña_confirmed');
             $table->string('Correo');
             $table->binary('Foto_Perfil')->nullable();
             $table->binary('Foto_DNI')->nullable();

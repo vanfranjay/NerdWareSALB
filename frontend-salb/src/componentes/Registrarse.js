@@ -16,7 +16,7 @@ const Registrarse = () => {
             <input type='text' placeholder='Apellido' className='apellido diseñoCuadroRegistro' required></input>
           </div>
           <div className='telefonoRegistro centreado'>
-            <input type='number' placeholder='Teléfono' className='nombre diseñoCuadroRegistro' required></input>
+            <input type='tel' placeholder='Teléfono' className='nombre diseñoCuadroRegistro' required></input>
           </div>
           <div className='direccionRegistro centreado'>
             <input type='email' placeholder='Email' className='nombre diseñoCuadroRegistro' required></input>
@@ -40,7 +40,7 @@ const Registrarse = () => {
             </Button>
           </div>
           <div className='registroForm centreado'>
-            <Button variant="contained" className='botonFormRegistro'>Registrarse</Button>
+            <Button variant="contained" className='botonFormRegistro' type='submit'>Registrarse</Button>
           </div>
           <div className='cancelarRegistroForm centreado'>
             <Button variant="contained" className='botonFormRegistro'>Cancelar</Button>
