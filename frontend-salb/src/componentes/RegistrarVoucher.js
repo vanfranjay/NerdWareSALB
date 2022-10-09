@@ -17,15 +17,25 @@ import { Container, Stack } from '@mui/system';
 import { makeStyles } from '@mui/material/styles';
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 import { useFormik, useField, useFormikContext } from "formik";
 import * as Yup from "yup";
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import orange from "@material-ui/core/colors/orange";
 
 import configData from "../config/config.json";
 
+
+import {
+    DatePicker,
+    MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
+import moment from "moment";
+import "moment/locale/es";
 
 //Setup for Datepicker
 //For Moment.js
@@ -34,6 +44,14 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { parseNonNullablePickerDate } from "@mui/x-date-pickers/internals";
 
 const theme = createTheme({
+    overrides: {
+        MuiInputBaseInput: {
+            textPrimary: {
+                color: orange
+            }
+        }
+    },
+
     components: {
         MuiSelect: {
             styleOverrides: {
@@ -48,7 +66,7 @@ const theme = createTheme({
         MuiDatePicker: {
             styleOverrides: {
                 root: {
-                    backgroundColor: 'red',
+                    backgroundColor: 'white',
                 },
             },
         },
@@ -59,20 +77,23 @@ const theme = createTheme({
 const RegistrarVoucher = () => {
 
     const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "application/pdf"];
+    const FILE_SIZE = 7340032; // 7MB
 
     const postVoucherURL = configData.REGISTER_VOUCHER_API_URL;
 
     const [selectedFile, setSelectedFile] = useState();
 
-    const [monto, setMonto] = React.useState('');
-    const [selectedDate, handleDateChange] = useState(null);
-
     const timeZoneFromServer = "America/La_Paz";
-    const { moment } = new AdapterMoment({ instance: momentTimezone });
-    const dateWithTimeZone = moment().tz(timeZoneFromServer);
+    //const { moment } = new AdapterMoment({ instance: momentTimezone });
+    //const dateWithTimeZone = moment().tz(timeZoneFromServer);
+    moment.locale("es");
 
     const [value, setValue] = React.useState(null);
 
+
+    const [locale, setLocale] = useState("es");
+
+    //const [value, setValue] = React.useState(moment('2014-08-18T21:11:54'));
 
     const formValidationSchema = Yup.object({
         numTransaccion: Yup
@@ -85,15 +106,18 @@ const RegistrarVoucher = () => {
             .required('Monto es requerido'),
         fechaDeposito: Yup
             .date()
+            .nullable()
             .required('Fecha de depósito es requerido'),
         comprobantePago: Yup.mixed()
             .nullable()
             .required('Comprobante de pago es requerido')
+            .test("fileSize",
+                "El tamaño del archivo sobre pasa los 7MB",
+                value => !value || (value && value.size <= FILE_SIZE))
             .test(
                 "fileType",
                 "El tipo de archivo no es permitido",
-                value => !value || (value && SUPPORTED_FORMATS.includes(value.type))
-            )
+                value => !value || (value && SUPPORTED_FORMATS.includes(value.type)))
 
     });
 
@@ -101,14 +125,14 @@ const RegistrarVoucher = () => {
         initialValues: {
             numTransaccion: '',
             monto: '',
-            fechaDeposito: '',
+            fechaDeposito: null,
             comprobantePago: undefined,
         },
 
         validationSchema: formValidationSchema,
 
         onSubmit: (values, { setSubmitting, resetForm }) => {
-            registrarVoucher()
+            registrarVoucher();
 
             setSubmitting(true);
             setTimeout(() => {
@@ -135,6 +159,7 @@ const RegistrarVoucher = () => {
             }
         });
         const res = await response.json();
+        console.log("Register Voucher: " + res);
         return res;
     }
 
@@ -145,19 +170,30 @@ const RegistrarVoucher = () => {
         var comprobantePagoFile = await toBase64(selectedFile)
 
         const datos = {
-            "numTrans": values.numTransaccion,
-            "monto": values.monto,
-            "fechaDeposito": values.fechaDeposito,
-            "comprobPago": comprobantePagoFile
+            "N_Transaccion": values.numTransaccion,
+            "Monto": values.monto,
+            "Fecha_Registro": values.fechaDeposito,
+            "Comprobante": comprobantePagoFile,
+            "Cod_Delegado": null
         };
         console.log("Voucher: " + JSON.stringify(datos));
         const respuestaJson = await postVoucher(postVoucherURL, datos);
         console.log("Register Voucher Response: " + respuestaJson);
-        window.location = window.location.href;
+
+        //Validando la respuesta de registrar un voucher;
+
+        /*
+        if (esValidoResponse(respuestaJson)) {
+
+        } else {
+            mostrarErrores(respuestaJson);
+        }
+        */
+        
     }
 
     function borrar() {
-        document.getElementById("comprobantePago").value = "";
+        document.getElementByName("comprobantePago").value = "";
         return resetForm();
     }
 
@@ -183,126 +219,117 @@ const RegistrarVoucher = () => {
                             InputLabelProps={{
                                 style: { color: '#ffff' },
                             }}
+
                             sx={{
                                 color: 'white',
-                                '& .MuiInputBase-root': { color: 'white' },
-                                '& .MuiInput-underline:before': { borderBottomColor: '#E2770E' },
-                                '& .MuiInput-underline:after': { borderBottomColor: '#E2770E' },
+                                '& .MuiInputBase-root': { color: 'white' }
                             }}
                             required
                             id="numTransaccion"
                             name="numTransaccion"
+                            label="Número de transacción"
 
+                            fullWidth
+                            variant="standard"
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.numTransaccion}
                             error={touched.numTransaccion && Boolean(errors.numTransaccion)}
                             helperText={touched.numTransaccion && errors.numTransaccion}
 
-                            label="Número de transacción"
-                            color="warning"
-                            fullWidth
-                            variant="standard"
+
                         />
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
 
                         <FormControl variant="standard" fullWidth required>
-
                             <InputLabel
+                                InputLabelProps={{
+                                    style: { color: '#ffff' },
+                                }}
                                 sx={{
                                     color: 'white',
-                                    '& .MuiFormLabel-root': {
-                                        color: 'white',
-                                    },
                                     '& .MuiInputLabel-root': {
-                                        color: 'white',
+                                        color: 'white'
+                                    },
+                                    '& .MuiFormLabelroot': {
+                                        color: 'white'
                                     }
                                 }}>Monto</InputLabel>
-                            <ThemeProvider theme={theme}>
-                                <Select
-                                    required
-                                    id="monto"
-                                    name="monto"
-                                    label="Monto"
-                                    sx={{
+                            <Select
+                                required
+                                id="monto"
+                                name="monto"
+                                label="Monto"
+                                sx={{
+                                    '& .MuiInputBase-input': {
+                                        color: 'white'
 
-                                        color: 'white',
-                                        '& .MuiInputBase-input': {
-                                            color: 'white',
-                                            label: { color: 'white' },
-                                            borderBottom: '2px solid #E2770E',
-                                        },
-                                        '& .MuiSelect-iconStandard': {
-                                            color: 'white',
+                                    },
+                                    '& .MuiSelect-iconStandard': {
+                                        color: 'white'
+                                    }
+                                }}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.monto}
+                                error={touched.monto && Boolean(errors.monto)}
+                                helperText={touched.monto && errors.monto}
+                            >
+                                <MenuItem value="">Ninguno </MenuItem>
+                                <MenuItem value={200}>$ 200</MenuItem>
+                                <MenuItem value={250}>$ 250</MenuItem>
+                                <MenuItem value={300}>$ 300</MenuItem>
+                            </Select>
 
-                                        }
-                                    }}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.monto}
-                                    error={touched.monto && Boolean(errors.monto)}
-                                    helperText={touched.monto && errors.monto}
+                            {touched.monto && errors.monto ? (
+                                <FormHelperText
+                                    sx={{ color: "#d32f2f", marginLeft: "!important" }}
                                 >
-                                    <MenuItem value="">Ninguno </MenuItem>
-                                    <MenuItem value={200}>$ 200</MenuItem>
-                                    <MenuItem value={250}>$ 250</MenuItem>
-                                    <MenuItem value={300}>$ 300</MenuItem>
-                                </Select>
-                                {touched.monto && errors.monto ? (
-                                    <FormHelperText
-                                        sx={{ color: "#d32f2f", marginLeft: "!important" }}
-                                    >
-                                        {touched.monto && errors.monto}
-                                    </FormHelperText>
-                                ) : null}
-                            </ThemeProvider>
-                        </FormControl>
+                                    {touched.monto && errors.monto}
+                                </FormHelperText>
+                            ) : null}
 
+                        </FormControl>
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
                         <br></br>
-                        <LocalizationProvider dateAdapter={AdapterMoment}
-                            sx={{
-                                input: { color: 'white' }
-                            }}>
-                            <DesktopDatePicker
+                        <MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils} locale={locale}>
+                            <DatePicker
                                 variant="inline"
                                 required
                                 id="fechaDeposito"
                                 name="fechaDeposito"
                                 label="Fecha de Depósito"
-                                inputFormat="DD/MM/YYYY"
-                                /*value={selectedDate ? moment(selectedDate) : null}*/
-                                value={values.fechaDeposito}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
+                                format="DD/MM/yyyy"
                                 fullWidth
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        fullWidth
-                                        sx={{
-                                            label: { color: '#ffff' },
-                                            input: { color: '#ffff' },
-                                            svg: { color: '#ffff' }
-                                        }}
-                                    />
-                                )}
+                                value={values.fechaDeposito}
+                                onChange={value => setFieldValue("fechaDeposito", value)}
+                                onBlur={handleBlur}
+                                error={touched.fechaDeposito && Boolean(errors.fechaDeposito)}
+                                helperText={touched.fechaDeposito && errors.fechaDeposito}
+                                InputLabelProps={{
+                                    style: { color: '#ffff' },
+                                }}
+                                InputProps={{ style: { color: '#ffff' } }}
+
                             />
-                        </LocalizationProvider>
+
+                        </MuiPickersUtilsProvider>
+
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
                         <br></br>
                         <TextField
+                            variant="standard"
+                            required
                             id="comprobantePago"
                             name="comprobantePago"
                             type="file"
                             label="Comprobante de pago"
-                            accept=".png,.jpg,.jpeg,.pdf"
                             onChange={({ currentTarget }) => {
                                 const file = currentTarget.files[0];
                                 const reader = new FileReader();
@@ -311,25 +338,19 @@ const RegistrarVoucher = () => {
                                         setSelectedFile(file)
                                     };
                                     reader.readAsDataURL(file);
-                                    setFieldValue("file", file);
+                                    setFieldValue("comprobantePago", file);
                                 }
                             }}
                             onBlur={handleBlur}
-
                             error={touched.comprobantePago && Boolean(errors.comprobantePago)}
                             helperText={touched.comprobantePago && errors.comprobantePago}
-
                             InputLabelProps={{ shrink: true }}
-
                             sx={{
                                 label: { color: '#ffff' },
                                 input: { color: '#ffff' },
                                 svg: { color: '#ffff' },
-                                width: '100%'
-
+                                width: '100%',
                             }}
-
-
                         />
                     </Grid>
                 </Grid>
@@ -343,15 +364,13 @@ const RegistrarVoucher = () => {
                     <Button
                         variant="contained"
                         color="primary"
-                        fullWidth
                         onClick={handleSubmit}
                         type="submit"
                     >Registrar
                     </Button>
                     <Button
                         variant="contained"
-                        fullWidth
-                        className='botonFormRegistroVoucher'
+                        color="warning"
                         onClick={borrar}
                     >Cancelar
                     </Button>

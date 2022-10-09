@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class persona extends Model
+class Persona extends Model
 {
     use HasFactory;
-    protected $table = 'personas';
+    protected $table = 'Personas';
     protected $primarykey = 'id';
     protected $fillable = [
-        'nombre', 'apellido', 'rol', 'imagen', 'fecha_nacimiento', 'telefono', 'email', 'password',
+        'nombre', 'apellido', 'rol', 'imagen', 'fecha_nacimiento', 'telefono', 'email', 'password', 'password_confirmation',
     ];
 
-    /*public function persona()
+    /*public function tabla()
     {
-        return $this->hasOne(persona::class);
+        return $this->hasOne(tabla::class,'id');
     }*/
 }

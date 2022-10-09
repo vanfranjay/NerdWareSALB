@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\persona;
+use App\Models\Persona;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Stringable;
 
 class personaFactory extends Factory
 {
@@ -12,7 +13,7 @@ class personaFactory extends Factory
      *
      * @var string
      */
-    protected $model = persona::class;
+    protected $model = Persona::class;
 
     /**
      * Define the model's default state.
@@ -29,7 +30,8 @@ class personaFactory extends Factory
             'fecha_nacimiento' => $this->faker->date, 
             'telefono' => $this->faker->numberBetween($int1=60000000, $int2=79999999),
             'email' => $this->faker->unique()->safeEmail, 
-            'password' => $this->faker->numberBetween($int3=1000000000, $int4=9999999999),
+            'password'=> "password",
+            'password_confirmation' => "password",
         ];
     }
 }

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\persona;
+use App\Models\Persona;
+use Faker\Provider\ar_JO\Person;
 
 class PersonaController extends Controller
 {
@@ -14,7 +15,7 @@ class PersonaController extends Controller
      */
     public function index()
     {
-        return persona::all();
+        return Persona::all();
     }
 
     /**
@@ -42,10 +43,34 @@ class PersonaController extends Controller
         // $path = $request->imagen->store('public/personas');
         // $persona->imagen = $path;
         // $persona->save(); 
-        
-        return persona::create($request->all());
-        
-        
+        $request -> validate([
+            'nombre' => 'required', 
+            'apellido' => 'required', 
+            'rol' => 'required', 
+            'imagen', 
+            'fecha_nacimiento' => 'required', 
+            'telefono' => 'required',
+            'email' => 'required | email | unique:App\Models\Persona', 
+            'password' => 'required | confirmed', 
+            'password_confirmation' => 'required',
+        ],
+        [
+            'nombre.required' => 'Este campo es requerido',
+            'apellido.required' => 'Este campo es requerido',
+            'rol.required' => 'Este campo es requerido',
+            'fecha_nacimiento.required' => 'Este campo es requerido',
+            'telefono.required' => 'Este campo es requerido',
+            'email.required' => 'Este campo es requerido',
+            'email.email' => 'El correo no es valido',
+            'email.unique' => 'El correo ya existe',
+            'password.required' => 'Este campo es requerido',
+            'password.confirmed' => 'La contraseña es diferente',
+            'password_confirmation.required' => 'Este campo es requerido',
+        ]
+    );
+        // Persona::create($request->all());
+        $persona = new Persona($request->all());
+        $persona->save();
     }
 
     /**
@@ -56,7 +81,7 @@ class PersonaController extends Controller
      */
     public function show($id)
     {
-        return persona::find($id);
+        return Persona::find($id);
     }
 
     /**
@@ -79,7 +104,7 @@ class PersonaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $persona = persona::findOrfail($id);
+        $persona = Persona::findOrfail($id);
         $persona->update($request->all());
         //return $persona;
     }
@@ -91,7 +116,7 @@ class PersonaController extends Controller
      */
     public function destroy($id)
     {
-        persona::find($id)->delete();
+        Persona::find($id)->delete();
     }
 }
 
