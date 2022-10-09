@@ -24,7 +24,6 @@ import { useFormik, useField, useFormikContext } from "formik";
 import * as Yup from "yup";
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import orange from "@material-ui/core/colors/orange";
 
 import configData from "../config/config.json";
 
@@ -47,7 +46,7 @@ const theme = createTheme({
     overrides: {
         MuiInputBaseInput: {
             textPrimary: {
-                color: orange
+                color: 'white'
             }
         }
     },
