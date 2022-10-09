@@ -25,9 +25,8 @@ use App\Http\Controllers\EquipoController;
   //  return $request->user();
 //});
 Route::resource('boletas', BoletaController::class);
-Route::resource('personas', PersonaController::class);
+Route::resource('equipo', EquipoController::class);
 Route::resource('delegados', DelegadoController::class);
+Route::resource('personas', PersonaController::class);
 Route::resource('delbos', DelBolController::class);
-Route::resource('equipos', EquipoController::class);
 Route::resource('jugadores', JugadorController::class);
-
