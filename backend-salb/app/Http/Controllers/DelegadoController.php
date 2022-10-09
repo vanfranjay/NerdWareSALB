@@ -34,9 +34,42 @@ class DelegadoController extends Controller
      */
     public function store(Request $request)
     {
-        $delegado = new Delegado($request->all());
+        $request->validate([
+            'Nombre' => 'required | string ' ,
+            'Apellido' => 'required | string' ,
+            'Telefono' => 'required | numeric' ,
+            'Contraseña' => 'required | confirmed' ,
+            'Contraseña_Confirmation' => 'required' ,
+            'Correo' => 'email: rfc, dns' ,
+            'Foto_Perfil'=>'mimes: jpg,jpeg, png',
+            'Foto_DNI'=>'mimes: jpg, jpeg, png, pdf',
+        ],
+       [
+        //Nombre.required' => 'El campo es necesario',
+        //Nombre.string' => 'El campo solo admite caracteres',
+        //'Apellido.required' => 'El campo es necesario',
+        //'Apellido.string' => 'El campo solo admite caracteres',
+        //'Contraseña.required' => 'El campo es necesario',
+        //Contraseña.confirmed' => 'Confirme la contraseña',
+        //'Contraseña_Confirmation.required' => 'La contraseña no es la misma',
+        //'Correo.email' => 'Correo invalido',
+        //'Foto_Perfil.mimes' => 'El campo solo admite extensiones jpg, jpeg y png' ,
+        //'Foto_DNI.mimes' => 'El campo solo admite extensiones pdf, jpg, jpeg y png',
+    ]); 
+       $delegado = new Delegado();
+       $delegado->Nombre = $request->Nombre;
+       $delegado->Apellido = $request->Apellido;
+       $delegado->Contraseña = $request->Contraseña;
+       $delegado->Contraseña_confirmed = $request->Contraseña_confirmed;
+       $delegado->Correo = $request->Correo;
+       $delegado->Foto_Perfil = $request->Foto_Perfil;
+       $delegado->Foto_DNI = $request->Foto_DNI;
+       $delegado->save();
+       return $delegado;
+       /* $delegado = new Delegado($request->all());
         $delegado->save();
         return $delegado;  //
+        */
     }
 
     /**
