@@ -26,6 +26,7 @@ const RegistrarEquipo = () => {
               <TextField
                 required
                 type="text"
+                className='colorFondoRegistrarEquipo'
                 id="filled-required"
                 label="Nombre equipo "
                 defaultValue=""

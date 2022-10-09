@@ -160,3 +160,7 @@
 .optionMenuUser:hover{
     background: linear-gradient(to top, transparent, #496581);
 }
+/*Campos de registrar equipo*/
+.colorFondoRegistrarEquipo{
+    background-color: transparent !important;
+}
