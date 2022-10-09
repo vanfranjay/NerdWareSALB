@@ -36,7 +36,7 @@ class BoletaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'N_Transaccion' => 'required | unique: N_Transaccion' ,
+            'N_Transaccion' => 'required | unique:boletas, N_Transaccion' ,
             'Monto' => 'required | numeric' ,
             'Fecha_Registro' => 'required | date | date_format: Y-m-d | before_or_equal: 2022-10-24' ,
             'Comprobante' => 'required | mimes:jpg, jpeg, png, pdf' ,
