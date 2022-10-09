@@ -17,7 +17,6 @@ import { Container, Stack } from '@mui/system';
 import { makeStyles } from '@mui/material/styles';
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 import { useFormik, useField, useFormikContext } from "formik";
@@ -172,7 +171,7 @@ const RegistrarVoucher = () => {
             "N_Transaccion": values.numTransaccion,
             "Monto": values.monto,
             "Fecha_Registro": values.fechaDeposito,
-            "Comprobante": comprobantePagoFile,
+            "Comprobante": null,
             "Cod_Delegado": null
         };
         console.log("Voucher: " + JSON.stringify(datos));
@@ -188,11 +187,11 @@ const RegistrarVoucher = () => {
             mostrarErrores(respuestaJson);
         }
         */
-        
+
     }
 
     function borrar() {
-        document.getElementByName("comprobantePago").value = "";
+        document.getElementById("comprobantePago").value = "";
         return resetForm();
     }
 
