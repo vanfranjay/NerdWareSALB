@@ -35,7 +35,7 @@ class BoletaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+       /* $request->validate([
             'N_Transaccion' => 'required | unique:boletas, N_Transaccion' ,
             'Monto' => 'required | numeric' ,
             'Fecha_Registro' => 'required | date | date_format: Y-m-d | before_or_equal: 2022-10-24' ,
@@ -66,7 +66,10 @@ class BoletaController extends Controller
        $boleta->Cod_Delegado = $request->Cod_Delegado;
        $boleta->save();
        return $boleta; //para alamacenar 
-      
+      */
+      $boleta = new boleta($request->all());
+      $boleta->save();
+      return $boleta;
     }
 
     /**

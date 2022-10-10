@@ -15,7 +15,7 @@ class CreateBoletasTable extends Migration
     {
         Schema::create('boletas', function (Blueprint $table) {
             $table->id('Cod_Boleta');
-            $table->string('N_Transaccion');
+            $table->string('N_Transaccion')->unique();
             $table->decimal('Monto');
             $table->date('Fecha_Registro');
             $table->binary('Comprobante')->nullable();
