@@ -35,14 +35,14 @@ class BoletaController extends Controller
      */
     public function store(Request $request)
     {
-       /* $request->validate([
-            'N_Transaccion' => 'required | unique:boletas, N_Transaccion' ,
+       $request->validate([
+           'N_Transaccion' => 'required | unique:Boletas,N_Transaccion' ,
             'Monto' => 'required | numeric' ,
-            'Fecha_Registro' => 'required | date | date_format: Y-m-d | before_or_equal: 2022-10-24' ,
-            'Comprobante' => 'required | mimes:jpg, jpeg, png, pdf' ,
-            'Estado' => 'numeric' ,
+            'Fecha_Registro' => 'required | date | date_format:Y-m-d | before_or_equal:2022-10-24' ,
+            //'Comprobante' => 'required | mimes:jpg, jpeg, png, pdf' ,
+            //'Estado' => 'numeric' ,
             'Cod_Delegado' => 'numeric' ,
-        ],
+       ]);/*,
        [
         //'N_Transaccion.required' => 'El campo es necesario',
         //'N_Transaccion.unique' => 'EL numero de transaccion ya fue registrado, no trate de engañarnos -_-',
@@ -51,7 +51,7 @@ class BoletaController extends Controller
         //'Fecha_Registro.required' => 'El campo es necesario',
         //'Fecha_Registro.date' => 'El campo solo admite fechas',
         //'Fecha_Registro.date_format' => 'Formato YYYY-MM-DD',
-        'Fecha_Registro.befor_or_equal' => 'La fecha disponible caduco, comuniquese con el administrador',
+        //'Fecha_Registro.befor_or_equal' => 'La fecha disponible caduco, comuniquese con el administrador',
         //'Comprobante.required' => 'El campo es necesario' ,
         //'Comprobante.mimes' => 'El campo solo admite extensiones pdf, jpg, jpeg y png',
         //'Estado.required' => 'El campo es necesario',
