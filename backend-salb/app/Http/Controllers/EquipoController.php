@@ -24,7 +24,9 @@ class EquipoController extends Controller
             'Logo.file' => 'La imagen supera el tamaño establecido',
         ]
         );
-        $equipo = new Equipo($request->all());
+        $equipo = new Equipo();
+        $equipo->Nombre = $request->Nombre;
+        $equipo->Logo = $request->Logo;
         $equipo->save();
         return $equipo;//para almacenar
     }
