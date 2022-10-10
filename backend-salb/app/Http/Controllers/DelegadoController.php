@@ -39,8 +39,8 @@ class DelegadoController extends Controller
             'Apellido' => 'required | string' ,
             'Telefono' => 'required | numeric' ,
             'Contraseña' => 'required | confirmed' ,
-            'Contraseña_confirmed' => 'required' ,
-            'Correo' => 'required|email|max:255' ,
+            'Contraseña_Confirmation' => 'required' ,
+            'Correo' => 'email: rfc, dns' ,
             'Foto_Perfil'=>'mimes: jpg,jpeg, png',
             'Foto_DNI'=>'mimes: jpg, jpeg, png, pdf',
         ],
@@ -55,7 +55,7 @@ class DelegadoController extends Controller
         //'Correo.email' => 'Correo invalido',
         //'Foto_Perfil.mimes' => 'El campo solo admite extensiones jpg, jpeg y png' ,
         //'Foto_DNI.mimes' => 'El campo solo admite extensiones pdf, jpg, jpeg y png',
-    ]);
+    ]); 
        $delegado = new Delegado();
        $delegado->Nombre = $request->Nombre;
        $delegado->Apellido = $request->Apellido;
@@ -66,11 +66,11 @@ class DelegadoController extends Controller
        $delegado->Foto_Perfil = $request->Foto_Perfil;
        $delegado->Foto_DNI = $request->Foto_DNI;
        $delegado->save();
-       return $delegado;
-       /* $delegado = new Delegado($request->all());
+       return $delegado;*/
+       $delegado = new Delegado($request->all());
         $delegado->save();
         return $delegado;  //
-        */
+        
     }
 
     /**

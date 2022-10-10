@@ -17,6 +17,7 @@ class CreateEquiposTable extends Migration
             $table->id();
             $table->string('Nombre');
             $table->binary('Logo')->nullable();
+            $table->string('Categoria');
             $table->integer('Partidos_Jugados');
             $table->integer('Partidos_Ganados');
             $table->integer('Partidos_Perdidos');
