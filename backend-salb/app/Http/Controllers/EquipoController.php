@@ -14,7 +14,7 @@ class EquipoController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+       /* $request->validate([
             'Nombre' => 'required | unique:Equipos | ',
             'Logo' => 'file|size:5000'
             
@@ -27,6 +27,10 @@ class EquipoController extends Controller
         $equipo = new Equipo();
         $equipo->Nombre = $request->Nombre;
         $equipo->Logo = $request->Logo;
+        $equipo->save();
+        return $equipo;//para almacenar
+        */
+        $equipo = new Equipo($request->all());
         $equipo->save();
         return $equipo;//para almacenar
     }
