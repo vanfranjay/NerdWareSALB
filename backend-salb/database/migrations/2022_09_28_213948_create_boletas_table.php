@@ -13,7 +13,7 @@ class CreateBoletasTable extends Migration
      */
     public function up()
     {
-        Schema::create('boletas', function (Blueprint $table) {
+        Schema::create('Boletas', function (Blueprint $table) {
             $table->id('Cod_Boleta');
             $table->string('N_Transaccion')->unique();
             $table->decimal('Monto');
