@@ -17,7 +17,7 @@ class CreateEquiposTable extends Migration
             $table->id('Id');
             $table->string('Nombre')->unique();
             $table->binary('Logo')->nullable();
-            $table->string('Categoria');
+            $table->integer('Categoria'); //de 25 a 35(0), 36 a 45(1), 46 a 55(2)
             $table->integer('Partidos_Jugados');
             $table->integer('Partidos_Ganados');
             $table->integer('Partidos_Perdidos');
