@@ -21,12 +21,12 @@ class EquipoController extends Controller
 
     public function show($id)
     {
-        return Equipo::find($id)->get(); //busca un equipo especifico y lo devuelve
+        return Equipo::find($id); //busca un equipo especifico y lo devuelve
     }
 
     public function update(Request $request, $id)
     {
-        $equipo = Equipo::find($id)->get();
+        $equipo = Equipo::find($id);
         if(!is_null($equipo)){
             $equipo->update($request->all());
             return $equipo;
@@ -35,7 +35,7 @@ class EquipoController extends Controller
 
     public function destroy($id)
     {
-        $equipo = Equipo::find($id)->get();
+        $equipo = Equipo::find($id);
         $equipo->delete();
     }
 }

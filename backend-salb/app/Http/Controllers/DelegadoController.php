@@ -35,14 +35,14 @@ class DelegadoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'Nombre' => 'required | string ' ,
-            'Apellido' => 'required | string' ,
-            'Telefono' => 'required | numeric' ,
-            //'Contraseña' => 'required | confirmed' ,
+            'Nombre' => 'required|string ' ,
+            'Apellido' => 'required|string' ,
+            'Telefono' => 'required|numeric' ,
+            //'Contraseña' => 'required|confirmed' ,
            // 'Contraseña_confirmed' => 'required' ,
-            //'Correo' => 'email: rfc, dns' ,
-            //'Foto_Perfil'=>'mimes: jpg,jpeg, png',
-            //'Foto_DNI'=>'mimes: jpg, jpeg, png, pdf',
+            'Correo' => 'email:rfc,dns' ,
+            //'Foto_Perfil'=>'mimes:jpg,jpeg,png',
+            //'Foto_DNI'=>'mimes:jpg,jpeg,png,pdf',
         ],
        [
         //Nombre.required' => 'El campo es necesario',
@@ -80,7 +80,7 @@ class DelegadoController extends Controller
      */
     public function show($id)
     {
-        return Delegado::find($id)->get();  //
+        return Delegado::find($id);  //
     }
 
     /**
@@ -103,7 +103,7 @@ class DelegadoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $delegado = Delegado::find($id)->get();
+        $delegado = Delegado::find($id);
        if(!is_null($delegado)){
         $delegado->update($request->all());
         return $delegado;
@@ -118,7 +118,7 @@ class DelegadoController extends Controller
      */
     public function destroy($id)
     {
-        $delegado=Delegado::find($id)->get();
+        $delegado=Delegado::find($id);
         $delegado->delete();   //
     }
 }

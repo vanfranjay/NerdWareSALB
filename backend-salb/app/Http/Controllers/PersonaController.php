@@ -43,7 +43,7 @@ class PersonaController extends Controller
         // $path = $request->imagen->store('public/personas');
         // $persona->imagen = $path;
         // $persona->save(); 
-        $request -> validate([
+        /*$request -> validate([
             'nombre' => 'required', 
             'apellido' => 'required', 
             'rol' => 'required', 
@@ -67,10 +67,11 @@ class PersonaController extends Controller
             'password.confirmed' => 'La contraseña es diferente',
             'password_confirmation.required' => 'Este campo es requerido',
         ]
-    );
+    );*/
         // Persona::create($request->all());
         $persona = new Persona($request->all());
         $persona->save();
+        return $persona;
     }
 
     /**
@@ -106,7 +107,7 @@ class PersonaController extends Controller
     {
         $persona = Persona::findOrfail($id);
         $persona->update($request->all());
-        //return $persona;
+        return $persona;
     }
     /**
      * Remove the specified resource from storage.
@@ -117,6 +118,7 @@ class PersonaController extends Controller
     public function destroy($id)
     {
         Persona::find($id)->delete();
+        return "Se borro exitosamente";
     }
 }
 

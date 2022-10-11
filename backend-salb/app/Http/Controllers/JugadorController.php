@@ -35,15 +35,15 @@ class JugadorController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'DNI' => 'required | alpha_num ' ,
-            'Nombre' => 'required | string ' ,
-            'Apellido' => 'required | string' ,
-            'Telefono' => 'required | numeric' ,
-            'Fecha_Nacimiento' => 'required | confirmed' ,
-            'Foto' => 'required' ,
-            'Foto_DNI'=>'mimes: jpg, jpeg, png, pdf',
-            'Rol' => 'required | string' ,
+       /* $request->validate([
+            'DNI' => 'required|numeric' ,
+            'Nombre' => 'required|string' ,
+            'Apellido' => 'required|string' ,
+            'Telefono' => 'required|string' ,
+            'Fecha_Nacimiento' => 'required|date|date_format:Y-m-d' ,
+            'Foto' => 'mimes:jpg,jpeg,png,pdf',
+            'Foto_DNI'=>'mimes:jpg,jpeg,png,pdf',
+            'Rol' => 'required|string' ,
             'Asistencia' => 'numeric' ,
             'Faltas' => 'numeric' ,
             'Puntos' => 'numeric' ,
@@ -61,7 +61,7 @@ class JugadorController extends Controller
         //'Foto_Perfil.mimes' => 'El campo solo admite extensiones jpg, jpeg y png' ,
         //'Foto_DNI.mimes' => 'El campo solo admite extensiones pdf, jpg, jpeg y png',
     ]); 
-       $jugador = new Jugador();
+      /* $jugador = new Jugador();
        $jugador->DNI = $request->DNI;
        $jugador->Nombre = $request->Nombre;
        $jugador->Apellido = $request->Apellido;
@@ -76,11 +76,11 @@ class JugadorController extends Controller
        $jugador->Puntos = $request->Puntos;
        $jugador->Cod_Equipo = $request->Cod_Equipo;
        $jugador->save();
-       return $jugador;
-       /* $jugador = new Jugador($request->all());
+       return $jugador;*/
+       $jugador = new Jugador($request->all());
         $jugador->save();
         return $jugador; 
-        *///
+        
     }
 
     /**
@@ -91,7 +91,7 @@ class JugadorController extends Controller
      */
     public function show($id)
     {
-        return Jugador::find($id)->get(); //
+        return Jugador::find($id); //
     }
 
     /**
@@ -114,7 +114,7 @@ class JugadorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $jugador = Jugador::find($id)->get();
+        $jugador = Jugador::find($id);
         if(!is_null($jugador)){
          $jugador->update($request->all());
          return $jugador;
@@ -129,7 +129,7 @@ class JugadorController extends Controller
      */
     public function destroy($id)
     {
-        $jugador=Jugador::find($id)->get();
+        $jugador=Jugador::find($id);
         $jugador->delete();//
     }
 }
