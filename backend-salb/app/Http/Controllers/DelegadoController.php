@@ -34,7 +34,7 @@ class DelegadoController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+      /*  $request->validate([
             'Nombre' => 'required|string ' ,
             'Apellido' => 'required|string' ,
             'Telefono' => 'required|numeric' ,
@@ -55,17 +55,18 @@ class DelegadoController extends Controller
         //'Correo.email' => 'Correo invalido',
         //'Foto_Perfil.mimes' => 'El campo solo admite extensiones jpg, jpeg y png' ,
         //'Foto_DNI.mimes' => 'El campo solo admite extensiones pdf, jpg, jpeg y png',
-    ]); 
-      /* $delegado = new Delegado();
+    ]);
+       $delegado = new Delegado();
        $delegado->Nombre = $request->Nombre;
        $delegado->Apellido = $request->Apellido;
        $delegado->Contraseña = $request->Contraseña;
+       $delegado->Telefono = $request->Telefono;
        $delegado->Contraseña_confirmed = $request->Contraseña_confirmed;
        $delegado->Correo = $request->Correo;
        $delegado->Foto_Perfil = $request->Foto_Perfil;
        $delegado->Foto_DNI = $request->Foto_DNI;
        $delegado->save();
-       return $delegado;*/
+       return $delegado; */
        $delegado = new Delegado($request->all());
         $delegado->save();
         return $delegado;  //
