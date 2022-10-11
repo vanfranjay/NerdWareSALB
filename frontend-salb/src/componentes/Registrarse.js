@@ -35,6 +35,19 @@ const Registrarse = () => {
     });
   };
 
+  const reset = () => {
+    setDelegado({
+      Nombre: "",
+      Apellido: "",
+      Telefono: "",
+      Contraseña: "",
+      Contraseña_confirmed: "",
+      Correo: "",
+      Foto_Perfil: "",
+      Foto_DNI: "",
+    });
+  };
+
   return (
     <div className="contenedorFormRegistro">
       <form onSubmit={crearDelegado} className="formularioRegistro">
@@ -143,7 +156,7 @@ const Registrarse = () => {
           </Button>
         </div>
         <div className="cancelarRegistroForm centreado">
-          <Button variant="contained" className="botonFormRegistro">
+          <Button variant="contained" className="botonFormRegistro" onClick={reset}>
             Cancelar
           </Button>
         </div>
