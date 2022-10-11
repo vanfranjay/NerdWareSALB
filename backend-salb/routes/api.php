@@ -24,9 +24,9 @@ use App\Http\Controllers\EquipoController;
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
   //  return $request->user();
 //});
-Route::apiResource('boletas', BoletaController::class);
-Route::apiResource('equipo', EquipoController::class);
-Route::apiResource('delegados', DelegadoController::class);
-Route::apiResource('personas', PersonaController::class);
-Route::apiResource('delbos', DelBolController::class);
-Route::apiResource('jugadores', JugadorController::class);
+Route::resource('boletas', BoletaController::class);
+Route::resource('equipos', EquipoController::class);
+Route::resource('delegados', DelegadoController::class);
+Route::resource('personas', PersonaController::class);
+Route::resource('delbos', DelBolController::class);
+Route::resource('jugadores', JugadorController::class);

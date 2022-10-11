@@ -37,7 +37,7 @@ class BoletaController extends Controller
     {
        $request->validate([
            'N_Transaccion' => 'required | unique:Boletas,N_Transaccion' ,
-            'Monto' => 'required | numeric' ,
+            'Monto' => 'required|numeric' ,
             'Fecha_Registro' => 'required|date|date_format:Y-m-d|before_or_equal:2022-10-20' ,
             //'Comprobante' => 'required | mimes:jpg, jpeg, png, pdf' ,
             //'Estado' => 'numeric' ,
@@ -67,10 +67,13 @@ class BoletaController extends Controller
        $boleta->save();
        return $boleta; //para alamacenar 
       */
+        /*if ($request->fails()) {
+        return response()->json(['error' => $request->messages()], 400);
+        }*/
       $boleta = new boleta($request->all());
       $boleta->save();
-      return $boleta;
-    }
+      return $boleta;}
+    
 
     /**
      * Display the specified resource.
@@ -80,7 +83,7 @@ class BoletaController extends Controller
      */
     public function show($id)
     {
-      return boleta::find($id)->get();  // busca un boletoa especifica y lo devuelve
+      return boleta::find($id);  // busca un boletoa especifica y lo devuelve
     }
 
     /**
@@ -103,7 +106,7 @@ class BoletaController extends Controller
      */
     public function update(Request $request, $id)
     {
-       $boleta = boleta::find($id)->get();
+       $boleta = boleta::find($id);
        if(!is_null($boleta)){
         $boleta->update($request->all());
         return $boleta;
@@ -118,7 +121,7 @@ class BoletaController extends Controller
      */
     public function destroy($id)
     {
-     $boleta=boleta::find($id)->get();
+     $boleta=boleta::find($id);
      $boleta->delete();   //
     }
 }

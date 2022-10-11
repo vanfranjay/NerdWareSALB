@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Jugador extends Model
 {
     use HasFactory;
-    protected $table = 'Jugadores';
+    protected $table = 'Jugadors';
     protected $primaryKey = 'Cod_Jugador';
     protected $fillable = [
-        'DNI', 'Nombre', 'Apellido','Fecha_Nacimiento', 'Foto', 'Foto_DNI', 'Rol', 'Asistencia', 'Faltas', 'Puntos', 'Cod_Equipo'
+        'DNI', 'Nombre', 'Apellido','Fecha_Nacimiento', 'Foto', 'Foto_DNI', 'Rol', 'Asistencia', 'Faltas', 'Puntos', 'Cod_Equipo',
     ];
    public function equipo(){
         return $this->belongsTo(Equipo::class,'id');
