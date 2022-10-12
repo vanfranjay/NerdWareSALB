@@ -27,11 +27,11 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import configData from "../config/config.json";
 
 
-import {
-    DatePicker,
-    MuiPickersUtilsProvider,
-} from '@material-ui/pickers';
-import MomentUtils from '@date-io/moment';
+//import {
+//    DatePicker,
+//    MuiPickersUtilsProvider,
+//} from '@material-ui/pickers';
+//import MomentUtils from '@date-io/moment';
 import moment from "moment";
 import "moment/locale/es";
 
@@ -84,7 +84,7 @@ const RegistrarVoucher = () => {
     const timeZoneFromServer = "America/La_Paz";
     //const { moment } = new AdapterMoment({ instance: momentTimezone });
     //const dateWithTimeZone = moment().tz(timeZoneFromServer);
-    moment.locale("es");
+    //moment.locale("es");
 
     const [value, setValue] = React.useState(null);
 
@@ -294,7 +294,7 @@ const RegistrarVoucher = () => {
 
                     <Grid item xs={12} sm={6}>
                         <br></br>
-                        <MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils} locale={locale}>
+                        {/*<MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils} locale={locale}>
                             <DatePicker
                                 variant="inline"
                                 required
@@ -315,7 +315,7 @@ const RegistrarVoucher = () => {
 
                             />
 
-                        </MuiPickersUtilsProvider>
+                            </MuiPickersUtilsProvider>*/}
 
                     </Grid>
 
