@@ -9,19 +9,33 @@ const ListaSolicitantes = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const resultado = await axios.get(
-        "http://127.0.0.1:8000/api/boletas"
-      );
+      const resultado = await axios.get("http://127.0.0.1:8000/api/boletas");
       setSolicitudes([...resultado.data]);
-      console.log(resultado.data);
+      //console.log(resultado.data);
     };
     fetchData();
   }, []);
 
+  console.log("Loading...");
+  const updateDelegado = async (id, Habilitado) => {
+    try {
+      const { data } = await axios.put(
+        `http://127.0.0.1:8000/api/delegados/${id}`,
+        {
+          id,
+          Habilitado,
+        }
+      );
+      //console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div class="accordion" id="accordionExample">
-      {solicitudes.map((solicitud, index)=>{
-        return(
+      {solicitudes.map((solicitud, index) => {
+        return (
           <div className="accordion-item" key={index}>
             <h2
               className="accordion-header tituloEncabezadoListaAcordeon"
@@ -35,9 +49,7 @@ const ListaSolicitantes = () => {
                 aria-expanded="true"
                 aria-controls={`collapse${solicitud.Cod_Boleta}`}
               >
-                <label className="textoTitulo">
-                  {solicitud.Cod_Boleta}
-                </label>
+                <label className="textoTitulo">{solicitud.Cod_Delegado}</label>
               </button>
             </h2>
             <div
@@ -90,6 +102,7 @@ const ListaSolicitantes = () => {
                     <Button
                       variant="contained"
                       className="botonSolicitantesHabilitar"
+                      onClick={() => updateDelegado(solicitud.Cod_Delegado, 1)}
                     >
                       Habilitar
                     </Button>
@@ -111,9 +124,8 @@ const ListaSolicitantes = () => {
               </div>
             </div>
           </div>
-        )
-      })
-      }
+        );
+      })}
     </div>
   );
 };
