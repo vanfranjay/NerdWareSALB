@@ -188,12 +188,38 @@ const RegistrarVoucher = () => {
         if (respuestaJson.statusCode == 201) {
             statusResponse = "success";
             mensajeRegistroVoucher = "Solicitud de preinscripción enviada exitosamente";
+            
+            var data = {
+                service_id: 'service_rhd9g4o',
+                template_id: 'template_li99o64',
+                user_id: 'l9yCJ7wruQUXvwxgB',
+                template_params: {
+                    'transaccionID': values.transaccionID,
+                    
+                }
+            };
+            enviarCorreo(data)
+
 
         } else if (respuestaJson.statusCode == 200) {
             statusResponse = "error";
             mensajeRegistroVoucher = "El número de transacción ya fue registrado";
         }
 
+    }
+
+    const enviarCorreo = async (datos) => {
+        const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+            method: 'POST',
+            body: JSON.stringify(datos),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const res = await response.json();
+        console.log("Register Voucher: " + res);
+        return res;
+        
     }
 
     function borrar() {
@@ -203,10 +229,6 @@ const RegistrarVoucher = () => {
 
     return (
         <Grid justifyItems='center'>
-            <Alert variant="filled" severity="success">
-                <AlertTitle>Exito</AlertTitle>
-                Registro exitoso
-            </Alert>
             <Typography variant="h3"
                 align='center'
                 color="#ffff"
@@ -309,15 +331,12 @@ const RegistrarVoucher = () => {
                             label="Fecha de Depósito"
                             fullWidth
                             required
+                            defaultValue=""
                             value={values.fechaDeposito}
                             onChange={handleChange}
-                            onBlur={handleBlur}
-                            defaultValue={moment().format("dd-mm-yyyy")}  
-
                             InputLabelProps={{ shrink: true, style: { color: '#ffff' } }}
                             InputProps={{ style: { color: '#ffff' } }}
                         >
-
                         </TextField>
                         {touched.fechaDeposito && errors.fechaDeposito ? (
                             <FormHelperText
