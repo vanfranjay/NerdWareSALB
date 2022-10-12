@@ -103,10 +103,11 @@
 /*REGISTRAR EQUIPO*/
 .registrarEquipo{
     display: grid;
-    grid-template-columns: 1fr 200px;
+    grid-template-columns: 1fr 1fr 1fr;
     padding: 20px;
     background: linear-gradient(to bottom, #212F3D, #2C3E50);
     border-radius: 10px;
+    gap: 140px;
 }
 .registrarParticipantes{
     display: grid;

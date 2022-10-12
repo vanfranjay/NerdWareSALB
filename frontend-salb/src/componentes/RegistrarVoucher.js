@@ -12,6 +12,8 @@ import { Typography } from '@mui/material';
 import { Paper } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import '../css/styleRegistro.css';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 import { Container, Stack } from '@mui/system';
 import { makeStyles } from '@mui/material/styles';
@@ -123,7 +125,7 @@ const RegistrarVoucher = () => {
         initialValues: {
             numTransaccion: '',
             monto: '',
-            fechaDeposito: null,
+            fechaDeposito: '',
             comprobantePago: undefined,
         },
 
@@ -166,6 +168,8 @@ const RegistrarVoucher = () => {
     const registrarVoucher = async () => {
 
         var comprobantePagoFile = await toBase64(selectedFile)
+        let mensajeRegistroVoucher = "";
+        let statusResponse = "";
 
         const datos = {
             "N_Transaccion": values.numTransaccion,
@@ -180,14 +184,42 @@ const RegistrarVoucher = () => {
 
         //Validando la respuesta de registrar un voucher;
 
-        /*
-        if (esValidoResponse(respuestaJson)) {
 
-        } else {
-            mostrarErrores(respuestaJson);
+        if (respuestaJson.statusCode == 201) {
+            statusResponse = "success";
+            mensajeRegistroVoucher = "Solicitud de preinscripción enviada exitosamente";
+            
+            var data = {
+                service_id: 'service_rhd9g4o',
+                template_id: 'template_li99o64',
+                user_id: 'l9yCJ7wruQUXvwxgB',
+                template_params: {
+                    'transaccionID': values.transaccionID,
+                    
+                }
+            };
+            enviarCorreo(data)
+
+
+        } else if (respuestaJson.statusCode == 200) {
+            statusResponse = "error";
+            mensajeRegistroVoucher = "El número de transacción ya fue registrado";
         }
-        */
 
+    }
+
+    const enviarCorreo = async (datos) => {
+        const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+            method: 'POST',
+            body: JSON.stringify(datos),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const res = await response.json();
+        console.log("Register Voucher: " + res);
+        return res;
+        
     }
 
     function borrar() {
@@ -294,6 +326,25 @@ const RegistrarVoucher = () => {
 
                     <Grid item xs={12} sm={6}>
                         <br></br>
+                        <TextField
+                            type="date"
+                            label="Fecha de Depósito"
+                            fullWidth
+                            required
+                            defaultValue=""
+                            value={values.fechaDeposito}
+                            onChange={handleChange}
+                            InputLabelProps={{ shrink: true, style: { color: '#ffff' } }}
+                            InputProps={{ style: { color: '#ffff' } }}
+                        >
+                        </TextField>
+                        {touched.fechaDeposito && errors.fechaDeposito ? (
+                            <FormHelperText
+                                sx={{ color: "#d32f2f", marginLeft: "!important" }}
+                            >
+                                {touched.fechaDeposito && errors.fechaDeposito}
+                            </FormHelperText>
+                        ) : null}
                         {/*<MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils} locale={locale}>
                             <DatePicker
                                 variant="inline"
