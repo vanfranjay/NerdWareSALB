@@ -39,6 +39,21 @@ const RegistrarEquipo = () => {
               />
             </div>
             <div>
+              <TextField
+                required
+                name="upload-photo"
+                type="file"
+                label="Logo"
+                className='inputRegistrarEquipo'
+                InputLabelProps={{ shrink: true }}
+                sx={{
+                    label: { color: '#ffff' },
+                    input: { color: '#ffff' },
+                    svg: { color: '#ffff' }
+                }}
+              />
+            </div>
+            <div>
               <SelectCategoria/>
             </div>
           </fieldset>
@@ -47,7 +62,7 @@ const RegistrarEquipo = () => {
             <div>
               <TextField
                 required
-                id="filled-required"
+                id="Nom"
                 label="Nombre "
                 className='inputRegistrarEquipo'
                 defaultValue=""
@@ -62,7 +77,7 @@ const RegistrarEquipo = () => {
             <div>
               <TextField
                 required
-                id="filled-required"
+                id="Ape"
                 label="Apellido "
                 className='inputRegistrarEquipo'
                 defaultValue=""
@@ -77,7 +92,7 @@ const RegistrarEquipo = () => {
             <div>
               <TextField
                 required
-                id="filled-required"
+                id="Fec"
                 label="Fecha de Nacimiento "
                 className='inputRegistrarEquipo'
                 defaultValue=""
@@ -94,7 +109,7 @@ const RegistrarEquipo = () => {
               <TextField
                 required
                 type="number"
-                id="filled-required"
+                id="Tel"
                 label="Teléfono/Celular "
                 className='inputRegistrarEquipo'
                 defaultValue=""
@@ -109,7 +124,7 @@ const RegistrarEquipo = () => {
             <div>
               <TextField
                 required
-                id="filled-required"
+                id="Cor"
                 label="E-mail "
                 className='inputRegistrarEquipo'
                 type="email"
@@ -127,16 +142,16 @@ const RegistrarEquipo = () => {
                <FormControl fullWidth className='inputRegistrarEquipo'>
                  <InputLabel id="demo-simple-select-label" className='selectCategoria' required>Rol </InputLabel>
                  <Select
-                   labelId="demo-simple-select-label"
-                   id="demo-simple-select"
+                  // labelId="demo-simple-select-label"
+                   id='Rol1'
                    value={age}
                    label="Categoria"
                    onChange={handleChange}
                    className='selectValor'
                  >
-                   <MenuItem value={10}>Arbitro</MenuItem>
-                   <MenuItem value={20}>Entrenador</MenuItem>
-                   <MenuItem value={30}>Jugador(ra)</MenuItem>
+                   <MenuItem value={10} >Alero</MenuItem>
+                   <MenuItem value={20}>Pivot</MenuItem>
+                   <MenuItem value={30}>Armador</MenuItem>
                  </Select>
                </FormControl>
              </Box>
@@ -145,8 +160,8 @@ const RegistrarEquipo = () => {
             <div>
               <TextField
                 required
-                id="filled-required"
-                label="Dni "
+                id="DNI"
+                label="DNI "
                 className='inputRegistrarEquipo'
                 defaultValue=""
                 variant="filled"
@@ -160,7 +175,7 @@ const RegistrarEquipo = () => {
             <div>
               <TextField
                 required
-                id="filled-multiline-static"
+                id="Dir filled-multiline-static"
                 label="Dirección "
                 className='inputRegistrarEquipo'
                 multiline
@@ -177,6 +192,7 @@ const RegistrarEquipo = () => {
             <div>
               <TextField
                 required
+                id='F_DNI'
                 name="upload-photo"
                 type="file"
                 label="Foto del Dni "
@@ -196,6 +212,7 @@ const RegistrarEquipo = () => {
             <div>
               <TextField
                 required
+                id='F_Jug'
                 name="upload-photo"
                 type="file"
                 label="Foto del participante "
@@ -215,6 +232,9 @@ const RegistrarEquipo = () => {
               <Button variant="contained" className='btnCancelar' type='reset'>Cancelar</Button>
             </div>
           </fieldset>
+          <div>
+            <table id="tabla" class="table table-dark"></table>
+          </div>
         </form>
       </div>
     </>
