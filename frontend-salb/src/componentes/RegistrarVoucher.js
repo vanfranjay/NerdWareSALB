@@ -16,7 +16,6 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 
 import { Container, Stack } from '@mui/system';
-import { makeStyles } from '@mui/material/styles';
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
@@ -24,54 +23,12 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { useFormik, useField, useFormikContext } from "formik";
 import * as Yup from "yup";
 
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-
 import configData from "../config/config.json";
 
-
-//import {
-//    DatePicker,
-//    MuiPickersUtilsProvider,
-//} from '@material-ui/pickers';
-//import MomentUtils from '@date-io/moment';
+//Setup for Datepicker
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import moment from "moment";
 import "moment/locale/es";
-
-//Setup for Datepicker
-//For Moment.js
-import momentTimezone from "moment-timezone";
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { parseNonNullablePickerDate } from "@mui/x-date-pickers/internals";
-
-const theme = createTheme({
-    overrides: {
-        MuiInputBaseInput: {
-            textPrimary: {
-                color: 'white'
-            }
-        }
-    },
-
-    components: {
-        MuiSelect: {
-            styleOverrides: {
-                root: {
-                    label: {
-                        padding: 'initial',
-                        color: '#ffff'
-                    },
-                }
-            },
-        },
-        MuiDatePicker: {
-            styleOverrides: {
-                root: {
-                    backgroundColor: 'white',
-                },
-            },
-        },
-    },
-});
 
 
 const RegistrarVoucher = () => {
@@ -79,21 +36,12 @@ const RegistrarVoucher = () => {
     const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "application/pdf"];
     const FILE_SIZE = 7340032; // 7MB
 
+    var fechaIniConvocatotia = "2022-10-01";
+    var fechaFinConvocatoria = "2022-11-30";
+
     const postVoucherURL = configData.REGISTER_VOUCHER_API_URL;
 
     const [selectedFile, setSelectedFile] = useState();
-
-    const timeZoneFromServer = "America/La_Paz";
-    //const { moment } = new AdapterMoment({ instance: momentTimezone });
-    //const dateWithTimeZone = moment().tz(timeZoneFromServer);
-    //moment.locale("es");
-
-    const [value, setValue] = React.useState(null);
-
-
-    const [locale, setLocale] = useState("es");
-
-    //const [value, setValue] = React.useState(moment('2014-08-18T21:11:54'));
 
     const formValidationSchema = Yup.object({
         numTransaccion: Yup
@@ -125,7 +73,7 @@ const RegistrarVoucher = () => {
         initialValues: {
             numTransaccion: '',
             monto: '',
-            fechaDeposito: '',
+            fechaDeposito: null,
             comprobantePago: undefined,
         },
 
@@ -158,12 +106,12 @@ const RegistrarVoucher = () => {
                 'Content-Type': 'application/json'
             }
         });
-        const res = await response.json();
-        console.log("Register Voucher: " + res);
-        return res;
+        //const res = await response.json();
+        //console.log("Register Voucher: " + res);
+        return await response;
     }
 
-    // Construir una actividad con los datos introducidos
+    // Construimos un voucher con los datos introducidos
 
     const registrarVoucher = async () => {
 
@@ -174,9 +122,9 @@ const RegistrarVoucher = () => {
         const datos = {
             "N_Transaccion": values.numTransaccion,
             "Monto": values.monto,
-            "Fecha_Registro": values.fechaDeposito,
+            "Fecha_Registro": values.fechaDeposito.format('YYYY-MM-DD'),
             "Comprobante": null,
-            "Cod_Delegado": null
+            "Cod_Delegado": 1
         };
         console.log("Voucher: " + JSON.stringify(datos));
         const respuestaJson = await postVoucher(postVoucherURL, datos);
@@ -184,7 +132,19 @@ const RegistrarVoucher = () => {
 
         //Validando la respuesta de registrar un voucher;
 
+        console.log("Iniciando el envio de correo.....");
+        var dataEmail = {
+            service_id: 'service_rhd9g4o',
+            template_id: 'template_li99o64',
+            user_id: 'l9yCJ7wruQUXvwxgB',
+            accessToken: "isLW0B12iQCMbBHyeexwj",
+            template_params: {
+                to: "nerdware.es@gmail.com"
+            }
+        };
+        enviarCorreo(dataEmail);
 
+        /*
         if (respuestaJson.statusCode == 201) {
             statusResponse = "success";
             mensajeRegistroVoucher = "Solicitud de preinscripción enviada exitosamente";
@@ -198,17 +158,17 @@ const RegistrarVoucher = () => {
                     
                 }
             };
-            enviarCorreo(data)
-
-
+           
         } else if (respuestaJson.statusCode == 200) {
             statusResponse = "error";
             mensajeRegistroVoucher = "El número de transacción ya fue registrado";
         }
+        */
 
     }
 
     const enviarCorreo = async (datos) => {
+
         const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
             method: 'POST',
             body: JSON.stringify(datos),
@@ -216,10 +176,10 @@ const RegistrarVoucher = () => {
                 'Content-Type': 'application/json'
             }
         });
-        const res = await response.json();
-        console.log("Register Voucher: " + res);
+        const res = await response.headers;
+        console.log("Correo response full: " + res);
         return res;
-        
+
     }
 
     function borrar() {
@@ -323,51 +283,38 @@ const RegistrarVoucher = () => {
 
                         </FormControl>
                     </Grid>
-
                     <Grid item xs={12} sm={6}>
                         <br></br>
-                        <TextField
-                            type="date"
-                            label="Fecha de Depósito"
-                            fullWidth
-                            required
-                            defaultValue=""
-                            value={values.fechaDeposito}
-                            onChange={handleChange}
-                            InputLabelProps={{ shrink: true, style: { color: '#ffff' } }}
-                            InputProps={{ style: { color: '#ffff' } }}
-                        >
-                        </TextField>
-                        {touched.fechaDeposito && errors.fechaDeposito ? (
-                            <FormHelperText
-                                sx={{ color: "#d32f2f", marginLeft: "!important" }}
-                            >
-                                {touched.fechaDeposito && errors.fechaDeposito}
-                            </FormHelperText>
-                        ) : null}
-                        {/*<MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils} locale={locale}>
-                            <DatePicker
-                                variant="inline"
-                                required
-                                id="fechaDeposito"
-                                name="fechaDeposito"
-                                label="Fecha de Depósito"
-                                format="DD/MM/yyyy"
-                                fullWidth
+                        <LocalizationProvider dateAdapter={AdapterMoment}>
+                            <DesktopDatePicker
+                                label="Fecha de deposito"
+                                inputFormat="DD/MM/YYYY"
                                 value={values.fechaDeposito}
-                                onChange={value => setFieldValue("fechaDeposito", value)}
-                                onBlur={handleBlur}
-                                error={touched.fechaDeposito && Boolean(errors.fechaDeposito)}
-                                helperText={touched.fechaDeposito && errors.fechaDeposito}
-                                InputLabelProps={{
-                                    style: { color: '#ffff' },
+                                onChange={(value) => setFieldValue("fechaDeposito", value, true)}
+                                minDate={moment(fechaIniConvocatotia)}
+                                maxDate={moment(fechaFinConvocatoria)}
+                                renderInput={(params) => {
+                                    return <TextField {...params}
+                                        variant="standard"
+                                        fullWidth
+                                        required
+                                        onBlur={handleBlur}
+                                        error={touched.fechaDeposito && Boolean(errors.fechaDeposito)}
+                                        helperText={touched.fechaDeposito && errors.fechaDeposito}
+                                        InputLabelProps={{ style: { color: 'white' } }}
+                                        sx={{
+                                            '.MuiSvgIcon-root ': {
+                                                fill: "white !important",
+                                            },
+                                            '& .MuiInputBase-input': {
+                                                color: 'white'
+
+                                            }
+                                        }}
+                                    />;
                                 }}
-                                InputProps={{ style: { color: '#ffff' } }}
-
                             />
-
-                            </MuiPickersUtilsProvider>*/}
-
+                        </LocalizationProvider>
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
