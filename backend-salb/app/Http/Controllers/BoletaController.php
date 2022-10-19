@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\boleta;
+use Illuminate\Support\Facades\DB;
 
 class BoletaController extends Controller
 {
@@ -14,7 +15,10 @@ class BoletaController extends Controller
      */
     public function index()
     {
-        return boleta::all(); // muestra todos las boletas
+        return DB::table('Delegados')
+        ->join('Boletas', 'Delegados.id', '=', 'Boletas.Cod_Delegado')
+        ->select('Boletas.*', 'Delegados.Nombre', 'Delegados.Apellido')
+        ->get(); // muestra todos las boletas
     }
 
     /**
