@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 
 const ListaSolicitantes = () => {
   const [solicitudes, setSolicitudes] = useState([]);
+  const [delegado, setDelegado] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,8 +16,18 @@ const ListaSolicitantes = () => {
     };
     fetchData();
   }, []);
+  const num = '3';
+  //useEffect(() => {
+  //  const fetchName = async () => {
+  //    var resultados = await axios.get(`http://127.0.0.1:8000/api/delegados/${2}`);
+  //    setDelegado([resultados.data.Nombre]);
+  //    const prueba = resultados.data.Nombre;
+  //    console.log(prueba);
+  //  };
+  //  fetchName();
+  //}, []);
 
-  console.log("Loading...");
+  //console.log("Loading...");
   const updateDelegado = async (id, Habilitado) => {
     try {
       const { data } = await axios.put(
@@ -49,7 +60,7 @@ const ListaSolicitantes = () => {
                 aria-expanded="true"
                 aria-controls={`collapse${solicitud.Cod_Boleta}`}
               >
-                <label className="textoTitulo">{solicitud.Cod_Delegado}</label>
+                <label className="textoTitulo">{solicitud.Nombre} {solicitud.Apellido}</label>
               </button>
             </h2>
             <div
