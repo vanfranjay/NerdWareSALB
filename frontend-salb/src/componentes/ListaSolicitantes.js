@@ -28,13 +28,13 @@ const ListaSolicitantes = () => {
   //}, []);
 
   //console.log("Loading...");
-  const updateDelegado = async (id, Habilitado) => {
+  const updateDelegado = async (Cod_Boleta, Estado) => {
     try {
       const { data } = await axios.put(
-        `http://127.0.0.1:8000/api/delegados/${id}`,
+        `http://127.0.0.1:8000/api/boletas/${Cod_Boleta}`,
         {
-          id,
-          Habilitado,
+          Cod_Boleta,
+          Estado,
         }
       );
       //console.log(data);
@@ -113,7 +113,7 @@ const ListaSolicitantes = () => {
                     <Button
                       variant="contained"
                       className="botonSolicitantesHabilitar"
-                      onClick={() => updateDelegado(solicitud.Cod_Delegado, 1)}
+                      onClick={() => updateDelegado(solicitud.Cod_Boleta, 1)}
                     >
                       Habilitar
                     </Button>
