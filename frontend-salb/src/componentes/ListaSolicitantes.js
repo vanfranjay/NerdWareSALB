@@ -124,11 +124,6 @@ const ListaSolicitantes = () => {
                         Rechazar
                       </Button>
                     </div>
-                    <div className="centreadoBoton">
-                      <Button variant="contained" className="botonSolicitantes">
-                        Guardar
-                      </Button>
-                    </div>
                   </div>
                 </div>
               </div>
