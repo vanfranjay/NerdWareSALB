@@ -120,6 +120,9 @@ const ListaSolicitantes = () => {
                       <Button
                         variant="contained"
                         className="botonSolicitantesRechazar"
+                        onClick={() => {
+                          updateDelegado(solicitud.Cod_Boleta, 3);
+                        }}
                       >
                         Rechazar
                       </Button>
