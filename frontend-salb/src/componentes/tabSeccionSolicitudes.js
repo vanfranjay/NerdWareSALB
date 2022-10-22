@@ -5,6 +5,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import ListaSolicitantes from './ListaSolicitantes';
+import VaucherHabilitados from './VaucherHabilitados';
 import {Routes, Route, Navigate, useParams, NavLink} from 'react-router-dom';
 
 export default function LabTabs() {
@@ -19,15 +20,17 @@ export default function LabTabs() {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Solicitudes de Preinscripción" value="1" />
+            <Tab label="Pendientes" value="1" />
             <Tab label="Habilitados" value="2" />
             <Tab label="Rechazados" value="3" />
           </TabList>
         </Box>
         <TabPanel value="1">
-            <ListaSolicitantes/>
+          <ListaSolicitantes/>
         </TabPanel>
-        <TabPanel value="2">Item Two</TabPanel>
+        <TabPanel value="2">
+          <VaucherHabilitados/>
+        </TabPanel>
         <TabPanel value="3">Item Three</TabPanel>
       </TabContext>
     </Box>
