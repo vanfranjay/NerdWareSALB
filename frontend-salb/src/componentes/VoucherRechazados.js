@@ -40,7 +40,7 @@ const VaucherHabilitados = () => {
                 className="listGrupo"
               >
                 <ListItem alignItems="flex-start" className="vaucherHabilitados">
-                  <div className="generalidades">{index+1}</div>
+                  <div className="numeroEnLista">{index+1}</div>
                   <div className="generalidades">
                     <ListItemAvatar>
                       <Avatar

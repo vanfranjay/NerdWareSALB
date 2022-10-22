@@ -8,6 +8,7 @@ import ListaSolicitantes from './ListaSolicitantes';
 import VoucherHabilitados from './VoucherHabilitados';
 import VoucherRechazados from './VoucherRechazados';
 import {Routes, Route, Navigate, useParams, NavLink} from 'react-router-dom';
+import Alerta from "./Alerta";
 
 export default function LabTabs() {
   const [value, setValue] = React.useState('1');

@@ -25,7 +25,7 @@ const VoucherHabilitados = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container centrear">
       {solicitudes.map((solicitud, index) => {
         if (solicitud.Estado == 1) {
           return (
@@ -43,7 +43,7 @@ const VoucherHabilitados = () => {
                   alignItems="flex-start"
                   className="vaucherHabilitados"
                 >
-                  <div className="generalidades">{index + 1}</div>
+                  <div className="numeroEnLista">{index + 1}</div>
                   <div className="generalidades">
                     <ListItemAvatar>
                       <Avatar

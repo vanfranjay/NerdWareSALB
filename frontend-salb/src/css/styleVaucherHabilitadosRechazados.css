@@ -6,9 +6,14 @@
     align-self: center;
     color: #E67E22;
 }
-.centrearAvatar{
-    justify-self: center;
+.numeroEnLista{
+    align-self: center;
+    color: #E67E22;
+    padding-right: 10px;
 }
+/*.centrearAvatar{
+    justify-self: center;
+}*/
 .nombreUsuarioVoucher{
     padding-left: 10px;
 }
@@ -16,8 +21,8 @@
     border-bottom: #212F3D 2px solid;
 }*/
 .listGrupo{
-    margin: auto;
-    background: #212F3D;
+    margin: auto !important;
+    background: #212F3D !important;
 }
 .divisor{
     background: #2C3E50;

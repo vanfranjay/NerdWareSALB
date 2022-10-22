@@ -4,6 +4,11 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { HourglassBottom } from "@mui/icons-material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const ListaSolicitantes = () => {
   const [solicitudes, setSolicitudes] = useState([]);
@@ -30,11 +35,24 @@ const ListaSolicitantes = () => {
         }
       );
       //console.log(data);
+      handleClose();
       fetchData();
     } catch (error) {
       console.log(error);
     }
   };
+
+  //////////////////////////////////////////////////////
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  //////////////////////////////////////////////////////
 
   return (
     <div class="accordion" id="accordionExample">
@@ -107,11 +125,9 @@ const ListaSolicitantes = () => {
                   <div className="cuadroBotonesAcordeon">
                     <div className="centreadoBoton">
                       <Button
-                        variant="contained"
                         className="botonSolicitantesHabilitar"
-                        onClick={() => {
-                          updateDelegado(solicitud.Cod_Boleta, 1);
-                        }}
+                        variant="outlined"
+                        onClick={handleClickOpen}
                       >
                         Habilitar
                       </Button>
@@ -130,6 +146,32 @@ const ListaSolicitantes = () => {
                   </div>
                 </div>
               </div>
+
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">
+                  {"¿Está seguro de habilitar esta solicitud?"}
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    Al aceptar se notificará por correo electrónico al solicitante.
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Cancelar</Button>
+                  <Button onClick={() =>{
+                    {updateDelegado(solicitud.Cod_Boleta, 1);}
+                    
+                  }
+                    } autoFocus>
+                    Aceptar
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </div>
           );
         }
