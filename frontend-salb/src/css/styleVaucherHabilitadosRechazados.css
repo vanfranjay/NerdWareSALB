@@ -27,3 +27,13 @@
 .divisor{
     background: #2C3E50;
 }
+.colorTabSeccionSolicitudes{
+    color: #ffffff !important;
+}
+.Mui-selected{
+    color: #E67E22 !important;
+    background: linear-gradient(to bottom, #212F3D, #2C3E50);
+}
+.MuiTabs-indicator{
+    background: #E67E22 !important;
+}
