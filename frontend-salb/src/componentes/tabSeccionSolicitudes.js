@@ -6,6 +6,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import ListaSolicitantes from './ListaSolicitantes';
 import VaucherHabilitados from './VaucherHabilitados';
+import VoucherRechazados from './VoucherRechazados';
 import {Routes, Route, Navigate, useParams, NavLink} from 'react-router-dom';
 
 export default function LabTabs() {
@@ -31,7 +32,9 @@ export default function LabTabs() {
         <TabPanel value="2">
           <VaucherHabilitados/>
         </TabPanel>
-        <TabPanel value="3">Item Three</TabPanel>
+        <TabPanel value="3">
+          <VoucherRechazados/>
+        </TabPanel>
       </TabContext>
     </Box>
   );
