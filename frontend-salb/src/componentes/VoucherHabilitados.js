@@ -10,7 +10,7 @@ import "../css/styleVaucherHabilitadosRechazados.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const VaucherHabilitados = () => {
+const VoucherHabilitados = () => {
   const [solicitudes, setSolicitudes] = useState([]);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const VaucherHabilitados = () => {
   return (
     <div className="container">
       {solicitudes.map((solicitud, index) => {
-        if(solicitud.Estado == 1){
+        if (solicitud.Estado == 1) {
           return (
             <>
               <List
@@ -39,8 +39,11 @@ const VaucherHabilitados = () => {
                 }}
                 className="listGrupo"
               >
-                <ListItem alignItems="flex-start" className="vaucherHabilitados">
-                  <div className="generalidades">{index+1}</div>
+                <ListItem
+                  alignItems="flex-start"
+                  className="vaucherHabilitados"
+                >
+                  <div className="generalidades">{index + 1}</div>
                   <div className="generalidades">
                     <ListItemAvatar>
                       <Avatar
@@ -53,7 +56,7 @@ const VaucherHabilitados = () => {
                     <ListItemText primary={solicitud.Nombre} />
                   </div>
                 </ListItem>
-                <Divider variant="inset" component="li" className="divisor"/>
+                <Divider variant="inset" component="li" className="divisor" />
               </List>
             </>
           );
@@ -62,4 +65,4 @@ const VaucherHabilitados = () => {
     </div>
   );
 };
-export default VaucherHabilitados;
+export default VoucherHabilitados;
