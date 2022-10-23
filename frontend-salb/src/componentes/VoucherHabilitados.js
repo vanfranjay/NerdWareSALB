@@ -53,7 +53,7 @@ const VoucherHabilitados = () => {
                     </ListItemAvatar>
                   </div>
                   <div className="generalidades nombreUsuarioVoucher">
-                    <ListItemText primary={solicitud.Nombre} />
+                    <ListItemText>{solicitud.Nombre} {solicitud.Apellido}</ListItemText>
                   </div>
                 </ListItem>
                 <Divider variant="inset" component="li" className="divisor" />

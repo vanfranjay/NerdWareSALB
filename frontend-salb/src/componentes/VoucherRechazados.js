@@ -27,7 +27,7 @@ const VaucherHabilitados = () => {
   return (
     <div className="container">
       {solicitudes.map((solicitud, index) => {
-        if(solicitud.Estado == 3){
+        if (solicitud.Estado == 3) {
           return (
             <>
               <List
@@ -39,8 +39,11 @@ const VaucherHabilitados = () => {
                 }}
                 className="listGrupo"
               >
-                <ListItem alignItems="flex-start" className="vaucherHabilitados">
-                  <div className="numeroEnLista">{index+1}</div>
+                <ListItem
+                  alignItems="flex-start"
+                  className="vaucherHabilitados"
+                >
+                  <div className="numeroEnLista">{index + 1}</div>
                   <div className="generalidades">
                     <ListItemAvatar>
                       <Avatar
@@ -50,10 +53,12 @@ const VaucherHabilitados = () => {
                     </ListItemAvatar>
                   </div>
                   <div className="generalidades nombreUsuarioVoucher">
-                    <ListItemText primary={solicitud.Nombre} />
+                    <ListItemText>
+                      {solicitud.Nombre} {solicitud.Apellido}
+                    </ListItemText>
                   </div>
                 </ListItem>
-                <Divider variant="inset" component="li" className="divisor"/>
+                <Divider variant="inset" component="li" className="divisor" />
               </List>
             </>
           );
