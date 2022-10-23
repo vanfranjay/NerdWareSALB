@@ -79,6 +79,30 @@
     border-radius: 20px !important;
     background-color: #fa3737 !important;
 }
-.botonSolicitantesRechazar:hover{
-    background-color: #900808 !important;
+.MuiDialogContent-root{     /*contenido dialogo*/
+    background: #3c556d;
+}
+.MuiDialogActions-root{     /*contenido botones*/
+    background: #3c556d;
+}
+.cuadroTituloDialogo{       /*contenido titulo dialogo*/
+    background: #3c556d;
+    color: #E67E22;
+}
+.cuadroTituloDialogoContext{
+    color: #e48c3f !important;
+}
+.botonHabilitadoCancelar{
+    background: #fa3737 !important;
+    color: #ffffff !important;
+}
+.botonHabilitadoCancelar:hover{
+    background: #BA4A00 !important;
+}
+.botonHabilitadoAceptar{
+    background: #29e610  !important;
+    color: #ffffff !important;
+}
+.botonHabilitadoAceptar:hover{
+    background: #1b9d09 !important;
 }

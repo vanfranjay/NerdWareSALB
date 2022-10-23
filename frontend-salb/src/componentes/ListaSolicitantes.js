@@ -35,22 +35,31 @@ const ListaSolicitantes = () => {
         }
       );
       //console.log(data);
-      handleClose();
+      alertaHabilitarClose();
+      alertaRechazarClose();
       fetchData();
     } catch (error) {
       console.log(error);
     }
   };
 
-  //////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////
   const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
+  const alertaHabilitarOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const alertaHabilitarClose = () => {
     setOpen(false);
+  };
+  //////////////////////////////////////////////////////
+  const [opens, setOpens] = React.useState(false);
+  const alertaREchazarOpen = () => {
+    setOpens(true);
+  };
+  const alertaRechazarClose = () => {
+    setOpens(false);
   };
   //////////////////////////////////////////////////////
 
@@ -127,7 +136,7 @@ const ListaSolicitantes = () => {
                       <Button
                         className="botonSolicitantesHabilitar"
                         variant="outlined"
-                        onClick={handleClickOpen}
+                        onClick={alertaHabilitarOpen}
                       >
                         Habilitar
                       </Button>
@@ -136,9 +145,7 @@ const ListaSolicitantes = () => {
                       <Button
                         variant="contained"
                         className="botonSolicitantesRechazar"
-                        onClick={() => {
-                          updateDelegado(solicitud.Cod_Boleta, 3);
-                        }}
+                        onClick={alertaREchazarOpen}
                       >
                         Rechazar
                       </Button>
@@ -147,31 +154,91 @@ const ListaSolicitantes = () => {
                 </div>
               </div>
 
-              <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-              >
-                <DialogTitle id="alert-dialog-title">
-                  {"¿Está seguro de habilitar esta solicitud?"}
-                </DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-description">
-                    Al aceptar se notificará por correo electrónico al solicitante.
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleClose}>Cancelar</Button>
-                  <Button onClick={() =>{
-                    {updateDelegado(solicitud.Cod_Boleta, 1);}
-                    
-                  }
-                    } autoFocus>
-                    Aceptar
-                  </Button>
-                </DialogActions>
-              </Dialog>
+              <div>
+                <Dialog
+                  open={open}
+                  onClose={alertaHabilitarClose}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle
+                    id="alert-dialog-title"
+                    className="cuadroTituloDialogo"
+                  >
+                    {"¿Está seguro de habilitar esta solicitud?"}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText
+                      id="alert-dialog-description"
+                      className="cuadroTituloDialogoContext"
+                    >
+                      Al aceptar se notificará por correo electrónico al
+                      solicitante.
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      className="botonHabilitadoCancelar"
+                      onClick={alertaHabilitarClose}
+                    >
+                      Cancelar
+                    </Button>
+                    <Button
+                      className="botonHabilitadoAceptar"
+                      onClick={() => {
+                        {
+                          updateDelegado(solicitud.Cod_Boleta, 1);
+                        }
+                      }}
+                      autoFocus
+                    >
+                      Aceptar
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </div>
+              <div>
+                <Dialog
+                  open={opens}
+                  onClose={alertaRechazarClose}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle
+                    id="alert-dialog-title"
+                    className="cuadroTituloDialogo"
+                  >
+                    {"¿Está seguro de rechazar esta solicitud?"}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText
+                      id="alert-dialog-description"
+                      className="cuadroTituloDialogoContext"
+                    >
+                      Al aceptar se notificará por correo electrónico al solicitante.
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      className="botonHabilitadoCancelar"
+                      onClick={alertaRechazarClose}
+                    >
+                      Cancelar
+                    </Button>
+                    <Button
+                      className="botonHabilitadoAceptar"
+                      onClick={() => {
+                        {
+                          updateDelegado(solicitud.Cod_Boleta, 3);
+                        }
+                      }}
+                      autoFocus
+                    >
+                      Aceptar
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </div>
             </div>
           );
         }
