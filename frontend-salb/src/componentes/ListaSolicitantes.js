@@ -9,6 +9,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import logo from "../imagenes/logoLigaBasket.JPG";
 
 const ListaSolicitantes = () => {
   const [solicitudes, setSolicitudes] = useState([]);
@@ -43,7 +44,7 @@ const ListaSolicitantes = () => {
     }
   };
 
-  /////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////// Dialogo para Habilitar
   const [open, setOpen] = React.useState(false);
 
   const alertaHabilitarOpen = () => {
@@ -53,7 +54,7 @@ const ListaSolicitantes = () => {
   const alertaHabilitarClose = () => {
     setOpen(false);
   };
-  //////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////// Dialogo para Rechazar
   const [opens, setOpens] = React.useState(false);
   const alertaREchazarOpen = () => {
     setOpens(true);
@@ -128,7 +129,11 @@ const ListaSolicitantes = () => {
                   </div>
                   <div className="cuadroImagenAcordeon">
                     <a href="#" value={556632}>
-                      Descargar Voucher
+                      <img
+                        src={logo}
+                        alt="Imagen voucher"
+                        className="imagenVoucher"
+                      />
                     </a>
                   </div>
                   <div className="cuadroBotonesAcordeon">
@@ -215,7 +220,8 @@ const ListaSolicitantes = () => {
                       id="alert-dialog-description"
                       className="cuadroTituloDialogoContext"
                     >
-                      Al aceptar se notificará por correo electrónico al solicitante.
+                      Al aceptar se notificará por correo electrónico al
+                      solicitante.
                     </DialogContentText>
                   </DialogContent>
                   <DialogActions>

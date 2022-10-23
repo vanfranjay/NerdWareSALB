@@ -106,3 +106,7 @@
 .botonHabilitadoAceptar:hover{
     background: #1b9d09 !important;
 }
+.imagenVoucher{
+    width: 240px;
+    height: 120px;
+}
