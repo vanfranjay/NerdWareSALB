@@ -17,11 +17,12 @@ class CreateTorneosTable extends Migration
             $table->id();
             $table->string('Campeon');
             $table->string('Subcampeon');
-            $table->date('Fecha_Ini_Convocatoria');
-            $table->date('Fecha_Fin_Convocatoria');
-            $table->date('Fecha_Ini_Preinscripcion');
-            $table->date('Fecha_Fin_Preinscripcion');
-            $table->decimal('Monto');
+            $table->date('Fecha_Ini_Convocatoria')->default('2022-09-14');
+            $table->date('Fecha_Fin_Convocatoria')->default('2022-10-14');
+            $table->date('Fecha_Ini_Preinscripcion')->default('2022-09-14');
+            $table->date('Fecha_Fin_Preinscripcion')->default('2022-10-30');
+            $table->decimal('MontoPreinscripcion')->default('200');
+            $table->decimal('MontoInscripcion')->default('250');
             $table->timestamps();
         });
     }

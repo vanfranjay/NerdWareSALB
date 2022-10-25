@@ -14,7 +14,7 @@ class FotoTController extends Controller
      */
     public function index()
     {
-       // return Fotos_T::all();  //
+       return Fotos_T::all();  //
     }
 
     /**
