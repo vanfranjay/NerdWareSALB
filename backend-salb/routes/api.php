@@ -9,6 +9,9 @@ use App\Http\Controllers\JugadorController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\BoletaController;
 use App\Http\Controllers\EquipoController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FotoTController;
+use App\Http\Controllers\TorneoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +33,20 @@ Route::resource('delegados', DelegadoController::class);
 Route::resource('personas', PersonaController::class);
 Route::resource('delbos', DelBolController::class);
 Route::resource('jugadores', JugadorController::class);
+Route::resource('torneos', TorneoController::class);
+Route::resource('fotos', FotoTController::class);
+//route::resource('auts', AuthController::class);
+
+  //Prefijo V1, todo lo que este dentro de este grupo se accedera escribiendo v1 en el navegador, es decir /api/v1/*
+  Route::post('login', [AuthController::class, 'authenticate']);
+  Route::post('register', [AuthController::class, 'register']);
+  //Route::get('products', [ProductsController::class, 'index']);
+  //Route::get('products/{id}', [ProductsController::class, 'show']);
+  Route::group(['middleware' => ['jwt.verify']], function() {
+      //Todo lo que este dentro de este grupo requiere verificación de usuario.
+      Route::post('logout', [AuthController::class, 'logout']);
+      Route::post('get-user', [AuthController::class, 'getUser']);
+    //  Route::post('products', [ProductsController::class, 'store']);
+     // Route::put('products/{id}', [ProductsController::class, 'update']);
+      //Route::delete('products/{id}', [ProductsController::class, 'destroy']);
+  });
