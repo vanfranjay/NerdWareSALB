@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 use App\Models\boleta;
 
 class BoletaController extends Controller
@@ -34,47 +36,39 @@ class BoletaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-       $request->validate([
-           'N_Transaccion' => 'required|unique:Boletas,N_Transaccion' ,
+    { 
+        $boleta = new boleta($request->all());     
+        $validator = Validator::make($request->all(), [
+            'N_Transaccion' => 'required|unique:Boletas,N_Transaccion' ,
             'Monto' => 'required|numeric' ,
             'Fecha_Registro' => 'required|date|date_format:Y-m-d|before_or_equal:2022-10-20' ,
             //'Comprobante' => 'required | mimes:jpg, jpeg, png, pdf' ,
             //'Estado' => 'numeric' ,
             'Cod_Delegado' => 'numeric' ,
-       ],
-       [
-        //'N_Transaccion.required' => 'El campo es necesario',
-        'N_Transaccion.unique' => 'EL numero de transaccion ya fue registrado, no trate de engañarnos -_-',
-        //'Monto.required' => 'El campo es necesario',
-        //'Monto.numeric' => 'El campo solo admite numeros',
-        //'Fecha_Registro.required' => 'El campo es necesario',
-        //'Fecha_Registro.date' => 'El campo solo admite fechas',
-        'Fecha_Registro.date_format' => 'Formato YYYY-MM-DD',
-        'Fecha_Registro.befor_or_equal' => 'La fecha disponible caduco, comuniquese con el administrador',
-        //'Comprobante.required' => 'El campo es necesario' ,
-        //'Comprobante.mimes' => 'El campo solo admite extensiones pdf, jpg, jpeg y png',
-        //'Estado.required' => 'El campo es necesario',
-        'Cod_Delegado.numeric' => 'Solo admite numeros',
-    ]); /*
-       $boleta = new boleta();
-       $boleta->N_Transaccion = $request->N_Transaccion;
-       $boleta->Monto = $request->Monto;
-       $boleta->Fecha_Registro = $request->Fecha_Registro;
-       $boleta->Comprobante = $request->Comprobante;
-       $boleta->Estado = $request->Estado;
-       $boleta->Cod_Delegado = $request->Cod_Delegado;
-       $boleta->save();
-       return $boleta; //para alamacenar 
-      */
-        /*if ($request->fails()) {
-        return response()->json(['error' => $request->messages()], 400);
-        }*/
-      $boleta = new boleta($request->all());
-      $boleta->save();
-      return $boleta;}
-    
+        ],
+        [
+            //'N_Transaccion.required' => 'El campo es necesario',
+            'N_Transaccion.unique' => 'EL numero de transaccion ya fue registrado, no trate de engañarnos -_-',
+            //'Monto.required' => 'El campo es necesario',
+            //'Monto.numeric' => 'El campo solo admite numeros',
+            //'Fecha_Registro.required' => 'El campo es necesario',
+            //'Fecha_Registro.date' => 'El campo solo admite fechas',
+            'Fecha_Registro.date_format' => 'Formato YYYY-MM-DD',
+            'Fecha_Registro.befor_or_equal' => 'La fecha disponible caduco, comuniquese con el administrador',
+            //'Comprobante.required' => 'El campo es necesario' ,
+            //'Comprobante.mimes' => 'El campo solo admite extensiones pdf, jpg, jpeg y png',
+            //'Estado.required' => 'El campo es necesario',
+            'Cod_Delegado.numeric' => 'Solo admite numeros',
+        ]);
 
+        try {
+            $boleta->save();
+        } catch (\Exception $e) {
+            return response()->json(['errorCode' => $e->errorInfo[0], 'errorMessage' => $e->errorInfo[2] ], 400);
+        }
+        return response()->json($boleta);
+    }
+    
     /**
      * Display the specified resource.
      *
