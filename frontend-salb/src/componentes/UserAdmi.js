@@ -30,6 +30,7 @@ import ListaSolicitantes from './ListaSolicitantes';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import LabTabs from './tabSeccionSolicitudes';
 
 const ocultar = document.getElementById('imgUser');
 const text = document.getElementById('imgUser');
@@ -222,7 +223,7 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
           <div className='container'>
             <Routes>
-              <Route path="solicitante" element={<ListaSolicitantes/>}/>
+              <Route path="solicitante" element={<LabTabs/>}/>
               <Route path="rechazado" element={<SolicitudesRechazadas/>}/>
               <Route path="/" element={<Navigate to='Solicitante'/>}/>
             </Routes>

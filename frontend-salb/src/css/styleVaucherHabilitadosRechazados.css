@@ -1,0 +1,39 @@
+.vaucherHabilitados{
+    display: grid;
+    grid-template-columns: 30px 50px 1fr;
+}
+.generalidades{
+    align-self: center;
+    color: #E67E22;
+}
+.numeroEnLista{
+    align-self: center;
+    color: #E67E22;
+    padding-right: 10px;
+}
+/*.centrearAvatar{
+    justify-self: center;
+}*/
+.nombreUsuarioVoucher{
+    padding-left: 10px;
+}
+/*.listGrupo{
+    border-bottom: #212F3D 2px solid;
+}*/
+.listGrupo{
+    margin: auto !important;
+    background: #212F3D !important;
+}
+.divisor{
+    background: #2C3E50;
+}
+.colorTabSeccionSolicitudes{
+    color: #ffffff !important;
+}
+.Mui-selected{
+    color: #E67E22 !important;
+    background: linear-gradient(to bottom, #212F3D, #2C3E50);
+}
+.MuiTabs-indicator{
+    background: #E67E22 !important;
+}

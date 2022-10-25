@@ -1,3 +1,21 @@
 {
-    "REGISTER_VOUCHER_API_URL": "http://localhost:8000/api/boletas"
+    "REGISTER_VOUCHER_API_URL": "http://localhost:8000/api/boletas",
+    "EMAILJS_API_URL": "https://api.emailjs.com/api/v1.0/email/send",
+    "EMAILJS_SERVICE_ID": "service_rhd9g4o",
+    "EMAILJS_TEMPLATE_ID": "template_li99o64",
+    "EMAILJS_USER_ID": "l9yCJ7wruQUXvwxgB",
+    "EMAILJS_ACCESS_TOKEN": "isLW0B12iQCMbBHyeexwj",
+    "EMAIL_ADMIN_LMB": "admin-liga.maxi.basket@protonmail.com",
+    "MENSAJE_CREACION_DE_BOLETA_CON_EXITO": "Solicitud de preinscripción enviada exitosamente",
+    "MENSAJE_CREACION_DE_BOLETA_CON_NUM_TRANS_DUPLICADA": "El número de transacción ya fue registrado",
+    "MENSAJE_FECHA_DE_DEPOSITO_FUERA_DEL_RANGO_DE_CONVOCATORIA": "La fecha de preinscripción caduco, contacte al administrador",
+    "FECHA_INICIO_CONVOCATORIA": "2022-10-01",
+    "FECHA_FIN_CONVOCATORIA": "2022-10-20",
+    "FECHA_INI_PREINSCRIPCION": "2022-10-01",
+    "FECHA_FIN_PREINSCRIPCION": "2022-10-10",
+    "MONTO_PREINSCRIPCION": 200,
+    "FECHA_INI_INSCRIPCION": "2022-10-11",
+    "FECHA_FIN_INSCRIPCION": "2022-10-20",
+    "MONTO_INSCRIPCION": 250,
+    "MENSAJE_MONTO_INVALIDO": "Monto erróneo, compruebe la fecha"
 }
