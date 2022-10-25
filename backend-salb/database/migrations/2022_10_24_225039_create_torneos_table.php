@@ -21,6 +21,8 @@ class CreateTorneosTable extends Migration
             $table->date('Fecha_Fin_Convocatoria')->default('2022-10-14');
             $table->date('Fecha_Ini_Preinscripcion')->default('2022-09-14');
             $table->date('Fecha_Fin_Preinscripcion')->default('2022-10-30');
+            $table->date('Fecha_Ini_Inscripcion')->default('2022-09-14');
+            $table->date('Fecha_Fin_Inscripcion')->default('2022-09-14');
             $table->decimal('MontoPreinscripcion')->default('200');
             $table->decimal('MontoInscripcion')->default('250');
             $table->timestamps();
