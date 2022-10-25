@@ -141,7 +141,7 @@ const RegistrarVoucher = () => {
             "N_Transaccion": values.numTransaccion,
             "Monto": values.monto,
             "Fecha_Registro": formatedFechaDeposito,
-            "Comprobante": null,
+            "Comprobante": comprobantePagoFile,
             // TODO: Sacar el ID del delegado que esta logeado
             "Cod_Delegado": 1
         };
@@ -159,6 +159,7 @@ const RegistrarVoucher = () => {
                 setAlertColor("success");
                 setAlertContent(configData.MENSAJE_CREACION_DE_BOLETA_CON_EXITO);
                 setOpen(true);
+                borrar();
                 //enviarCorreo(dataEmail);
             }
 
@@ -186,27 +187,32 @@ const RegistrarVoucher = () => {
         return esValido;
     }
 
-
     const esMontoValido = (fechaDeposito, monto) => {
         var esValidoPreIns = moment(fechaDeposito).isBetween(configData.FECHA_INI_PREINSCRIPCION, configData.FECHA_FIN_PREINSCRIPCION, undefined, '[]');
         var esValidoIns = moment(fechaDeposito).isBetween(configData.FECHA_INI_INSCRIPCION, configData.FECHA_FIN_INSCRIPCION, undefined, '[]');
 
         if (esValidoPreIns) {
-            return configData.MONTO_PREINSCRIPCION == monto;
+            if (configData.MONTO_PREINSCRIPCION === monto) {
+                return true;
+            }
+            mostrarErrorMonto();
+            return false;
         }
-
         if (esValidoIns) {
-            return configData.MONTO_INSCRIPCION == monto;
-        } else {
-            borrar();
-            setAlertColor("error");
-            setAlertContent(configData.MENSAJE_MONTO_INVALIDO);
-            setOpen(true);
+            if (!configData.MONTO_INSCRIPCION === monto) {
+                return true;
+            }
+            mostrarErrorMonto();
+            return false;
         }
-
-
     }
 
+    const mostrarErrorMonto = () => {
+        borrar();
+        setAlertColor("error");
+        setAlertContent(configData.MENSAJE_MONTO_INVALIDO);
+        setOpen(true);
+    }
 
     const enviarCorreo = async () => {
 
@@ -240,9 +246,7 @@ const RegistrarVoucher = () => {
     }
 
     return (
-
         <Grid justifyItems='center'>
-
             <Snackbar open={open}
                 autoHideDuration={5000}
                 onClose={handleClose}
