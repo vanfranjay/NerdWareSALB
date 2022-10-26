@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "../css/ListaSolicitantes.css";
 import Button from "@mui/material/Button";
 import axios from "axios";
@@ -10,6 +10,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import logo from "../imagenes/logoLigaBasket.JPG";
+import emailjs from "@emailjs/browser";
 
 const ListaSolicitantes = () => {
   const [solicitudes, setSolicitudes] = useState([]);
@@ -41,6 +42,33 @@ const ListaSolicitantes = () => {
       fetchData();
     } catch (error) {
       console.log(error);
+    }
+  };
+  /////////////////////////////////////////////////////
+  const form = useRef();
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm(
+        "service_foa3h9f",
+        "template_q705q4w",
+        e.target,
+        "4WSg3isl04tuai9Nn"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+  /////////////////////////////////////////////////////
+  const verificar = (Cod_Boleta, Estado) => {
+    if (Estado == 3) {
+      alert("Mensaje enviado");
     }
   };
 
@@ -156,9 +184,12 @@ const ListaSolicitantes = () => {
                       </Button>
                     </div>
                   </div>
+                  <div className="correoEnviar">
+                    
+                  </div>
                 </div>
               </div>
-
+              {/*Ventana de dialogo de Habilitar*/}
               <div>
                 <Dialog
                   open={open}
@@ -202,6 +233,7 @@ const ListaSolicitantes = () => {
                   </DialogActions>
                 </Dialog>
               </div>
+              {/*Ventana de dialogo de Rechazar*/}
               <div>
                 <Dialog
                   open={opens}
