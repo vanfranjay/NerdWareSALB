@@ -10,7 +10,7 @@ const EmailHabilitado = () => {
       .sendForm(
         'service_foa3h9f',
         'template_q705q4w',
-        e.target,
+        form.current, 
         '4WSg3isl04tuai9Nn'
       )
       .then(

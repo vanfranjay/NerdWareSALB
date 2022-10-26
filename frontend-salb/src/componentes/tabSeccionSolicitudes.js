@@ -36,8 +36,7 @@ export default function LabTabs() {
           <VoucherHabilitados/>
         </TabPanel>
         <TabPanel value="3">
-          {/*<VoucherRechazados/>*/}
-          <EmailHabilitado/>
+          {<VoucherRechazados/>}
         </TabPanel>
       </TabContext>
     </Box>
