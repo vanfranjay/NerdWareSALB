@@ -1,17 +1,17 @@
 import React from 'react';
 import '../css/styleNavBar.css';
-import logo from '../imagenes/logoLigaBasket1.png';
-import {Link, NavLink} from 'react-router-dom';
+import logo from '../imagenes/LogoLMB1.png';
+import { Link, NavLink } from 'react-router-dom';
 
 
 const BarraNavegacion = () => {
-    return(
+    return (
         <div className='contenedorPrincipalNavBar'>
             <div className='cuadroLogoBasquet'>
                 <img className="logoLigaBasket" src={logo} alt="logo de la liga de basquet" />
             </div>
             <div className='inicarSesionRegistrarse'>
-                <label className='nombreLigaBasquet'>LIGA MAXI BASQUET</label>
+                <label className='nombreLigaBasquet'></label>
                 <div className='contenedorBtnLogin'>
                     <button className='btnLogin'>
                         <NavLink className='registrarse' to="/registrarse">REGISTRARSE</NavLink>
@@ -26,7 +26,7 @@ const BarraNavegacion = () => {
             <nav class="navbar navbar-expand-lg bg-light fondoNavBar tamañoFondo">
                 <div class="container-fluid tamañoFondo">
 
-                    
+
                     <button class="navbar-toggler menuDespliegue" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
