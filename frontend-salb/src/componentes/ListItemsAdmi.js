@@ -19,17 +19,17 @@ export const mainListItemsAdmi = (
 
   <React.Fragment>
     <div className='cuadroOpciones'>
-      <div className='menuOpcionesUsuario'>
+      
         <NavLink to="solicitante" className='nombreMenuOpciones'>
           <div className='contenedorIcono'>
             <FactCheckIcon className='colorIcono' />
           </div>
           <div className='nombreOpcionesMenu'>
-            Solicitantes
+            Solicitantes de preinscripción
           </div>
         </NavLink>
-      </div>
-      <div className='menuOpcionesUsuario'>
+      
+      
         <NavLink to="rechazado" className='nombreMenuOpciones'>
             <div className='contenedorIcono'>
               <PersonOffIcon className='colorIcono' />
@@ -38,7 +38,7 @@ export const mainListItemsAdmi = (
               Rechazados
             </div>
         </NavLink>
-      </div>
+      
     </div>
     {/**
     <ListItemButton>

@@ -12,9 +12,12 @@ import { Typography } from '@mui/material';
 import { Paper } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import '../css/styleRegistro.css';
+import AlertTitle from '@mui/material/AlertTitle';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
 
 import { Container, Stack } from '@mui/system';
-import { makeStyles } from '@mui/material/styles';
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
@@ -22,82 +25,48 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { useFormik, useField, useFormikContext } from "formik";
 import * as Yup from "yup";
 
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-
 import configData from "../config/config.json";
 
-
-//import {
-//    DatePicker,
-//    MuiPickersUtilsProvider,
-//} from '@material-ui/pickers';
-//import MomentUtils from '@date-io/moment';
+//Setup for Datepicker
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import moment from "moment";
 import "moment/locale/es";
-
-//Setup for Datepicker
-//For Moment.js
-import momentTimezone from "moment-timezone";
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { parseNonNullablePickerDate } from "@mui/x-date-pickers/internals";
-
-const theme = createTheme({
-    overrides: {
-        MuiInputBaseInput: {
-            textPrimary: {
-                color: 'white'
-            }
-        }
-    },
-
-    components: {
-        MuiSelect: {
-            styleOverrides: {
-                root: {
-                    label: {
-                        padding: 'initial',
-                        color: '#ffff'
-                    },
-                }
-            },
-        },
-        MuiDatePicker: {
-            styleOverrides: {
-                root: {
-                    backgroundColor: 'white',
-                },
-            },
-        },
-    },
-});
 
 
 const RegistrarVoucher = () => {
 
     const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "application/pdf"];
-    const FILE_SIZE = 7340032; // 7MB
+    const FILE_SIZE = 7340032; // 7MB de tamaño del archivo
+
+
+    //Obtener fechas de convocatoria de backend
+    var fechaIniConvocatotia = "2022-10-01";
+
+    const [open, setOpen] = React.useState(false);
+    const [alertColor, setAlertColor] = useState('');
+    const [alertContent, setAlertContent] = useState('');
 
     const postVoucherURL = configData.REGISTER_VOUCHER_API_URL;
 
     const [selectedFile, setSelectedFile] = useState();
 
-    const timeZoneFromServer = "America/La_Paz";
-    //const { moment } = new AdapterMoment({ instance: momentTimezone });
-    //const dateWithTimeZone = moment().tz(timeZoneFromServer);
-    //moment.locale("es");
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
 
-    const [value, setValue] = React.useState(null);
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
 
-
-    const [locale, setLocale] = useState("es");
-
-    //const [value, setValue] = React.useState(moment('2014-08-18T21:11:54'));
 
     const formValidationSchema = Yup.object({
         numTransaccion: Yup
             .string('Ingrese el Número de transacción')
-            .min(4, 'Número de transacción debe ser minímo de 4 caracteres')
-            .max(30, "Número de transacción debe ser minímo de 30 caracteres")
+            .min(4, 'Número de transacción debe ser mínimo 4 caracteres')
+            .max(30, "Número de transacción debe ser máximo 30 caracteres")
             .required('Número de transacción es requerido'),
         monto: Yup
             .string('Ingrese el monto de depósito')
@@ -147,7 +116,8 @@ const RegistrarVoucher = () => {
         reader.onerror = error => reject(error);
     });
 
-    // Hacer un POST al backend para crear una Actividad
+    // Realiza un POST al API de crear Boleta en backend
+
     const postVoucher = async (url, datos) => {
         const response = await fetch(url, {
             method: 'POST',
@@ -156,37 +126,117 @@ const RegistrarVoucher = () => {
                 'Content-Type': 'application/json'
             }
         });
-        const res = await response.json();
-        console.log("Register Voucher: " + res);
-        return res;
+
+        return response;
     }
 
-    // Construir una actividad con los datos introducidos
+    // Construimos una Boleta con los datos introducidos
 
     const registrarVoucher = async () => {
 
-        var comprobantePagoFile = await toBase64(selectedFile)
+        var comprobantePagoFile = await toBase64(selectedFile);
+        var formatedFechaDeposito = values.fechaDeposito.format('YYYY-MM-DD');
 
         const datos = {
             "N_Transaccion": values.numTransaccion,
             "Monto": values.monto,
-            "Fecha_Registro": values.fechaDeposito,
-            "Comprobante": null,
-            "Cod_Delegado": null
+            "Fecha_Registro": formatedFechaDeposito,
+            "Comprobante": comprobantePagoFile,
+            // TODO: Sacar el ID del delegado que esta logeado
+            "Cod_Delegado": 1
         };
-        console.log("Voucher: " + JSON.stringify(datos));
-        const respuestaJson = await postVoucher(postVoucherURL, datos);
-        console.log("Register Voucher Response: " + respuestaJson);
+        console.log("Voucher: ---" + JSON.stringify(datos));
+        // Validar fechas
 
-        //Validando la respuesta de registrar un voucher;
+        if (esFechaValida(formatedFechaDeposito) && esMontoValido(formatedFechaDeposito, values.monto)) {
 
-        /*
-        if (esValidoResponse(respuestaJson)) {
+            const respuestaJson = await postVoucher(postVoucherURL, datos);
 
-        } else {
-            mostrarErrores(respuestaJson);
+            //Validadando si se envio correctamente o hubo algun fallo
+
+            if (respuestaJson.status === 200) {
+
+                setAlertColor("success");
+                setAlertContent(configData.MENSAJE_CREACION_DE_BOLETA_CON_EXITO);
+                setOpen(true);
+                borrar();
+                //enviarCorreo(dataEmail);
+            }
+
+            if (respuestaJson.status === 400) {
+                var errorRes = await respuestaJson.json();
+                console.log("Error Response---" + JSON.stringify(errorRes));
+
+                if (errorRes.errorCode === "23505") {
+                    setAlertColor("error");
+                    setAlertContent(configData.MENSAJE_CREACION_DE_BOLETA_CON_NUM_TRANS_DUPLICADA);
+                    setOpen(true);
+                }
+            }
         }
-        */
+    }
+
+    const esFechaValida = (fechaDeposito) => {
+        var esValido = moment(fechaDeposito).isBetween(configData.FECHA_INICIO_CONVOCATORIA, configData.FECHA_FIN_CONVOCATORIA, undefined, '[]');
+        if (!esValido) {
+            borrar();
+            setAlertColor("error");
+            setAlertContent(configData.MENSAJE_FECHA_DE_DEPOSITO_FUERA_DEL_RANGO_DE_CONVOCATORIA);
+            setOpen(true);
+        }
+        return esValido;
+    }
+
+    const esMontoValido = (fechaDeposito, monto) => {
+        var esValidoPreIns = moment(fechaDeposito).isBetween(configData.FECHA_INI_PREINSCRIPCION, configData.FECHA_FIN_PREINSCRIPCION, undefined, '[]');
+        var esValidoIns = moment(fechaDeposito).isBetween(configData.FECHA_INI_INSCRIPCION, configData.FECHA_FIN_INSCRIPCION, undefined, '[]');
+
+        if (esValidoPreIns) {
+            if (configData.MONTO_PREINSCRIPCION === monto) {
+                return true;
+            }
+            mostrarErrorMonto();
+            return false;
+        }
+        if (esValidoIns) {
+            if (!configData.MONTO_INSCRIPCION === monto) {
+                return true;
+            }
+            mostrarErrorMonto();
+            return false;
+        }
+    }
+
+    const mostrarErrorMonto = () => {
+        borrar();
+        setAlertColor("error");
+        setAlertContent(configData.MENSAJE_MONTO_INVALIDO);
+        setOpen(true);
+    }
+
+    const enviarCorreo = async () => {
+
+        var dataEmail = {
+            service_id: configData.EMAILJS_SERVICE_ID,
+            template_id: configData.EMAILJS_TEMPLATE_ID,
+            user_id: configData.EMAILJS_USER_ID,
+            accessToken: configData.EMAILJS_ACCESS_TOKEN,
+            template_params: {
+                //Envia correo al Admin de la liga
+                to: configData.EMAIL_ADMIN_LMB
+            }
+        };
+
+        const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+            method: 'POST',
+            body: JSON.stringify(dataEmail),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const res = await response.headers;
+        console.log("Correo response full: " + res);
+        return res;
 
     }
 
@@ -197,6 +247,17 @@ const RegistrarVoucher = () => {
 
     return (
         <Grid justifyItems='center'>
+            <Snackbar open={open}
+                autoHideDuration={5000}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+                <Alert severity={alertColor} onClose={handleClose}>
+                    {alertContent}
+                </Alert>
+            </Snackbar>
+
+
             <Typography variant="h3"
                 align='center'
                 color="#ffff"
@@ -278,7 +339,6 @@ const RegistrarVoucher = () => {
                                 <MenuItem value="">Ninguno </MenuItem>
                                 <MenuItem value={200}>$ 200</MenuItem>
                                 <MenuItem value={250}>$ 250</MenuItem>
-                                <MenuItem value={300}>$ 300</MenuItem>
                             </Select>
 
                             {touched.monto && errors.monto ? (
@@ -291,32 +351,38 @@ const RegistrarVoucher = () => {
 
                         </FormControl>
                     </Grid>
-
                     <Grid item xs={12} sm={6}>
                         <br></br>
-                        {/*<MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils} locale={locale}>
-                            <DatePicker
-                                variant="inline"
-                                required
-                                id="fechaDeposito"
-                                name="fechaDeposito"
-                                label="Fecha de Depósito"
-                                format="DD/MM/yyyy"
-                                fullWidth
+                        <LocalizationProvider dateAdapter={AdapterMoment}>
+                            <DesktopDatePicker
+                                label="Fecha de deposito"
+                                inputFormat="DD/MM/YYYY"
                                 value={values.fechaDeposito}
-                                onChange={value => setFieldValue("fechaDeposito", value)}
-                                onBlur={handleBlur}
-                                error={touched.fechaDeposito && Boolean(errors.fechaDeposito)}
-                                helperText={touched.fechaDeposito && errors.fechaDeposito}
-                                InputLabelProps={{
-                                    style: { color: '#ffff' },
+                                onChange={(value) => setFieldValue("fechaDeposito", value, true)}
+                                minDate={moment(configData.FECHA_INICIO_CONVOCATORIA)}
+                                maxDate={moment(new Date())}
+                                renderInput={(params) => {
+                                    return <TextField {...params}
+                                        variant="standard"
+                                        fullWidth
+                                        required
+                                        onBlur={handleBlur}
+                                        error={touched.fechaDeposito && Boolean(errors.fechaDeposito)}
+                                        helperText={touched.fechaDeposito && errors.fechaDeposito}
+                                        InputLabelProps={{ style: { color: 'white' } }}
+                                        sx={{
+                                            '.MuiSvgIcon-root ': {
+                                                fill: "white !important",
+                                            },
+                                            '& .MuiInputBase-input': {
+                                                color: 'white'
+
+                                            }
+                                        }}
+                                    />;
                                 }}
-                                InputProps={{ style: { color: '#ffff' } }}
-
                             />
-
-                            </MuiPickersUtilsProvider>*/}
-
+                        </LocalizationProvider>
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
@@ -374,10 +440,8 @@ const RegistrarVoucher = () => {
                     </Button>
                 </Stack>
             </form>
-
-
-
         </Grid>
+
     );
 }
 
