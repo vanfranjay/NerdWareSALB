@@ -10,7 +10,6 @@ import VoucherRechazados from './VoucherRechazados';
 import {Routes, Route, Navigate, useParams, NavLink} from 'react-router-dom';
 import "../css/styleVaucherHabilitadosRechazados.css";
 import Alerta from "./Alerta";
-import EmailHabilitado from './EmailHabilitado';
 
 export default function LabTabs() {
   const [value, setValue] = React.useState('1');
