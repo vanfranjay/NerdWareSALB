@@ -79,19 +79,19 @@
     border-radius: 20px !important;
     background-color: #fa3737 !important;
 }
-.MuiDialogContent-root{     /*contenido dialogo*/
+/*.MuiDialogContent-root{     /*contenido dialogo*//*
     background: #3c556d;
 }
-.MuiDialogActions-root{     /*contenido botones*/
+.MuiDialogActions-root{     /*contenido botones*//*
     background: #3c556d;
 }
-.cuadroTituloDialogo{       /*contenido titulo dialogo*/
+.cuadroTituloDialogo{       /*contenido titulo dialogo*//*
     background: #3c556d;
     color: #E67E22;
 }
 .cuadroTituloDialogoContext{
     color: #e48c3f !important;
-}
+}*/
 .botonHabilitadoCancelar{
     background: #fa3737 !important;
     color: #ffffff !important;
@@ -109,4 +109,7 @@
 .imagenVoucher{
     width: 240px;
     height: 120px;
+}
+.correoEnviar{
+    display: none;
 }

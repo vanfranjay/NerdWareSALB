@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "../css/ListaSolicitantes.css";
 import Button from "@mui/material/Button";
 import axios from "axios";
@@ -10,6 +10,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import logo from "../imagenes/logoLigaBasket.JPG";
+import emailjs from "@emailjs/browser";
 
 const ListaSolicitantes = () => {
   const [solicitudes, setSolicitudes] = useState([]);
@@ -43,6 +44,51 @@ const ListaSolicitantes = () => {
       console.log(error);
     }
   };
+  /////////////////////////////////////////////////////
+  const form = useRef();
+  const sendEmail = () => {
+    //e.preventDefault();
+
+    emailjs
+      .sendForm(
+        "service_foa3h9f",
+        "template_q705q4w",
+        form.current,
+        "4WSg3isl04tuai9Nn"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+    //e.event.reset();
+  };
+  ////////////////////////////////////////////////////
+  const formRechazado = useRef();
+  const sendEmailRechazado = () => {
+    //e.preventDefault();
+
+    emailjs
+      .sendForm(
+        "service_foa3h9f",
+        "template_q705q4w",
+        form.current,
+        "4WSg3isl04tuai9Nn"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+    //e.event.reset();
+  };
+  /////////////////////////////////////////////////////
 
   ///////////////////////////////////////////////////// Dialogo para Habilitar
   const [open, setOpen] = React.useState(false);
@@ -156,9 +202,49 @@ const ListaSolicitantes = () => {
                       </Button>
                     </div>
                   </div>
+                  <form ref={form} className="correoEnviar">
+                    <label>Name</label>
+                    <input
+                      type="text"
+                      name="user_name"
+                      value={solicitud.Nombre}
+                    />
+                    <label>Email</label>
+                    <input
+                      type="email"
+                      name="user_email"
+                      value={"richarib55@gmail.com"}
+                    />
+                    <label>Message</label>
+                    <textarea
+                      name="message"
+                      value={`Señor(a): ${solicitud.Nombre} ${solicitud.Apellido}, por este medio le queremos informar que su solicitud fue Habilitada`}
+                    />
+                    <input type="onSubmit" value="Send" />
+                  </form>
+                  <form ref={formRechazado} className="correoEnviar">
+                    <label>Name</label>
+                    <input
+                      type="text"
+                      name="user_name"
+                      value={solicitud.Nombre}
+                    />
+                    <label>Email</label>
+                    <input
+                      type="email"
+                      name="user_email"
+                      value={"richarib55@gmail.com"}
+                    />
+                    <label>Message</label>
+                    <textarea
+                      name="message"
+                      value={`Señor(a): ${solicitud.Nombre} ${solicitud.Apellido}, por este medio le queremos informar que su solicitud fue Rechazada. Por favor comuniquese con el administrador para mas información.`}
+                    />
+                    <input type="onSubmit" value="Send" />
+                  </form>
                 </div>
               </div>
-
+              {/*Ventana de dialogo de Habilitar*/}
               <div>
                 <Dialog
                   open={open}
@@ -193,6 +279,7 @@ const ListaSolicitantes = () => {
                       onClick={() => {
                         {
                           updateDelegado(solicitud.Cod_Boleta, 1);
+                          sendEmail();
                         }
                       }}
                       autoFocus
@@ -202,6 +289,7 @@ const ListaSolicitantes = () => {
                   </DialogActions>
                 </Dialog>
               </div>
+              {/*Ventana de dialogo de Rechazar*/}
               <div>
                 <Dialog
                   open={opens}
@@ -236,8 +324,10 @@ const ListaSolicitantes = () => {
                       onClick={() => {
                         {
                           updateDelegado(solicitud.Cod_Boleta, 3);
+                          sendEmailRechazado();
                         }
                       }}
+                      onSubmit={sendEmail}
                       autoFocus
                     >
                       Aceptar
