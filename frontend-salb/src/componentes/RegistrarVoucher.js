@@ -148,7 +148,7 @@ const RegistrarVoucher = () => {
         console.log("Voucher: ------> " + JSON.stringify(datos));
         // Validar fechas
 
-        if (esFechaValida(formatedFechaDeposito) && esMontoValido(formatedFechaDeposito, values.monto)) {
+    if (esFechaValida(formatedFechaDeposito)) {
 
             const respuestaJson = await postVoucher(postVoucherURL, datos);
 

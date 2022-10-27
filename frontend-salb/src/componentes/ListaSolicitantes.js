@@ -213,7 +213,7 @@ const ListaSolicitantes = () => {
                     <input
                       type="email"
                       name="user_email"
-                      value={"richarib55@gmail.com"}
+                      value={solicitud.Correo}
                     />
                     <label>Message</label>
                     <textarea
@@ -233,7 +233,7 @@ const ListaSolicitantes = () => {
                     <input
                       type="email"
                       name="user_email"
-                      value={"richarib55@gmail.com"}
+                      value={solicitud.Correo}
                     />
                     <label>Message</label>
                     <textarea
@@ -299,7 +299,7 @@ const ListaSolicitantes = () => {
                 >
                   <DialogTitle
                     id="alert-dialog-title"
-                    className="cuadroTituloDialogo"
+                    className="cuadroTituloDialogoRechazar"
                   >
                     {"¿Está seguro de rechazar esta solicitud?"}
                   </DialogTitle>
