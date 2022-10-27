@@ -106,6 +106,9 @@
 .botonHabilitadoAceptar:hover{
     background: #1b9d09 !important;
 }
+.cuadroTituloDialogoRechazar{
+    color: rgb(255, 0, 0);;
+}
 .imagenVoucher{
     width: 240px;
     height: 120px;

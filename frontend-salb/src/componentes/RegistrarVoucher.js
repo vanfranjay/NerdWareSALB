@@ -143,12 +143,12 @@ const RegistrarVoucher = () => {
             "Fecha_Registro": formatedFechaDeposito,
             "Comprobante": comprobantePagoFile,
             // TODO: Sacar el ID del delegado que esta logeado
-            "Cod_Delegado": 1
+            "Cod_Delegado": null
         };
         console.log("Voucher: ---" + JSON.stringify(datos));
         // Validar fechas
 
-        if (esFechaValida(formatedFechaDeposito) && esMontoValido(formatedFechaDeposito, values.monto)) {
+    if (esFechaValida(formatedFechaDeposito)) {
 
             const respuestaJson = await postVoucher(postVoucherURL, datos);
 
@@ -199,7 +199,7 @@ const RegistrarVoucher = () => {
             return false;
         }
         if (esValidoIns) {
-            if (!configData.MONTO_INSCRIPCION === monto) {
+            if (configData.MONTO_INSCRIPCION === monto) {
                 return true;
             }
             mostrarErrorMonto();
