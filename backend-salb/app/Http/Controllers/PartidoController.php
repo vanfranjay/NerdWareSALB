@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Model\Partido;
+use App\Models\Partido;
 
 class PartidoController extends Controller
 {

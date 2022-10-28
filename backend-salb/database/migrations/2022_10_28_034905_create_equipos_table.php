@@ -14,7 +14,7 @@ class CreateEquiposTable extends Migration
     public function up()
     {
         Schema::create('equipos', function (Blueprint $table) {
-            $table->id('Cod_Equipo');
+            $table->id();
             $table->string('Nombre')->unique();
             $table->binary('Logo')->nullable();
            // $table->string('Categoria'); //puede cambiarse a un entero
@@ -22,11 +22,14 @@ class CreateEquiposTable extends Migration
             $table->integer('Partidos_Ganados');
             $table->integer('Partidos_Perdidos');
             $table->timestamps();
-            $table->foreign('Categoria_id')
-                   ->references('Cod_Categoria')
-                   ->on('categorias')
+            $table->foreignId('Cod_Categoria')
                    ->nullable()
-                   //->constrained('categorias')
+                   ->constrained('categorias')
+                   ->cascadeOnUpdate()
+                   ->nullOnDelete();
+                   $table->foreignId('Cod_Partidos')
+                   ->nullable()
+                   ->constrained('partidos')
                    ->cascadeOnUpdate()
                    ->nullOnDelete()
                    ;

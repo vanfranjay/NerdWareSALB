@@ -9,7 +9,7 @@ class Categoria extends Model
 {
     use HasFactory;
     protected $table = 'Categorias';
-    protected $primaryKey = 'Cod_Categoria';
+    protected $primaryKey = 'id';
     protected $fillable = [
         'Categoria',
     ];
@@ -17,7 +17,7 @@ class Categoria extends Model
         return $this->hasMany(Equipo::class,'Cod_Equipo');
     }
     
-    public function jugador(){
+    /*public function jugador(){
         return $this->hasMany(Jugador::class,'Cod_Jugador');
-    }
+    }*/
 }

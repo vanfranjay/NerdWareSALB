@@ -9,7 +9,7 @@ class Partido extends Model
 {
     use HasFactory;
     protected $table = 'Partido';
-    protected $primaryKey = 'Cod_Partido';
+    protected $primaryKey = 'id';
     protected $fillable = [
         'E_Ganador', 'E_Perdedor','Puntos_Ganador','Puntos_Perdedor','Fecha_Partido',
     ];

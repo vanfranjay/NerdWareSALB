@@ -14,7 +14,7 @@ class CreateJugadorsTable extends Migration
     public function up()
     {
         Schema::create('jugadores', function (Blueprint $table) {
-            $table->id('Cod_Jugador');
+            $table->id();
             $table->integer('DNI');
             $table->string('Nombre');
             $table->string('Apellido');
@@ -36,7 +36,7 @@ class CreateJugadorsTable extends Migration
                    ->cascadeOnUpdate()
                    ->nullOnDelete()
                    ;
-            $table->foreignId('Cod_Categoria_id')
+            $table->foreignId('Cod_Categoria')
                     ->nullable()
                     ->constrained('categorias')
                     ->cascadeOnUpdate()
