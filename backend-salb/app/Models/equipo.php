@@ -9,7 +9,7 @@ class Equipo extends Model
 {
     use HasFactory;
     protected $table = 'Equipos';
-    protected $primaryKey = 'Id';
+    protected $primaryKey = 'id';
     protected $fillable = [
          'Nombre', 'Logo', 'Categoria', 'Partidos_Jugados', 'Partidos_Ganados', 'Partidos_Perdidos',
     ];
