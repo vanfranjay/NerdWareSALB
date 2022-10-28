@@ -25,13 +25,23 @@ class CreateJugadorsTable extends Migration
             $table->integer('Asistencia');
             $table->integer('Faltas');
             $table->integer('Puntos');
+            $table->integer('Rebotes');
+            $table->integer('Pases');
+            $table->integer('Dobles');
+            $table->integer('Triples');
             $table->timestamps();
             $table->foreignId('Cod_Equipo')
                    ->nullable()
-                   ->constrained('Equipos')
+                   ->constrained('equipos')
                    ->cascadeOnUpdate()
                    ->nullOnDelete()
                    ;
+            $table->foreignId('Cod_Categoria_id')
+                    ->nullable()
+                    ->constrained('categorias')
+                    ->cascadeOnUpdate()
+                    ->nullOnDelete()
+                    ;
         });
     }
 

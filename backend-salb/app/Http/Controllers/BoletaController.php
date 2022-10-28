@@ -43,7 +43,7 @@ class BoletaController extends Controller
     { 
         $boleta = new boleta($request->all());     
         $validator = Validator::make($request->all(), [
-            'N_Transaccion' => 'required|unique:Boletas,N_Transaccion' ,
+            'N_Transaccion' => 'required|unique:boletas,N_Transaccion' ,
             'Monto' => 'required|numeric' ,
             'Fecha_Registro' => 'required|date|date_format:Y-m-d|before_or_equal:2022-10-20' ,
             //'Comprobante' => 'required | mimes:jpg, jpeg, png, pdf' ,
