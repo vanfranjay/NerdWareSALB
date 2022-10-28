@@ -1,7 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
-use Tymon\JWTAuth\JWTAuth;
+//use Tymon\JWTAuth\JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,7 @@ class AuthController extends Controller
         ]);
         //Devolvemos un error si fallan las validaciones
         if ($validator->fails()) {
-            return response()->json(['error' => $validator-> messages], 400);
+           // return response()->json(['error' => $validator->messages()], 400);
         }
         //Creamos el nuevo usuario
         $user = User::create([
@@ -52,7 +53,7 @@ class AuthController extends Controller
         ]);
         //Devolvemos un error de validación en caso de fallo en las verificaciones
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages], 400);
+            //return response()->json(['error' => $validator->messages()], 400);
         }
         //Intentamos hacer login
         try {
@@ -83,7 +84,7 @@ class AuthController extends Controller
         ]);
         //Si falla la validación
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages], 400);
+           // return response()->json(['error' => $validator->messages], 400);
         }
         try {
             //Si el token es valido eliminamos el token desconectando al usuario.
