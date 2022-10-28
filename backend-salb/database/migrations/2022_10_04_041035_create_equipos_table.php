@@ -13,7 +13,7 @@ class CreateEquiposTable extends Migration
      */
     public function up()
     {
-        Schema::create('Equipos', function (Blueprint $table) {
+        Schema::create('equipos', function (Blueprint $table) {
             $table->id();
             $table->string('Nombre')->unique();
             $table->binary('Logo')->nullable();

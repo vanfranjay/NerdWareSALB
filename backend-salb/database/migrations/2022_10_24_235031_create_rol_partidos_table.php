@@ -13,7 +13,7 @@ class CreateRolPartidosTable extends Migration
      */
     public function up()
     {
-        Schema::create('Rol_partidos', function (Blueprint $table) {
+        Schema::create('rol_partidos', function (Blueprint $table) {
             $table->id();
             $table->binary('Foto_part')->nullable();
             $table->date('Fecha');

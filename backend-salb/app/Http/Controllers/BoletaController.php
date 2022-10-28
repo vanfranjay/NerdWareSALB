@@ -17,9 +17,9 @@ class BoletaController extends Controller
      */
     public function index()
     {
-        return DB::table('Delegados')
-        ->join('Boletas', 'Delegados.id', '=', 'Boletas.Cod_Delegado')
-        ->select('Boletas.*', 'Delegados.Nombre', 'Delegados.Apellido', 'Delegados.Correo')
+        return DB::table('delegados')
+        ->join('boletas', 'delegados.id', '=', 'boletas.Cod_Delegado')
+        ->select('boletas.*', 'delegados.Nombre', 'delegados.Apellido', 'delegados.Correo')
         ->get(); // muestra todos las boletas
     }
 

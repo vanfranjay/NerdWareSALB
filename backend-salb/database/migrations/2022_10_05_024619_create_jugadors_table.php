@@ -13,7 +13,7 @@ class CreateJugadorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('jugadors', function (Blueprint $table) {
+        Schema::create('jugadores', function (Blueprint $table) {
             $table->id('Cod_Jugador');
             $table->integer('DNI');
             $table->string('Nombre');
@@ -28,7 +28,7 @@ class CreateJugadorsTable extends Migration
             $table->timestamps();
             $table->foreignId('Cod_Equipo')
                    ->nullable()
-                   ->constrained('Equipos')
+                   ->constrained('equipos')
                    ->cascadeOnUpdate()
                    ->nullOnDelete()
                    ;

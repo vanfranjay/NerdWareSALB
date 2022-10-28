@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tabla_posicion extends Model
 {
     use HasFactory;
-    protected $table = 'Tabla_posicions';
+    protected $table = 'tabla_posicions';
     protected $primarykey = 'id';
     protected $fillable = [
         'Fecha', 'Foto_pos',

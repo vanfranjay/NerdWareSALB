@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Rol_partido extends Model
 {
     use HasFactory;
-    protected $table = 'Rol_partidos';
+    protected $table = 'rol_partidos';
     protected $primarykey = 'id';
     protected $fillable = [
         'Fecha', 'Foto_part',

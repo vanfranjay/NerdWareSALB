@@ -13,7 +13,7 @@ class CreateTablaPosicionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('Tabla_posicions', function (Blueprint $table) {
+        Schema::create('tabla_posicions', function (Blueprint $table) {
             $table->id();
             $table->binary('Foto_pos')->nullable();
             $table->date('Fecha');

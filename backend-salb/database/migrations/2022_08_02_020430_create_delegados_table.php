@@ -13,7 +13,7 @@ class CreateDelegadosTable extends Migration
      */
     public function up()
     {
-        Schema::create('Delegados', function (Blueprint $table) {
+        Schema::create('delegados', function (Blueprint $table) {
             $table->id();
             $table->string('Nombre');
             $table->string('Apellido');
