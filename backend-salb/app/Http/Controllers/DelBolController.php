@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\boleta;
 use App\Models\Delegado;
+use Illuminate\Support\Facades\DB;
 class DelBolController extends Controller
 {
     /**
@@ -14,8 +15,10 @@ class DelBolController extends Controller
      */
     public function index()
     {
-       $DelBol = Delegado::all();
-       return $DelBol;//
+        return DB::table('delegados')
+        ->join('boletas', 'delegados.id', '=', 'boletas.Cod_Delegado')
+        ->select('boletas.*', 'delegados.Nombre', 'delegados.Apellido', 'delegados.Correo')
+        ->get(); 
     }
 
     /**

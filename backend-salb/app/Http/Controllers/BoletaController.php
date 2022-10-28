@@ -20,7 +20,8 @@ class BoletaController extends Controller
         return DB::table('delegados')
         ->join('boletas', 'delegados.id', '=', 'boletas.Cod_Delegado')
         ->select('boletas.*', 'delegados.Nombre', 'delegados.Apellido', 'delegados.Correo')
-        ->get(); // muestra todos las boletas
+        ->get();
+         // return Delegado::all(); muestra todos las boletas
     }
 
     /**
