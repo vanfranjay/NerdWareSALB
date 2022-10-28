@@ -145,7 +145,7 @@ const RegistrarVoucher = () => {
             // TODO: Sacar el ID del delegado que esta logeado
             "Cod_Delegado": null
         };
-        console.log("Voucher: ---" + JSON.stringify(datos));
+        console.log("Voucher: ------> " + JSON.stringify(datos));
         // Validar fechas
 
     if (esFechaValida(formatedFechaDeposito)) {
@@ -153,7 +153,7 @@ const RegistrarVoucher = () => {
             const respuestaJson = await postVoucher(postVoucherURL, datos);
 
             //Validadando si se envio correctamente o hubo algun fallo
-
+            console.log("Response:------> " + respuestaJson.status);
             if (respuestaJson.status === 200) {
 
                 setAlertColor("success");
@@ -337,8 +337,8 @@ const RegistrarVoucher = () => {
                                 helperText={touched.monto && errors.monto}
                             >
                                 <MenuItem value="">Ninguno </MenuItem>
-                                <MenuItem value={200}>$ 200</MenuItem>
-                                <MenuItem value={250}>$ 250</MenuItem>
+                                <MenuItem value={configData.MONTO_PREINSCRIPCION}>$ 200</MenuItem>
+                                <MenuItem value={configData.MONTO_INSCRIPCION}>$ 250</MenuItem>
                             </Select>
 
                             {touched.monto && errors.monto ? (

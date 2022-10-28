@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Delegado extends Model
 {
     use HasFactory;
-    protected $table = 'Delegados';
+    protected $table = 'delegados';
     protected $primaryKey = 'id';
     protected $fillable = [
         'Nombre', 'Apellido', 'Telefono','Contraseña', 'Contraseña_confirmed', 'Correo', 'Foto_Perfil', 'Foto_DNI', 'Habilitado', 

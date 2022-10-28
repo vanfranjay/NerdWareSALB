@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rol_partido;
 use Illuminate\Http\Request;
-use App\Models\boleta;
-use App\Models\Delegado;
-use Illuminate\Support\Facades\DB;
-class DelBolController extends Controller
+
+class Rol_partidoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +14,7 @@ class DelBolController extends Controller
      */
     public function index()
     {
-        return DB::table('delegados')
-        ->join('boletas', 'delegados.id', '=', 'boletas.Cod_Delegado')
-        ->select('boletas.*', 'delegados.Nombre', 'delegados.Apellido', 'delegados.Correo')
-        ->get(); 
+        return Rol_partido::all();
     }
 
     /**
@@ -39,9 +35,9 @@ class DelBolController extends Controller
      */
     public function store(Request $request)
     {
-        $delegado = new Delegado($request->all());
-        $delegado->save();
-        return $delegado;  //
+        $rolpartido = new Rol_partido($request->all());
+        $rolpartido->save();
+        return $rolpartido;
     }
 
     /**
@@ -52,7 +48,7 @@ class DelBolController extends Controller
      */
     public function show($id)
     {
-        return Delegado::find($id)->get();//
+        return Rol_partido::find($id);
     }
 
     /**
@@ -75,11 +71,9 @@ class DelBolController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $delegado = Delegado::find($id)->get();
-        if(!is_null($delegado)){
-         $delegado->update($request->all());
-         return $delegado;
-        } //
+        $rolpartido = Rol_partido::findOrfail($id);
+        $rolpartido->update($request->all());
+        return $rolpartido;
     }
 
     /**
@@ -90,7 +84,7 @@ class DelBolController extends Controller
      */
     public function destroy($id)
     {
-        $delegado=Delegado::find($id)->get();
-        $delegado->delete();   //
+        Rol_partido::find($id)->delete();
+        return "Se borro exitosamente";
     }
 }

@@ -13,7 +13,7 @@ class CreateDelegadosTable extends Migration
      */
     public function up()
     {
-        Schema::create('Delegados', function (Blueprint $table) {
+        Schema::create('delegados', function (Blueprint $table) {
             $table->id();
             $table->string('Nombre');
             $table->string('Apellido');
@@ -21,8 +21,8 @@ class CreateDelegadosTable extends Migration
             $table->string('Contraseña');
             $table->string('Contraseña_confirmed');
             $table->string('Correo');
-            $table->binary('Foto_Perfil')->nullable();
-            $table->binary('Foto_DNI')->nullable();
+            $table->string('Foto_Perfil')->nullable();
+            $table->string('Foto_DNI', 80000)->nullable();
             $table->integer('Habilitado')->default(0); //0 que no puede incribir a su equipo
             $table->timestamps();
         });

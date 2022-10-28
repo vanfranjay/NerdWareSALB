@@ -17,10 +17,11 @@ class BoletaController extends Controller
      */
     public function index()
     {
-        return DB::table('Delegados')
-        ->join('Boletas', 'Delegados.id', '=', 'Boletas.Cod_Delegado')
-        ->select('Boletas.*', 'Delegados.Nombre', 'Delegados.Apellido', 'Delegados.Correo')
-        ->get(); // muestra todos las boletas
+        return DB::table('delegados')
+        ->join('boletas', 'delegados.id', '=', 'boletas.Cod_Delegado')
+        ->select('boletas.*', 'delegados.Nombre', 'delegados.Apellido', 'delegados.Correo')
+        ->get();
+         // return Delegado::all(); muestra todos las boletas
     }
 
     /**
@@ -43,7 +44,7 @@ class BoletaController extends Controller
     { 
         $boleta = new boleta($request->all());     
         $validator = Validator::make($request->all(), [
-            'N_Transaccion' => 'required|unique:Boletas,N_Transaccion' ,
+            'N_Transaccion' => 'required|unique:boletas,N_Transaccion' ,
             'Monto' => 'required|numeric' ,
             'Fecha_Registro' => 'required|date|date_format:Y-m-d|before_or_equal:2022-10-20' ,
             //'Comprobante' => 'required | mimes:jpg, jpeg, png, pdf' ,
