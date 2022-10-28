@@ -1,0 +1,17 @@
+.cardEquipo{
+    margin: auto;
+    
+}
+.contendorSelectEquipo{
+    padding-top: 25px;
+}
+.nombreEquipoSelect{
+    min-width: 200px !important;
+}
+.selectEquipo{
+    min-width: 200px;
+}
+.seleccionarEquipo{
+    display: grid;
+    grid-template-columns: 1fr;
+}

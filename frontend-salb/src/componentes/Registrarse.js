@@ -127,23 +127,23 @@ const Registrarse = () => {
           ></input>
         </div>
         <div className="fotoCarnetRegistro centreado">
-        <TextField
-                required
-                id='F_DNI'
-                name="upload-photo"
-                type="file"
-                label="Foto Perfil "
-                className='inputRegistrarEquipo'
-                InputLabelProps={{ shrink: true }}
-                sx={{
-                    label: { color: '#ffff' },
-                    input: { color: '#ffff' },
-                    svg: { color: '#ffff' }/*},
+          <TextField
+            
+            id="F_DNI"
+            name="upload-photo"
+          type="file"
+            label="Foto Perfil "
+            className="inputRegistrarEquipo"
+            InputLabelProps={{ shrink: true }}
+            sx={{
+              label: { color: "#ffff" },
+              input: { color: "#ffff" },
+              svg: { color: "#ffff" } /*},
                     "& .MuiInputBase-input": {
                         width: "460px" // Set your height here.
-                    }*/
-                }}
-              />
+                    }*/,
+            }}
+          />
         </div>
         <div className="fotoPerfilRegistro centreado">
           {/*<Button
@@ -155,22 +155,22 @@ const Registrarse = () => {
             <input hidden accept="image/*" multiple type="file" />
           </Button>*/}
           <TextField
-                required
-                id='F_DNI'
-                name="upload-photo"
-                type="file"
-                label="Foto del Dni "
-                className='fotoDniPerfil'
-                InputLabelProps={{ shrink: true }}
-                sx={{
-                    label: { color: '#ffff' },
-                    input: { color: '#ffff' },
-                    svg: { color: '#ffff' }/*},
+            
+            id="F_DNI2"
+            name="upload-photo"
+            type="file"
+            label="Foto del Dni "
+            className="fotoDniPerfil"
+            InputLabelProps={{ shrink: true }}
+            sx={{
+              label: { color: "#ffff" },
+              input: { color: "#ffff" },
+              svg: { color: "#ffff" } /*},
                     "& .MuiInputBase-input": {
                         width: "460px" // Set your height here.
-                    }*/
-                }}
-              />
+                    }*/,
+            }}
+          />
         </div>
         <div className="registroForm centreado">
           <Button
@@ -182,7 +182,11 @@ const Registrarse = () => {
           </Button>
         </div>
         <div className="cancelarRegistroForm centreado">
-          <Button variant="contained" className="botonFormRegistro" onClick={reset}>
+          <Button
+            variant="contained"
+            className="botonFormRegistro"
+            onClick={reset}
+          >
             Cancelar
           </Button>
         </div>
