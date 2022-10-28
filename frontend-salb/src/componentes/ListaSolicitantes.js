@@ -24,7 +24,7 @@ const ListaSolicitantes = () => {
   const fetchData = async () => {
     const resultado = await axios.get("http://127.0.0.1:8000/api/boletas");
     setSolicitudes([...resultado.data]);
-    //console.log(resultado.data);
+    console.log(resultado.data);
   };
 
   const updateDelegado = async (Cod_Boleta, Estado) => {
