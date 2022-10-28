@@ -20,6 +20,7 @@ export default function BasicSelect() {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
+          name="categoriaEquipo"
           value={age}
           label="Categoria"
           onChange={handleChange}

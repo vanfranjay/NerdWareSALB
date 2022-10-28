@@ -89,3 +89,8 @@
         width: 300px;
     }
 }
+.fotoDniPerfil{
+    text-decoration: none;
+    border: 0;
+    outline: none;
+}
