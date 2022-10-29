@@ -13,8 +13,8 @@ class CreateJugadorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('jugadors', function (Blueprint $table) {
-            $table->id('Cod_Jugador');
+        Schema::create('jugadores', function (Blueprint $table) {
+            $table->id();
             $table->integer('DNI');
             $table->string('Nombre');
             $table->string('Apellido');
@@ -25,13 +25,23 @@ class CreateJugadorsTable extends Migration
             $table->integer('Asistencia');
             $table->integer('Faltas');
             $table->integer('Puntos');
+            $table->integer('Rebotes');
+            $table->integer('Pases');
+            $table->integer('Dobles');
+            $table->integer('Triples');
             $table->timestamps();
             $table->foreignId('Cod_Equipo')
                    ->nullable()
-                   ->constrained('Equipos')
+                   ->constrained('equipos')
                    ->cascadeOnUpdate()
                    ->nullOnDelete()
                    ;
+            $table->foreignId('Cod_Categoria')
+                    ->nullable()
+                    ->constrained('categorias')
+                    ->cascadeOnUpdate()
+                    ->nullOnDelete()
+                    ;
         });
     }
 

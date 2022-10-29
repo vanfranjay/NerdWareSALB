@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Persona extends Model 
 {
     use HasFactory;
-    protected $table = 'Personas';
+    protected $table = 'personas';
     protected $primarykey = 'id';
     protected $fillable = [
-        'nombre', 'apellido', 'rol', 'imagen', 'fecha_nacimiento', 'telefono', 'email', 'password', 'password_confirmation',
+        'Nombre', 'Apellido', 'Rol', 'Imagen', 'Fecha_nacimiento', 'Telefono', 'Email', 'Password', 'Password_confirmation',
     ];
 
-    /*public function tabla()
-    {
-        return $this->hasOne(tabla::class,'id');
-    }*/
+    // public function jugador()
+    // {
+    //     return $this->hasOne(Jugador::class,'Cod_Jugador');
+    // }
 }

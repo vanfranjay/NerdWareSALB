@@ -12,6 +12,11 @@ use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FotoTController;
 use App\Http\Controllers\TorneoController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\NoticiasTController;
+use App\Http\Controllers\PartidoController;
+use App\Http\Controllers\Rol_partidoController;
+use App\Http\Controllers\Tabla_posisionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +40,11 @@ Route::resource('delbos', DelBolController::class);
 Route::resource('jugadores', JugadorController::class);
 Route::resource('torneos', TorneoController::class);
 Route::resource('fotos', FotoTController::class);
+Route::resource('categorias',CategoriaController::class);
+Route::resource('noticias',NoticiasTController::class);
+Route::resource('partidos',PartidoController::class);
+Route::resource('rol_partidos', Rol_partidoController::class);
+Route::resource('tabla_posiciones', Tabla_posisionController::class);
 //route::resource('auts', AuthController::class);
 
   //Prefijo V1, todo lo que este dentro de este grupo se accedera escribiendo v1 en el navegador, es decir /api/v1/*

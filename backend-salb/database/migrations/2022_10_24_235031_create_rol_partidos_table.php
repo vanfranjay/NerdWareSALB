@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFotosTSTable extends Migration
+class CreateRolPartidosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateFotosTSTable extends Migration
      */
     public function up()
     {
-        Schema::create('fotos_ts', function (Blueprint $table) {
+        Schema::create('rol_partidos', function (Blueprint $table) {
             $table->id();
-            $table->string('Titulo');
-            $table->string('Descripcion');
-            $table->date('Fecha_Publicacion');
-            $table->binary('Foto')->nullable();
+            $table->binary('Foto_part')->nullable();
+            $table->date('Fecha');
             $table->timestamps();
+            
+            //$table->foreignId('Cod_torneo')->constrained('Torneos');
         });
     }
 
@@ -30,6 +30,6 @@ class CreateFotosTSTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fotos_t_s');
+        Schema::dropIfExists('Rol_partidos');
     }
 }
