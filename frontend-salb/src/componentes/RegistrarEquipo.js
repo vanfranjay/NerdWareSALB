@@ -36,6 +36,7 @@ const RegistrarEquipo = () => {
 
   var maxFechaNac = moment().subtract(18, "years").format("DD/MM/YYYY");
   var minFechaNac = moment().subtract(60, "years").format("DD/MM/YYYY");
+  const phoneRegExp = /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -82,10 +83,11 @@ const RegistrarEquipo = () => {
       .nullable()
       .required('Fecha de nacimiento es requerido'),
     telefonoParticipante: Yup
-      .number()
+      .string("Ingrese el teléfono")
+      .required('Telefono del participante es requerido')
+      .matches(phoneRegExp, 'El Telefono no es válido')
       .min(7, 'Telefono del participante debe ser mínimo 7 caracteres')
-      .max(20, "Telefono del participante debe ser máximo 20 caracteres")
-      .required('Telefono del participante es requerido'),
+      .max(20, "Telefono del participante debe ser máximo 20 caracteres"),
     emailParticipante: Yup
       .string()
       .nullable(),

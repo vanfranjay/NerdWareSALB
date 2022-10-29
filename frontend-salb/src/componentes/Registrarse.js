@@ -45,7 +45,7 @@ const Registrarse = () => {
 
   const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
   const FILE_SIZE = 7340032; // 7MB de tamaño del archivo
-
+  const phoneRegExp = /^\+? [1 - 9]\d{ 1, 14 } $/;
   const [open, setOpen] = React.useState(false);
   const [alertColor, setAlertColor] = useState('');
   const [alertContent, setAlertContent] = useState('');
@@ -87,10 +87,11 @@ const Registrarse = () => {
       .max(80, "Apellidos debe ser máximo 80 caracteres")
       .required('Apellidos es requerido'),
     telefono: Yup
-      .string()
-      .min(5, 'Telefono debe ser mínimo 5 caracteres')
-      .max(20, "Telefono debe ser máximo 20 caracteres")
-      .required('Telefono es requerido'),
+      .string("Ingrese el teléfono")
+      .min(7, 'Telefono debe ser mínimo 7 caracteres')
+      .max(30, "Telefono debe ser máximo 30 caracteres")
+      .required('Telefono es requerido')
+      .matches(phoneRegExp, 'El Telefono no es válido'),
     email: Yup.string()
       .required("El Correo electrónico es requerido")
       .min(6, "El Correo electrónico debe contener al menos 6 caracteres")
@@ -268,42 +269,26 @@ const Registrarse = () => {
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <MuiPhoneNumber
+            <TextField
               InputLabelProps={{
                 style: { color: '#ffff' },
               }}
               required
-              defaultCountry="bo" regions={'south-america'}
+              variant="standard"
               id="telefono"
               name="telefono"
               label="Telefono"
+              /*defaultCountry={'bo'}
+              regions={['south-america']}*/
               fullWidth
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.telefono}
               error={touched.telefono && Boolean(errors.telefono)}
               helperText={touched.telefono && errors.telefono}
-              renderInput={(params) => {
-                return <TextField {...params}
-                  variant="standard"
-                  fullWidth
-                  required
-                  onBlur={handleBlur}
-                  error={touched.fechaDeposito && Boolean(errors.fechaDeposito)}
-                  helperText={touched.fechaDeposito && errors.fechaDeposito}
-                  InputLabelProps={{ style: { color: 'white' } }}
-                  sx={{
-                    '.MuiSvgIcon-root ': {
-                      fill: "white !important",
-                    },
-                    '& .MuiInputBase-input': {
-                      color: 'white'
-                    },
-                    color: 'white',
-                    '& .MuiInputBase-root': { color: 'white' },
-                    '& svg': { height: '2em', }
-                  }}
-                />;
+              sx={{
+                color: 'white',
+                '& .MuiInputBase-root': { color: 'white' }
               }}
             />
           </Grid>
