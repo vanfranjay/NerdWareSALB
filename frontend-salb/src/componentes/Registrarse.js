@@ -283,7 +283,7 @@ const Registrarse = () => {
               value={values.telefono}
               error={touched.telefono && Boolean(errors.telefono)}
               helperText={touched.telefono && errors.telefono}
-              renderInput={(params) => {
+              renderinput={(params) => {
                 return <TextField {...params}
                   variant="standard"
                   fullWidth
