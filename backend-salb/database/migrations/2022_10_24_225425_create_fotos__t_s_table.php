@@ -13,7 +13,7 @@ class CreateFotosTSTable extends Migration
      */
     public function up()
     {
-        Schema::create('fotos_t_s', function (Blueprint $table) {
+        Schema::create('fotos_ts', function (Blueprint $table) {
             $table->id();
             $table->string('Titulo');
             $table->string('Descripcion');

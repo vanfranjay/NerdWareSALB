@@ -13,7 +13,7 @@ class CreateNoticiasTSTable extends Migration
      */
     public function up()
     {
-        Schema::create('noticias__t_s', function (Blueprint $table) {
+        Schema::create('noticias_ts', function (Blueprint $table) {
             $table->id('Cod_Noticia');
             $table->date('Fecha')->nullable();
             $table->binary('Imagen')->nullable();
