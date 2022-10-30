@@ -41,7 +41,7 @@ Route::resource('jugadores', JugadorController::class);
 Route::resource('torneos', TorneoController::class);
 Route::resource('fotos', FotoTController::class);
 Route::resource('categorias', CategoriaController::class);
-Route::resource('noticias_t_s', NoticiasTController::class);
+Route::resource('noticias', NoticiasTController::class);
 Route::resource('partidos', PartidoController::class);
 Route::resource('rol_partidos', Rol_partidoController::class);
 Route::resource('tabla_posiciones', Tabla_posisionController::class);
