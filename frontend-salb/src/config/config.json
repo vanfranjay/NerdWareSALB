@@ -1,6 +1,8 @@
 {
     "REGISTER_VOUCHER_API_URL": "http://localhost:8000/api/boletas",
     "REGISTER_DELEGADO_API_URL": "http://localhost:8000/api/delegados",
+    "CATEGORIAS_API_URL": "http://127.0.0.1:8000/api/categorias",
+    "TORNEO_API_URL": "http://127.0.0.1:8000/api/torneos",
     "EMAILJS_API_URL": "https://api.emailjs.com/api/v1.0/email/send",
     "EMAILJS_SERVICE_ID": "service_rhd9g4o",
     "EMAILJS_TEMPLATE_ID": "template_li99o64",

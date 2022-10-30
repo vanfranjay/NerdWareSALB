@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -22,21 +22,25 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import moment from "moment";
 import "moment/locale/es";
+import axios from "axios";
+import configData from "../config/config.json";
 
 const RegistrarEquipo = () => {
 
   const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "application/pdf"];
   const FILE_SIZE = 7340032; // 7MB de tamaño del archivo
+  const phoneRegExp = /^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*$/;
 
   const [selectedFile, setSelectedFile] = useState();
 
   const [open, setOpen] = React.useState(false);
   const [alertColor, setAlertColor] = useState('');
   const [alertContent, setAlertContent] = useState('');
+  const [categorias, setCategorias] = useState([]);
 
   var maxFechaNac = moment().subtract(18, "years").format("DD/MM/YYYY");
   var minFechaNac = moment().subtract(60, "years").format("DD/MM/YYYY");
-  const phoneRegExp = /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -44,6 +48,15 @@ const RegistrarEquipo = () => {
     }
     setOpen(false);
   };
+
+  const getCategorias = async () => {
+    await axios.get(configData.CATEGORIAS_API_URL)
+      .then(response => {
+        setCategorias(response.data);
+      }).catch(error => {
+        console.log(error);
+      })
+  }
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -57,7 +70,6 @@ const RegistrarEquipo = () => {
       .required('Nombre del equipo es requerido'),
     logoEquipo: Yup.mixed()
       .nullable()
-      .required('Logo del equipo es requerido')
       .test("fileSize",
         "El tamaño del archivo sobre pasa los 7MB",
         value => !value || (value && value.size <= FILE_SIZE))
@@ -95,9 +107,9 @@ const RegistrarEquipo = () => {
       .string('Ingrese el rol del participante'),
     dniParticipante: Yup
       .string()
+      .required('DNI del participante es requerido')
       .min(5, 'DNI del participante debe ser mínimo 5 caracteres')
-      .max(30, "DNI del participante debe ser máximo 30 caracteres")
-      .required('DNI del participante es requerido'),
+      .max(30, "DNI del participante debe ser máximo 30 caracteres"),
     direccionParticipante: Yup
       .string()
       .min(4, 'Direccion del participante debe ser mínimo 4 caracteres')
@@ -162,6 +174,10 @@ const RegistrarEquipo = () => {
     document.getElementById("fotoParticipante").value = "";
     return resetForm();
   }
+
+  useEffect(() => {
+    getCategorias();
+  }, [])
 
   return (
     <>
@@ -249,15 +265,16 @@ const RegistrarEquipo = () => {
                     }
                   }}
                 >
-                  <MenuItem value={10}>25 años-35 años</MenuItem>
-                  <MenuItem value={20}>36 años-45 años</MenuItem>
-                  <MenuItem value={30}>46 años-55 años</MenuItem>
+                  {categorias.map(({ id, Categoria }, index) => (
+                    <MenuItem key={index} value={Categoria}>
+                      {Categoria}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                required
                 id="logoEquipo"
                 name="logoEquipo"
                 type="file"

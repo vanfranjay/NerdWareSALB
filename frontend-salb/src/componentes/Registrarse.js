@@ -45,7 +45,7 @@ const Registrarse = () => {
 
   const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
   const FILE_SIZE = 7340032; // 7MB de tamaño del archivo
-  const phoneRegExp = /^\+? [1 - 9]\d{ 1, 14 } $/;
+  const phoneRegExp = /^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*$/;
   const [open, setOpen] = React.useState(false);
   const [alertColor, setAlertColor] = useState('');
   const [alertContent, setAlertContent] = useState('');
@@ -55,6 +55,8 @@ const Registrarse = () => {
   const postVoucherURL = configData.REGISTER_VOUCHER_API_URL;
 
   const [selectedFile, setSelectedFile] = useState();
+
+
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -108,6 +110,15 @@ const Registrarse = () => {
       .max(127, "Confirmar Contraseña debe contener máximo 127 caracteres")
       .matches(/(?!.* )(?!.*[-_,.#$%&:;'?¡!"{}()¿°|[@^~+*¬<>])(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,15})/, "La contraseña debe tener al menos una letra Mayúscula y una letra minúscula")
       .oneOf([Yup.ref('password')], 'El valor no coincide con el campo Contraseña'),
+    dni: Yup
+      .string()
+      .required('DNI es requerido')
+      .min(5, 'DNI debe ser mínimo 5 caracteres')
+      .max(30, "DNI debe ser máximo 30 caracteres"),
+    direccion: Yup
+      .string()
+      .max(350, "Direccion del participante debe ser máximo 350 caracteres")
+      .required('Direccion del participante es requerido'),
     fotoPerfil: Yup.mixed()
       .nullable()
       .required('Foto de Perfil es requerido')
@@ -138,6 +149,8 @@ const Registrarse = () => {
       email: '',
       password: '',
       confirmPassword: '',
+      dni: '',
+      direccion: '',
       fotoPerfil: undefined,
       fotoDNI: undefined,
     },
@@ -318,7 +331,7 @@ const Registrarse = () => {
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth variant="standard" sx={{ '& .MuiInputBase-input': { color: 'white' } }} >
+            <FormControl fullWidth required variant="standard" sx={{ '& .MuiInputBase-input': { color: 'white' } }} >
               <InputLabel
                 sx={{
                   color: 'white',
@@ -368,7 +381,7 @@ const Registrarse = () => {
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth variant="standard" sx={{ '& .MuiInputBase-input': { color: 'white' } }} >
+            <FormControl fullWidth required variant="standard" sx={{ '& .MuiInputBase-input': { color: 'white' } }} >
               <InputLabel
                 sx={{
                   color: 'white',
@@ -390,6 +403,7 @@ const Registrarse = () => {
                 value={values.confirmPassword}
                 endAdornment={
                   <InputAdornment position="end">
+
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={handleClickShowConfirmPassword}
@@ -419,32 +433,47 @@ const Registrarse = () => {
 
           <Grid item xs={12} sm={6}>
             <TextField
-              variant="standard"
               required
-              id="fotoPerfil"
-              name="fotoPerfil"
-              type="file"
-              label="Foto de Perfil"
-              onChange={({ currentTarget }) => {
-                const file = currentTarget.files[0];
-                const reader = new FileReader();
-                if (file) {
-                  reader.onloadend = () => {
-                    setSelectedFile(file)
-                  };
-                  reader.readAsDataURL(file);
-                  setFieldValue("fotoPerfil", file);
-                }
-              }}
+              id="dni"
+              name="dni"
+              label="DNI/CI"
+              fullWidth
+              variant="standard"
+              onChange={handleChange}
               onBlur={handleBlur}
-              error={touched.fotoPerfil && Boolean(errors.fotoPerfil)}
-              helperText={touched.fotoPerfil && errors.fotoPerfil}
-              InputLabelProps={{ shrink: true }}
+              value={values.dni}
+              error={touched.dni && Boolean(errors.dni)}
+              helperText={touched.dni && errors.dni}
+              InputLabelProps={{
+                style: { color: '#ffff' },
+              }}
               sx={{
-                label: { color: '#ffff' },
-                input: { color: '#ffff' },
-                svg: { color: '#ffff' },
-                width: '100%',
+                color: 'white',
+                '& .MuiInputBase-root': { color: 'white' }
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              id="direccion"
+              name="direccion"
+              label="Dirección"
+              fullWidth
+              variant="standard"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.direccion}
+              error={touched.direccion && Boolean(errors.direccion)}
+              helperText={touched.direccion && errors.direccion}
+              multiline
+              InputLabelProps={{
+                style: { color: '#ffff' },
+              }}
+              sx={{
+                color: 'white',
+                '& .MuiInputBase-root': { color: 'white' }
               }}
             />
           </Grid>
@@ -480,6 +509,40 @@ const Registrarse = () => {
               }}
             />
           </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField
+              variant="standard"
+              required
+              id="fotoPerfil"
+              name="fotoPerfil"
+              type="file"
+              label="Foto de Perfil"
+              onChange={({ currentTarget }) => {
+                const file = currentTarget.files[0];
+                const reader = new FileReader();
+                if (file) {
+                  reader.onloadend = () => {
+                    setSelectedFile(file)
+                  };
+                  reader.readAsDataURL(file);
+                  setFieldValue("fotoPerfil", file);
+                }
+              }}
+              onBlur={handleBlur}
+              error={touched.fotoPerfil && Boolean(errors.fotoPerfil)}
+              helperText={touched.fotoPerfil && errors.fotoPerfil}
+              InputLabelProps={{ shrink: true }}
+              sx={{
+                label: { color: '#ffff' },
+                input: { color: '#ffff' },
+                svg: { color: '#ffff' },
+                width: '100%',
+              }}
+            />
+          </Grid>
+
+
         </Grid>
         <Stack m={5}
           direction="row"
