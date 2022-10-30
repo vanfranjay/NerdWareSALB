@@ -8,11 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Equipo extends Model
 {
     use HasFactory;
-<<<<<<< HEAD
-    protected $table = 'Equipos';
-=======
     protected $table = 'equipos';
->>>>>>> 630f6da193f493a5470fde8bd5495ee36f9a5b75
     protected $primaryKey = 'id';
     protected $fillable = [
          'Nombre', 'Logo', 'Partidos_Jugados', 'Partidos_Ganados', 'Partidos_Perdidos','Categoria_id',
