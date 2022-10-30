@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Model\Noticias_T;
+use App\Models\Noticias_T;
 
 class NoticiasTController extends Controller
 {
@@ -24,7 +24,7 @@ class NoticiasTController extends Controller
         return Noticias_T::find($id);//busca uno especifico y lo duevelve
     }
 
-    public function update(Request $reuqest, $id)
+    public function update(Request $request, $id)
     {
         $noticias_T = Noticias_T::find($id);
         if(!is_null($noticias_T)){

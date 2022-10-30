@@ -24,13 +24,16 @@ export default function MediaCard() {
   const [equipos, setEquipos] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const resultado = await axios.get("127.0.0.1:8000/api/equipos");
-      setEquipos([...resultado.data]);
-      console.log(...resultado.data);
-    };
     fetchData();
   }, []);
+
+  //console.log("Loading...");
+  const fetchData = async () => {
+    const resultado = await axios.get("http://127.0.0.1:8000/api/equipos");
+    setEquipos([...resultado.data]);
+    console.log(resultado.data);
+  };
+  
   return (
     <div className="contendorSelectEquipo">
       <Card sx={{ maxWidth: 400 }} className="cardEquipo">
@@ -60,12 +63,9 @@ export default function MediaCard() {
                 label="Age"
                 className="selectEquipo"
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twentydddddddddawda</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {equipos.map(equipo=>(
+                  <MenuItem key={equipo.id} value={equipo.id}>{equipo.Nombre}</MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Typography>

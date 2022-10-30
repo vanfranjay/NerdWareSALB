@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -15,6 +15,7 @@ import '../css/styleRegistro.css';
 import AlertTitle from '@mui/material/AlertTitle';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import axios from "axios";
 
 
 import { Container, Stack } from '@mui/system';
@@ -45,10 +46,26 @@ const RegistrarVoucher = () => {
     const [open, setOpen] = React.useState(false);
     const [alertColor, setAlertColor] = useState('');
     const [alertContent, setAlertContent] = useState('');
+    const [torneo, setTorneo] = useState([]);
+    const [montos, setMontos] = useState([]);
+    const [montoRebajaIns, setMontoRebajaIns] = useState([]);
+    const [montoIns, setMontoIns] = useState([]);
 
     const postVoucherURL = configData.REGISTER_VOUCHER_API_URL;
 
     const [selectedFile, setSelectedFile] = useState();
+
+    const getTorneo = async () => {
+        await axios.get(configData.TORNEO_API_URL)
+            .then(response => {
+                //setTorneo(response.data);
+                setMontoRebajaIns(Math.trunc(response.data[0].MontoPreinscripcion).toString());
+                setMontoIns(Math.trunc(response.data[0].MontoInscripcion).toString());
+                console.log("Torneo: " + JSON.stringify(response.data));
+            }).catch(error => {
+                console.log(error);
+            })
+    }
 
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -116,6 +133,68 @@ const RegistrarVoucher = () => {
         reader.onerror = error => reject(error);
     });
 
+    //Guardamos la imagen en el server imgur.com
+    const postImage = async () => {
+        var imageData = await toBase64(selectedFile);
+        var imageToSend = imageData.replace(/^data:image\/[a-z]+;base64,/, "");
+
+        var formdata = new FormData();
+        formdata.append("image", imageToSend);
+
+        var imagePosted =
+            await fetch("https://api.imgur.com/3/image/", {
+                method: "post",
+                headers: {
+                    Authorization: "Client-ID b690f8f677e6fa3"
+                },
+                body: formdata
+            }).then(res => {
+                return res.json();
+            }).catch(error => console.error(error))
+
+        var responseImage = imagePosted.data.link;
+        console.log("Image Enviada: " + responseImage);
+        return responseImage;
+    };
+
+    const postImageToServerExt = async () => {
+        var imageData = await toBase64(selectedFile);
+        var imageToSend = imageData.replace(/^data:image\/[a-z]+;base64,/, "");
+
+        var formdata = new FormData();
+        formdata.append("image", imageToSend);
+
+        var imagePosted =
+            await axios
+                .post(
+                    `https://api.imgbb.com/1/upload?key=c035e32600d4b0aa7ea07ae391739374`,
+                    formdata,
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                    }
+                )
+                .then((response) => {
+                    console.log("API response ↓");
+                    console.log(response);
+                    return response;
+                })
+                .catch((err) => {
+                    console.log("API error ↓");
+                    console.log(err);
+
+                    if (err.response.data.error) {
+                        console.log(err.response.data.error);
+
+                    }
+                });
+
+        var responseImage = imagePosted.data.data.url;
+        console.log("Image Enviada: " + responseImage);
+        return responseImage;
+    };
+
     // Realiza un POST al API de crear Boleta en backend
 
     const postVoucher = async (url, datos) => {
@@ -134,21 +213,26 @@ const RegistrarVoucher = () => {
 
     const registrarVoucher = async () => {
 
-        var comprobantePagoFile = await toBase64(selectedFile);
+        //var comprobantePagoFile = await toBase64(selectedFile);
         var formatedFechaDeposito = values.fechaDeposito.format('YYYY-MM-DD');
+        var imageURL = "";
+        if (selectedFile && values.comprobantePago) {
+            //imageURL = await postImage();
+            imageURL = await postImageToServerExt();
+        }
 
         const datos = {
             "N_Transaccion": values.numTransaccion,
             "Monto": values.monto,
             "Fecha_Registro": formatedFechaDeposito,
-            "Comprobante": comprobantePagoFile,
+            "Comprobante": imageURL,
             // TODO: Sacar el ID del delegado que esta logeado
             "Cod_Delegado": null
         };
         console.log("Voucher: ------> " + JSON.stringify(datos));
         // Validar fechas
 
-    if (esFechaValida(formatedFechaDeposito)) {
+        if (esFechaValida(formatedFechaDeposito) && esMontoValido(formatedFechaDeposito, values.monto)) {
 
             const respuestaJson = await postVoucher(postVoucherURL, datos);
 
@@ -160,7 +244,7 @@ const RegistrarVoucher = () => {
                 setAlertContent(configData.MENSAJE_CREACION_DE_BOLETA_CON_EXITO);
                 setOpen(true);
                 borrar();
-                //enviarCorreo(dataEmail);
+                enviarCorreo();
             }
 
             if (respuestaJson.status === 400) {
@@ -188,6 +272,7 @@ const RegistrarVoucher = () => {
     }
 
     const esMontoValido = (fechaDeposito, monto) => {
+        console.log("Monto:" + values.monto);
         var esValidoPreIns = moment(fechaDeposito).isBetween(configData.FECHA_INI_PREINSCRIPCION, configData.FECHA_FIN_PREINSCRIPCION, undefined, '[]');
         var esValidoIns = moment(fechaDeposito).isBetween(configData.FECHA_INI_INSCRIPCION, configData.FECHA_FIN_INSCRIPCION, undefined, '[]');
 
@@ -227,7 +312,7 @@ const RegistrarVoucher = () => {
             }
         };
 
-        const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+        const response = await fetch(configData.EMAILJS_API_URL, {
             method: 'POST',
             body: JSON.stringify(dataEmail),
             headers: {
@@ -244,6 +329,10 @@ const RegistrarVoucher = () => {
         document.getElementById("comprobantePago").value = "";
         return resetForm();
     }
+
+    useEffect(() => {
+        getTorneo();
+    }, [])
 
     return (
         <Grid justifyItems='center'>
@@ -295,8 +384,6 @@ const RegistrarVoucher = () => {
                             value={values.numTransaccion}
                             error={touched.numTransaccion && Boolean(errors.numTransaccion)}
                             helperText={touched.numTransaccion && errors.numTransaccion}
-
-
                         />
                     </Grid>
 
@@ -336,9 +423,8 @@ const RegistrarVoucher = () => {
                                 error={touched.monto && Boolean(errors.monto)}
                                 helperText={touched.monto && errors.monto}
                             >
-                                <MenuItem value="">Ninguno </MenuItem>
-                                <MenuItem value={configData.MONTO_PREINSCRIPCION}>$ 200</MenuItem>
-                                <MenuItem value={configData.MONTO_INSCRIPCION}>$ 250</MenuItem>
+                                <MenuItem value={montoRebajaIns}>$ {montoRebajaIns}</MenuItem>
+                                <MenuItem value={montoIns}>$ {montoIns}</MenuItem>
                             </Select>
 
                             {touched.monto && errors.monto ? (
