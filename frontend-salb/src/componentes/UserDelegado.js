@@ -21,12 +21,14 @@ import '../css/usuario.css';
 import { mainListItems } from './listItems';
 import logo from '../imagenes/user1.png';
 import RegistrarVoucher from './RegistrarVoucher';
-import {Routes, Route, Navigate, useParams, NavLink} from 'react-router-dom';
+import { Routes, Route, Navigate, useParams, NavLink } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import RegistrarEquipo from './RegistrarEquipo';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import '../css/styleNavBar.css';
+import logoApp from '../imagenes/LogoLMB1.png';
 
 const ocultar = document.getElementById('imgUser');
 const text = document.getElementById('imgUser');
@@ -128,7 +130,7 @@ function DashboardContent() {
                 ...(open && { display: 'none' }),
               }}
             >
-              <MenuIcon className='iconoMenu'/>
+              <MenuIcon className='iconoMenu' />
             </IconButton >
             <Typography
               component="h1"
@@ -146,17 +148,20 @@ function DashboardContent() {
                 <NotificationsIcon />
               </Badge>
             </IconButton>*/}
-            <label className='nombreUserDelegado'>Fulano Fulanes gonzales</label>
+            {/*<div className='cuadroLogoBasquet'>
+              <img className="logoLigaBasket" src={logoApp} alt="logo de la liga de basquet" />
+          </div>*/}
+            <label className='nombreUserDelegado'>Diego Balderrama Oropeza</label>
             <div className='avatarUser'>
-              <Avatar 
+              <Avatar
                 className='avatarFotoUsuario'
-                alt="Cindy Baker" src="" 
+                alt="Cindy Baker" src=""
                 id="basic-button"
                 aria-controls={opens ? 'basic-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={opens ? 'true' : undefined}
                 onClick={handleClick}>
-                  <img id='imgUser' class="imagenUser" src={logo} alt="Foto Perfil"/>
+                <img id='imgUser' class="imagenUser" src={logo} alt="Foto Perfil" />
               </Avatar>
               <Menu
                 id="basic-menu"
@@ -173,33 +178,33 @@ function DashboardContent() {
               </Menu>
             </div>
             {/* ________________________________ */}
-            </Toolbar>
+          </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
-        {/** icono cuando se despliega la barra vertical */}
-        <div className='cuadroFoto fondoBarraLateralUser'>
+          {/** icono cuando se despliega la barra vertical */}
+          <div className='cuadroFoto fondoBarraLateralUser'>
             {/*<div className='cuadro1'>
                 <img id='imgUser' class="imagenUser" src={logo} alt="Foto Perfil"/>
             </div>*/}
             <Toolbar
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              px: [1],
-            }}
-          >
-            <IconButton onClick={toggleDrawer}>
-            <ChevronLeftIcon className='colorIcono hoverColorIcono'/>
-            </IconButton>
-          </Toolbar>
-        </div>
-{/**__________________________________ */}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                px: [1],
+              }}
+            >
+              <IconButton onClick={toggleDrawer}>
+                <ChevronLeftIcon className='colorIcono hoverColorIcono' />
+              </IconButton>
+            </Toolbar>
+          </div>
+          {/**__________________________________ */}
 
           {/*<Divider />   Es un <hr/>*/}
           <List component="nav" className='fondoBarraLateralUser contenedorBarraLateral'>
             {mainListItems}     {/* aqui se anda exportando los botones de la lista de item lisItem.js* */}
-            <Divider sx={{ my: 1 }}/>
+            <Divider sx={{ my: 1 }} />
             {/*secondaryListItems*/}
           </List>
         </Drawer>
@@ -218,13 +223,13 @@ function DashboardContent() {
           <Toolbar />
           {/**_______________Contenedor principal______________ */}
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <div className='container'>
-            <Routes>
-              <Route path="registrarVoucher" element={<RegistrarVoucher/>}/>
-              <Route path="registrarEquipo" element={<RegistrarEquipo/>}/>
-              <Route path="/" element={<Navigate to='RegistrarVoucher'/>}/>
-            </Routes>
-          </div>
+            <div className='container'>
+              <Routes>
+                <Route path="registrar-voucher" element={<RegistrarVoucher />} />
+                <Route path="registrar-equipo" element={<RegistrarEquipo />} />
+                <Route path="/" element={<Navigate to='RegistrarVoucher' />} />
+              </Routes>
+            </div>
           </Container>
         </Box>
       </Box>

@@ -1,111 +1,131 @@
-.colorFondoUser{
+.colorFondoUser {
     background-color: #2C3E50 !important;
 }
-.fondoBarraLateralUser{
+
+.fondoBarraLateralUser {
     background-color: #212F3D !important;
 }
-.contenedorBarraLateral{
+
+.contenedorBarraLateral {
     height: 100%;
 }
-.colorLetraMenuNavBar{
+
+.colorLetraMenuNavBar {
     color: #ffffff;
 }
-/*.contenedorIcono{
+
+.contenedorIcono {
     display: grid;
-    justify-content: start;
-    
-}*/
-.itemNavBar:hover{
+    justify-content: end;
+
+}
+
+.itemNavBar:hover {
     background: linear-gradient(to top, transparent, #2C3E50);
     filter: brightness(1.5);
 }
-.cuadroFoto{
+
+.cuadroFoto {
     display: grid;
     grid-template-columns: 1fr;
 }
-.cuadro1{
+
+.cuadro1 {
     justify-self: center;
 }
-.imagenUser{
+
+.imagenUser {
     width: 100%;
     border-radius: 50%;
 }
-.avatarUser{
+
+.avatarUser {
     padding-left: 10px;
 }
-.hoverColorIcono{
+
+.hoverColorIcono {
     width: 48px !important;
     height: 48px !important;
     border-radius: 4px;
 }
-.hoverColorIcono:hover{
+
+.hoverColorIcono:hover {
     background: linear-gradient(to top, transparent, #2C3E50);
     filter: brightness(2);
 }
-.iconoMenu{
+
+.iconoMenu {
     width: 45px !important;
     height: 45px !important;
     color: #E67E22;
     border-radius: 5px;
 }
-.iconoMenu:Hover{
+
+.iconoMenu:Hover {
     background: linear-gradient(to top, transparent, #2C3E50);
     filter: brightness(2);
 }
-.ocultar{
+
+.ocultar {
     width: 25px !important;
 }
-/*.menuOpcionesUsuario{
+
+.menuOpcionesUsuario {
     display: grid;
     grid-template-columns: 1fr;
     height: 40px;
-}*/
-.nombreMenuOpciones{
+
+
+}
+
+.nombreMenuOpciones {
     outline: none;
     color: #ffffff;
     cursor: pointer;
     text-decoration: none;
     display: grid;
     grid-template-columns: 60px 1fr;
-    justify-items: center;
+
 }
-.contenedorIcono{
+
+.contenedorIcono {
     align-self: center;
-    justify-self: center;
+
 }
-.nombreOpcionesMenu{
-    justify-self: center;
+
+.nombreOpcionesMenu {
+    justify-self: left;
     align-self: center;
-    padding-left: 11px;
+    padding: 10px;
     /*font-size: 16px; 
     height: auto;
     width: 150px;
     word-wrap: break-word;
     display: inline-block;*/
 }
-.colorIcono{
+
+.colorIcono {
     color: #E67E22;
     justify-self: center;
 }
-.nombreMenuOpciones:hover{
+
+.nombreMenuOpciones:hover {
     color: #E67E22;
 }
-.active{
+
+.active {
     color: #E67E22 !important;
     outline: none;
-    background: linear-gradient(to top, transparent, #2C3E50);
+    /*background: linear-gradient(to top, transparent, #2C3E50);*/
     filter: brightness(1.5);
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+
     border-radius: 10px;
     text-decoration: none;
-    align-items: center;
-    justify-items: center;
+
 }
+
 /*REGISTRAR EQUIPO*/
-.registrarEquipo{
+.registrarEquipo {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     padding: 20px;
@@ -113,7 +133,8 @@
     border-radius: 10px;
     gap: 140px;
 }
-.registrarParticipantes{
+
+.registrarParticipantes {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     padding: 20px;
@@ -121,51 +142,64 @@
     background: linear-gradient(to bottom, #212F3D, #2C3E50);
     gap: 6px;
 }
+
 /*.registrarParticipantes > div{
     border: red 2px solid;
 }*/
-.inputRegistrarEquipo{
+.inputRegistrarEquipo {
     width: 100%;
 }
-.contenedorBtnAñadirParticipante{
+
+.contenedorBtnAñadirParticipante {
     grid-column: 2/3;
     padding-top: 10px;
     justify-self: center;
 }
-.btnAñadir{
+
+.btnAñadir {
     background-color: #059d2d !important;
 }
-.btnAñadir:hover{
+
+.btnAñadir:hover {
     background-color: #035f1b !important;
 }
-.contenedorBtnCancelarParticipante{
+
+.contenedorBtnCancelarParticipante {
     padding-top: 10px;
     justify-self: center;
 }
-.btnCancelar{
+
+.btnCancelar {
     background-color: #a90505 !important;
 }
-.btnCancelar:hover{
+
+.btnCancelar:hover {
     background-color: #690404 !important;
 }
-.selectCategoria{
+
+.selectCategoria {
     color: #ffffff !important;
 }
-.selectValor{
+
+.selectValor {
     color: #ffffff !important;
 }
+
 /*opciones del menu del avatar*/
-.avatarUser{
+.avatarUser {
     cursor: pointer;
 }
-.avatarFotoUsuario:hover{
+
+.avatarFotoUsuario:hover {
     background-color: aqua;
     opacity: 0.4;
 }
-.optionMenuUser:hover{
+
+.optionMenuUser:hover {
     background: linear-gradient(to top, transparent, #496581);
 }
+
 /*Campos de registrar equipo*/
-.colorFondoRegistrarEquipo{
+.colorFondoRegistrarEquipo {
     background-color: transparent !important;
 }

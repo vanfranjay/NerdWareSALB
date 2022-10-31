@@ -359,6 +359,8 @@ const RegistrarVoucher = () => {
             </br>
             <br>
             </br>
+            <br>
+            </br>
             <form onSubmit={handleSubmit}>
 
                 <Grid container spacing={5}>
@@ -505,7 +507,7 @@ const RegistrarVoucher = () => {
                     </Grid>
                 </Grid>
 
-                <Stack m={5}
+                <Stack m={9}
                     direction="row"
                     spacing={3}
                     display="flex"
@@ -516,12 +518,14 @@ const RegistrarVoucher = () => {
                         color="primary"
                         onClick={handleSubmit}
                         type="submit"
+                        sx={{ width: '25%' }}
                     >Registrar
                     </Button>
                     <Button
                         variant="contained"
                         color="warning"
                         onClick={borrar}
+                        sx={{ width: '25%' }}
                     >Cancelar
                     </Button>
                 </Stack>

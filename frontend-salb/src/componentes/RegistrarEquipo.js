@@ -84,11 +84,13 @@ const RegistrarEquipo = () => {
       .string('Ingrese el Nombre del participante')
       .min(4, 'Nombre del participante debe ser mínimo 2 caracteres')
       .max(50, "Nombre del participante debe ser máximo 50 caracteres")
+      .matches(/^[A-Za-z\s]*$/, "El nombre solo debe tener letras y espacios")
       .required('Nombre del participante es requerido'),
     apellidoParticipante: Yup
       .string('Ingrese el Apellido del participante')
       .min(2, 'Nombre del equipo debe ser mínimo 2 caracteres')
       .max(50, "Nombre del equipo debe ser máximo 50 caracteres")
+      .matches(/^[A-Za-z\s]*$/, "El nombre solo debe tener letras y espacios")
       .required('Nombre del equipo es requerido'),
     fechaNacParticipante: Yup
       .date()
@@ -583,7 +585,6 @@ const RegistrarEquipo = () => {
           <Stack m={5}
             direction="row"
             spacing={3}
-            display="flex"
             justifyContent="center"
             alignItems="center">
 
@@ -592,6 +593,7 @@ const RegistrarEquipo = () => {
               color="primary"
               onClick={handleSubmit}
               type="submit"
+              sx={{ width: '25%' }}
             >Registrar
             </Button>
 
@@ -599,6 +601,7 @@ const RegistrarEquipo = () => {
               variant="contained"
               color="warning"
               onClick={borrar}
+              sx={{ width: '25%' }}
               type="reset"
             >Cancelar
             </Button>
