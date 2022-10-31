@@ -34,14 +34,14 @@ const BarraNavegacion = () => {
                     </button>
                     <div class="collapse navbar-collapse tamañoFondo" id="navbarNavAltMarkup">
                         <div class="navbar-nav menuOpciones tamañoFondo">
-                            {/**<NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/estadisticas">ESTADISTICAS</NavLink>
-                            <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/fotos">FOTOS</NavLink>
-                            <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/equipos">EQUIPOS</NavLink>
-                            <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/juegos">JUEGOS</NavLink>
+                            {/*<NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/estadisticas">ESTADISTICAS</NavLink>
+                            <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/fotos">FOTOS</NavLink>*/}
+                            <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/jugadores">JUGADORES</NavLink>
+                            {/*<NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/juegos">JUEGOS</NavLink>
                             <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/en-vivo">EN VIVO</NavLink>
-                            <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/sobre-nosotros">SOBRE NOSOTROS</NavLink>**/}
+                            <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/sobre-nosotros">SOBRE NOSOTROS</NavLink>*/}
                             <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/noticias">NOTICIAS</NavLink>
-                            <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/noticias">JUGADORES</NavLink>
+                            {/*<NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/noticias">JUGADORES</NavLink>*/}
                         </div>
                     </div>
                 </div>

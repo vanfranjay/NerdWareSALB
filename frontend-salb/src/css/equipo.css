@@ -20,7 +20,7 @@
 }
 .fotoJugador{
     position: absolute;
-    bottom: 40px;
+    bottom: 55px;
     margin: auto;
     width: 80px !important;
     height: 80px !important;
@@ -33,4 +33,18 @@
 }
 .contenidoCardJugador{
     color: black !important;
+}
+.colorLetraDetallesJugador{
+    color: black !important;
+}
+.NombrePerfilJugador{
+    display: grid;
+    text-align: center;
+}
+.fotoPerfilJugador{
+    max-width: 500px;
+    min-width: 400px;
+}
+.cardJugadores{
+    padding-top: 20px;
 }

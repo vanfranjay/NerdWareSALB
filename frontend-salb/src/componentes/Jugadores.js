@@ -10,9 +10,12 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import Grid from '@mui/material/Grid';
+import Grid from "@mui/material/Grid";
 import equipo from "../imagenes/basquet.webp";
-import Avatar from '@mui/material/Avatar';
+import Avatar from "@mui/material/Avatar";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import "../css/equipo.css";
 
 export default function AlertDialog() {
   const [open, setOpen] = React.useState(false);
@@ -25,49 +28,126 @@ export default function AlertDialog() {
     setOpen(false);
   };
 
+  const [jugadores, setJugadores] = useState([]);
+
+  useEffect(() => {
+    fetchGamer();
+  }, []);
+
+  //console.log("Loading...");
+  const fetchGamer = async () => {
+    const resultado = await axios.get("http://127.0.0.1:8000/api/jugadores");
+    setJugadores([...resultado.data]);
+    console.log(resultado.data);
+  };
+  function calcularEdad(fecha) {
+    var hoy = new Date();
+    var cumpleanos = new Date(fecha);
+    var edad = hoy.getFullYear() - cumpleanos.getFullYear();
+    var m = hoy.getMonth() - cumpleanos.getMonth();
+
+    if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+      edad--;
+    }
+
+    return edad;
+  }
   return (
     <Grid container className="cardEquipoJugadores">
-      <Grid xs={12} sm={6} md={4} xl={3} spacing={2} variant="outlined" onClick={handleClickOpen}>
-        <Card sx={{ maxWidth: 345 }}>
-          <CardMedia
-            component="img"
-            height="140"
-            image={equipo}
-            alt="green iguana"
-          />
-          <Avatar alt="Remy Sharp" src={equipo} className="fotoJugador"/>
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div" className="nombreJugador">
-              Fulano Fulanes
-            </Typography>
-            <Typography variant="body2" color="text.secondary" className="contenidoCardJugador">
-              Equipo: Los fulanos
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small">Mas detalles...</Button>
-          </CardActions>
-        </Card>
-      </Grid>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cerrar</Button>
-        </DialogActions>
-      </Dialog>
+      {jugadores.map((jugador, index) => {
+        return (
+          <>
+            <Grid
+              xs={12}
+              sm={6}
+              md={4}
+              xl={3}
+              container
+              spacing={2}
+              variant="outlined"
+              onClick={handleClickOpen}
+              className="cardJugadores"
+            >
+              <Card sx={{ maxWidth: 345 }}>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image={equipo}
+                  alt="green iguana"
+                />
+
+                <CardContent>
+                  <Avatar
+                    alt={`Foto del usuario" ${jugador.Nombre} ${jugador.Apellido}`}
+                    src={equipo}
+                    className="fotoJugador"
+                  />
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="div"
+                    className="nombreJugador"
+                  >
+                    {jugador.Nombre} {jugador.Apellido}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    className="contenidoCardJugador"
+                  >
+                    Equipo: Los fulanos
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button size="small">Mas detalles...</Button>
+                </CardActions>
+              </Card>
+            </Grid>
+
+            <Dialog
+              open={open}
+              /*onClose={handleClose}*/
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <Grid xs={12}>
+                <DialogContentText>
+                  <img
+                    src={equipo}
+                    alt={`foto de Perfil de ${jugador.Nombre} ${jugador.Apellido}`}
+                    className="fotoPerfilJugador"
+                  />
+                </DialogContentText>
+                <DialogTitle
+                  id="alert-dialog-title"
+                  className="NombrePerfilJugador"
+                >
+                  {jugador.Nombre} {jugador.Apellido}
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText
+                    id="alert-dialog-description"
+                    className="colorLetraDetallesJugador"
+                  >
+                    <b>Nombre:</b> {jugador.Nombre}
+                    <br />
+                    <b>Apellido:</b> {jugador.Apellido}
+                    <br />
+                    <b>Edad:</b> {calcularEdad(jugador.Fecha_Nacimiento)} años
+                    <br />
+                    <b>Equipo:</b> Por definir
+                    <br />
+                    <b>Categoría:</b> por definir
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Cerrar</Button>
+                </DialogActions>
+              </Grid>
+            </Dialog>
+          </>
+        );
+      })}
     </Grid>
   );
 }
