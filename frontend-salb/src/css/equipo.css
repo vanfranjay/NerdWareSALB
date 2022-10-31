@@ -1,6 +1,6 @@
 .cardEquipo{
     margin: auto;
-    
+    background-color: #ffffff;
 }
 .contendorSelectEquipo{
     padding-top: 25px;
@@ -14,4 +14,23 @@
 .seleccionarEquipo{
     display: grid;
     grid-template-columns: 1fr;
+}
+.cardEquipoJugadores{
+    margin: auto;
+}
+.fotoJugador{
+    position: absolute;
+    bottom: 40px;
+    margin: auto;
+    width: 80px !important;
+    height: 80px !important;
+}
+.nombreJugador{
+    position: relative;
+    bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+.contenidoCardJugador{
+    color: black !important;
 }

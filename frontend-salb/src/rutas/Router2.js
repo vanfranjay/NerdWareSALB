@@ -9,6 +9,7 @@ import Noticias from '../componentes/Noticias';
 import EnVivo from '../componentes/EnVivo';
 import SobreNosotros from '../componentes/SobreNosotros';
 import Registrarse from '../componentes/Registrarse';
+import Jugadores from '../componentes/Jugadores';
 
 const Router2 = ()=>{
     return (

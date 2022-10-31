@@ -15,6 +15,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Jugadores from "./Jugadores";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import Grid from '@mui/material/Grid';
 
 export default function MediaCard() {
   const [age, setAge] = React.useState("");
@@ -35,8 +36,8 @@ export default function MediaCard() {
   };
   
   return (
-    <div className="contendorSelectEquipo">
-      <Card sx={{ maxWidth: 400 }} className="cardEquipo">
+    <Grid container className="contendorSelectEquipo">
+      <Grid xs={12} sm={8} md={6} className="cardEquipo">
         <CardMedia
           component="img"
           height="140"
@@ -75,7 +76,7 @@ export default function MediaCard() {
             Seleccionar
           </Button>
         </CardActions>
-      </Card>
-    </div>
+      </Grid>
+    </Grid>
   );
 }
