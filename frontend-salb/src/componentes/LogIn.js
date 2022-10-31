@@ -107,6 +107,7 @@ const Login = () => {
         <Box display="flex"
           justifyContent="center"
           alignItems="center">
+
           <Stack m={3}
             direction="column"
             width={500}
@@ -134,7 +135,7 @@ const Login = () => {
 
             />
 
-            <FormControl variant="standard" sx={{ '& .MuiInputBase-input': { color: 'white' } }} >
+            <FormControl variant="standard" required sx={{ '& .MuiInputBase-input': { color: 'white' } }} >
               <InputLabel
                 sx={{
                   color: 'white',
@@ -182,13 +183,21 @@ const Login = () => {
               ) : null}
             </FormControl>
 
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleSubmit}
-              type="submit"
-            >Iniciar Sesión
-            </Button>
+            <Stack
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              spacing={3}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+                type="submit"
+                sx={{ width: '50%' }}
+              >Iniciar Sesión
+              </Button>
+            </Stack>
           </Stack>
         </Box>
       </form>

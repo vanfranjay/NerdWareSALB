@@ -1,12 +1,12 @@
-import {Routes, Route} from 'react-router-dom';	
+import { Routes, Route } from 'react-router-dom';
 import Router2 from './rutas/Router2';
 import Usuario from './componentes/Usuario';
 import UserDelegado from './componentes/UserDelegado';
 import UserAdmi from './componentes/UserAdmi';
 import Router3 from './rutas/Router3';
 import listItems from './componentes/listItems';
-import {useState} from 'react';
-import {ProtectedRoute} from './rutas/ProtectedRoute';
+import { useState } from 'react';
+import { ProtectedRoute } from './rutas/ProtectedRoute';
 
 function App() {
 
@@ -19,25 +19,25 @@ function App() {
       name: 'John',
       roles: ['admi']
     })
-  const logout = () => setUser(null)
+    const logout = () => setUser(null)
   }
 
   return (
     <>
       <Routes>
         //primera manera
-        <Route element={<ProtectedRoute isAllowed={!!user && user.roles.includes('delegado')}/>}> //  !!user = user ? true: false
+        <Route element={<ProtectedRoute isAllowed={!!user && user.roles.includes('delegado')} />}> //  !!user = user ? true: false
           //rutas con el mismo nivel solo es necesario arrastrarlo aqui
-          <Route path='/usuario/*' element={<UserDelegado/>}/>
+          <Route path='/home/*' element={<UserDelegado />} />
         </Route>
         //segunda manera
         <Route path="/admi/*" element={
           <ProtectedRoute isAllowed={!!user && user.roles.includes('admi')}>
-            <UserAdmi/>
+            <UserAdmi />
           </ProtectedRoute>
-        }/>
-        <Route path='/*' element={<Router2/>}/>
-        <Route/>
+        } />
+        <Route path='/*' element={<Router2 />} />
+        <Route />
       </Routes>
     </>
   );

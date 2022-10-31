@@ -10,7 +10,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import {Link, NavLink} from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import '../css/usuario.css';
 import SportsBasketballIcon from '@mui/icons-material/SportsBasketball';
 
@@ -19,7 +19,7 @@ export const mainListItems = (
   <React.Fragment>
     <div className='cuadroOpciones'>
       <div className='menuOpcionesUsuario'>
-        <NavLink to="registrarVoucher" className='nombreMenuOpciones'>
+        <NavLink to="registrar-voucher" className='nombreMenuOpciones'>
           <div className='contenedorIcono'>
             <AppRegistrationIcon className='colorIcono' />
           </div>
@@ -29,13 +29,13 @@ export const mainListItems = (
         </NavLink>
       </div>
       <div className='menuOpcionesUsuario'>
-        <NavLink to="registrarEquipo" className='nombreMenuOpciones'>
-            <div className='contenedorIcono'>
-              <SportsBasketballIcon className='colorIcono' />
-            </div>
-            <div className='nombreOpcionesMenu'>
-              Registrar Equipo
-            </div>
+        <NavLink to="registrar-equipo" className='nombreMenuOpciones'>
+          <div className='contenedorIcono'>
+            <SportsBasketballIcon className='colorIcono' />
+          </div>
+          <div className='nombreOpcionesMenu'>
+            Registrar Equipo
+          </div>
         </NavLink>
       </div>
     </div>
