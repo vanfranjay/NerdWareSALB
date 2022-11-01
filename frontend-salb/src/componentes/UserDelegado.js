@@ -151,7 +151,7 @@ function DashboardContent() {
             {/*<div className='cuadroLogoBasquet'>
               <img className="logoLigaBasket" src={logoApp} alt="logo de la liga de basquet" />
           </div>*/}
-            <label className='nombreUserDelegado'>Diego Balderrama Oropeza</label>
+            {/**<label className='nombreUserDelegado'>Diego Balderrama Oropeza</label>*/}
             <div className='avatarUser'>
               <Avatar
                 className='avatarFotoUsuario'

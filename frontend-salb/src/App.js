@@ -28,7 +28,7 @@ function App() {
         //primera manera
         <Route element={<ProtectedRoute isAllowed={!!user && user.roles.includes('delegado')} />}> //  !!user = user ? true: false
           //rutas con el mismo nivel solo es necesario arrastrarlo aqui
-          <Route path='/home/*' element={<UserDelegado />} />
+          <Route path='/usuario/*' element={<UserDelegado />} />
         </Route>
         //segunda manera
         <Route path="/admi/*" element={
