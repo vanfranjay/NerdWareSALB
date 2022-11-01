@@ -176,7 +176,7 @@ const ListaSolicitantes = () => {
                   <div className="cuadroImagenAcordeon">
                     <a href="#" value={556632}>
                       <img
-                        src={logo}
+                        src={solicitud.Comprobante}
                         alt="Imagen voucher"
                         className="imagenVoucher"
                       />

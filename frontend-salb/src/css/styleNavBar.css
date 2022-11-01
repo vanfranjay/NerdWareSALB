@@ -13,17 +13,16 @@ body {
 }
 
 .colorLetra {
-    color: #ffffff;
+    color: #ffffff !important;
     font-weight: bold;
 }
 
-.contenedorLetrasNavBar {
+/*.contenedorLetrasNavBar {
     background: #E67E22;
     border-radius: 20px;
-}
+}*/
 
 .contenedorLetrasNavBar:hover {
-    background: #BA4A00;
     color: #ffffff;
 }
 
