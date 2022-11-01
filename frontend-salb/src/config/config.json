@@ -15,7 +15,5 @@
     "MENSAJE_CREACION_DE_BOLETA_CON_NUM_TRANS_DUPLICADA": "El número de transacción ya fue registrado",
     "MENSAJE_FECHA_DE_DEPOSITO_FUERA_DEL_RANGO_DE_CONVOCATORIA": "La fecha de preinscripción caduco, contacte al administrador",
     "MENSAJE_CREACION_EQUIPO_EXITOSAMENTE": "Se registro el equipo exitosamente",
-    "MONTO_PREINSCRIPCION": "200",
-    "MONTO_INSCRIPCION": "250",
     "MENSAJE_MONTO_INVALIDO": "Monto erróneo, compruebe la fecha"
 }

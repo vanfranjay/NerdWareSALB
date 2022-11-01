@@ -95,7 +95,6 @@ const RegistrarEquipo = () => {
     validationSchema: formValidationSchema,
 
     onSubmit: (values, { setSubmitting, resetForm }) => {
-
       registrarEquipo();
 
       setSubmitting(true);

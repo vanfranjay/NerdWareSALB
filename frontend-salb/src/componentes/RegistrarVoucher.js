@@ -50,6 +50,12 @@ const RegistrarVoucher = () => {
     const [montos, setMontos] = useState([]);
     const [montoRebajaIns, setMontoRebajaIns] = useState([]);
     const [montoIns, setMontoIns] = useState([]);
+    const [fechaIniConv, setFechaIniConv] = useState([]);
+    const [fechaFinConv, setFechaFinConv] = useState([]);
+    const [fechaIniPreins, setFechaIniPreins] = useState([]);
+    const [fechaFinPreins, setFechaFinPreins] = useState([]);
+    const [fechaIniIns, setFechaIniIns] = useState([]);
+    const [fechaFinIns, setFechaFinIns] = useState([]);
 
     const postVoucherURL = configData.REGISTER_VOUCHER_API_URL;
 
@@ -61,6 +67,13 @@ const RegistrarVoucher = () => {
                 //setTorneo(response.data);
                 setMontoRebajaIns(Math.trunc(response.data[0].MontoPreinscripcion).toString());
                 setMontoIns(Math.trunc(response.data[0].MontoInscripcion).toString());
+                setFechaIniConv(response.data[0].Fecha_Ini_Convocatoria);
+                setFechaFinConv(response.data[0].Fecha_Fin_Convocatoria);
+                setFechaIniPreins(response.data[0].Fecha_Ini_Preinscripcion);
+                setFechaFinPreins(response.data[0].Fecha_Fin_Preinscripcion);
+                setFechaIniIns(response.data[0].Fecha_Ini_Inscripcion);
+                setFechaFinIns(response.data[0].Fecha_Fin_Inscripcion);
+
                 console.log("Torneo: " + JSON.stringify(response.data));
             }).catch(error => {
                 console.log(error);
@@ -133,7 +146,7 @@ const RegistrarVoucher = () => {
         reader.onerror = error => reject(error);
     });
 
-    //Guardamos la imagen en el server imgur.com
+    //OPCION 1: Guardamos la imagen en el server imgur.com
     const postImage = async () => {
         var imageData = await toBase64(selectedFile);
         var imageToSend = imageData.replace(/^data:image\/[a-z]+;base64,/, "");
@@ -157,6 +170,7 @@ const RegistrarVoucher = () => {
         return responseImage;
     };
 
+    //OPCION 2: Guardamos la imagen en el server imgbb.com
     const postImageToServerExt = async () => {
         var imageData = await toBase64(selectedFile);
         var imageToSend = imageData.replace(/^data:image\/[a-z]+;base64,/, "");
@@ -229,21 +243,19 @@ const RegistrarVoucher = () => {
             // TODO: Sacar el ID del delegado que esta logeado
             "Cod_Delegado": null
         };
+
         console.log("Voucher: ------> " + JSON.stringify(datos));
         // Validar fechas
 
         if (esFechaValida(formatedFechaDeposito) && esMontoValido(formatedFechaDeposito, values.monto)) {
-
             const respuestaJson = await postVoucher(postVoucherURL, datos);
-
+            borrar();
             //Validadando si se envio correctamente o hubo algun fallo
             console.log("Response:------> " + respuestaJson.status);
             if (respuestaJson.status === 200) {
-
                 setAlertColor("success");
                 setAlertContent(configData.MENSAJE_CREACION_DE_BOLETA_CON_EXITO);
                 setOpen(true);
-                borrar();
                 enviarCorreo();
             }
 
@@ -261,7 +273,7 @@ const RegistrarVoucher = () => {
     }
 
     const esFechaValida = (fechaDeposito) => {
-        var esValido = moment(fechaDeposito).isBetween(configData.FECHA_INICIO_CONVOCATORIA, configData.FECHA_FIN_CONVOCATORIA, undefined, '[]');
+        var esValido = moment(fechaDeposito).isBetween(fechaIniConv, fechaFinConv, undefined, '[]');
         if (!esValido) {
             borrar();
             setAlertColor("error");
@@ -271,20 +283,20 @@ const RegistrarVoucher = () => {
         return esValido;
     }
 
-    const esMontoValido = (fechaDeposito, monto) => {
-        console.log("Monto:" + values.monto);
-        var esValidoPreIns = moment(fechaDeposito).isBetween(configData.FECHA_INI_PREINSCRIPCION, configData.FECHA_FIN_PREINSCRIPCION, undefined, '[]');
-        var esValidoIns = moment(fechaDeposito).isBetween(configData.FECHA_INI_INSCRIPCION, configData.FECHA_FIN_INSCRIPCION, undefined, '[]');
+    const esMontoValido = (fechaDeposito, selectedMonto) => {
+
+        var esValidoPreIns = moment(fechaDeposito).isBetween(fechaIniPreins, fechaFinPreins, undefined, '[]');
+        var esValidoIns = moment(fechaDeposito).isBetween(fechaIniIns, fechaFinIns, undefined, '[]');
 
         if (esValidoPreIns) {
-            if (configData.MONTO_PREINSCRIPCION === monto) {
+            if (montoRebajaIns === selectedMonto) {
                 return true;
             }
             mostrarErrorMonto();
             return false;
         }
         if (esValidoIns) {
-            if (configData.MONTO_INSCRIPCION === monto) {
+            if (montoIns === selectedMonto) {
                 return true;
             }
             mostrarErrorMonto();
@@ -447,7 +459,7 @@ const RegistrarVoucher = () => {
                                 inputFormat="DD/MM/YYYY"
                                 value={values.fechaDeposito}
                                 onChange={(value) => setFieldValue("fechaDeposito", value, true)}
-                                minDate={moment(configData.FECHA_INICIO_CONVOCATORIA)}
+                                minDate={moment(fechaIniConv)}
                                 maxDate={moment(new Date())}
                                 renderInput={(params) => {
                                     return <TextField {...params}
