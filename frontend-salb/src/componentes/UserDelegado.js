@@ -227,7 +227,7 @@ function DashboardContent() {
               <Routes>
                 <Route path="registrar-voucher" element={<RegistrarVoucher />} />
                 <Route path="registrar-equipo" element={<RegistrarEquipo />} />
-                <Route path="/" element={<Navigate to='RegistrarVoucher' />} />
+                <Route path="/" element={<Navigate to='registrar-voucher' />} />
               </Routes>
             </div>
           </Container>

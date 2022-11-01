@@ -2,7 +2,7 @@ import React from "react";
 import "../css/styleNavBar.css";
 import logo from "../imagenes/LogoLMB1.png";
 import { Link, NavLink } from "react-router-dom";
-import Tab from "@mui/material/Tab";
+//import Tab from "@mui/material/Tab";
 
 const BarraNavegacion = () => {
   return (
