@@ -16,6 +16,7 @@ import Avatar from "@mui/material/Avatar";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import "../css/equipo.css";
+import { Box } from "@mui/material";
 
 export default function AlertDialog() {
   const [open, setOpen] = React.useState(false);
@@ -57,15 +58,19 @@ export default function AlertDialog() {
       {jugadores.map((jugador, index) => {
         return (
           <>
-            <Grid
+            <Button
               xs={12}
               sm={6}
               md={4}
               xl={3}
               container
-              spacing={2}
+              /*spacing={2}*/
               variant="outlined"
-              onClick={handleClickOpen}
+              onClick={() => {
+                {
+                  handleClickOpen();
+                }
+              }}
               className="cardJugadores"
             >
               <Card sx={{ maxWidth: 345 }}>
@@ -95,20 +100,20 @@ export default function AlertDialog() {
                     color="text.secondary"
                     className="contenidoCardJugador"
                   >
-                    Equipo: Los fulanos
+                    <b>Equipo:</b> Los fulanos
                   </Typography>
                 </CardContent>
                 <CardActions>
                   <Button size="small">Mas detalles...</Button>
                 </CardActions>
               </Card>
-            </Grid>
+            </Button>
 
             <Dialog
               open={open}
               /*onClose={handleClose}*/
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
+              aria-labelledby={`alert-dialog-title${jugador.id}`}
+              aria-describedby={`alert-dialog-description${jugador.id}`}
             >
               <Grid xs={12}>
                 <DialogContentText>
@@ -119,14 +124,14 @@ export default function AlertDialog() {
                   />
                 </DialogContentText>
                 <DialogTitle
-                  id="alert-dialog-title"
+                  id={`alert-dialog-title${jugador.id}`}
                   className="NombrePerfilJugador"
                 >
                   {jugador.Nombre} {jugador.Apellido}
                 </DialogTitle>
                 <DialogContent>
                   <DialogContentText
-                    id="alert-dialog-description"
+                    id={`alert-dialog-description${jugador.id}`}
                     className="colorLetraDetallesJugador"
                   >
                     <b>Nombre:</b> {jugador.Nombre}
