@@ -18,7 +18,7 @@ class JugadorController extends Controller
         return DB::table('jugadores')
         ->join('equipos', 'equipos.id', '=', 'jugadores.Cod_Equipo')
         ->join('categorias','categorias.id','=', 'jugadores.Cod_Categoria')
-        ->select('jugadores.*', 'equipos.Partidos_Jugados', 'categorias.Categoria')
+        ->select('jugadores.*', 'equipos.Nombre_Equipo', 'categorias.Categoria')
         ->get();
         //return Jugador::all(); //
     }

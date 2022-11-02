@@ -87,7 +87,7 @@ export default function AlertDialog() {
                 <CardContent>
                   <Avatar
                     alt={`Foto del usuario" ${jugador.Nombre} ${jugador.Apellido}`}
-                    src={equipo}
+                    src={jugador.Foto}
                     className="fotoJugador"
                   />
                   <Typography
@@ -121,7 +121,7 @@ export default function AlertDialog() {
               <Grid xs={12}>
                 <DialogContentText>
                   <img
-                    src={equipo}
+                    src={jugador.Foto}
                     alt={`foto de Perfil de ${jugador.Nombre} ${jugador.Apellido}`}
                     className="fotoPerfilJugador"
                   />
@@ -143,7 +143,7 @@ export default function AlertDialog() {
                     <br />
                     <b>Edad:</b> {calcularEdad(jugador.Fecha_Nacimiento)} años
                     <br />
-                    <b>Equipo:</b> Por definir
+                    <b>Equipo:</b> {jugador.Nombre_Equipo}
                     <br />
                     <b>Categoría:</b> {jugador.Categoria}
                   </DialogContentText>
