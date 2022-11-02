@@ -19,8 +19,8 @@ class CreateJugadorsTable extends Migration
             $table->string('Nombre');
             $table->string('Apellido');
             $table->date('Fecha_Nacimiento');
-            $table->binary('Foto')->nullable();
-            $table->binary('Foto_DNI')->nullable();
+            $table->string('Foto', 80000)->nullable();
+            $table->string('Foto_DNI', 80000)->nullable();
             $table->string('Rol');
             $table->integer('Asistencia');
             $table->integer('Faltas');
