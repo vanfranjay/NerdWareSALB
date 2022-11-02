@@ -20,13 +20,16 @@ import { Box } from "@mui/material";
 
 export default function AlertDialog() {
   const [open, setOpen] = React.useState(false);
+  const [idJugador, setIdJugador] = React.useState(-1);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (idJugador) => {
     setOpen(true);
+    setIdJugador(idJugador);
   };
 
   const handleClose = () => {
     setOpen(false);
+    setIdJugador(-1);
   };
 
   const [jugadores, setJugadores] = useState([]);
@@ -58,17 +61,17 @@ export default function AlertDialog() {
       {jugadores.map((jugador, index) => {
         return (
           <>
-            <Button
-              xs={12}
+            <div
+              /*xs={12}
               sm={6}
               md={4}
               xl={3}
-              container
+              container*/
               /*spacing={2}*/
               variant="outlined"
               onClick={() => {
                 {
-                  handleClickOpen();
+                  handleClickOpen(jugador.id);
                 }
               }}
               className="cardJugadores"
@@ -107,10 +110,10 @@ export default function AlertDialog() {
                   <Button size="small">Mas detalles...</Button>
                 </CardActions>
               </Card>
-            </Button>
+            </div>
 
             <Dialog
-              open={open}
+              open={open && idJugador === jugador.id}
               /*onClose={handleClose}*/
               aria-labelledby={`alert-dialog-title${jugador.id}`}
               aria-describedby={`alert-dialog-description${jugador.id}`}
