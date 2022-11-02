@@ -10,7 +10,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import {Link, NavLink} from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import '../css/usuario.css';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
@@ -19,26 +19,26 @@ export const mainListItemsAdmi = (
 
   <React.Fragment>
     <div className='cuadroOpciones'>
-      
-        <NavLink to="solicitante" className='nombreMenuOpciones'>
-          <div className='contenedorIcono'>
-            <FactCheckIcon className='colorIcono' />
-          </div>
-          <div className='nombreOpcionesMenu'>
-            Solicitantes de preinscripción
-          </div>
-        </NavLink>
-      
-      
-        <NavLink to="rechazado" className='nombreMenuOpciones'>
-            <div className='contenedorIcono'>
-              <PersonOffIcon className='colorIcono' />
-            </div>
-            <div className='nombreOpcionesMenu'>
-              Rechazados
-            </div>
-        </NavLink>
-      
+
+      <NavLink to="solicitante" className='nombreMenuOpciones'>
+        <div className='contenedorIcono'>
+          <FactCheckIcon className='colorIcono' />
+        </div>
+        <div className='nombreOpcionesMenu'>
+          Preinscripciones
+        </div>
+      </NavLink>
+
+      {/** 
+      <NavLink to="rechazado" className='nombreMenuOpciones'>
+        <div className='contenedorIcono'>
+          <PersonOffIcon className='colorIcono' />
+        </div>
+        <div className='nombreOpcionesMenu'>
+          Rechazados
+        </div>
+      </NavLink>
+      **/}
     </div>
     {/**
     <ListItemButton>

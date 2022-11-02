@@ -21,7 +21,7 @@ import '../css/usuario.css';
 import { mainListItemsAdmi } from './ListItemsAdmi';
 import logo from '../imagenes/user1.png';
 import RegistrarVoucher from './RegistrarVoucher';
-import {Routes, Route, Navigate, useParams, NavLink} from 'react-router-dom';
+import { Routes, Route, Navigate, useParams, NavLink } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import RegistrarEquipo from './RegistrarEquipo';
 import SolicitudDelegados from './SolicitudDelegados';
@@ -132,7 +132,7 @@ function DashboardContent() {
                 ...(open && { display: 'none' }),
               }}
             >
-              <MenuIcon className='iconoMenu'/>
+              <MenuIcon className='iconoMenu' />
             </IconButton >
             <Typography
               component="h1"
@@ -141,7 +141,7 @@ function DashboardContent() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              <label className='nombreUserDelegado'>Fulano Fulanes</label>
+              {/*<label className='nombreUserDelegado'>Fulano Fulanes</label>*/}
               {/*Dashboard Titulo de la Página */}
             </Typography>
             {/* Icono de la campana */}
@@ -151,15 +151,15 @@ function DashboardContent() {
               </Badge>
             </IconButton>*/}
             <div className='avatarUser'>
-            <Avatar 
+              <Avatar
                 className='avatarFotoUsuario'
-                alt="Cindy Baker" src="" 
+                alt="Cindy Baker" src=""
                 id="basic-button"
                 aria-controls={opens ? 'basic-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={opens ? 'true' : undefined}
                 onClick={handleClick}>
-                  <img id='imgUser' class="imagenUser" src={logo} alt="Foto Perfil"/>
+                <img id='imgUser' class="imagenUser" src={logo} alt="Foto Perfil" />
               </Avatar>
               <Menu
                 id="basic-menu"
@@ -176,33 +176,33 @@ function DashboardContent() {
               </Menu>
             </div>
             {/* ________________________________ */}
-            </Toolbar>
+          </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
-        {/** icono cuando se despliega la barra vertical */}
-        <div className='cuadroFoto fondoBarraLateralUser'>
+          {/** icono cuando se despliega la barra vertical */}
+          <div className='cuadroFoto fondoBarraLateralUser'>
             {/*<div className='cuadro1'>
                 <img id='imgUser' class="imagenUser" src={logo} alt="Foto Perfil"/>
             </div>*/}
             <Toolbar
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              px: [1],
-            }}
-          >
-            <IconButton onClick={toggleDrawer}>
-            <ChevronLeftIcon className='colorIcono hoverColorIcono'/>
-            </IconButton>
-          </Toolbar>
-        </div>
-{/**__________________________________ */}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                px: [1],
+              }}
+            >
+              <IconButton onClick={toggleDrawer}>
+                <ChevronLeftIcon className='colorIcono hoverColorIcono' />
+              </IconButton>
+            </Toolbar>
+          </div>
+          {/**__________________________________ */}
 
           {/*<Divider />   Es un <hr/>*/}
           <List component="nav" className='fondoBarraLateralUser contenedorBarraLateral'>
             {mainListItemsAdmi}     {/* aqui se anda exportando los botones de la lista de item lisItem.js* */}
-            <Divider sx={{ my: 1 }}/>
+            <Divider sx={{ my: 1 }} />
             {/*secondaryListItems*/}
           </List>
         </Drawer>
@@ -221,13 +221,13 @@ function DashboardContent() {
           <Toolbar />
           {/**_______________Contenedor principal______________ */}
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <div className='container'>
-            <Routes>
-              <Route path="solicitante" element={<LabTabs/>}/>
-              <Route path="rechazado" element={<SolicitudesRechazadas/>}/>
-              <Route path="/" element={<Navigate to='Solicitante'/>}/>
-            </Routes>
-          </div>
+            <div className='container'>
+              <Routes>
+                <Route path="solicitante" element={<LabTabs />} />
+                <Route path="rechazado" element={<SolicitudesRechazadas />} />
+                <Route path="/" element={<Navigate to='Solicitante' />} />
+              </Routes>
+            </div>
           </Container>
         </Box>
       </Box>

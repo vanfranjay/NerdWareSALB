@@ -23,8 +23,6 @@ import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { MuiTelInput } from 'mui-tel-input';
-import MuiPhoneNumber from 'material-ui-phone-number-2'
 import axios from "axios";
 
 import { Container, Stack } from '@mui/system';
@@ -82,11 +80,13 @@ const Registrarse = () => {
       .string('Ingrese el Nombre')
       .min(2, 'Nombre debe ser mínimo 2 caracteres')
       .max(80, "Nombre debe ser máximo 80 caracteres")
+      .matches(/^[A-Za-z\s]*$/, "El nombre solo debe tener letras y espacios")
       .required('Nombre es requerido'),
     apellido: Yup
       .string('Ingrese los Apellidos')
       .min(2, 'Apellidos debe ser mínimo 2 caracteres')
       .max(80, "Apellidos debe ser máximo 80 caracteres")
+      .matches(/^[A-Za-z\s]*$/, "El apellido solo debe tener letras y espacios")
       .required('Apellidos es requerido'),
     telefono: Yup
       .string("Ingrese el teléfono")
@@ -547,7 +547,6 @@ const Registrarse = () => {
         <Stack m={5}
           direction="row"
           spacing={3}
-          display="flex"
           justifyContent="center"
           alignItems="center">
           <Button
@@ -555,12 +554,14 @@ const Registrarse = () => {
             color="primary"
             onClick={handleSubmit}
             type="submit"
+            sx={{ width: '25%' }}
           >Registrar
           </Button>
           <Button
             variant="contained"
             color="warning"
             onClick={borrar}
+            sx={{ width: '25%' }}
           >Cancelar
           </Button>
         </Stack>
