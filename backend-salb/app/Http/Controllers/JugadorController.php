@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Jugador;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class JugadorController extends Controller
 {
@@ -14,7 +15,12 @@ class JugadorController extends Controller
      */
     public function index()
     {
-        return Jugador::all(); //
+        return DB::table('jugadores')
+        ->join('equipos', 'equipos.id', '=', 'jugadores.Cod_Equipo')
+        ->join('categorias','categorias.id','=', 'jugadores.Cod_Categoria')
+        ->select('jugadores.*', 'equipos.Partidos_Jugados', 'categorias.Categoria')
+        ->get();
+        //return Jugador::all(); //
     }
 
     /**

@@ -145,7 +145,7 @@ export default function AlertDialog() {
                     <br />
                     <b>Equipo:</b> Por definir
                     <br />
-                    <b>Categoría:</b> por definir
+                    <b>Categoría:</b> {jugador.Categoria}
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
