@@ -43,15 +43,15 @@ const VoucherHabilitados = () => {
                   alignItems="flex-start"
                   className="vaucherHabilitados"
                 >
-                  <div className="numeroEnLista">{index + 1}</div>
-                  <div className="generalidades">
+                  {/*<div className="numeroEnLista">{index + 1}</div>*/}
+                  {/*<div className="generalidades">
                     <ListItemAvatar>
                       <Avatar
-                        alt="Remy Sharp"
-                        src="/static/images/avatar/1.jpg"
+                        alt="Foto Perfil"
+                        src={solicitud.Foto_Perfil}
                       />
                     </ListItemAvatar>
-                  </div>
+                  </div>*/}
                   <div className="generalidades nombreUsuarioVoucher">
                     <ListItemText>
                       {solicitud.Nombre} {solicitud.Apellido}

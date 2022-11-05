@@ -133,7 +133,7 @@ const RegistrarVoucher = () => {
 
             setSubmitting(true);
             setTimeout(() => {
-                resetForm();
+                //resetForm();
                 setSubmitting(false);
             }, 4000);
         },
@@ -155,10 +155,10 @@ const RegistrarVoucher = () => {
         formdata.append("image", imageToSend);
 
         var imagePosted =
-            await fetch("https://api.imgur.com/3/image/", {
+            await fetch(configData.IMGUR_API_URL, {
                 method: "post",
                 headers: {
-                    Authorization: "Client-ID b690f8f677e6fa3"
+                    Authorization: "Client-ID " + configData.IMGUR_CLIENT_ID
                 },
                 body: formdata
             }).then(res => {
@@ -181,7 +181,7 @@ const RegistrarVoucher = () => {
         var imagePosted =
             await axios
                 .post(
-                    `https://api.imgbb.com/1/upload?key=c035e32600d4b0aa7ea07ae391739374`,
+                    configData.IMGBB_API_URL + configData.IMAGEBB_API_KEY,
                     formdata,
                     {
                         headers: {
@@ -305,7 +305,7 @@ const RegistrarVoucher = () => {
     }
 
     const mostrarErrorMonto = () => {
-        borrar();
+
         setAlertColor("error");
         setAlertContent(configData.MENSAJE_MONTO_INVALIDO);
         setOpen(true);
@@ -357,7 +357,6 @@ const RegistrarVoucher = () => {
                     {alertContent}
                 </Alert>
             </Snackbar>
-
 
             <Typography variant="h3"
                 align='center'

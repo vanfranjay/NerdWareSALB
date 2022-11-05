@@ -176,7 +176,7 @@ const RegistrarEquipo = () => {
     console.log("Categoria ID: " + selectedCategoria);
 
     const datos = {
-      "Nombre": values.nombreEquipo,
+      "Nombre-Equipo": values.nombreEquipo,
       "Logo": imageURL ? imageURL : "",
       "Partidos_Jugados": 0,
       "Partidos_Ganados": 0,

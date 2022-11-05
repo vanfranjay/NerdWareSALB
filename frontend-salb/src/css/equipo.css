@@ -47,4 +47,7 @@
 }
 .cardJugadores{
     padding-top: 20px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border: none !important;
 }

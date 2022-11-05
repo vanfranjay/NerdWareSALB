@@ -39,8 +39,8 @@ const Noticias = () => {
 
                 container
                 direction="column"
-                justifyContent="space-around"
-                alignItems="stretch"
+                justifyContent="center"
+                alignItems="center"
                 spacing={3}>
 
                 {Array.from(noticias).map(({ Cod_Noticia, Fecha, Imagen, Titulo, Descripcion, Link }) => (

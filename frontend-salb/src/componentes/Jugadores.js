@@ -20,13 +20,16 @@ import { Box } from "@mui/material";
 
 export default function AlertDialog() {
   const [open, setOpen] = React.useState(false);
+  const [idJugador, setIdJugador] = React.useState(-1);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (idJugador) => {
     setOpen(true);
+    setIdJugador(idJugador);
   };
 
   const handleClose = () => {
     setOpen(false);
+    setIdJugador(-1);
   };
 
   const [jugadores, setJugadores] = useState([]);
@@ -58,17 +61,17 @@ export default function AlertDialog() {
       {jugadores.map((jugador, index) => {
         return (
           <>
-            <Button
-              xs={12}
+            <div
+              /*xs={12}
               sm={6}
               md={4}
               xl={3}
-              container
+              container*/
               /*spacing={2}*/
               variant="outlined"
               onClick={() => {
                 {
-                  handleClickOpen();
+                  handleClickOpen(jugador.id);
                 }
               }}
               className="cardJugadores"
@@ -84,7 +87,7 @@ export default function AlertDialog() {
                 <CardContent>
                   <Avatar
                     alt={`Foto del usuario" ${jugador.Nombre} ${jugador.Apellido}`}
-                    src={equipo}
+                    src={jugador.Foto}
                     className="fotoJugador"
                   />
                   <Typography
@@ -107,10 +110,10 @@ export default function AlertDialog() {
                   <Button size="small">Mas detalles...</Button>
                 </CardActions>
               </Card>
-            </Button>
+            </div>
 
             <Dialog
-              open={open}
+              open={open && idJugador === jugador.id}
               /*onClose={handleClose}*/
               aria-labelledby={`alert-dialog-title${jugador.id}`}
               aria-describedby={`alert-dialog-description${jugador.id}`}
@@ -118,7 +121,7 @@ export default function AlertDialog() {
               <Grid xs={12}>
                 <DialogContentText>
                   <img
-                    src={equipo}
+                    src={jugador.Foto}
                     alt={`foto de Perfil de ${jugador.Nombre} ${jugador.Apellido}`}
                     className="fotoPerfilJugador"
                   />
@@ -140,9 +143,9 @@ export default function AlertDialog() {
                     <br />
                     <b>Edad:</b> {calcularEdad(jugador.Fecha_Nacimiento)} años
                     <br />
-                    <b>Equipo:</b> Por definir
+                    <b>Equipo:</b> {jugador.Nombre_Equipo}
                     <br />
-                    <b>Categoría:</b> por definir
+                    <b>Categoría:</b> {jugador.Categoria}
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
