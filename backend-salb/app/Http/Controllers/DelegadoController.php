@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Delegado;
+use Illuminate\Support\Facades\Validator;
 class DelegadoController extends Controller
 {
     /**
@@ -34,43 +35,26 @@ class DelegadoController extends Controller
      */
     public function store(Request $request)
     {
-      /*  $request->validate([
-            'Nombre' => 'required|string ' ,
-            'Apellido' => 'required|string' ,
-            'Telefono' => 'required|numeric' ,
-            //'Contraseña' => 'required|confirmed' ,
-           // 'Contraseña_confirmed' => 'required' ,
-            'Correo' => 'email:rfc,dns' ,
-            //'Foto_Perfil'=>'mimes:jpg,jpeg,png',
-            //'Foto_DNI'=>'mimes:jpg,jpeg,png,pdf',
+        $delegado = new Delegado($request->all());     
+        $validator = Validator::make($request->all(), [
+            '' => 'required|unique:CI' ,
         ],
-       [
-        //Nombre.required' => 'El campo es necesario',
-        //Nombre.string' => 'El campo solo admite caracteres',
-        //'Apellido.required' => 'El campo es necesario',
-        //'Apellido.string' => 'El campo solo admite caracteres',
-        //'Contraseña.required' => 'El campo es necesario',
-        //Contraseña.confirmed' => 'Confirme la contraseña',
-        //'Contraseña_Confirmation.required' => 'La contraseña no es la misma',
-        //'Correo.email' => 'Correo invalido',
-        //'Foto_Perfil.mimes' => 'El campo solo admite extensiones jpg, jpeg y png' ,
-        //'Foto_DNI.mimes' => 'El campo solo admite extensiones pdf, jpg, jpeg y png',
-    ]);
-       $delegado = new Delegado();
-       $delegado->Nombre = $request->Nombre;
-       $delegado->Apellido = $request->Apellido;
-       $delegado->Contraseña = $request->Contraseña;
-       $delegado->Telefono = $request->Telefono;
-       $delegado->Contraseña_confirmed = $request->Contraseña_confirmed;
-       $delegado->Correo = $request->Correo;
-       $delegado->Foto_Perfil = $request->Foto_Perfil;
-       $delegado->Foto_DNI = $request->Foto_DNI;
-       $delegado->save();
-       return $delegado; */
+        [
+            //'N_Transaccion.required' => 'El campo es necesario',
+            'CI.unique' => 'EL CI ya fue regustrada',
+        ]);
+
+        try {
+            $delegado->save();
+        } catch (\Exception $e) {
+            return response()->json(['errorCode' => $e->errorInfo[0], 'errorMessage' => $e->errorInfo[2] ], 400);
+        }
+        return response()->json($delegado);
+     /*
        $delegado = new Delegado($request->all());
         $delegado->save();
         return $delegado;  //
-        
+       */ 
     }
 
     /**
