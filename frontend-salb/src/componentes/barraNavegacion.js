@@ -31,10 +31,10 @@ const BarraNavegacion = () => {
           </button>
         </div>
       </div>
-      <nav class="navbar navbar-expand-lg bg-light fondoNavBar tamañoFondo">
-        <div class="container-fluid tamañoFondo">
+      <nav className="navbar navbar-expand-lg bg-light fondoNavBar tamañoFondo">
+        <div className="container-fluid tamañoFondo">
           <button
-            class="navbar-toggler menuDespliegue"
+            className="navbar-toggler menuDespliegue"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarNavAltMarkup"
@@ -42,13 +42,13 @@ const BarraNavegacion = () => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
           <div
-            class="collapse navbar-collapse tamañoFondo"
+            className="collapse navbar-collapse tamañoFondo"
             id="navbarNavAltMarkup"
           >
-            <div class="navbar-nav menuOpciones tamañoFondo">
+            <div className="navbar-nav menuOpciones tamañoFondo">
               {/*<NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/estadisticas">ESTADISTICAS</NavLink>
                             <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/fotos">FOTOS</NavLink>*/}
               <NavLink
