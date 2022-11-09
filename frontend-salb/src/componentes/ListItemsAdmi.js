@@ -14,6 +14,7 @@ import { Link, NavLink } from 'react-router-dom';
 import '../css/usuario.css';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 
 export const mainListItemsAdmi = (
 
@@ -26,6 +27,14 @@ export const mainListItemsAdmi = (
         </div>
         <div className='nombreOpcionesMenu'>
           Preinscripciones
+        </div>
+      </NavLink>
+      <NavLink to="registrar-torneo" className='nombreMenuOpciones'>
+        <div className='contenedorIcono'>
+          <EventAvailableIcon className='colorIcono' />
+        </div>
+        <div className='nombreOpcionesMenu'>
+          Registrar Torneo
         </div>
       </NavLink>
 
