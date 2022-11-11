@@ -15,7 +15,7 @@ class CreateDelegadosTable extends Migration
     {
         Schema::create('delegados', function (Blueprint $table) {
             $table->id();
-            $table->string('CI');
+            $table->string('CI')->unique();
             $table->string('Nombre');
             $table->string('Apellido');
             $table->string('Telefono');
