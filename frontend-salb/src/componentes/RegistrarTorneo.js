@@ -1,5 +1,5 @@
 import { Divider, Grid, MenuItem, Select } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import "../css/usuario.css";
@@ -9,6 +9,7 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import NativeSelect from "@mui/material/NativeSelect";
 import Button from "@mui/material/Button";
+import axios from "axios";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -19,6 +20,41 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const RegistrarTorneo = () => {
+  const [torneo, setTorneo] = useState({
+    Campeon: "Bolivar",
+    Subcampeon: "hola",
+    Fecha_Ini_Convocatoria: "2022-10-15",
+    Fecha_Fin_Convocatoria: "2022-11-30",
+    Invitacion: "",
+    Nombre_Torneo: "",
+    Lugar_Evento: "",
+    Fecha_Ini_Torneo: "",
+    Fecha_Fin_Torneo: "",
+    Categoria: "",
+    Rama: "",
+    Caracter: "",
+    MontoPreinscripcion: "",
+    Fecha_Ini_Preinscripcion: "",
+    Fecha_Fin_Preinscripcion: "",
+    MontoInscripcion: "",
+    Fecha_Ini_Inscripcion: "",
+    Fecha_Fin_Inscripcion: "",
+    Telefono: "",
+    Responsable: "",
+  });
+
+  const uploadData = async (event) => {
+    event.preventDefault();
+    try {
+      const { data } = await axios.post("http://127.0.0.1:8000/api/torneos", {
+        ...torneo,
+      });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+    
+  };
   return (
     <>
       <Typography
@@ -32,19 +68,23 @@ const RegistrarTorneo = () => {
         ¡Registrar Torneo!
       </Typography>
       <hr className="hr" />
-      <form>
+      <form onSubmit={uploadData}>
         <div className="cuandroContentRegisterTorneo">
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <Item className="fondoColor">
                 <TextField
-                  required
                   sx={{
                     input: { color: "white" },
                     label: { color: "white" },
                   }}
                   id="standard-required"
                   label="Invitacion para"
+                  name="Invitacion"
+                  onChange={(e) =>
+                    setTorneo({ ...torneo, Invitacion: e.target.value })
+                  }
+                  value={torneo.Invitacion}
                   fullWidth
                   defaultValue="Equipos y clubes de maxi basquet"
                   variant="standard"
@@ -54,13 +94,17 @@ const RegistrarTorneo = () => {
             <Grid item xs={12} md={6}>
               <Item className="fondoColor">
                 <TextField
-                  required
                   sx={{
                     input: { color: "white" },
                     label: { color: "white" },
                   }}
                   id="standard-required1"
                   label="Nombre del Torneo"
+                  onChange={(e) =>
+                    setTorneo({ ...torneo, Nombre_Torneo: e.target.value })
+                  }
+                  value={torneo.Nombre_Torneo}
+                  name="Nombre_Torneo"
                   fullWidth
                   defaultValue=""
                   variant="standard"
@@ -70,15 +114,19 @@ const RegistrarTorneo = () => {
             <Grid item xs={12} md={6}>
               <Item className="fondoColor">
                 <TextField
-                  required
                   sx={{
                     input: { color: "white" },
                     label: { color: "white" },
                   }}
                   id="standard-required5"
                   label="Lugar"
+                  onChange={(e) =>
+                    setTorneo({ ...torneo, Lugar_Evento: e.target.value })
+                  }
+                  value={torneo.Lugar_Evento}
                   fullWidth
                   defaultValue=""
+                  name="Lugar_Evento"
                   variant="standard"
                 />
               </Item>
@@ -86,113 +134,144 @@ const RegistrarTorneo = () => {
             <Grid item xs={12} md={6}>
               <Item className="fondoColor">
                 <TextField
-                  required
-                  sx={{
-                    input: { color: "white" },
-                    label: { color: "white" },
-                  }}
-                  id="standard-required2"
-                  label="Fecha de inicio"
+                  type="date"
+                  id="standard-required9"
+                  label="Fecha de inicio: "
+                  name="Fecha_Ini_Torneo"
+                  onChange={(e) =>
+                    setTorneo({ ...torneo, Fecha_Ini_Torneo: e.target.value })
+                  }
+                  value={torneo.Fecha_Ini_Torneo}
                   fullWidth
-                  defaultValue=""
+                  defaultValue=" "
                   variant="standard"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  sx={{
+                    input: { color: "#fff" },
+                    label: { color: "#fff" },
+                  }}
                 />
               </Item>
             </Grid>
             <Grid item xs={12} md={6}>
               <Item className="fondoColor">
                 <TextField
-                  required
-                  sx={{
-                    input: { color: "white" },
-                    label: { color: "white" },
-                  }}
-                  id="standard-required3"
-                  label="Fecha de finalización"
+                  type="date"
+                  id="standard-required10"
+                  label="Fecha de finalización: "
+                  name="Fecha_Fin_Torneo"
+                  onChange={(e) =>
+                    setTorneo({ ...torneo, Fecha_Fin_Torneo: e.target.value })
+                  }
+                  value={torneo.Fecha_Fin_Torneo}
                   fullWidth
-                  defaultValue=""
+                  defaultValue=" "
                   variant="standard"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  sx={{
+                    input: { color: "#fff" },
+                    label: { color: "#fff" },
+                  }}
                 />
               </Item>
             </Grid>
             <Grid item xs={12} md={6}>
               <Item className="fondoColor">
-                <FormControl
+              <FormControl
+                 variant="standard"
                   fullWidth
                   sx={{
                     input: { color: "#fff" },
                     label: { color: "#fff" },
                     select: { color: "#fff" },
                     option: { color: "#000" },
+                    div: { color: "#fff" },
                   }}
                 >
-                  <InputLabel variant="standard" htmlFor="uncontrolled-native1">
-                    Select
-                  </InputLabel>
-                  <NativeSelect
-                    inputProps={{
-                      name: "age",
-                      id: "uncontrolled-native1",
-                    }}
+                  <InputLabel id="demo-simple-select-label">Categorias</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={torneo.Categoria}
+                    label="Rama"
+                    onChange={(e) =>
+                      setTorneo({ ...torneo, Categoria: e.target.value })
+                    }
                   >
-                    <option value={40}>Internacional</option>
-                    <option value={50}>Nacional</option>
-                    <option value={60}>inter-departamental</option>
-                  </NativeSelect>
+                    <MenuItem value={"Femenino"}>25+</MenuItem>
+                    <MenuItem value={"Masculino"}>35+</MenuItem>
+                    <MenuItem value={"Femenino/Masculino"}>
+                      45+
+                    </MenuItem>
+                  </Select>
                 </FormControl>
               </Item>
             </Grid>
             <Grid item xs={12} md={6}>
               <Item className="fondoColor">
                 <FormControl
+                 variant="standard"
                   fullWidth
                   sx={{
-                    input: { color: "white" },
-                    label: { color: "white" },
-                    select: { color: "white" },
+                    input: { color: "#fff" },
+                    label: { color: "#fff" },
+                    select: { color: "#fff" },
                     option: { color: "#000" },
+                    div: { color: "#fff" },
                   }}
                 >
-                  <InputLabel variant="standard" htmlFor="uncontrolled-native1">
-                    Rama
-                  </InputLabel>
-                  <NativeSelect
-                    inputProps={{
-                      name: "age",
-                      id: "uncontrolled-native1",
-                    }}
+                  <InputLabel id="demo-simple-select-label">Rama</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={torneo.Rama}
+                    label="Rama"
+                    onChange={(e) =>
+                      setTorneo({ ...torneo, Rama: e.target.value })
+                    }
                   >
-                    <option value={40}>Femenino</option>
-                    <option value={50}>Masculino</option>
-                    <option value={60}>Femenino/Masculino</option>
-                  </NativeSelect>
+                    <MenuItem value={"Femenino"}>Femenino</MenuItem>
+                    <MenuItem value={"Masculino"}>Masculino</MenuItem>
+                    <MenuItem value={"Femenino/Masculino"}>
+                      Femenino/Masculino
+                    </MenuItem>
+                  </Select>
                 </FormControl>
               </Item>
             </Grid>
             <Grid item xs={12} md={6}>
               <Item className="fondoColor">
-                <FormControl
+              <FormControl
+                 variant="standard"
                   fullWidth
                   sx={{
-                    input: { color: "white" },
-                    label: { color: "white" },
-                    select: { color: "white" },
+                    input: { color: "#fff" },
+                    label: { color: "#fff" },
+                    select: { color: "#fff" },
                     option: { color: "#000" },
+                    div: { color: "#fff" },
                   }}
                 >
-                  <InputLabel variant="standard" htmlFor="uncontrolled-native1">
-                    Caracter del evento
-                  </InputLabel>
-                  <NativeSelect
-                    inputProps={{
-                      name: "age",
-                      id: "uncontrolled-native1",
-                    }}
+                  <InputLabel id="demo-simple-select-label">Caracter del Evento</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="caracter del evento"
+                    onChange={(e) =>
+                      setTorneo({ ...torneo, Caracter: e.target.value })
+                    }
+                    value={torneo.Caracter}
                   >
-                    <option value={40}>Internacional</option>
-                    <option value={50}>Nacional</option>
-                    <option value={60}>Inter-departamental</option>
-                  </NativeSelect>
+                    <MenuItem value={"Femenino"}>Internacional</MenuItem>
+                    <MenuItem value={"Masculino"}>Nacional</MenuItem>
+                    <MenuItem value={"Femenino/Masculino"}>
+                      Inter-departamental
+                    </MenuItem>
+                  </Select>
                 </FormControl>
               </Item>
             </Grid>
@@ -215,11 +294,15 @@ const RegistrarTorneo = () => {
             <Grid item xs={12} md={6}>
               <Item className="fondoColor">
                 <TextField
-                  required
                   type="number"
                   id="standard-required4"
                   label="Costo de preinscripción ($)"
                   fullWidth
+                  name="MontoPreinscripcion"
+                  onChange={(e) =>
+                    setTorneo({ ...torneo, MontoPreinscripcion: e.target.value })
+                  }
+                  value={torneo.MontoPreinscripcion}
                   defaultValue=""
                   variant="standard"
                   sx={{
@@ -232,11 +315,15 @@ const RegistrarTorneo = () => {
             <Grid item xs={12} md={6}>
               <Item className="fondoColor">
                 <TextField
-                  required
                   type="date"
                   id="standard-required4"
                   label="Fecha inicio de preinscripción:"
                   fullWidth
+                  name="Fecha_Ini_Preinscripcion"
+                  onChange={(e) =>
+                    setTorneo({ ...torneo, Fecha_Ini_Preinscripcion: e.target.value })
+                  }
+                  value={torneo.Fecha_Ini_Preinscripcion}
                   defaultValue=" "
                   variant="standard"
                   InputLabelProps={{
@@ -252,10 +339,14 @@ const RegistrarTorneo = () => {
             <Grid item xs={12} md={6}>
               <Item className="fondoColor">
                 <TextField
-                  required
                   type="date"
                   id="standard-required4"
                   label="Fecha fin de preinscripción:"
+                  name="Fecha_Fin_Preinscripcion"
+                  onChange={(e) =>
+                    setTorneo({ ...torneo, Fecha_Fin_Preinscripcion: e.target.value })
+                  }
+                  value={torneo.Fecha_Fin_Preinscripcion}
                   fullWidth
                   defaultValue=" "
                   variant="standard"
@@ -289,7 +380,6 @@ const RegistrarTorneo = () => {
             <Grid item xs={12} md={6}>
               <Item className="fondoColor">
                 <TextField
-                  required
                   sx={{
                     input: { color: "white" },
                     label: { color: "white" },
@@ -297,6 +387,11 @@ const RegistrarTorneo = () => {
                   type="number"
                   id="standard-required4"
                   label="Costo de inscripción ($)"
+                  name="MontoInscripcion"
+                  onChange={(e) =>
+                    setTorneo({ ...torneo, MontoInscripcion: e.target.value })
+                  }
+                  value={torneo.MontoInscripcion}
                   fullWidth
                   defaultValue=""
                   variant="standard"
@@ -306,7 +401,6 @@ const RegistrarTorneo = () => {
             <Grid item xs={12} md={6}>
               <Item className="fondoColor">
                 <TextField
-                  required
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -318,6 +412,11 @@ const RegistrarTorneo = () => {
                   id="standard-required4"
                   label="Fecha inicio de inscripción:"
                   fullWidth
+                  name="Fecha_Ini_Inscripcion"
+                  onChange={(e) =>
+                    setTorneo({ ...torneo, Fecha_Ini_Inscripcion: e.target.value })
+                  }
+                  value={torneo.Fecha_Ini_Inscripcion}
                   defaultValue=""
                   variant="standard"
                 />
@@ -326,7 +425,6 @@ const RegistrarTorneo = () => {
             <Grid item xs={12} md={6}>
               <Item className="fondoColor">
                 <TextField
-                  required
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -337,7 +435,12 @@ const RegistrarTorneo = () => {
                   type="date"
                   id="standard-required4"
                   label="Fecha fin de inscripción:"
+                  onChange={(e) =>
+                    setTorneo({ ...torneo, Fecha_Fin_Inscripcion: e.target.value })
+                  }
+                  value={torneo.Fecha_Fin_Inscripcion}
                   fullWidth
+                  name="Fecha_Fin_Inscripcion"
                   defaultValue=""
                   variant="standard"
                 />
@@ -363,7 +466,6 @@ const RegistrarTorneo = () => {
             <Grid item xs={12} md={6}>
               <Item className="fondoColor">
                 <TextField
-                  required
                   sx={{
                     input: { color: "white" },
                     label: { color: "white" },
@@ -372,6 +474,11 @@ const RegistrarTorneo = () => {
                   id="standard-required6"
                   label="Nombre completo"
                   fullWidth
+                  name="Responsable"
+                  onChange={(e) =>
+                    setTorneo({ ...torneo, Responsable: e.target.value })
+                  }
+                  value={torneo.Responsable}
                   defaultValue=""
                   variant="standard"
                 />
@@ -380,7 +487,6 @@ const RegistrarTorneo = () => {
             <Grid item xs={12} md={6}>
               <Item className="fondoColor">
                 <TextField
-                  required
                   sx={{
                     input: { color: "white" },
                     label: { color: "white" },
@@ -389,6 +495,11 @@ const RegistrarTorneo = () => {
                   id="standard-required7"
                   label="Telefono"
                   fullWidth
+                  name="Telefono"
+                  onChange={(e) =>
+                    setTorneo({ ...torneo, Telefono: e.target.value })
+                  }
+                  value={torneo.Telefono}
                   defaultValue=""
                   variant="standard"
                 />
@@ -398,13 +509,10 @@ const RegistrarTorneo = () => {
         </div>
         <div>
           <Grid container spacing={2} className="contentBtnRegisterCancelar">
-            <Grid item xs={6} md={6} align="end" >
+            <Grid item xs={6} md={6} align="end">
               <Button
                 className="botonHabilitadoAceptar"
-                onClick={() => {
-                  {
-                  }
-                }}
+                type="submit"
                 autoFocus
               >
                 Registrar
