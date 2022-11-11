@@ -18,7 +18,12 @@ class CreateTablaPosicionsTable extends Migration
             $table->binary('Foto_pos')->nullable();
             $table->date('Fecha');
             $table->timestamps();
-
+            $table->foreignId('Cod_Torneo')
+                   ->nullable()
+                   ->constrained('torneos')
+                   ->cascadeOnUpdate()
+                   ->nullOnDelete()
+                   ;
             //$table->foreignId('Cod_torneo')->constrained('Torneos');
         });
     }

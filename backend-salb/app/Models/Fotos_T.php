@@ -11,11 +11,10 @@ class Fotos_T extends Model
     protected $table = 'fotos_ts';
     protected $primarykey = 'id';
     protected $fillable = [
-        'Titulo', 'Descripcion', 'Fecha_Publicacion', 'Foto',
+        'Titulo', 'Descripcion', 'Fecha_Publicacion', 'Foto', 'Cod_Torneo',
     ];
 
-    /*public function tabla()
-    {
-        return $this->hasOne(tabla::class,'id');
-    }*/
+    public function torneos(){
+        return $this->belongsTo(Torneo::class,'id');
+    }
 }
