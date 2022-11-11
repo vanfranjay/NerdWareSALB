@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Torneo;
 use Illuminate\Http\Request;
+use App\Models\Torneo;
 
 class TorneoController extends Controller
 {

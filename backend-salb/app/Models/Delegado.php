@@ -16,4 +16,7 @@ class Delegado extends Model
     public function boletas(){
         return $this->hasMany(boleta::class,'Cod_Boleta');
     }
+    public function equipos(){
+        return $this->hasMany(equipo::class,'Cod_Equipo');
+    }
 }
