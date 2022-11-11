@@ -57,16 +57,15 @@ export default function AlertDialog() {
     return edad;
   }
   return (
-    <Grid container className="cardEquipoJugadores">
+    <Grid container spacing={2} className="cardEquipoJugadores">
       {jugadores.map((jugador, index) => {
         return (
           <>
-            <div
-              /*xs={12}
+            <Grid item
+              xs={12}
               sm={6}
               md={4}
               xl={3}
-              container*/
               /*spacing={2}*/
               variant="outlined"
               onClick={() => {
@@ -110,7 +109,7 @@ export default function AlertDialog() {
                   <Button size="small">Mas detalles...</Button>
                 </CardActions>
               </Card>
-            </div>
+            </Grid>
 
             <Dialog
               open={open && idJugador === jugador.id}
