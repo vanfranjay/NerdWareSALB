@@ -25,6 +25,16 @@ class CreateTorneosTable extends Migration
             $table->date('Fecha_Fin_Inscripcion')->default('2022-09-14');
             $table->decimal('MontoPreinscripcion')->default('200');
             $table->decimal('MontoInscripcion')->default('250');
+            $table->string('Invitacion');
+            $table->string('Nombre_Torneo');
+            $table->string('Lugar_Evento');
+            $table->string('Fecha_Ini_Torneo');
+            $table->string('Fecha_Fin_Torneo');
+            $table->string('Rama');
+            $table->string('Caracter');
+            $table->string('Responsable');
+            $table->string('Telefono');
+            $table->string('Categoria');
             $table->timestamps();
         });
     }

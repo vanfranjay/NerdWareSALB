@@ -31,6 +31,7 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import LabTabs from './tabSeccionSolicitudes';
+import RegistrarTorneo from './RegistrarTorneo';
 
 const ocultar = document.getElementById('imgUser');
 const text = document.getElementById('imgUser');
@@ -224,7 +225,7 @@ function DashboardContent() {
             <div className='container'>
               <Routes>
                 <Route path="solicitante" element={<LabTabs />} />
-                <Route path="rechazado" element={<SolicitudesRechazadas />} />
+                <Route path="registrar-torneo" element={<RegistrarTorneo />} />
                 <Route path="/" element={<Navigate to='Solicitante' />} />
               </Routes>
             </div>
