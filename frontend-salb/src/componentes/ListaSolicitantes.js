@@ -111,7 +111,7 @@ const ListaSolicitantes = () => {
   //////////////////////////////////////////////////////
 
   return (
-    <div class="accordion" id="accordionExample">
+    <div className="accordion" id="accordionExample">
       {solicitudes.map((solicitud, index) => {
         if (solicitud.Estado == 0) {
           return (

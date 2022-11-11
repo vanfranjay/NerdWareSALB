@@ -375,7 +375,7 @@ const RegistrarEquipo = () => {
 
           </Stack>
           <div>
-            <table id="tabla" class="table table-dark"></table>
+            <table id="tabla" className="table table-dark"></table>
           </div>
         </form>
       </div>

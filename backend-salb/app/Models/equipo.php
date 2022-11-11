@@ -24,4 +24,8 @@ class Equipo extends Model
     public function partidos(){
         return $this->hasMany(Partido::class,'Cod_Partido');
     }
+
+    public function delegados(){
+        return $this->belongsTo(Delegado::class,'Cod_Delegado');
+    }
 }

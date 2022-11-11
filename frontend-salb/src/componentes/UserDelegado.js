@@ -161,7 +161,7 @@ function DashboardContent() {
                 aria-haspopup="true"
                 aria-expanded={opens ? 'true' : undefined}
                 onClick={handleClick}>
-                <img id='imgUser' class="imagenUser" src={logo} alt="Foto Perfil" />
+                <img id='imgUser' className="imagenUser" src={logo} alt="Foto Perfil" />
               </Avatar>
               <Menu
                 id="basic-menu"
@@ -184,7 +184,7 @@ function DashboardContent() {
           {/** icono cuando se despliega la barra vertical */}
           <div className='cuadroFoto fondoBarraLateralUser'>
             {/*<div className='cuadro1'>
-                <img id='imgUser' class="imagenUser" src={logo} alt="Foto Perfil"/>
+                <img id='imgUser' className="imagenUser" src={logo} alt="Foto Perfil"/>
             </div>*/}
             <Toolbar
               sx={{

@@ -51,7 +51,8 @@ const Registrarse = () => {
 
   const postVoucherURL = configData.REGISTER_VOUCHER_API_URL;
 
-  const [selectedFile, setSelectedFile] = useState();
+  const [selectedFileFotoDNI, setSelectedFileFotoDNI] = useState();
+  const [selectedFileFotoPerfil, setSelectedFileFotoPerfil] = useState();
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -181,14 +182,34 @@ const Registrarse = () => {
 
       setSubmitting(true);
       setTimeout(() => {
-        resetForm();
+        //resetForm();
         setSubmitting(false);
       }, 4000);
     },
   });
 
+  // Realiza un POST al API de crear Delegado en backend
+
+  const postDelegado = async (datos) => {
+    const res = await axios
+      .post(configData.REGISTER_DELEGADO_API_URL, {
+        ...datos,
+      })
+      .then(function (response) {
+        console.log(response);
+        return response;
+      })
+      .catch(function (error) {
+        console.log(error);
+        return error.response;
+      });
+    console.log("Response Delegado: " + JSON.stringify(res));
+    return res;
+  }
+
   const registrarUsuario = async () => {
     const datos = {
+      CI: values.dni,
       Nombre: values.nombre,
       Apellido: values.apellido,
       Telefono: values.telefono,
@@ -201,27 +222,50 @@ const Registrarse = () => {
     //e.preventDefault(); //evitar que se actualice la pantalla
     console.log("Delegado: " + JSON.stringify(datos));
 
-    const res = await axios
-      .post(configData.REGISTER_DELEGADO_API_URL, {
-        ...datos,
-      })
-      .then(function (response) {
-        console.log(response);
-        return response;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    console.log("Response: " + JSON.stringify(res));
-    borrar();
-
-    if (res.status === 201) {
-      setAlertColor("success");
-      setAlertContent(configData.MENSAJE_REGISTRO_USUARIO_CON_EXITO);
+    if (await existeFotosDuplicadas(values.fotoDNI, values.fotoPerfil)) {
+      setAlertColor("error");
+      setAlertContent(configData.MENSAJE_REGISTRO_DELEGADO_FOTOS_DUPLICADAS);
       setOpen(true);
-      borrar();
+
+    } else {
+
+      var response = await postDelegado(datos);
+
+      if (response.status === 200) {
+        console.log("Sucess Response--->" + response.status);
+        setAlertColor("success");
+        setAlertContent(configData.MENSAJE_REGISTRO_USUARIO_CON_EXITO);
+        setOpen(true);
+        borrar();
+      }
+
+      if (response.status === 400) {
+        var errorRes = response.data;
+        console.log("Error Response---" + JSON.stringify(errorRes));
+
+        if (errorRes.errorCode === "23505") {
+          setAlertColor("error");
+          setAlertContent(configData.MENSAJE_REGISTRO_DELEGADO_CON_DNI_DUPLICADO);
+          setOpen(true);
+        }
+      }
     }
   };
+
+  const toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+
+  const existeFotosDuplicadas = async (fotoDNI, fotoPerfil) => {
+    var fotoDNIData = await toBase64(fotoDNI);
+    var fotoPerfilData = await toBase64(fotoPerfil);
+    var iguales = Object.is(fotoDNIData, fotoPerfilData);
+    console.log("Son iguales---->", iguales);
+    return iguales;
+  }
 
   function borrar() {
     document.getElementById("fotoPerfil").value = "";
@@ -524,7 +568,7 @@ const Registrarse = () => {
                 const reader = new FileReader();
                 if (file) {
                   reader.onloadend = () => {
-                    setSelectedFile(file);
+                    setSelectedFileFotoDNI(file);
                   };
                   reader.readAsDataURL(file);
                   setFieldValue("fotoDNI", file);
@@ -556,7 +600,7 @@ const Registrarse = () => {
                 const reader = new FileReader();
                 if (file) {
                   reader.onloadend = () => {
-                    setSelectedFile(file);
+                    setSelectedFileFotoPerfil(file);
                   };
                   reader.readAsDataURL(file);
                   setFieldValue("fotoPerfil", file);
