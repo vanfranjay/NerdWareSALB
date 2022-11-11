@@ -50,10 +50,31 @@ const RegistrarTorneo = () => {
         ...torneo,
       });
       console.log(data);
+      setTorneo({
+        Campeon: "Bolivar",
+        Subcampeon: "hola",
+        Fecha_Ini_Convocatoria: "2022-10-15",
+        Fecha_Fin_Convocatoria: "2022-11-30",
+        Invitacion: "",
+        Nombre_Torneo: "",
+        Lugar_Evento: "",
+        Fecha_Ini_Torneo: "",
+        Fecha_Fin_Torneo: "",
+        Categoria: "",
+        Rama: "",
+        Caracter: "",
+        MontoPreinscripcion: "",
+        Fecha_Ini_Preinscripcion: "",
+        Fecha_Fin_Preinscripcion: "",
+        MontoInscripcion: "",
+        Fecha_Ini_Inscripcion: "",
+        Fecha_Fin_Inscripcion: "",
+        Telefono: "",
+        Responsable: "",
+      });
     } catch (error) {
       console.log(error);
     }
-    
   };
   return (
     <>
@@ -78,8 +99,9 @@ const RegistrarTorneo = () => {
                     input: { color: "white" },
                     label: { color: "white" },
                   }}
+                  required
                   id="standard-required"
-                  label="Invitacion para"
+                  label="Invitacion para: "
                   name="Invitacion"
                   onChange={(e) =>
                     setTorneo({ ...torneo, Invitacion: e.target.value })
@@ -99,7 +121,8 @@ const RegistrarTorneo = () => {
                     label: { color: "white" },
                   }}
                   id="standard-required1"
-                  label="Nombre del Torneo"
+                  required
+                  label="Nombre del Torneo: "
                   onChange={(e) =>
                     setTorneo({ ...torneo, Nombre_Torneo: e.target.value })
                   }
@@ -119,7 +142,8 @@ const RegistrarTorneo = () => {
                     label: { color: "white" },
                   }}
                   id="standard-required5"
-                  label="Lugar"
+                  required
+                  label="Lugar del evento: "
                   onChange={(e) =>
                     setTorneo({ ...torneo, Lugar_Evento: e.target.value })
                   }
@@ -138,6 +162,7 @@ const RegistrarTorneo = () => {
                   id="standard-required9"
                   label="Fecha de inicio: "
                   name="Fecha_Ini_Torneo"
+                  required
                   onChange={(e) =>
                     setTorneo({ ...torneo, Fecha_Ini_Torneo: e.target.value })
                   }
@@ -161,6 +186,7 @@ const RegistrarTorneo = () => {
                   type="date"
                   id="standard-required10"
                   label="Fecha de finalización: "
+                  required
                   name="Fecha_Fin_Torneo"
                   onChange={(e) =>
                     setTorneo({ ...torneo, Fecha_Fin_Torneo: e.target.value })
@@ -181,8 +207,8 @@ const RegistrarTorneo = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <Item className="fondoColor">
-              <FormControl
-                 variant="standard"
+                <FormControl
+                  variant="standard"
                   fullWidth
                   sx={{
                     input: { color: "#fff" },
@@ -192,21 +218,22 @@ const RegistrarTorneo = () => {
                     div: { color: "#fff" },
                   }}
                 >
-                  <InputLabel id="demo-simple-select-label">Categorias</InputLabel>
+                  <InputLabel id="demo-simple-select-label" required>
+                    Categorias: 
+                  </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={torneo.Categoria}
-                    label="Rama"
+                    label="Categoria"
+                    required
                     onChange={(e) =>
                       setTorneo({ ...torneo, Categoria: e.target.value })
                     }
                   >
                     <MenuItem value={"Femenino"}>25+</MenuItem>
                     <MenuItem value={"Masculino"}>35+</MenuItem>
-                    <MenuItem value={"Femenino/Masculino"}>
-                      45+
-                    </MenuItem>
+                    <MenuItem value={"Femenino/Masculino"}>45+</MenuItem>
                   </Select>
                 </FormControl>
               </Item>
@@ -214,7 +241,7 @@ const RegistrarTorneo = () => {
             <Grid item xs={12} md={6}>
               <Item className="fondoColor">
                 <FormControl
-                 variant="standard"
+                  variant="standard"
                   fullWidth
                   sx={{
                     input: { color: "#fff" },
@@ -224,7 +251,7 @@ const RegistrarTorneo = () => {
                     div: { color: "#fff" },
                   }}
                 >
-                  <InputLabel id="demo-simple-select-label">Rama</InputLabel>
+                  <InputLabel id="demo-simple-select-label" required>Rama: </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -245,9 +272,10 @@ const RegistrarTorneo = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <Item className="fondoColor">
-              <FormControl
-                 variant="standard"
+                <FormControl
+                  variant="standard"
                   fullWidth
+                  required
                   sx={{
                     input: { color: "#fff" },
                     label: { color: "#fff" },
@@ -256,7 +284,9 @@ const RegistrarTorneo = () => {
                     div: { color: "#fff" },
                   }}
                 >
-                  <InputLabel id="demo-simple-select-label">Caracter del Evento</InputLabel>
+                  <InputLabel id="demo-simple-select-label">
+                    Caracter del Evento: 
+                  </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -296,11 +326,15 @@ const RegistrarTorneo = () => {
                 <TextField
                   type="number"
                   id="standard-required4"
-                  label="Costo de preinscripción ($)"
+                  label="Costo de preinscripción ($): "
                   fullWidth
                   name="MontoPreinscripcion"
+                  required
                   onChange={(e) =>
-                    setTorneo({ ...torneo, MontoPreinscripcion: e.target.value })
+                    setTorneo({
+                      ...torneo,
+                      MontoPreinscripcion: e.target.value,
+                    })
                   }
                   value={torneo.MontoPreinscripcion}
                   defaultValue=""
@@ -317,11 +351,15 @@ const RegistrarTorneo = () => {
                 <TextField
                   type="date"
                   id="standard-required4"
-                  label="Fecha inicio de preinscripción:"
+                  label="Fecha inicio de preinscripción: "
+                  required
                   fullWidth
                   name="Fecha_Ini_Preinscripcion"
                   onChange={(e) =>
-                    setTorneo({ ...torneo, Fecha_Ini_Preinscripcion: e.target.value })
+                    setTorneo({
+                      ...torneo,
+                      Fecha_Ini_Preinscripcion: e.target.value,
+                    })
                   }
                   value={torneo.Fecha_Ini_Preinscripcion}
                   defaultValue=" "
@@ -341,10 +379,14 @@ const RegistrarTorneo = () => {
                 <TextField
                   type="date"
                   id="standard-required4"
-                  label="Fecha fin de preinscripción:"
+                  label="Fecha fin de preinscripción: "
+                  required
                   name="Fecha_Fin_Preinscripcion"
                   onChange={(e) =>
-                    setTorneo({ ...torneo, Fecha_Fin_Preinscripcion: e.target.value })
+                    setTorneo({
+                      ...torneo,
+                      Fecha_Fin_Preinscripcion: e.target.value,
+                    })
                   }
                   value={torneo.Fecha_Fin_Preinscripcion}
                   fullWidth
@@ -386,7 +428,8 @@ const RegistrarTorneo = () => {
                   }}
                   type="number"
                   id="standard-required4"
-                  label="Costo de inscripción ($)"
+                  label="Costo de inscripción ($): "
+                  required
                   name="MontoInscripcion"
                   onChange={(e) =>
                     setTorneo({ ...torneo, MontoInscripcion: e.target.value })
@@ -410,11 +453,15 @@ const RegistrarTorneo = () => {
                   }}
                   type="date"
                   id="standard-required4"
-                  label="Fecha inicio de inscripción:"
+                  label="Fecha inicio de inscripción: "
+                  required
                   fullWidth
                   name="Fecha_Ini_Inscripcion"
                   onChange={(e) =>
-                    setTorneo({ ...torneo, Fecha_Ini_Inscripcion: e.target.value })
+                    setTorneo({
+                      ...torneo,
+                      Fecha_Ini_Inscripcion: e.target.value,
+                    })
                   }
                   value={torneo.Fecha_Ini_Inscripcion}
                   defaultValue=""
@@ -434,9 +481,13 @@ const RegistrarTorneo = () => {
                   }}
                   type="date"
                   id="standard-required4"
-                  label="Fecha fin de inscripción:"
+                  label="Fecha fin de inscripción: "
+                  required
                   onChange={(e) =>
-                    setTorneo({ ...torneo, Fecha_Fin_Inscripcion: e.target.value })
+                    setTorneo({
+                      ...torneo,
+                      Fecha_Fin_Inscripcion: e.target.value,
+                    })
                   }
                   value={torneo.Fecha_Fin_Inscripcion}
                   fullWidth
@@ -472,7 +523,8 @@ const RegistrarTorneo = () => {
                   }}
                   type="text"
                   id="standard-required6"
-                  label="Nombre completo"
+                  label="Nombre completo: "
+                  required
                   fullWidth
                   name="Responsable"
                   onChange={(e) =>
@@ -493,7 +545,8 @@ const RegistrarTorneo = () => {
                   }}
                   type="number"
                   id="standard-required7"
-                  label="Telefono"
+                  label="Telefono: "
+                  required
                   fullWidth
                   name="Telefono"
                   onChange={(e) =>
