@@ -117,7 +117,7 @@ function CardNoticia({ codigo, fecha, imagen, titulo, descripcion, link }) {
                             </DialogContentText>
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={handleClose}>Disagree</Button>
+                            <Button onClick={handleClose}>Cerrar</Button>
                         </DialogActions>
                     </Grid>
                 </Dialog>
@@ -128,7 +128,7 @@ function CardNoticia({ codigo, fecha, imagen, titulo, descripcion, link }) {
 }
 
 CardNoticia.propTypes = {
-    codigo: PropTypes.string.isRequired,
+    codigo: PropTypes.number.isRequired,
     fecha: PropTypes.string,
     imagen: PropTypes.string,
     titulo: PropTypes.string,

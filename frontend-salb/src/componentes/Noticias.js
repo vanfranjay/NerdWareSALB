@@ -45,7 +45,7 @@ const Noticias = () => {
 
                 {Array.from(noticias).map(({ Cod_Noticia, Fecha, Imagen, Titulo, Descripcion, Link }) => (
 
-                    <Grid item xs={4}>
+                    <Grid key={Cod_Noticia} item xs={4}>
                         <CardNoticia codigo={Cod_Noticia} fecha={Fecha} imagen={Imagen} titulo={Titulo} descripcion={Descripcion} link={Link} />
                     </Grid>
 
