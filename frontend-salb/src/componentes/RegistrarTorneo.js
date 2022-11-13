@@ -43,7 +43,7 @@ const RegistrarTorneo = () => {
     Responsable: "",
   });
 
-  const uploadData = async (event) => {
+  const registerTorneo = async (event) => {
     event.preventDefault();
     try {
       const { data } = await axios.post("http://127.0.0.1:8000/api/torneos", {
@@ -89,7 +89,7 @@ const RegistrarTorneo = () => {
         ¡Registrar Torneo!
       </Typography>
       <hr className="hr" />
-      <form onSubmit={uploadData}>
+      <form onSubmit={registerTorneo}>
         <div className="cuandroContentRegisterTorneo">
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>

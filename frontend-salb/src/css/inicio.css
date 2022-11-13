@@ -1,0 +1,65 @@
+.containtPadre{
+    padding-top: 25px;
+}
+.portadaTorneo{
+    background-image: url(../imagenes/fondoTorneo.jpg);
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    margin-bottom: 30px !important;
+}
+.tituloTorneo{
+    padding-top: 20px;
+    color: #ffffff;
+    font-size: 30px;
+    text-shadow: 2px 2px 2px rgb(46, 93, 247);
+}
+.logoLigaMaxiBasquet{
+    width: 100%;
+    position: relative;
+}
+.hrConvocatoriaTorneo{
+    background-color: #ffffff;
+    height: 4px;
+}
+.basquetbol{
+    color: #ffffff;
+    font-size: 30px;
+    text-shadow: 2px 2px 2px rgb(46, 93, 247);
+}
+.imgConvocatoria{
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+}
+.contectCaracteristicasConvocatoria{
+    background-color: rgb(236, 218, 143);
+    opacity: 0.8;
+    border-bottom-right-radius: 30px;
+    border-top-left-radius: 30px;
+    padding-right: 15px;
+}
+.contentCaracteristicas{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    margin-top: 10px;
+}
+.masDetalles{
+    color: #ffffff;
+    font-size: 20px;
+    text-shadow: 2px 2px 2px rgb(12, 23, 60);
+    padding-bottom: 20px;
+}
+.fondoMasDetalles{
+    margin-bottom: 30px;
+}
+.contentRama{
+    background: rgba(76, 175, 80, 0.3) /* Green background with 30% opacity */
+}
+.basquetbol1{
+    color: #ffffff;
+    font-size: 30px;
+    text-shadow: 2px 2px 2px rgb(8, 19, 52);
+    padding-bottom: 20px;
+}
