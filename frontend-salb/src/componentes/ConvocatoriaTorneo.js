@@ -7,6 +7,9 @@ import { Button, Grid } from "@mui/material";
 import axios from "axios";
 import logo from "../imagenes/LogoLMB2.png";
 import imgFondo from "../imagenes/balonEnLlamas.png";
+import ConvocatoriaDetalladaTorneo from "./ConvocatoriaDetalladaTorneo";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import VistaPdf from "./VistaPdf";
 
 const ConvocatoriaTorneo = () => {
   const [torneos, setTorneos] = useState([]);
@@ -42,12 +45,16 @@ const ConvocatoriaTorneo = () => {
         return "Domingo";
     }
   }
-  function obtenerDiaNumero(fecha){
+  function obtenerDiaNumero(fecha) {
     const date = new Date(fecha);
     const dia = date.getDate() + 1;
-    console.log(dia);
-    return dia;
+    if (dia == 32) {
+      return 1;
+    } else {
+      return dia;
+    }
   }
+
   return (
     <Grid container spacing={0} className="containtPadre">
       {torneos.map((torneo, index) => {
@@ -129,7 +136,9 @@ const ConvocatoriaTorneo = () => {
               <h7 className="masDetalles">
                 Para mas detalles, descarga el archivo adjunto:{" "}
               </h7>
-              <Button variant="text">Mas detalles...</Button>
+              <PDFDownloadLink document={<VistaPdf torneos={torneos[0]} />} fileName={`${torneo.Nombre_Torneo}.pdf`}>
+                <Button>Mas detalles</Button>
+              </PDFDownloadLink>
             </Grid>
           </Grid>
         );

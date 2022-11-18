@@ -7,6 +7,7 @@ import Router3 from './rutas/Router3';
 import listItems from './componentes/listItems';
 import { useState } from 'react';
 import { ProtectedRoute } from './rutas/ProtectedRoute';
+import VistaPdf from './componentes/VistaPdf';
 
 function App() {
 
