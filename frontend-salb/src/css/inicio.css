@@ -47,10 +47,12 @@
     margin-top: 10px;
 }
 .masDetalles{
+    display: inline-block;
     color: #ffffff;
     font-size: 20px;
     text-shadow: 2px 2px 2px rgb(12, 23, 60);
     padding-bottom: 20px;
+    padding-left: 10px;
 }
 .fondoMasDetalles{
     margin-bottom: 30px;

@@ -55,6 +55,37 @@ const ConvocatoriaTorneo = () => {
     }
   }
 
+  function obtenerMes(fecha) {
+    const date = new Date(fecha);
+    const mesActual = date.getMonth() + 1;
+    switch (mesActual) {
+      case 1:
+        return "Enero";
+      case 2:
+        return "Febrero";
+      case 3:
+        return "Marzo";
+      case 4:
+        return "Abril";
+      case 5:
+        return "Mayo";
+      case 6:
+        return "Junio";
+      case 7:
+        return "Julio";
+      case 8:
+        return "Agosto";
+      case 9:
+        return "Septiembre";
+      case 10:
+        return "Octubre";
+      case 11:
+        return "Noviembre";
+      case 12:
+        return "Diciembre";
+    }
+  }
+
   return (
     <Grid container spacing={0} className="containtPadre">
       {torneos.map((torneo, index) => {
@@ -85,7 +116,7 @@ const ConvocatoriaTorneo = () => {
                 Rama: {torneo.Rama}
               </h3>
             </Grid>
-            <Grid container spacing={2} className="contentCaracteristicas">
+            <Grid container  className="contentCaracteristicas">
               <Grid item xs={12} sm={6}>
                 <img
                   className="imgConvocatoria"
@@ -102,16 +133,25 @@ const ConvocatoriaTorneo = () => {
                 <h5 align="center">Pre-inscripción:</h5>
                 <h6>
                   <b>Fecha pre-inscripción:</b>{" "}
-                  {obtenerDia(torneo.Fecha_Ini_Preinscripcion)} al{" "}
-                  {obtenerDiaNumero(torneo.Fecha_Fin_Preinscripcion)}
+                  {obtenerDia(torneo.Fecha_Ini_Preinscripcion)}{" "}
+                  {obtenerDiaNumero(torneo.Fecha_Ini_Preinscripcion)} de{" "}
+                  {obtenerMes(torneo.Fecha_Ini_Preinscripcion)} al{" "}
+                  {obtenerDia(torneo.Fecha_Fin_Preinscripcion)}{" "}
+                  {obtenerDiaNumero(torneo.Fecha_Fin_Preinscripcion)} de{" "}
+                  {obtenerMes(torneo.Fecha_Fin_Preinscripcion)}
                 </h6>
                 <h6>
                   <b>Costo de pre-inscripción:</b> {torneo.MontoPreinscripcion}$
                 </h6>
                 <h5 align="center">Inscripción:</h5>
                 <h6>
-                  <b>Fecha inscripción:</b> {torneo.Fecha_Ini_Inscripcion} al{" "}
-                  {torneo.Fecha_Fin_Inscripcion}
+                <b>Fecha inscripción:</b>{" "}
+                  {obtenerDia(torneo.Fecha_Ini_Inscripcion)}{" "}
+                  {obtenerDiaNumero(torneo.Fecha_Ini_Inscripcion)} de{" "}
+                  {obtenerMes(torneo.Fecha_Ini_Inscripcion)} al{" "}
+                  {obtenerDia(torneo.Fecha_Fin_Inscripcion)}{" "}
+                  {obtenerDiaNumero(torneo.Fecha_Fin_Inscripcion)} de{" "}
+                  {obtenerMes(torneo.Fecha_Fin_Inscripcion)}
                 </h6>
                 <h6>
                   <b>Costo de inscripción:</b> {torneo.MontoInscripcion}$
@@ -133,11 +173,14 @@ const ConvocatoriaTorneo = () => {
               </Grid>
             </Grid>
             <Grid item xs={12} className="fondoMasDetalles">
-              <h7 className="masDetalles">
+              <p className="masDetalles">
                 Para mas detalles, descarga el archivo adjunto:{" "}
-              </h7>
-              <PDFDownloadLink document={<VistaPdf torneos={torneos[0]} />} fileName={`${torneo.Nombre_Torneo}.pdf`}>
-                <Button>Mas detalles</Button>
+              </p>
+              <PDFDownloadLink
+                document={<VistaPdf torneos={torneos[0]} />}
+                fileName={`${torneo.Nombre_Torneo}.pdf`}
+              >
+                <Button>Descargar</Button>
               </PDFDownloadLink>
             </Grid>
           </Grid>
