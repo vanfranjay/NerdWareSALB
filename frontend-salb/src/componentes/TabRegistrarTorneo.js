@@ -6,6 +6,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import ListaTorneos from "./ListaTorneos";
+import '../css/usuario.css';
 
 const TabRegistrarTorneo = () => {
   const [value, setValue] = React.useState("10");

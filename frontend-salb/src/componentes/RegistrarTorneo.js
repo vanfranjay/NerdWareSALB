@@ -58,7 +58,7 @@ const RegistrarTorneo = () => {
     Lugar_Evento: "",
     Fecha_Ini_Torneo: "",
     Fecha_Fin_Torneo: "",
-    Categoria: "",
+    Categoria: "35+",
     Rama: "",
     Caracter: "",
     MontoPreinscripcion: "",
@@ -78,32 +78,35 @@ const RegistrarTorneo = () => {
         ...torneo,
       });
       console.log(data);
-      setTorneo({
-        Campeon: "Bolivar",
-        Subcampeon: "hola",
-        Fecha_Ini_Convocatoria: "2022-10-15",
-        Fecha_Fin_Convocatoria: "2022-11-30",
-        Invitacion: "",
-        Nombre_Torneo: "",
-        Lugar_Evento: "",
-        Fecha_Ini_Torneo: "",
-        Fecha_Fin_Torneo: "",
-        Categoria: "",
-        Rama: "",
-        Caracter: "",
-        MontoPreinscripcion: "",
-        Fecha_Ini_Preinscripcion: "",
-        Fecha_Fin_Preinscripcion: "",
-        MontoInscripcion: "",
-        Fecha_Ini_Inscripcion: "",
-        Fecha_Fin_Inscripcion: "",
-        Telefono: "",
-        Responsable: "",
-      });
+      reiniciar();
     } catch (error) {
       console.log(error);
     }
   };
+  const reiniciar = () => {
+    setTorneo({
+      Campeon: "Bolivar",
+      Subcampeon: "hola",
+      Fecha_Ini_Convocatoria: "2022-10-15",
+      Fecha_Fin_Convocatoria: "2022-11-30",
+      Invitacion: "",
+      Nombre_Torneo: "",
+      Lugar_Evento: "",
+      Fecha_Ini_Torneo: "",
+      Fecha_Fin_Torneo: "",
+      Categoria: "",
+      Rama: "",
+      Caracter: "",
+      MontoPreinscripcion: "",
+      Fecha_Ini_Preinscripcion: "",
+      Fecha_Fin_Preinscripcion: "",
+      MontoInscripcion: "",
+      Fecha_Ini_Inscripcion: "",
+      Fecha_Fin_Inscripcion: "",
+      Telefono: "",
+      Responsable: "",
+    });
+  }
 
   const [personName, setPersonName] = React.useState([]);
 
@@ -615,7 +618,6 @@ const RegistrarTorneo = () => {
               <Button
                 className="botonHabilitadoAceptar"
                 type="submit"
-                autoFocus
               >
                 Registrar
               </Button>
@@ -623,10 +625,7 @@ const RegistrarTorneo = () => {
             <Grid item xs={6} md={6}>
               <Button
                 className="botonHabilitadoCancelar"
-                onClick={() => {
-                  {
-                  }
-                }}
+                onClick={{}}
               >
                 Cancelar
               </Button>
