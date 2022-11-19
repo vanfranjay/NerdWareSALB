@@ -43,7 +43,7 @@ const RegistrarTorneo = () => {
     Responsable: "",
   });
 
-  const uploadData = async (event) => {
+  const registerTorneo = async (event) => {
     event.preventDefault();
     try {
       const { data } = await axios.post("http://127.0.0.1:8000/api/torneos", {
@@ -89,7 +89,7 @@ const RegistrarTorneo = () => {
         ¡Registrar Torneo!
       </Typography>
       <hr className="hr" />
-      <form onSubmit={uploadData}>
+      <form onSubmit={registerTorneo}>
         <div className="cuandroContentRegisterTorneo">
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
@@ -231,9 +231,9 @@ const RegistrarTorneo = () => {
                       setTorneo({ ...torneo, Categoria: e.target.value })
                     }
                   >
-                    <MenuItem value={"Femenino"}>25+</MenuItem>
-                    <MenuItem value={"Masculino"}>35+</MenuItem>
-                    <MenuItem value={"Femenino/Masculino"}>45+</MenuItem>
+                    <MenuItem value={"25"}>25+</MenuItem>
+                    <MenuItem value={"35"}>35+</MenuItem>
+                    <MenuItem value={"45"}>45+</MenuItem>
                   </Select>
                 </FormControl>
               </Item>
@@ -261,10 +261,10 @@ const RegistrarTorneo = () => {
                       setTorneo({ ...torneo, Rama: e.target.value })
                     }
                   >
-                    <MenuItem value={"Femenino"}>Femenino</MenuItem>
+                    <MenuItem value={"Femenina"}>Femenina</MenuItem>
                     <MenuItem value={"Masculino"}>Masculino</MenuItem>
-                    <MenuItem value={"Femenino/Masculino"}>
-                      Femenino/Masculino
+                    <MenuItem value={"Femenina/Masculino"}>
+                      Femenina/Masculino
                     </MenuItem>
                   </Select>
                 </FormControl>
@@ -296,9 +296,9 @@ const RegistrarTorneo = () => {
                     }
                     value={torneo.Caracter}
                   >
-                    <MenuItem value={"Femenino"}>Internacional</MenuItem>
-                    <MenuItem value={"Masculino"}>Nacional</MenuItem>
-                    <MenuItem value={"Femenino/Masculino"}>
+                    <MenuItem value={"Internacional"}>Internacional</MenuItem>
+                    <MenuItem value={"Nacional"}>Nacional</MenuItem>
+                    <MenuItem value={"Inter-departamental"}>
                       Inter-departamental
                     </MenuItem>
                   </Select>

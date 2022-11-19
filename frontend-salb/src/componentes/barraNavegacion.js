@@ -53,6 +53,12 @@ const BarraNavegacion = () => {
                             <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/fotos">FOTOS</NavLink>*/}
               <NavLink
                 className="nav-link colorLetra contenedorLetrasNavBar"
+                to="/inicio"
+              >
+                INICIO
+              </NavLink>
+              <NavLink
+                className="nav-link colorLetra contenedorLetrasNavBar"
                 to="/jugadores"
               >
                 JUGADORES
