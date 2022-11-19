@@ -10,6 +10,34 @@ import FormControl from "@mui/material/FormControl";
 import NativeSelect from "@mui/material/NativeSelect";
 import Button from "@mui/material/Button";
 import axios from "axios";
+import Checkbox from '@mui/material/Checkbox';
+import ListItemText from '@mui/material/ListItemText';
+import { useTheme } from "@mui/material/styles";
+import OutlinedInput from "@mui/material/OutlinedInput";
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+const names = [
+  "Oliver Hansen",
+  "Van Henry",
+  "April Tucker",
+  "Ralph Hubbard",
+  "Omar Alexander",
+  "Carlos Abbott",
+  "Miriam Wagner",
+  "Bradley Wilkerson",
+  "Virginia Andrews",
+  "Kelly Snyder",
+];
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -76,6 +104,19 @@ const RegistrarTorneo = () => {
       console.log(error);
     }
   };
+
+  const [personName, setPersonName] = React.useState([]);
+
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setPersonName(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
+
   return (
     <>
       <Typography
@@ -218,22 +259,28 @@ const RegistrarTorneo = () => {
                     div: { color: "#fff" },
                   }}
                 >
-                  <InputLabel id="demo-simple-select-label" required>
-                    Categorias: 
+                  <InputLabel id="demo-multiple-checkbox-label" required>
+                    Categoria(as):{" "}
                   </InputLabel>
                   <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={torneo.Categoria}
-                    label="Categoria"
-                    required
+                    labelId="demo-multiple-checkbox-label"
+                    id="demo-multiple-checkbox"
+                    multiple
+                    value={personName}
+                    label="Rama"
                     onChange={(e) =>
-                      setTorneo({ ...torneo, Categoria: e.target.value })
-                    }
+                      setTorneo({ ...torneo, Categoria: e.target.value })}
+                    /*input={<OutlinedInput label="Name" />}*/
+                    renderValue={(selected) => selected.join(', ')}
+                    MenuProps={MenuProps}
                   >
-                    <MenuItem value={"25"}>25+</MenuItem>
-                    <MenuItem value={"35"}>35+</MenuItem>
-                    <MenuItem value={"45"}>45+</MenuItem>
+                    <MenuItem value={"20+"}>20+</MenuItem>
+                    <MenuItem value={"25+"}>25+</MenuItem>
+                    <MenuItem value={"30+"}>30+</MenuItem>
+                    <MenuItem value={"35+"}>35+</MenuItem>
+                    <MenuItem value={"40+"}>40+</MenuItem>
+                    <MenuItem value={"45+"}>45+</MenuItem>
+                    <MenuItem value={"50+"}>50+</MenuItem>
                   </Select>
                 </FormControl>
               </Item>
@@ -251,7 +298,9 @@ const RegistrarTorneo = () => {
                     div: { color: "#fff" },
                   }}
                 >
-                  <InputLabel id="demo-simple-select-label" required>Rama: </InputLabel>
+                  <InputLabel id="demo-simple-select-label" required>
+                    Rama:{" "}
+                  </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -285,7 +334,7 @@ const RegistrarTorneo = () => {
                   }}
                 >
                   <InputLabel id="demo-simple-select-label">
-                    Caracter del Evento: 
+                    Caracter del Evento:
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
