@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Jugador;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class JugadorController extends Controller
 {
@@ -41,51 +42,20 @@ class JugadorController extends Controller
      */
     public function store(Request $request)
     {
-       /* $request->validate([
-            'DNI' => 'required|numeric' ,
-            'Nombre' => 'required|string' ,
-            'Apellido' => 'required|string' ,
-            'Telefono' => 'required|string' ,
-            'Fecha_Nacimiento' => 'required|date|date_format:Y-m-d' ,
-            'Foto' => 'mimes:jpg,jpeg,png,pdf',
-            'Foto_DNI'=>'mimes:jpg,jpeg,png,pdf',
-            'Rol' => 'required|string' ,
-            'Asistencia' => 'numeric' ,
-            'Faltas' => 'numeric' ,
-            'Puntos' => 'numeric' ,
-            'Cod_Equipo' => 'numeric' ,
+        $jugador = new Jugador($request->all());     
+        $validator = Validator::make($request->all(), [
+            '' => 'required|unique:DNI' ,
         ],
-       [
-        //Nombre.required' => 'El campo es necesario',
-        //Nombre.string' => 'El campo solo admite caracteres',
-        //'Apellido.required' => 'El campo es necesario',
-        //'Apellido.string' => 'El campo solo admite caracteres',
-        //'Contraseña.required' => 'El campo es necesario',
-        //Contraseña.confirmed' => 'Confirme la contraseña',
-        //'Contraseña_Confirmation.required' => 'La contraseña no es la misma',
-        //'Correo.email' => 'Correo invalido',
-        //'Foto_Perfil.mimes' => 'El campo solo admite extensiones jpg, jpeg y png' ,
-        //'Foto_DNI.mimes' => 'El campo solo admite extensiones pdf, jpg, jpeg y png',
-    ]); 
-      /* $jugador = new Jugador();
-       $jugador->DNI = $request->DNI;
-       $jugador->Nombre = $request->Nombre;
-       $jugador->Apellido = $request->Apellido;
-       $jugador->Comprobante = $request->Comprobante;
-       $jugador->Telefono = $request->Telefono;
-       $jugador->Fecha_Nacimiento = $request->Fecha_Nacimiento;
-       $jugador->Foto = $request->Foto;
-       $jugador->Foto_DNI = $request->Foto_DNI;
-       $jugador->Rol = $request->Rol;
-       $jugador->Asistencia = $request->Asistencia;
-       $jugador->Faltas = $request->Faltas;
-       $jugador->Puntos = $request->Puntos;
-       $jugador->Cod_Equipo = $request->Cod_Equipo;
-       $jugador->save();
-       return $jugador;*/
-       $jugador = new Jugador($request->all());
-        $jugador->save();
-        return $jugador; 
+        [
+            'DNI.unique' => 'EL CI ya fue regustrada',
+        ]);
+
+        try {
+            $jugador->save();
+        } catch (\Exception $e) {
+            return response()->json(['errorCode' => $e->errorInfo[0], 'errorMessage' => $e->errorInfo[2] ], 400);
+        }
+        return response()->json($jugador);
         
     }
 
