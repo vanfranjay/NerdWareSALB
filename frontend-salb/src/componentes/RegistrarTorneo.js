@@ -10,8 +10,8 @@ import FormControl from "@mui/material/FormControl";
 import NativeSelect from "@mui/material/NativeSelect";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import Checkbox from '@mui/material/Checkbox';
-import ListItemText from '@mui/material/ListItemText';
+import Checkbox from "@mui/material/Checkbox";
+import ListItemText from "@mui/material/ListItemText";
 import { useTheme } from "@mui/material/styles";
 import OutlinedInput from "@mui/material/OutlinedInput";
 
@@ -58,7 +58,7 @@ const RegistrarTorneo = () => {
     Lugar_Evento: "",
     Fecha_Ini_Torneo: "",
     Fecha_Fin_Torneo: "",
-    Categoria: "35+",
+    Categoria: [],
     Rama: "",
     Caracter: "",
     MontoPreinscripcion: "",
@@ -76,6 +76,7 @@ const RegistrarTorneo = () => {
     try {
       const { data } = await axios.post("http://127.0.0.1:8000/api/torneos", {
         ...torneo,
+        Categoria: torneo.Categoria.join(","),
       });
       console.log(data);
       reiniciar();
@@ -94,7 +95,7 @@ const RegistrarTorneo = () => {
       Lugar_Evento: "",
       Fecha_Ini_Torneo: "",
       Fecha_Fin_Torneo: "",
-      Categoria: "",
+      Categoria: [],
       Rama: "",
       Caracter: "",
       MontoPreinscripcion: "",
@@ -106,17 +107,15 @@ const RegistrarTorneo = () => {
       Telefono: "",
       Responsable: "",
     });
-  }
-
-  const [personName, setPersonName] = React.useState([]);
+  };
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
+    setTorneo({...torneo, Categoria: typeof value === "string" ? value.split(",") : value}
       // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
+      
     );
   };
 
@@ -269,12 +268,11 @@ const RegistrarTorneo = () => {
                     labelId="demo-multiple-checkbox-label"
                     id="demo-multiple-checkbox"
                     multiple
-                    value={personName}
+                    value={torneo.Categoria || []}
                     label="Rama"
-                    onChange={(e) =>
-                      setTorneo({ ...torneo, Categoria: e.target.value })}
+                    onChange={handleChange}
                     /*input={<OutlinedInput label="Name" />}*/
-                    renderValue={(selected) => selected.join(', ')}
+                    renderValue={(selected) => selected.join(", ")}
                     MenuProps={MenuProps}
                   >
                     <MenuItem value={"20+"}>20+</MenuItem>
@@ -615,18 +613,12 @@ const RegistrarTorneo = () => {
         <div>
           <Grid container spacing={2} className="contentBtnRegisterCancelar">
             <Grid item xs={6} md={6} align="end">
-              <Button
-                className="botonHabilitadoAceptar"
-                type="submit"
-              >
+              <Button className="botonHabilitadoAceptar" type="submit">
                 Registrar
               </Button>
             </Grid>
             <Grid item xs={6} md={6}>
-              <Button
-                className="botonHabilitadoCancelar"
-                onClick={{}}
-              >
+              <Button className="botonHabilitadoCancelar">
                 Cancelar
               </Button>
             </Grid>

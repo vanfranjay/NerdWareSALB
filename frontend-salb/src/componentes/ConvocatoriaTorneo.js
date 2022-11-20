@@ -94,7 +94,8 @@ const ConvocatoriaTorneo = () => {
         case 12:
           return "Diciembre";
       }
-    } else {
+    }
+    else {
       const date = new Date(fecha);
       const mesActual = date.getMonth() + 1;
       switch (mesActual) {
