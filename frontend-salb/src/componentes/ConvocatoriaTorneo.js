@@ -67,7 +67,6 @@ const ConvocatoriaTorneo = () => {
     return mesActual;
   }
   function obtenerMes(fecha) {
-    console.log(fecha);
     if (fecha == `${obtenerAño(fecha)}-01-01`) {
       return "Enero";
     } else if (fecha == `${obtenerAño(fecha)}-01-${obtenerDiaNumero(fecha)}`) {
@@ -104,18 +103,31 @@ const ConvocatoriaTorneo = () => {
       return "Septiembre";
     } else if (fecha == `${obtenerAño(fecha)}-09-${obtenerDiaNumero(fecha)}`) {
       return "Septiembre";
-    } else {
-      if (fecha == `${obtenerAño(fecha)}-${obtenerMesNumero(fecha) + 1}-01`) {
-        switch (obtenerMesNumero(fecha) + 1) {
-          case 10:
-            return "Octubre";
-          case 11:
-            return "Noviembre";
-          case 12:
-            return "Diciembre";
-        }
+    } else if (
+      fecha == `${obtenerAño(fecha)}-${obtenerMesNumero(fecha) + 1}-01`
+    ) {
+      switch (obtenerMesNumero(fecha) + 1) {
+        case 10:
+          return "Octubre";
+        case 11:
+          return "Noviembre";
+        case 12:
+          return "Diciembre";
       }
     }
+    else{
+      const date = new Date(fecha);
+      const mesActual = date.getMonth() + 1;
+      switch (mesActual) {
+        case 10:
+          return "Octubre";
+        case 11:
+          return "Noviembre";
+        case 12:
+          return "Diciembre";
+      }
+    }
+    console.log(fecha);
   }
 
   function obtenerAño(fecha) {
