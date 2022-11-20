@@ -26,19 +26,6 @@ const MenuProps = {
   },
 };
 
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-];
-
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -618,7 +605,7 @@ const RegistrarTorneo = () => {
               </Button>
             </Grid>
             <Grid item xs={6} md={6}>
-              <Button className="botonHabilitadoCancelar">
+              <Button onClick={reiniciar} className="botonHabilitadoCancelar">
                 Cancelar
               </Button>
             </Grid>
