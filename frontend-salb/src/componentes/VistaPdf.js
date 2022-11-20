@@ -202,7 +202,7 @@ const VistaPdf = (torneo) => {
                 países de Sud América.
               </Text>
               <Text> </Text>
-              <Text>
+              <Text break style={{paddingTop: "40px"}}>
                 Para realizar la preinscripción/inscripción, sólo tiene que
                 seguir los siguientes pasos:
               </Text>
@@ -221,7 +221,7 @@ const VistaPdf = (torneo) => {
               <Text> </Text>
               <Image src={FormularioRegistrarse} />
               <Text> </Text>
-              <Text>
+              <Text break style={{paddingTop: "40px"}}>
                 2do paso: procederemos a iniciar sesión y en el partado registra
                 voucher, registraremos la boleta de pago que se realizo
                 previamente, la boleta de pago tiene que ser ESCANEADO para
@@ -238,7 +238,7 @@ const VistaPdf = (torneo) => {
               <Text> </Text>
               <Image src={correoVerificación} />
               <Text> </Text>
-              <Text>
+              <Text break style={{paddingTop: "40px"}}>
                 4to paso: un vez habilitados volveremos a ingresar a la pagia
                 web del torneo, y en la sección registrar equipo, podremos
                 proceder a registrar nuestro repectivo equipo.
@@ -246,7 +246,7 @@ const VistaPdf = (torneo) => {
               <Text> </Text>
               <Image src={registrarEquipo} />
               <Text> </Text>
-              <Text>
+              <Text style={{paddingTop: "40px"}}>
                 Sin más que agregar y esperando contar con su valiosa presencia.
               </Text>
               <Text> </Text>
