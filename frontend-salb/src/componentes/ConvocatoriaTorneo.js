@@ -22,7 +22,7 @@ const ConvocatoriaTorneo = () => {
   const obtenerTorneo = async () => {
     const resultado = await axios.get("http://127.0.0.1:8000/api/torneos");
     setTorneos([...resultado.data]);
-    console.log(resultado.data);
+    //console.log(resultado.data);
   };
 
   function obtenerDia(fecha) {
@@ -46,44 +46,90 @@ const ConvocatoriaTorneo = () => {
     }
   }
   function obtenerDiaNumero(fecha) {
-    const date = new Date(fecha);
-    const dia = date.getDate() + 1;
-    if (dia == 32) {
+    const valor = fecha;
+    if (fecha == `${obtenerAño(fecha)}-${obtenerMesNumero(fecha) + 1}-01`) {
       return 1;
     } else {
-      return dia;
+      const date = new Date(fecha);
+      const dia = date.getDate() + 1;
+      //console.log(valor);
+      if (dia == 32) {
+        return 1;
+      } else {
+        return dia;
+      }
     }
   }
 
-  function obtenerMes(fecha) {
+  function obtenerMesNumero(fecha) {
     const date = new Date(fecha);
     const mesActual = date.getMonth() + 1;
-    switch (mesActual) {
-      case 1:
-        return "Enero";
-      case 2:
-        return "Febrero";
-      case 3:
-        return "Marzo";
-      case 4:
-        return "Abril";
-      case 5:
-        return "Mayo";
-      case 6:
-        return "Junio";
-      case 7:
-        return "Julio";
-      case 8:
-        return "Agosto";
-      case 9:
-        return "Septiembre";
-      case 10:
-        return "Octubre";
-      case 11:
-        return "Noviembre";
-      case 12:
-        return "Diciembre";
+    return mesActual;
+  }
+  function obtenerMes(fecha) {
+    if (fecha == `${obtenerAño(fecha)}-${obtenerMesNumero(fecha) + 1}-01`) {
+      switch (obtenerMesNumero(fecha) + 1) {
+        case 1:
+          return "Enero";
+        case 2:
+          return "Febrero";
+        case 3:
+          return "Marzo";
+        case 4:
+          return "Abril";
+        case 5:
+          return "Mayo";
+        case 6:
+          return "Junio";
+        case 7:
+          return "Julio";
+        case 8:
+          return "Agosto";
+        case 9:
+          return "Septiembre";
+        case 10:
+          return "Octubre";
+        case 11:
+          return "Noviembre";
+        case 12:
+          return "Diciembre";
+      }
+    } else {
+      const date = new Date(fecha);
+      const mesActual = date.getMonth() + 1;
+      switch (mesActual) {
+        case 1:
+          return "Enero";
+        case 2:
+          return "Febrero";
+        case 3:
+          return "Marzo";
+        case 4:
+          return "Abril";
+        case 5:
+          return "Mayo";
+        case 6:
+          return "Junio";
+        case 7:
+          return "Julio";
+        case 8:
+          return "Agosto";
+        case 9:
+          return "Septiembre";
+        case 10:
+          return "Octubre";
+        case 11:
+          return "Noviembre";
+        case 12:
+          return "Diciembre";
+      }
     }
+  }
+
+  function obtenerAño(fecha) {
+    const date = new Date(fecha);
+    const añoActual = date.getFullYear();
+    return añoActual;
   }
 
   return (
@@ -146,7 +192,8 @@ const ConvocatoriaTorneo = () => {
                       {obtenerMes(torneo.Fecha_Ini_Preinscripcion)} al{" "}
                       {obtenerDia(torneo.Fecha_Fin_Preinscripcion)}{" "}
                       {obtenerDiaNumero(torneo.Fecha_Fin_Preinscripcion)} de{" "}
-                      {obtenerMes(torneo.Fecha_Fin_Preinscripcion)}
+                      {obtenerMes(torneo.Fecha_Fin_Preinscripcion)} del{" "}
+                      {obtenerAño(torneo.Fecha_Fin_Preinscripcion)}
                     </h6>
                     <h6>
                       <b>Costo de pre-inscripción:</b>{" "}
@@ -160,7 +207,8 @@ const ConvocatoriaTorneo = () => {
                       {obtenerMes(torneo.Fecha_Ini_Inscripcion)} al{" "}
                       {obtenerDia(torneo.Fecha_Fin_Inscripcion)}{" "}
                       {obtenerDiaNumero(torneo.Fecha_Fin_Inscripcion)} de{" "}
-                      {obtenerMes(torneo.Fecha_Fin_Inscripcion)}
+                      {obtenerMes(torneo.Fecha_Fin_Inscripcion)} del{" "}
+                      {obtenerAño(torneo.Fecha_Fin_Preinscripcion)}
                     </h6>
                     <h6>
                       <b>Costo de inscripción:</b> {torneo.MontoInscripcion}$
@@ -173,11 +221,17 @@ const ConvocatoriaTorneo = () => {
                       <b>Invitación para:</b> {torneo.Invitacion}
                     </h6>
                     <h6>
-                      <b>Lugar del evento:</b> {torneo.Lugar_Evento}
+                      <b>Lugar del torneo:</b> {torneo.Lugar_Evento}
                     </h6>
                     <h6>
-                      <b>Fecha del evento: </b> del {torneo.Fecha_Ini_Torneo} al{" "}
-                      {torneo.Fecha_Fin_Torneo}
+                      <b>Fecha del torneo:</b>{" "}
+                      {obtenerDia(torneo.Fecha_Ini_Torneo)}{" "}
+                      {obtenerDiaNumero(torneo.Fecha_Ini_Torneo)} de{" "}
+                      {obtenerMes(torneo.Fecha_Ini_Torneo)} al{" "}
+                      {obtenerDia(torneo.Fecha_Fin_Torneo)}{" "}
+                      {obtenerDiaNumero(torneo.Fecha_Fin_Torneo)} de{" "}
+                      {obtenerMes(torneo.Fecha_Fin_Torneo)} del{" "}
+                      {obtenerAño(torneo.Fecha_Fin_Torneo)}
                     </h6>
                   </Grid>
                 </Grid>
