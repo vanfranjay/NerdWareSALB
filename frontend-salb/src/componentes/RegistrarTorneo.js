@@ -16,17 +16,17 @@ import { useTheme } from "@mui/material/styles";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { Field, Formik, Form, ErrorMessage } from "formik";
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
+//const ITEM_HEIGHT = 48;
+//const ITEM_PADDING_TOP = 8;
+//const MenuProps = {
+//  PaperProps: {
+//    style: {
+//      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+//      width: 250,
+//    },
+//  },
+//};
+//
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -37,42 +37,42 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const RegistrarTorneo = () => {
   const [formularioEnviado, setFormularioEnviado] = useState(false);
-  const [torneo, setTorneo] = useState({
-    Campeon: "Bolivar",
-    Subcampeon: "hola",
-    Fecha_Ini_Convocatoria: "2022-10-15",
-    Fecha_Fin_Convocatoria: "2022-11-30",
-    Invitacion: "",
-    Nombre_Torneo: "",
-    Lugar_Evento: "",
-    Fecha_Ini_Torneo: "",
-    Fecha_Fin_Torneo: "",
-    Categoria: [],
-    Rama: "",
-    Caracter: "",
-    MontoPreinscripcion: "",
-    Fecha_Ini_Preinscripcion: "",
-    Fecha_Fin_Preinscripcion: "",
-    MontoInscripcion: "",
-    Fecha_Ini_Inscripcion: "",
-    Fecha_Fin_Inscripcion: "",
-    Telefono: "",
-    Responsable: "",
-  });
+  //const [torneo, setTorneo] = useState({
+  //  Campeon: "Bolivar",
+  //  Subcampeon: "hola",
+  //  Fecha_Ini_Convocatoria: "2022-10-15",
+  //  Fecha_Fin_Convocatoria: "2022-11-30",
+  //  Invitacion: "",
+  //  Nombre_Torneo: "",
+  //  Lugar_Evento: "",
+  //  Fecha_Ini_Torneo: "",
+  //  Fecha_Fin_Torneo: "",
+  //  Categoria: [],
+  //  Rama: "",
+  //  Caracter: "",
+  //  MontoPreinscripcion: "",
+  //  Fecha_Ini_Preinscripcion: "",
+  //  Fecha_Fin_Preinscripcion: "",
+  //  MontoInscripcion: "",
+  //  Fecha_Ini_Inscripcion: "",
+  //  Fecha_Fin_Inscripcion: "",
+  //  Telefono: "",
+  //  Responsable: "",
+  //});
 
-  const registerTorneo = async (event) => {
-    event.preventDefault();
-    try {
-      const { data } = await axios.post("http://127.0.0.1:8000/api/torneos", {
-        ...torneo,
-        Categoria: torneo.Categoria.join(","),
-      });
-      console.log(data);
-      //reiniciar();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //const registerTorneo = async (event) => {
+  //  event.preventDefault();
+  //  try {
+  //    const { data } = await axios.post("http://127.0.0.1:8000/api/torneos", {
+  //      ...torneo,
+  //      Categoria: torneo.Categoria.join(","),
+  //    });
+  //    console.log(data);
+  //    //reiniciar();
+  //  } catch (error) {
+  //    console.log(error);
+  //  }
+  //};
   //const reiniciar = () => {
   //  valores({
   //    Campeon: "Bolivar",
@@ -98,18 +98,18 @@ const RegistrarTorneo = () => {
   //  });
   //};
 
-  const handleChanges = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setTorneo(
-      {
-        ...torneo,
-        Categoria: typeof value === "string" ? value.split(",") : value,
-      }
-      // On autofill we get a stringified value.
-    );
-  };
+  //const handleChanges = (event) => {
+  //  const {
+  //    target: { value },
+  //  } = event;
+  //  setTorneo(
+  //    {
+  //      ...torneo,
+  //      Categoria: typeof value === "string" ? value.split(",") : value,
+  //    }
+  //    // On autofill we get a stringified value.
+  //  );
+  //};
 
   return (
     <>
@@ -149,6 +149,20 @@ const RegistrarTorneo = () => {
         }}
         validate={(valores) => {
           let errores = {};
+
+          var f1 = new Date(valores.Fecha_Ini_Torneo);
+          var f2 = new Date(valores.Fecha_Fin_Torneo);
+          var f3 = new Date(valores.Fecha_Ini_Preinscripcion);
+          var f4 = new Date(valores.Fecha_Fin_Preinscripcion);
+          var f5 = new Date(valores.Fecha_Ini_Inscripcion);
+          var f6 = new Date(valores.Fecha_Fin_Inscripcion);
+          f1.setHours(0, 0, 0, 0);
+          f2.setHours(0, 0, 0, 0);
+          f3.setHours(0, 0, 0, 0);
+          f4.setHours(0, 0, 0, 0);
+          f5.setHours(0, 0, 0, 0);
+          f6.setHours(0, 0, 0, 0);
+
           // validacion Invitacion
           if (!valores.Invitacion) {
             errores.Invitacion = "Por favor ingresa una invitación para";
@@ -218,31 +232,58 @@ const RegistrarTorneo = () => {
           if (!valores.Fecha_Ini_Torneo) {
             errores.Fecha_Ini_Torneo =
               "Por favor seleccione una fecha de inicio del evento";
+          } else if (f1.getTime() > f2.getTime()) {
+            errores.Fecha_Ini_Torneo =
+              "La fecha de inico del evento tiene que ser menor a la fecha de finalización del evento";
           }
           // validacion de Fecha_Fin_Torneo
           if (!valores.Fecha_Fin_Torneo) {
             errores.Fecha_Fin_Torneo =
               "Por favor seleccione una fecha de fin del evento";
+          } else if (!valores.Fecha_Ini_Torneo) {
+            errores.Fecha_Fin_Torneo =
+              "Por favor establesca una fecha de inicio del evento";
+          } else if (f1.getTime() > f2.getTime()) {
+            errores.Fecha_Fin_Torneo =
+              "La fecha de finalización del evento tiene que ser mayor a la fecha de inicio del evento";
           }
           // validacion de Fecha_Ini_Preinscripcion
           if (!valores.Fecha_Ini_Preinscripcion) {
             errores.Fecha_Ini_Preinscripcion =
               "Por favor seleccione una fecha de pre-inscripción del evento";
+          } else if (f3.getTime() > f4.getTime()) {
+            errores.Fecha_Ini_Preinscripcion =
+              "La fecha de inicio de pre-inscripción tiene que ser menor a la fecha de fin de pre-inscripción";
           }
           // validacion de Fecha_Fin_Preinscripcion
           if (!valores.Fecha_Fin_Preinscripcion) {
             errores.Fecha_Fin_Preinscripcion =
               "Por favor seleccione una fecha de fin de pre-inscripción del evento";
+          } else if (!valores.Fecha_Ini_Preinscripcion) {
+            errores.Fecha_Fin_Preinscripcion =
+              "Por favor establesca una fecha de inicio de pre-inscripción";
+          } else if (f3.getTime() > f4.getTime()) {
+            errores.Fecha_Fin_Preinscripcion =
+              "La fecha de fin de pre-inscripción del evento tiene que ser mayor a la fecha de inicio de pre-inscripción";
           }
           // validacion de Fecha_Ini_Inscripcion
           if (!valores.Fecha_Ini_Inscripcion) {
             errores.Fecha_Ini_Inscripcion =
               "Por favor seleccione una fecha inscripción del evento";
+          } else if (f5.getTime() > f6.getTime()) {
+            errores.Fecha_Ini_Inscripcion =
+              "La fecha de inicio de inscripción tiene que ser menor a la fecha de fin de inscripción";
           }
           // validacion de Fecha_Fin_Inscripcion
           if (!valores.Fecha_Fin_Inscripcion) {
             errores.Fecha_Fin_Inscripcion =
               "Por favor seleccione una fecha de fin de inscripción del evento";
+          } else if (!valores.Fecha_Ini_Inscripcion) {
+            errores.Fecha_Fin_Inscripcion =
+              "Por favor establesca una fecha de inicio de inscripción";
+          } else if (f5.getTime() > f6.getTime()) {
+            errores.Fecha_Fin_Inscripcion =
+              "La fecha de fin de inscripción del evento tiene que ser mayor a la fecha de inicio de inscripción";
           }
 
           return errores;
@@ -278,7 +319,7 @@ const RegistrarTorneo = () => {
                       sx={{
                         input: { color: "white" },
                         label: { color: "white" },
-                        value: { color: "white"},
+                        value: { color: "white" },
                       }}
                       id="standard-required"
                       label="Invitacion para: "
@@ -295,7 +336,7 @@ const RegistrarTorneo = () => {
                     name="Invitacion"
                     component={() => (
                       <Grid
-                        style={{ color: "red", fontSize: "16px" }}
+                        style={{ color: "#FF0000", fontSize: "16px" }}
                         item
                         xs={12}
                         md={12}
@@ -328,7 +369,7 @@ const RegistrarTorneo = () => {
                     name="Nombre_Torneo"
                     component={() => (
                       <Grid
-                        style={{ color: "red", fontSize: "14px" }}
+                        style={{ color: "#FF0000", fontSize: "16px" }}
                         item
                         xs={12}
                         md={12}
@@ -361,7 +402,7 @@ const RegistrarTorneo = () => {
                     name="Lugar_Evento"
                     component={() => (
                       <Grid
-                        style={{ color: "red", fontSize: "14px" }}
+                        style={{ color: "#FF0000", fontSize: "16px" }}
                         item
                         xs={12}
                         md={12}
@@ -398,7 +439,7 @@ const RegistrarTorneo = () => {
                     name="Fecha_Ini_Torneo"
                     component={() => (
                       <Grid
-                        style={{ color: "red", fontSize: "14px" }}
+                        style={{ color: "#FF0000", fontSize: "16px" }}
                         item
                         xs={12}
                         md={12}
@@ -435,7 +476,7 @@ const RegistrarTorneo = () => {
                     name="Fecha_Fin_Torneo"
                     component={() => (
                       <Grid
-                        style={{ color: "red", fontSize: "14px" }}
+                        style={{ color: "#FF0000", fontSize: "16px" }}
                         item
                         xs={12}
                         md={12}
@@ -489,7 +530,7 @@ const RegistrarTorneo = () => {
                     name="Categoria"
                     component={() => (
                       <Grid
-                        style={{ color: "red", fontSize: "14px" }}
+                        style={{ color: "#FF0000", fontSize: "16px" }}
                         item
                         xs={12}
                         md={12}
@@ -537,7 +578,7 @@ const RegistrarTorneo = () => {
                     name="Rama"
                     component={() => (
                       <Grid
-                        style={{ color: "red", fontSize: "14px" }}
+                        style={{ color: "#FF0000", fontSize: "16px" }}
                         item
                         xs={12}
                         md={12}
@@ -587,7 +628,7 @@ const RegistrarTorneo = () => {
                     name="Caracter"
                     component={() => (
                       <Grid
-                        style={{ color: "red", fontSize: "14px" }}
+                        style={{ color: "#FF0000", fontSize: "16px" }}
                         item
                         xs={12}
                         md={12}
@@ -637,7 +678,7 @@ const RegistrarTorneo = () => {
                     name="MontoPreinscripcion"
                     component={() => (
                       <Grid
-                        style={{ color: "red", fontSize: "14px" }}
+                        style={{ color: "#FF0000", fontSize: "16px" }}
                         item
                         xs={12}
                         md={12}
@@ -674,7 +715,7 @@ const RegistrarTorneo = () => {
                     name="Fecha_Ini_Preinscripcion"
                     component={() => (
                       <Grid
-                        style={{ color: "red", fontSize: "14px" }}
+                        style={{ color: "#FF0000", fontSize: "16px" }}
                         item
                         xs={12}
                         md={12}
@@ -711,7 +752,7 @@ const RegistrarTorneo = () => {
                     name="Fecha_Fin_Preinscripcion"
                     component={() => (
                       <Grid
-                        style={{ color: "red", fontSize: "14px" }}
+                        style={{ color: "#FF0000", fontSize: "16px" }}
                         item
                         xs={12}
                         md={12}
@@ -762,7 +803,7 @@ const RegistrarTorneo = () => {
                     name="MontoInscripcion"
                     component={() => (
                       <Grid
-                        style={{ color: "red", fontSize: "14px" }}
+                        style={{ color: "#FF0000", fontSize: "16px" }}
                         item
                         xs={12}
                         md={12}
@@ -799,7 +840,7 @@ const RegistrarTorneo = () => {
                     name="Fecha_Ini_Inscripcion"
                     component={() => (
                       <Grid
-                        style={{ color: "red", fontSize: "14px" }}
+                        style={{ color: "#FF0000", fontSize: "16px" }}
                         item
                         xs={12}
                         md={12}
@@ -836,7 +877,7 @@ const RegistrarTorneo = () => {
                     name="Fecha_Fin_Inscripcion"
                     component={() => (
                       <Grid
-                        style={{ color: "red", fontSize: "14px" }}
+                        style={{ color: "#FF0000", fontSize: "16px" }}
                         item
                         xs={12}
                         md={12}
@@ -887,7 +928,7 @@ const RegistrarTorneo = () => {
                     name="Responsable"
                     component={() => (
                       <Grid
-                        style={{ color: "red", fontSize: "14px" }}
+                        style={{ color: "#FF0000", fontSize: "16px" }}
                         item
                         xs={12}
                         md={12}
@@ -921,7 +962,7 @@ const RegistrarTorneo = () => {
                     name="Telefono"
                     component={() => (
                       <Grid
-                        style={{ color: "red", fontSize: "14px" }}
+                        style={{ color: "#FF0000", fontSize: "16px" }}
                         item
                         xs={12}
                         md={12}
