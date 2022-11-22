@@ -11,7 +11,9 @@ class Noticias_T extends Model
     protected $table = 'noticias_ts';
     protected $primaryKey = 'Cod_Noticia';
     protected $fillable = [
-        'Fecha','Imagen','Titulo','Descripcion','Link',
+        'Fecha','Imagen','Titulo','Descripcion','Link','Cod_Torneo',
     ];
-    
+    public function torneos(){
+        return $this->belongsTo(Torneo::class,'id');
+    }
 }

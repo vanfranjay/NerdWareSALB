@@ -15,7 +15,7 @@ class CreateJugadorsTable extends Migration
     {
         Schema::create('jugadores', function (Blueprint $table) {
             $table->id();
-            $table->integer('DNI');
+            $table->integer('DNI')->unique();
             $table->string('Nombre');
             $table->string('Apellido');
             $table->date('Fecha_Nacimiento');

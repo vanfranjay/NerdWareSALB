@@ -20,6 +20,12 @@ class CreateNoticiasTSTable extends Migration
             $table->string('Titulo');
             $table->string('Descripcion');
             $table->string('Link');
+            $table->foreignId('Cod_Torneo')
+                   ->nullable()
+                   ->constrained('torneos')
+                   ->cascadeOnUpdate()
+                   ->nullOnDelete()
+                   ;
             $table->timestamps();
         });
     }

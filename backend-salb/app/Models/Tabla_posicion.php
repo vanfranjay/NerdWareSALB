@@ -11,7 +11,7 @@ class Tabla_posicion extends Model
     protected $table = 'tabla_posicions';
     protected $primarykey = 'id';
     protected $fillable = [
-        'Fecha', 'Foto_pos',
+        'Fecha', 'Foto_pos','Cod_Torneo',
         //'Cod_torneo',
     ];
 
@@ -21,8 +21,7 @@ class Tabla_posicion extends Model
     // }  
     // para la tabla Torneo
 
-    // public function torneo()
-    // {
-    //     return $this->belongsTo(Torneo::class,'Cod_torneo');
-    // }
+    public function torneos(){
+        return $this->belongsTo(Torneo::class,'id');
+    }
 }

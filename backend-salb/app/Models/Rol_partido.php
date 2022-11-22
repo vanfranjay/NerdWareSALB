@@ -11,7 +11,7 @@ class Rol_partido extends Model
     protected $table = 'rol_partidos';
     protected $primarykey = 'id';
     protected $fillable = [
-        'Fecha', 'Foto_part',
+        'Fecha', 'Foto_part','Cod_Torneo',
         // 'Cod_torneo',
     ];
     
@@ -21,8 +21,7 @@ class Rol_partido extends Model
     // }  
     // para la tabla Torneo
 
-    // public function torneo()
-    // {
-    //     return $this->belongsTo(Torneo::class,'Cod_torneo');
-    // }
+    public function torneos(){
+        return $this->belongsTo(Torneo::class,'id');
+    }
 }

@@ -20,4 +20,7 @@ class Categoria extends Model
     /*public function jugador(){
         return $this->hasMany(Jugador::class,'Cod_Jugador');
     }*/
+    public function torneo(){
+        return $this->hasMany(Torneo::class,'id');
+    }
 }

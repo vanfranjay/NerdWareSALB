@@ -7,6 +7,7 @@
     height: 100%;
     background-size: cover;
     margin-bottom: 30px !important;
+    user-select: none;
 }
 .tituloTorneo{
     padding-top: 20px;
@@ -46,20 +47,40 @@
     margin-top: 10px;
 }
 .masDetalles{
+    display: inline-block;
     color: #ffffff;
     font-size: 20px;
     text-shadow: 2px 2px 2px rgb(12, 23, 60);
     padding-bottom: 20px;
+    padding-left: 10px;
 }
 .fondoMasDetalles{
     margin-bottom: 30px;
 }
 .contentRama{
-    background: rgba(76, 175, 80, 0.3) /* Green background with 30% opacity */
+    background: rgba(76, 175, 80, 0.4) /* Green background with 30% opacity */
 }
 .basquetbol1{
     color: #ffffff;
     font-size: 30px;
     text-shadow: 2px 2px 2px rgb(8, 19, 52);
     padding-bottom: 20px;
+}
+.fondoDetalleConvocatoria{
+    background-color: #ffffff;
+    padding: 50px 30px 50px 30px;
+}
+.imgPasosParaParticipar{
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+}
+.invitacionPara{
+    padding-top: 25px;
+}
+.espacio{
+    padding-left: 10px;
+}
+.harEncabezado{
+    padding-bottom: 5px;
 }
