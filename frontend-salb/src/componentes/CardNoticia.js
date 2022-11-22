@@ -21,6 +21,7 @@ import Dialog from "@mui/material/Dialog";
 import CardActions from "@mui/material/CardActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
 
 
 function CardNoticia({ codigo, fecha, imagen, titulo, descripcion, link }) {
@@ -44,13 +45,25 @@ function CardNoticia({ codigo, fecha, imagen, titulo, descripcion, link }) {
         setOpen(false);
     };
 
+    const [openDialog, setOpenDialog] = useState(false);
+    const handleClickOpenDialog = () => {
+        setOpenDialog(true);
+    };
+    const handleCloseDialog = (event, reason) => {
+        //if (reason !== 'backdropClick') {
+        setOpenDialog(false);
+        //}
+    };
+
     return (
         <div
             onClick={() => {
                 {
                     handleClickOpen();
+                    //handleClose();
                 }
             }}>
+
 
             <Card sx={{ display: 'flex', width: "750px" }}>
 
@@ -80,47 +93,51 @@ function CardNoticia({ codigo, fecha, imagen, titulo, descripcion, link }) {
                     />
                 </Box>
 
+
             </Card>
             <div>
                 <Dialog
+
 
                     open={open}
                     onClose={handleClose}
                     aria-labelledby={`alert-dialog-title${codigo}`}
                     aria-describedby={`alert-dialog-description${codigo}`}
                 >
-                    <Grid xs={12}>
-                        <DialogContentText>
-                            <img
-                                src={imagen}
-                                className="fotoPerfilJugador"
-                            />
-                        </DialogContentText>
-                        <DialogTitle
-                            id={`alert-dialog-title${codigo}`}
-                            className="NombrePerfilJugador"
-                        >
-                            {titulo}
-                        </DialogTitle>
-                        <DialogContent>
-                            <DialogContentText
-                                id={`alert-dialog-description${codigo}`}
-                                className="colorLetraDetallesJugador"
-                            >
-                                {descripcion}
 
-                                <br>
-                                </br>
-                                <QueryBuilderRoundedIcon>
-                                </QueryBuilderRoundedIcon>
-                                {fecha}
-                            </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleClose}>Cerrar</Button>
-                        </DialogActions>
-                    </Grid>
+                    <DialogContentText>
+                        <img
+                            src={imagen}
+                            className="fotoPerfilJugador"
+                        />
+                    </DialogContentText>
+                    <DialogTitle
+                        id={`alert-dialog-title${codigo}`}
+                        className="NombrePerfilJugador"
+                    >
+                        {titulo}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText
+                            id={`alert-dialog-description${codigo}`}
+                            className="colorLetraDetallesJugador"
+                        >
+                            {descripcion}
+
+                            <br>
+                            </br>
+                            <QueryBuilderRoundedIcon>
+                            </QueryBuilderRoundedIcon>
+                            {fecha}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setOpen(!open)}>Cerrar
+                        </Button>
+                    </DialogActions>
+
                 </Dialog>
+
             </div>
 
         </div>

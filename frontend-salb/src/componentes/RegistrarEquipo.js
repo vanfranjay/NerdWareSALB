@@ -99,7 +99,7 @@ const RegistrarEquipo = () => {
 
       setSubmitting(true);
       setTimeout(() => {
-        resetForm();
+        //resetForm();
         setSubmitting(false);
       }, 4000);
     },
@@ -176,7 +176,7 @@ const RegistrarEquipo = () => {
     console.log("Categoria ID: " + selectedCategoria);
 
     const datos = {
-      "Nombre-Equipo": values.nombreEquipo,
+      "Nombre_Equipo": values.nombreEquipo,
       "Logo": imageURL ? imageURL : "",
       "Partidos_Jugados": 0,
       "Partidos_Ganados": 0,
@@ -191,18 +191,34 @@ const RegistrarEquipo = () => {
 
     //Validadando si se envio correctamente o hubo algun fallo
     console.log("Response:------> " + respuestaJson.status);
-    if (respuestaJson.status === 201) {
+    if (respuestaJson.status === 200) {
       setAlertColor("success");
       setAlertContent("Se registro el equipo exitosamente");
       setOpen(true);
       borrar();
-      goToRegistrarJugador();
+      var equipo = await respuestaJson.json();
+      localStorage.setItem('categoriaId', selectedCategoria.id);
+      localStorage.setItem('categoriaValue', selectedCategoria.Categoria);
+      localStorage.setItem('equipoId', equipo.id);
+      localStorage.setItem('jugadoresReg', 0);
+      delayAndGo();
+    }
+
+    if (respuestaJson.status === 400) {
+      var errorRes = await respuestaJson.json();
+      console.log("Error Response---" + JSON.stringify(errorRes));
+
+      if (errorRes.errorCode === "23505") {
+        setAlertColor("error");
+        setAlertContent(configData.MENSAJE_CREACION_EQUIPO_DUPLICADO);
+        setOpen(true);
+      }
     }
 
   }
 
-  function goToRegistrarJugador() {
-    navigate("/home/registrar-jugador");
+  function delayAndGo(e) {
+    setTimeout(() => navigate("/usuario/registrar-jugador"), 3000);
   }
 
   function borrar() {

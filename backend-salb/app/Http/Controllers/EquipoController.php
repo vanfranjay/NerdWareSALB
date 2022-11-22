@@ -31,8 +31,13 @@ class EquipoController extends Controller
         return $equipo;//para almacenar
         */
         $equipo = new Equipo($request->all());
-        $equipo->save();
-        return $equipo;//para almacenar
+
+        try {
+             $equipo->save();
+        } catch (\Exception $e) {
+            return response()->json(['errorCode' => $e->errorInfo[0], 'errorMessage' => $e->errorInfo[2] ], 400);
+        }
+        return response()->json($equipo);
     }
 
     public function show($id)

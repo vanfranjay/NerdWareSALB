@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Jugador;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class JugadorController extends Controller
 {
@@ -41,6 +42,13 @@ class JugadorController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            '' => 'required|unique:DNI' ,
+        ],
+        [
+            //'N_Transaccion.required' => 'El campo es necesario',
+            'DNI.unique' => 'EL DNI ya fue regIstradO',
+        ]);
        /* $request->validate([
             'DNI' => 'required|numeric' ,
             'Nombre' => 'required|string' ,

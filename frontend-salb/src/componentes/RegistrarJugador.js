@@ -24,12 +24,14 @@ import moment from "moment";
 import "moment/locale/es";
 import axios from "axios";
 import configData from "../config/config.json";
+import { useNavigate } from "react-router-dom";
 
 const RegistrarJugador = () => {
 
-    const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "application/pdf"];
+    const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
     const FILE_SIZE = 7340032; // 7MB de tamaño del archivo
     const phoneRegExp = /^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*$/;
+    const navigate = useNavigate();
 
     const [selectedFile, setSelectedFile] = useState();
 
@@ -41,6 +43,10 @@ const RegistrarJugador = () => {
     var maxFechaNac = moment().subtract(18, "years").format("DD/MM/YYYY");
     var minFechaNac = moment().subtract(60, "years").format("DD/MM/YYYY");
 
+    var codEquipo = localStorage.getItem("equipoId");
+    var codCategoria = localStorage.getItem("categoriaId");
+    var categoriaEquipo = localStorage.getItem("categoriaValue");
+    const postJugadorURL = "http://127.0.0.1:8000/api/jugadores";
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -63,26 +69,10 @@ const RegistrarJugador = () => {
     });
 
     const formValidationSchema = Yup.object({
-        nombreEquipo: Yup
-            .string('Ingrese el Nombre del equipo')
-            .min(4, 'Nombre del equipo debe ser mínimo 2 caracteres')
-            .max(30, "Nombre del equipo debe ser máximo 30 caracteres")
-            .required('Nombre del equipo es requerido'),
-        logoEquipo: Yup.mixed()
-            .nullable()
-            .test("fileSize",
-                "El tamaño del archivo sobre pasa los 7MB",
-                value => !value || (value && value.size <= FILE_SIZE))
-            .test(
-                "fileType",
-                "El tipo de archivo no es permitido",
-                value => !value || (value && SUPPORTED_FORMATS.includes(value.type))),
-        categoriaEquipo: Yup
-            .string('Ingrese la categoria del equipo')
-            .required('Categoria del equipo es requerido'),
+
         nombreParticipante: Yup
             .string('Ingrese el Nombre del participante')
-            .min(4, 'Nombre del participante debe ser mínimo 2 caracteres')
+            .min(2, 'Nombre del participante debe ser mínimo 2 caracteres')
             .max(50, "Nombre del participante debe ser máximo 50 caracteres")
             .matches(/^[A-Za-z\s]*$/, "El nombre solo debe tener letras y espacios")
             .required('Nombre del participante es requerido'),
@@ -142,17 +132,14 @@ const RegistrarJugador = () => {
 
     const { handleSubmit, resetForm, handleChange, values, touched, errors, handleBlur, setFieldValue } = useFormik({
         initialValues: {
-            nombreEquipo: '',
-            logoEquipo: undefined,
-            categoriaEquipo: '',
-            nombreParticipante: '',
-            apellidoParticipante: '',
+            nombreParticipante: "",
+            apellidoParticipante: "",
             fechaNacParticipante: null,
-            telefonoParticipante: '',
-            emailParticipante: '',
-            rolParticipante: '',
-            dniParticipante: '',
-            direccionParticipante: '',
+            telefonoParticipante: "",
+            emailParticipante: "",
+            rolParticipante: "",
+            dniParticipante: "",
+            direccionParticipante: "",
             fotoDNIParticipante: undefined,
             fotoParticipante: undefined
         },
@@ -160,18 +147,190 @@ const RegistrarJugador = () => {
         validationSchema: formValidationSchema,
 
         onSubmit: (values, { setSubmitting, resetForm }) => {
-            //registrarEquipo();
+            registrarJugador();
 
             setSubmitting(true);
             setTimeout(() => {
-                resetForm();
+                //resetForm();
                 setSubmitting(false);
             }, 4000);
         },
     });
 
+    // Guardamos la imagen en el server imgbb.com
+    const postImageToServerExt = async (image) => {
+        var imageData = await toBase64(image);
+        var imageToSend = imageData.replace(/^data:image\/[a-z]+;base64,/, "");
+
+        var formdata = new FormData();
+        formdata.append("image", imageToSend);
+
+        var imagePosted =
+            await axios
+                .post(
+                    configData.IMGBB_API_URL + configData.IMAGEBB_API_KEY,
+                    formdata,
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                    }
+                )
+                .then((response) => {
+                    console.log("API response ↓");
+                    console.log(response);
+                    return response;
+                })
+                .catch((err) => {
+                    console.log("API error ↓");
+                    console.log(err);
+
+                    if (err.response.data.error) {
+                        console.log(err.response.data.error);
+                    }
+                });
+
+        var responseImage = imagePosted.data.data.url;
+        console.log("Image Enviada: " + responseImage);
+        return responseImage;
+    };
+
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
+    // Realiza un POST al API de crear Boleta en backend
+    const postJugador = async (url, datos) => {
+        const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(datos),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        return response;
+    }
+
+    const registrarJugador = async () => {
+
+        var imageURL = "";
+        if (selectedFile && values.logoEquipo) {
+            imageURL = await postImageToServerExt();
+        }
+
+        var selectedCategoria = categorias.find(categoria => categoria.Categoria === values.categoriaEquipo);
+        console.log("Categoria ID: " + selectedCategoria);
+        var formatedFechaNac = values.fechaNacParticipante.format('YYYY-MM-DD');
+
+        const datos = {
+            "DNI": parseInt(values.dniParticipante),
+            "Nombre": values.nombreParticipante,
+            "Apellido": values.apellidoParticipante,
+            "Telefono": values.telefonoParticipante,
+            "Foto": null,
+            "Foto_DNI": null,
+            "Rol": values.rolParticipante,
+            "Fecha_Nacimiento": formatedFechaNac,
+            "Cod_Equipo": parseInt(codEquipo),
+            "Cod_Categoria": parseInt(codCategoria),
+            "Asistencia": 0,
+            "Faltas": 0,
+            "Puntos": 0,
+            "Rebotes": 0,
+            "Pases": 0,
+            "Dobles": 0,
+            "Triples": 0
+        };
+
+        console.log("Jugador: ------> " + JSON.stringify(datos));
+
+        if (esValidoEdadJugador(values.fechaNacParticipante)) {
+
+            // Hacemos el post de Equipo 
+            const respuestaJson = await postJugador(postJugadorURL, datos);
+
+            //Validadando si se envio correctamente o hubo algun fallo
+            console.log("Response:------> " + respuestaJson.status);
+            if (respuestaJson.status === 201) {
+                setAlertColor("success");
+                setAlertContent("Se registro al jugador exitosamente");
+                setOpen(true);
+                localStorage.setItem('jugadoresReg', parseInt(localStorage.getItem('jugadoresReg')) + 1);
+                borrar();
+            }
+
+            if (respuestaJson.status === 400) {
+                var errorRes = await respuestaJson.json();
+                console.log("Error Response---" + JSON.stringify(errorRes));
+
+                if (errorRes.errorCode === "23505") {
+                    setAlertColor("error");
+                    setAlertContent("El jugador con el DNI ingresado ya fue registrado");
+                    setOpen(true);
+                }
+            }
+        } else {
+            mostrarErrorEdad();
+        }
+
+    }
+
+    const esValidoEdadJugador = (fechaNacimiento) => {
+
+        var edadJugador = moment().diff(fechaNacimiento, 'years');
+        console.log("Edad Jugador: " + edadJugador);
+        if (categoriaEquipo.startsWith('+')) {
+            console.log("Categoria start with +: " + categoriaEquipo.startsWith('+'));
+            var categoria = categoriaEquipo.replace('+', '');
+            categoria = parseInt(categoria);
+            console.log("Categoria Parsed: " + categoria);
+            console.log("La edad es mayor a la categoria: " + (edadJugador > categoria));
+            return edadJugador > categoria;
+        } else {
+            categoria = parseInt(categoriaEquipo);
+            console.log("Categoria Parsed: " + categoria);
+            console.log("La edad es igual a la categoria: " + (edadJugador === categoria));
+            return edadJugador === categoria;
+        }
+    }
+
+    const mostrarErrorEdad = () => {
+        setAlertColor("error");
+        setAlertContent("La edad del participante no pertenece al rango de la categoria de equipo");
+        setOpen(true);
+    }
+
+    function delayAndGo(e) {
+        setTimeout(() => navigate("/registrar-equipo"), 3000);
+    }
+
+    const finalizarRegistro = () => {
+        var jugadores = parseInt(localStorage.getItem('jugadoresReg'));
+        if (jugadores < 8) {
+            setAlertColor("error");
+            setAlertContent("Se debe registrar al menos 8 jugadores");
+            setOpen(true);
+        }
+        if (jugadores > 12) {
+            setAlertColor("error");
+            setAlertContent("No se puede registrar mas de 12 jugadores");
+            setOpen(true);
+        }
+        if (jugadores > 7 && jugadores < 13) {
+            setAlertColor("success");
+            setAlertContent("Se registro a los " + jugadores + " exitosamente");
+            setOpen(true);
+            localStorage.setItem('jugadoresReg', 0);
+            borrar();
+            delayAndGo();
+        }
+    }
+
     function borrar() {
-        document.getElementById("logoEquipo").value = "";
         document.getElementById("fotoDNIParticipante").value = "";
         document.getElementById("fotoParticipante").value = "";
         return resetForm();
@@ -207,13 +366,20 @@ const RegistrarJugador = () => {
                 <br>
                 </br>
                 <form>
-                    <h6 className='texto'>*Puede registrar minimo 8 y máximo 12 jugadores</h6>
+
+                    <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        spacing={1}>
+                        <h6 className='texto'>*Puede registrar minimo 8 y máximo 12 jugadores</h6>
+                        <h6 className='texto'> Participantes Registrados: {localStorage.getItem('jugadoresReg')} / 12 </h6>
+                    </Stack>
                     <br>
                     </br>
                     <Grid container spacing={5}>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                required
                                 id="nombreParticipante"
                                 name="nombreParticipante"
                                 label="Nombre"
@@ -233,7 +399,7 @@ const RegistrarJugador = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                required
+
                                 id="apellidoParticipante"
                                 name="apellidoParticipante"
                                 label="Apellido"
@@ -267,7 +433,6 @@ const RegistrarJugador = () => {
                                         return <TextField {...params}
                                             variant="standard"
                                             fullWidth
-                                            required
                                             onBlur={handleBlur}
                                             error={touched.fechaNacParticipante && Boolean(errors.fechaNacParticipante)}
                                             helperText={touched.fechaNacParticipante && errors.fechaNacParticipante}
@@ -288,7 +453,7 @@ const RegistrarJugador = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                required
+
                                 id="telefonoParticipante"
                                 name="telefonoParticipante"
                                 label="Celular/Teléfono"
@@ -378,7 +543,7 @@ const RegistrarJugador = () => {
 
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                required
+
                                 id="dniParticipante"
                                 name="dniParticipante"
                                 label="DNI/CI"
@@ -398,7 +563,7 @@ const RegistrarJugador = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                required
+
                                 id="direccionParticipante"
                                 name="direccionParticipante"
                                 label="Dirección"
@@ -410,16 +575,18 @@ const RegistrarJugador = () => {
                                 error={touched.direccionParticipante && Boolean(errors.direccionParticipante)}
                                 helperText={touched.direccionParticipante && errors.direccionParticipante}
                                 multiline
+                                InputLabelProps={{
+                                    style: { color: "#ffff" },
+                                }}
                                 sx={{
-                                    label: { color: '#ffff' },
-                                    input: { color: '#ffff' },
-                                    svg: { color: '#ffff' }
+                                    color: "white",
+                                    "& .MuiInputBase-root": { color: "white" },
                                 }}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                required
+
                                 id="fotoDNIParticipante"
                                 name="fotoDNIParticipante"
                                 type="file"
@@ -451,7 +618,7 @@ const RegistrarJugador = () => {
 
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                required
+
                                 id="fotoParticipante"
                                 name="fotoParticipante"
                                 type="file"
@@ -507,6 +674,20 @@ const RegistrarJugador = () => {
                         >Cancelar
                         </Button>
 
+                    </Stack>
+                    <Stack m={5}
+                        direction="row"
+                        spacing={3}
+                        justifyContent="center"
+                        alignItems="center">
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={finalizarRegistro}
+                            type="submit"
+                            sx={{ width: '25%' }}
+                        >Finalizar Registro
+                        </Button>
                     </Stack>
                     <div>
                         <table id="tabla" className="table table-dark"></table>

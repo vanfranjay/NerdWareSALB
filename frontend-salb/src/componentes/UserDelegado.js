@@ -29,6 +29,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import '../css/styleNavBar.css';
 import logoApp from '../imagenes/LogoLMB1.png';
+import RegistrarJugador from './RegistrarJugador';
 
 const ocultar = document.getElementById('imgUser');
 const text = document.getElementById('imgUser');
@@ -227,6 +228,7 @@ function DashboardContent() {
               <Routes>
                 <Route path="registrar-voucher" element={<RegistrarVoucher />} />
                 <Route path="registrar-equipo" element={<RegistrarEquipo />} />
+                <Route path="registrar-jugador" element={<RegistrarJugador />} />
                 <Route path="/" element={<Navigate to='registrar-voucher' />} />
               </Routes>
             </div>

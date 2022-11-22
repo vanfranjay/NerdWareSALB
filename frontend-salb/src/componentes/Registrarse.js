@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import SendIcon from "@mui/icons-material/Send";
 import "../css/styleRegistro.css";
@@ -49,14 +51,18 @@ const Registrarse = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const postVoucherURL = configData.REGISTER_VOUCHER_API_URL;
-
   const [selectedFileFotoDNI, setSelectedFileFotoDNI] = useState();
   const [selectedFileFotoPerfil, setSelectedFileFotoPerfil] = useState();
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
+
+  const navigate = useNavigate();
+
+  function delayAndGo(e) {
+    setTimeout(() => navigate("/login"), 3000);
+  }
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -188,6 +194,44 @@ const Registrarse = () => {
     },
   });
 
+  // Guardamos la imagen en el server imgbb.com
+  const postImageToServerExt = async (image) => {
+    var imageData = await toBase64(image);
+    var imageToSend = imageData.replace(/^data:image\/[a-z]+;base64,/, "");
+
+    var formdata = new FormData();
+    formdata.append("image", imageToSend);
+
+    var imagePosted =
+      await axios
+        .post(
+          configData.IMGBB_API_URL + configData.IMAGEBB_API_KEY,
+          formdata,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((response) => {
+          console.log("API response ↓");
+          console.log(response);
+          return response;
+        })
+        .catch((err) => {
+          console.log("API error ↓");
+          console.log(err);
+
+          if (err.response.data.error) {
+            console.log(err.response.data.error);
+          }
+        });
+
+    var responseImage = imagePosted.data.data.url;
+    console.log("Image Enviada: " + responseImage);
+    return responseImage;
+  };
+
   // Realiza un POST al API de crear Delegado en backend
 
   const postDelegado = async (datos) => {
@@ -208,19 +252,6 @@ const Registrarse = () => {
   }
 
   const registrarUsuario = async () => {
-    const datos = {
-      CI: values.dni,
-      Nombre: values.nombre,
-      Apellido: values.apellido,
-      Telefono: values.telefono,
-      Contraseña: values.password,
-      Contraseña_confirmed: values.confirmPassword,
-      Correo: values.email,
-      Foto_Perfil: null,
-      Foto_DNI: null,
-    };
-    //e.preventDefault(); //evitar que se actualice la pantalla
-    console.log("Delegado: " + JSON.stringify(datos));
 
     if (await existeFotosDuplicadas(values.fotoDNI, values.fotoPerfil)) {
       setAlertColor("error");
@@ -228,6 +259,28 @@ const Registrarse = () => {
       setOpen(true);
 
     } else {
+
+      var imageFotoPerfilURL = "";
+      var imageFotoDNIURL = "";
+
+      if ((selectedFileFotoPerfil && values.fotoPerfil) && (selectedFileFotoDNI && values.fotoDNI)) {
+        imageFotoPerfilURL = await postImageToServerExt(selectedFileFotoPerfil);
+        imageFotoDNIURL = await postImageToServerExt(selectedFileFotoDNI);
+      }
+
+      const datos = {
+        CI: values.dni,
+        Nombre: values.nombre,
+        Apellido: values.apellido,
+        Telefono: values.telefono,
+        Contraseña: values.password,
+        Contraseña_confirmed: values.confirmPassword,
+        Correo: values.email,
+        Foto_Perfil: imageFotoPerfilURL,
+        Foto_DNI: imageFotoDNIURL,
+      };
+
+      console.log("Delegado: " + JSON.stringify(datos));
 
       var response = await postDelegado(datos);
 
@@ -237,6 +290,7 @@ const Registrarse = () => {
         setAlertContent(configData.MENSAJE_REGISTRO_USUARIO_CON_EXITO);
         setOpen(true);
         borrar();
+        delayAndGo();
       }
 
       if (response.status === 400) {
@@ -333,7 +387,7 @@ const Registrarse = () => {
               required
               id="apellido"
               name="apellido"
-              label="Apellido"
+              label="Apellido(s)"
               fullWidth
               variant="standard"
               onChange={handleChange}
@@ -353,7 +407,7 @@ const Registrarse = () => {
               variant="standard"
               id="telefono"
               name="telefono"
-              label="Telefono"
+              label="Teléfono"
               /*defaultCountry={'bo'}
               regions={['south-america']}*/
               fullWidth

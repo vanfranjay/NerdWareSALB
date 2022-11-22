@@ -21,5 +21,6 @@
     "MENSAJE_REGISTRO_DELEGADO_FOTOS_DUPLICADAS": "Las fotos de los campos Foto de Perfil y Foto de DNI estan duplicados",
     "MENSAJE_FECHA_DE_DEPOSITO_FUERA_DEL_RANGO_DE_CONVOCATORIA": "La fecha de preinscripción caduco, contacte al administrador",
     "MENSAJE_CREACION_EQUIPO_EXITOSAMENTE": "Se registro el equipo exitosamente",
+    "MENSAJE_CREACION_EQUIPO_DUPLICADO": "El equipo que intenta registrar ya fue registrado",
     "MENSAJE_MONTO_INVALIDO": "Monto erróneo, compruebe la fecha"
 }
