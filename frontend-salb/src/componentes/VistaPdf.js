@@ -130,8 +130,7 @@ const VistaPdf = (torneo) => {
         case 12:
           return "Diciembre";
       }
-    }
-    else{
+    } else {
       const date = new Date(fecha);
       const mesActual = date.getMonth() + 1;
       switch (mesActual) {
@@ -171,7 +170,7 @@ const VistaPdf = (torneo) => {
               <Text> </Text>
               <Text>
                 Saludos, por medio de la presente quedan cordialmente invitados
-                al {convocatoria.Nombre_Torneo}, Cochabamba- Bolivia{" "}
+                al {convocatoria.Nombre_Torneo} del{" "}
                 {obtenerAño(convocatoria.Fecha_Ini_Torneo)}. El cual se
                 realizará en la ciudad/región de {convocatoria.Lugar_Evento}{" "}
                 desde el {obtenerDia(convocatoria.Fecha_Ini_Torneo)}{" "}
@@ -202,7 +201,7 @@ const VistaPdf = (torneo) => {
                 países de Sud América.
               </Text>
               <Text> </Text>
-              <Text break style={{paddingTop: "40px"}}>
+              <Text break style={{ paddingTop: "40px" }}>
                 Para realizar la preinscripción/inscripción, sólo tiene que
                 seguir los siguientes pasos:
               </Text>
@@ -221,7 +220,7 @@ const VistaPdf = (torneo) => {
               <Text> </Text>
               <Image src={FormularioRegistrarse} />
               <Text> </Text>
-              <Text break style={{paddingTop: "40px"}}>
+              <Text break style={{ paddingTop: "40px" }}>
                 2do paso: procederemos a iniciar sesión y en el partado registra
                 voucher, registraremos la boleta de pago que se realizo
                 previamente, la boleta de pago tiene que ser ESCANEADO para
@@ -238,7 +237,7 @@ const VistaPdf = (torneo) => {
               <Text> </Text>
               <Image src={correoVerificación} />
               <Text> </Text>
-              <Text break style={{paddingTop: "40px"}}>
+              <Text break style={{ paddingTop: "40px" }}>
                 4to paso: un vez habilitados volveremos a ingresar a la pagia
                 web del torneo, y en la sección registrar equipo, podremos
                 proceder a registrar nuestro repectivo equipo.
@@ -246,7 +245,7 @@ const VistaPdf = (torneo) => {
               <Text> </Text>
               <Image src={registrarEquipo} />
               <Text> </Text>
-              <Text style={{paddingTop: "40px"}}>
+              <Text style={{ paddingTop: "40px" }}>
                 Sin más que agregar y esperando contar con su valiosa presencia.
               </Text>
               <Text> </Text>

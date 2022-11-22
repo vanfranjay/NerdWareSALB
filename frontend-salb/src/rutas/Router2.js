@@ -19,7 +19,7 @@ const Router2 = () => {
       <BarraNavegacion />
       <div className="container">
         <Routes>
-          <Route path="/inicio" element={<Inicio />} />
+          <Route path="/convocatoria" element={<Inicio />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/fotos" element={<Fotos />} />
           <Route path="/estadisticas" element={<Estadisticas />} />

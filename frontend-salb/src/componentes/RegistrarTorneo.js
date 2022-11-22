@@ -196,7 +196,7 @@ const RegistrarTorneo = () => {
           if (!valores.Telefono) {
             errores.Telefono =
               "Por favor ingresa el número telefónico del responsable";
-          } else if (!/^[0-9]{1,20}$/.test(valores.Telefono)) {
+          } else if (!/^\d{7,20}$/.test(valores.Telefono)) {
             errores.Telefono = "El teléfono solo puede contener números";
           }
           // validación para Rama
@@ -211,15 +211,15 @@ const RegistrarTorneo = () => {
           if (!valores.MontoPreinscripcion) {
             errores.MontoPreinscripcion =
               "Por favor ingresa un monto de pre-inscripción";
-          } else if (!/^[0-9.]{1,40}$/.test(valores.MontoPreinscripcion)) {
+          } else if (!(/^\d{1,40}\.?\d{0,2}$/).test(valores.MontoPreinscripcion)) {
             errores.MontoPreinscripcion =
-              "El monto pre-inscripción solo puede contener números";
+              'El monto pre-inscripción solo puede contener una secuencia de numeros seguido de un "." y 2 decimales';
           }
           // validación para MontoInscripcion
           if (!valores.MontoInscripcion) {
             errores.MontoInscripcion =
               "Por favor ingresa el monto de inscripción";
-          } else if (!/^[0-9.]{1,40}$/.test(valores.MontoInscripcion)) {
+          } else if (!(/^\d{1,40}\.?\d{0,2}$/).test(valores.MontoInscripcion)) {
             errores.MontoInscripcion =
               "El monto de inscripción solo puede contener números";
           }
@@ -289,14 +289,17 @@ const RegistrarTorneo = () => {
           return errores;
         }}
         onSubmit={(valores, { resetForm }) => {
-          const { data } = axios.post("http://127.0.0.1:8000/api/torneos", {
-            ...valores,
-            Categoria: valores.Categoria.join(","),
-          });
-          resetForm();
-          console.log("Formulario enviado");
-          setFormularioEnviado(true);
-          setTimeout(() => setFormularioEnviado(false), 2000);
+          try {
+            const { data } = axios.post("http://127.0.0.1:8000/api/torneos", {
+              ...valores,
+              Categoria: valores.Categoria.join(","),
+            });
+            resetForm();
+            setFormularioEnviado(true);
+            setTimeout(() => setFormularioEnviado(false), 3000);
+          } catch (error) {
+            console.log(error);
+          }
         }}
         const
         reiniciar={({ resetForm }) => {
@@ -990,12 +993,27 @@ const RegistrarTorneo = () => {
                   <Button type="reset" className="botonHabilitadoCancelar">
                     Cancelar
                   </Button>
-                  {formularioEnviado && (
-                    <Grid item xs={12} md={12}>
-                      Formulario enviado con exito!
-                    </Grid>
-                  )}
                 </Grid>
+                {formularioEnviado && (
+                  <Grid
+                    item
+                    xs={12}
+                    md={12}
+                    align="center"
+                    style={{ color: "#fff", marginTop: "20px" }}
+                  >
+                    <h2
+                      style={{
+                        background: "#009c05",
+                        paddingTop: "10px",
+                        paddingBottom: "10px",
+                        fontSize: "16px",
+                      }}
+                    >
+                      Registro de torneo exitoso!
+                    </h2>
+                  </Grid>
+                )}
               </Grid>
             </div>
           </Form>
