@@ -255,7 +255,7 @@ const RegistrarJugador = () => {
 
             //Validadando si se envio correctamente o hubo algun fallo
             console.log("Response:------> " + respuestaJson.status);
-            if (respuestaJson.status === 201) {
+            if (respuestaJson.status === 200) {
                 setAlertColor("success");
                 setAlertContent("Se registro al jugador exitosamente");
                 setOpen(true);
@@ -269,7 +269,7 @@ const RegistrarJugador = () => {
 
                 if (errorRes.errorCode === "23505") {
                     setAlertColor("error");
-                    setAlertContent("El jugador con el DNI ingresado ya fue registrado");
+                    setAlertContent("El DNI del participante ya fue registrado");
                     setOpen(true);
                 }
             }
