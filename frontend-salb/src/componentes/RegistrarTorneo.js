@@ -35,13 +35,11 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const registrarCategorias = async () => {
-  var categorias = valores.Categoria;
+const registrarCategorias = async (categorias) => {
   categorias.forEach(function (item, index) {
     const { data } = axios.post("http://127.0.0.1:8000/api/categorias", {
       Categoria: item,
     });
-
 
   })
 
@@ -302,7 +300,7 @@ const RegistrarTorneo = () => {
         }}
         onSubmit={(valores, { resetForm }) => {
           try {
-            registrarCategorias();
+            registrarCategorias(valores.Categoria);
             const { data } = axios.post("http://127.0.0.1:8000/api/torneos", {
               ...valores,
               Categoria: valores.Categoria.join(","),

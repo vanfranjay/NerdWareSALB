@@ -284,7 +284,7 @@ const RegistrarJugador = () => {
         var edadJugador = moment().diff(fechaNacimiento, 'years');
         console.log("Edad Jugador: " + edadJugador);
         if (categoriaEquipo.startsWith('+')) {
-            console.log("Categoria start with +: " + categoriaEquipo.startsWith('+'));
+            console.log("Categoria start with +: " + categoriaEquipo.includes('+'));
             var categoria = categoriaEquipo.replace('+', '');
             categoria = parseInt(categoria);
             console.log("Categoria Parsed: " + categoria);
