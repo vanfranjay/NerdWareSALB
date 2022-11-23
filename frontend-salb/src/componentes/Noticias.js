@@ -3,6 +3,7 @@ import { Grid } from '@mui/material';
 import { Typography } from '@mui/material';
 import CardNoticia from './CardNoticia';
 import axios from "axios";
+import "../css/styleNavBar.css";
 
 const Noticias = () => {
 
@@ -33,7 +34,7 @@ const Noticias = () => {
     }, [])
 
     return (
-        <div>
+        <div className='contentNoticias'>
             <br></br>
             <Typography variant="h3"
                 align='center'

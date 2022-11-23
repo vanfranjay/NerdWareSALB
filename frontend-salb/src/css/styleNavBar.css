@@ -38,6 +38,9 @@ body {
     display: grid;
     grid-template-columns: 95px 1fr;
     grid-template-rows: 60px 1fr;
+    position: fixed;
+    z-index: 100;
+    width: 100%;
 }
 
 .cuadroLogoBasquet {
@@ -183,4 +186,7 @@ body {
 
 .contenedorBtnLogin {
     align-self: center;
+}
+.contentNoticias{
+    padding-top: 100px;
 }

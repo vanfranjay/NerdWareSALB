@@ -79,7 +79,7 @@ const Login = () => {
 
   return (
 
-    <Grid justifyItems='center'>
+    <Grid justifyItems='center' className="contentLogin">
       <Snackbar open={open}
         autoHideDuration={5000}
         onClose={handleClose}
