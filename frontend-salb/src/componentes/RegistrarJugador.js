@@ -33,7 +33,8 @@ const RegistrarJugador = () => {
     const phoneRegExp = /^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*$/;
     const navigate = useNavigate();
 
-    const [selectedFile, setSelectedFile] = useState();
+    const [selectedFileFotoDNI, setSelectedFileFotoDNI] = useState();
+    const [selectedFileFotoParticipante, setSelectedFileFotoParticipante] = useState();
 
     const [open, setOpen] = React.useState(false);
     const [alertColor, setAlertColor] = useState('');
@@ -217,60 +218,71 @@ const RegistrarJugador = () => {
 
     const registrarJugador = async () => {
 
-        var imageURL = "";
-        if (selectedFile && values.logoEquipo) {
-            imageURL = await postImageToServerExt();
-        }
-
-        var selectedCategoria = categorias.find(categoria => categoria.Categoria === values.categoriaEquipo);
-        console.log("Categoria ID: " + selectedCategoria);
-        var formatedFechaNac = values.fechaNacParticipante.format('YYYY-MM-DD');
-
-        const datos = {
-            "DNI": parseInt(values.dniParticipante),
-            "Nombre": values.nombreParticipante,
-            "Apellido": values.apellidoParticipante,
-            "Telefono": values.telefonoParticipante,
-            "Foto": null,
-            "Foto_DNI": null,
-            "Rol": values.rolParticipante,
-            "Fecha_Nacimiento": formatedFechaNac,
-            "Cod_Equipo": parseInt(codEquipo),
-            "Cod_Categoria": parseInt(codCategoria),
-            "Asistencia": 0,
-            "Faltas": 0,
-            "Puntos": 0,
-            "Rebotes": 0,
-            "Pases": 0,
-            "Dobles": 0,
-            "Triples": 0
-        };
-
-        console.log("Jugador: ------> " + JSON.stringify(datos));
-
         if (esValidoEdadJugador(values.fechaNacParticipante)) {
 
-            // Hacemos el post de Equipo 
-            const respuestaJson = await postJugador(postJugadorURL, datos);
-
-            //Validadando si se envio correctamente o hubo algun fallo
-            console.log("Response:------> " + respuestaJson.status);
-            if (respuestaJson.status === 200) {
-                setAlertColor("success");
-                setAlertContent("Se registro al jugador exitosamente");
+            if (await existeFotosDuplicadas(values.fotoDNIParticipante, values.fotoParticipante)) {
+                setAlertColor("error");
+                setAlertContent("Las fotos no pueden ser duplicadas");
                 setOpen(true);
-                localStorage.setItem('jugadoresReg', parseInt(localStorage.getItem('jugadoresReg')) + 1);
-                borrar();
-            }
 
-            if (respuestaJson.status === 400) {
-                var errorRes = await respuestaJson.json();
-                console.log("Error Response---" + JSON.stringify(errorRes));
+            } else {
 
-                if (errorRes.errorCode === "23505") {
-                    setAlertColor("error");
-                    setAlertContent("El DNI del participante ya fue registrado");
+                var imageFotoParticipanteURL = "";
+                var imageFotoDNIURL = "";
+
+                if ((selectedFileFotoParticipante && values.fotoParticipante) && (selectedFileFotoDNI && values.fotoDNIParticipante)) {
+                    imageFotoParticipanteURL = await postImageToServerExt(selectedFileFotoParticipante);
+                    imageFotoDNIURL = await postImageToServerExt(selectedFileFotoDNI);
+                }
+
+                var selectedCategoria = categorias.find(categoria => categoria.Categoria === values.categoriaEquipo);
+                console.log("Categoria ID: " + selectedCategoria);
+                var formatedFechaNac = values.fechaNacParticipante.format('YYYY-MM-DD');
+
+                const datos = {
+                    "DNI": parseInt(values.dniParticipante),
+                    "Nombre": values.nombreParticipante,
+                    "Apellido": values.apellidoParticipante,
+                    "Telefono": values.telefonoParticipante,
+                    "Foto": imageFotoParticipanteURL,
+                    "Foto_DNI": imageFotoDNIURL,
+                    "Rol": values.rolParticipante,
+                    "Fecha_Nacimiento": formatedFechaNac,
+                    "Cod_Equipo": parseInt(codEquipo),
+                    "Cod_Categoria": parseInt(codCategoria),
+                    "Asistencia": 0,
+                    "Faltas": 0,
+                    "Puntos": 0,
+                    "Rebotes": 0,
+                    "Pases": 0,
+                    "Dobles": 0,
+                    "Triples": 0
+                };
+
+                console.log("Jugador: ------> " + JSON.stringify(datos));
+
+                // Hacemos el post de Equipo 
+                const respuestaJson = await postJugador(postJugadorURL, datos);
+
+                //Validadando si se envio correctamente o hubo algun fallo
+                console.log("Response:------> " + respuestaJson.status);
+                if (respuestaJson.status === 200) {
+                    setAlertColor("success");
+                    setAlertContent("Se registro al jugador exitosamente");
                     setOpen(true);
+                    localStorage.setItem('jugadoresReg', parseInt(localStorage.getItem('jugadoresReg')) + 1);
+                    borrar();
+                }
+
+                if (respuestaJson.status === 400) {
+                    var errorRes = await respuestaJson.json();
+                    console.log("Error Response---" + JSON.stringify(errorRes));
+
+                    if (errorRes.errorCode === "23505") {
+                        setAlertColor("error");
+                        setAlertContent("El DNI del participante ya fue registrado");
+                        setOpen(true);
+                    }
                 }
             }
         } else {
@@ -279,12 +291,20 @@ const RegistrarJugador = () => {
 
     }
 
+    const existeFotosDuplicadas = async (fotoDNI, fotoPerfil) => {
+        var fotoDNIData = await toBase64(fotoDNI);
+        var fotoPerfilData = await toBase64(fotoPerfil);
+        var iguales = Object.is(fotoDNIData, fotoPerfilData);
+        console.log("Son iguales---->", iguales);
+        return iguales;
+    }
+
     const esValidoEdadJugador = (fechaNacimiento) => {
 
         var edadJugador = moment().diff(fechaNacimiento, 'years');
         console.log("Edad Jugador: " + edadJugador);
-        if (categoriaEquipo.startsWith('+')) {
-            console.log("Categoria start with +: " + categoriaEquipo.includes('+'));
+        if (categoriaEquipo.endsWith('+')) {
+            console.log("Categoria start with +: " + categoriaEquipo.endsWith('+'));
             var categoria = categoriaEquipo.replace('+', '');
             categoria = parseInt(categoria);
             console.log("Categoria Parsed: " + categoria);
@@ -597,7 +617,7 @@ const RegistrarJugador = () => {
                                     const reader = new FileReader();
                                     if (file) {
                                         reader.onloadend = () => {
-                                            setSelectedFile(file)
+                                            setSelectedFileFotoDNI(file)
                                         };
                                         reader.readAsDataURL(file);
                                         setFieldValue("fotoDNIParticipante", file);
@@ -629,7 +649,7 @@ const RegistrarJugador = () => {
                                     const reader = new FileReader();
                                     if (file) {
                                         reader.onloadend = () => {
-                                            setSelectedFile(file)
+                                            setSelectedFileFotoParticipante(file)
                                         };
                                         reader.readAsDataURL(file);
                                         setFieldValue("fotoParticipante", file);
