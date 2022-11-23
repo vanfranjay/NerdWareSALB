@@ -57,7 +57,7 @@ export default function AlertDialog() {
     return edad;
   }
   return (
-    <Grid container spacing={2} className="cardEquipoJugadores">
+    <Grid container spacing={2} className="cardEquipoJugadores espaciadoTop">
       {jugadores.map((jugador, index) => {
         return (
           <>

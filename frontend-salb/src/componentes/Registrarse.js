@@ -328,7 +328,7 @@ const Registrarse = () => {
   }
 
   return (
-    <Grid justifyItems="center">
+    <Grid justifyItems="center" className="contentRegistrarse">
       <Snackbar
         open={open}
         autoHideDuration={5000}

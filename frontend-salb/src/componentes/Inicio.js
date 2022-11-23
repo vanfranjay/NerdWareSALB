@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { PDFViewer } from "@react-pdf/renderer";
+import "../css/convocatoria.css";
 
 const Inicio = () => {
   const [torneos, setTorneos] = useState([]);
@@ -21,14 +22,14 @@ const Inicio = () => {
   };
 
   return (
-    <>
+    <div className="contentConvocatoria">
       <ConvocatoriaTorneo />
       {/*<ConvocatoriaDetalladaTorneo/>
 
       <PDFViewer style={{ width: "100%", height: "90vh" }}>
         <VistaPdf torneos={torneos[0]} />
       </PDFViewer>*/}
-    </>
+    </div>
   );
 };
 

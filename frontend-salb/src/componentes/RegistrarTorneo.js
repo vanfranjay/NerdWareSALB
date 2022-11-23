@@ -325,7 +325,7 @@ const RegistrarTorneo = () => {
                         value: { color: "white" },
                       }}
                       id="standard-required"
-                      label="Invitacion para: "
+                      label="Invitación Para: *"
                       name="Invitacion"
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -358,7 +358,7 @@ const RegistrarTorneo = () => {
                         label: { color: "white" },
                       }}
                       id="standard-required1"
-                      label="Nombre del Torneo: "
+                      label="Nombre del Torneo: *"
                       name="Nombre_Torneo"
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -391,7 +391,7 @@ const RegistrarTorneo = () => {
                         label: { color: "white" },
                       }}
                       id="standard-required5"
-                      label="Lugar del evento: "
+                      label="Lugar del Evento: *"
                       fullWidth
                       defaultValue=""
                       name="Lugar_Evento"
@@ -421,7 +421,7 @@ const RegistrarTorneo = () => {
                     <TextField
                       type="date"
                       id="standard-required9"
-                      label="Fecha de inicio: "
+                      label="Fecha de Inicio: *"
                       name="Fecha_Ini_Torneo"
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -458,7 +458,7 @@ const RegistrarTorneo = () => {
                     <TextField
                       type="date"
                       id="standard-required10"
-                      label="Fecha de finalización: "
+                      label="Fecha de Finalización: *"
                       name="Fecha_Fin_Torneo"
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -504,7 +504,7 @@ const RegistrarTorneo = () => {
                       }}
                     >
                       <InputLabel id="demo-multiple-checkbox-label">
-                        Categoria(as):{" "}
+                        Categoria(as):{" "}*
                       </InputLabel>
                       <Select
                         labelId="demo-multiple-checkbox-label"
@@ -558,7 +558,7 @@ const RegistrarTorneo = () => {
                       }}
                     >
                       <InputLabel id="demo-simple-select-label">
-                        Rama:{" "}
+                        Rama:{" "}*
                       </InputLabel>
                       <Select
                         labelId="demo-simple-select-label"
@@ -606,7 +606,7 @@ const RegistrarTorneo = () => {
                       }}
                     >
                       <InputLabel id="demo-simple-select-label">
-                        Caracter del Evento:
+                        Carácter del Evento: *
                       </InputLabel>
                       <Select
                         labelId="demo-simple-select-label"
@@ -663,7 +663,7 @@ const RegistrarTorneo = () => {
                     <TextField
                       type="number"
                       id="standard-required4"
-                      label="Costo de preinscripción ($): "
+                      label="Costo de Preinscripción ($): *"
                       fullWidth
                       name="MontoPreinscripcion"
                       onChange={handleChange}
@@ -697,7 +697,7 @@ const RegistrarTorneo = () => {
                     <TextField
                       type="date"
                       id="standard-required4"
-                      label="Fecha inicio de preinscripción: "
+                      label="Fecha Inicio de Preinscripción: *"
                       fullWidth
                       name="Fecha_Ini_Preinscripcion"
                       onChange={handleChange}
@@ -734,7 +734,7 @@ const RegistrarTorneo = () => {
                     <TextField
                       type="date"
                       id="standard-required4"
-                      label="Fecha fin de preinscripción: "
+                      label="Fecha Fin de Preinscripción: *"
                       name="Fecha_Fin_Preinscripcion"
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -792,7 +792,7 @@ const RegistrarTorneo = () => {
                       }}
                       type="number"
                       id="standard-required4"
-                      label="Costo de inscripción ($): "
+                      label="Costo de Inscripción ($): *"
                       name="MontoInscripcion"
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -829,7 +829,7 @@ const RegistrarTorneo = () => {
                       }}
                       type="date"
                       id="standard-required4"
-                      label="Fecha inicio de inscripción: "
+                      label="Fecha Inicio de Inscripción: *"
                       fullWidth
                       name="Fecha_Ini_Inscripcion"
                       onChange={handleChange}
@@ -866,7 +866,7 @@ const RegistrarTorneo = () => {
                       }}
                       type="date"
                       id="standard-required4"
-                      label="Fecha fin de inscripción: "
+                      label="Fecha Fin de Inscripción: *"
                       fullWidth
                       name="Fecha_Fin_Inscripcion"
                       onChange={handleChange}
@@ -917,7 +917,7 @@ const RegistrarTorneo = () => {
                       }}
                       type="text"
                       id="standard-required6"
-                      label="Nombre completo: "
+                      label="Nombre Completo: *"
                       fullWidth
                       name="Responsable"
                       onChange={handleChange}
@@ -951,7 +951,7 @@ const RegistrarTorneo = () => {
                       }}
                       type="number"
                       id="standard-required7"
-                      label="Telefono: "
+                      label="Teléfono: *"
                       fullWidth
                       name="Telefono"
                       onChange={handleChange}
@@ -1010,7 +1010,7 @@ const RegistrarTorneo = () => {
                         fontSize: "16px",
                       }}
                     >
-                      Registro de torneo exitoso!
+                      Registro exitoso del torneo!
                     </h2>
                   </Grid>
                 )}
