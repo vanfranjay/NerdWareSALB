@@ -35,6 +35,18 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+const registrarCategorias = async () => {
+  var categorias = valores.Categoria;
+  categorias.forEach(function (item, index) {
+    const { data } = axios.post("http://127.0.0.1:8000/api/categorias", {
+      Categoria: item,
+    });
+
+
+  })
+
+}
+
 const RegistrarTorneo = () => {
   const [formularioEnviado, setFormularioEnviado] = useState(false);
   //const [torneo, setTorneo] = useState({
@@ -290,6 +302,7 @@ const RegistrarTorneo = () => {
         }}
         onSubmit={(valores, { resetForm }) => {
           try {
+            registrarCategorias();
             const { data } = axios.post("http://127.0.0.1:8000/api/torneos", {
               ...valores,
               Categoria: valores.Categoria.join(","),
@@ -517,7 +530,7 @@ const RegistrarTorneo = () => {
                         onChange={handleChange}
                         /*input={<OutlinedInput label="Name" />}*/
                         renderValue={(selected) => selected.join(", ")}
-                        /*MenuProps={MenuProps}*/
+                      /*MenuProps={MenuProps}*/
                       >
                         <MenuItem value={"20+"}>20+</MenuItem>
                         <MenuItem value={"25+"}>25+</MenuItem>
