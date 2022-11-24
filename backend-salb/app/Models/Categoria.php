@@ -14,7 +14,7 @@ class Categoria extends Model
         'Categoria',
     ];
     public function equipo(){
-        return $this->hasMany(Equipo::class,'Cod_Equipo');
+        return $this->hasMany(Equipo::class,'id');
     }
     
     /*public function jugador(){

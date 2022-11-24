@@ -27,7 +27,7 @@ class CreateEquiposTable extends Migration
                    ->constrained('categorias')
                    ->cascadeOnUpdate()
                    ->nullOnDelete();
-                   $table->foreignId('Cod_Partidos')
+                   $table->foreignId('Cod_Partido')
                    ->nullable()
                    ->constrained('partidos')
                    ->cascadeOnUpdate()

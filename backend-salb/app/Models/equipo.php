@@ -11,7 +11,7 @@ class Equipo extends Model
     protected $table = 'equipos';
     protected $primaryKey = 'id';
     protected $fillable = [
-         'Nombre_Equipo', 'Logo', 'Partidos_Jugados', 'Partidos_Ganados', 'Partidos_Perdidos','Categoria_id',
+         'Nombre_Equipo', 'Logo', 'Partidos_Jugados', 'Partidos_Ganados', 'Partidos_Perdidos','Cod_Categoria', 'Cod_Delegado', 'Cod_Partido'
     ];
     public function jugadores(){
         return $this->hasMany(Jugador::class,'Cod_Jugador');
@@ -22,10 +22,10 @@ class Equipo extends Model
     }
 
     public function partidos(){
-        return $this->hasMany(Partido::class,'Cod_Partido');
+        return $this->hasMany(Partido::class,'id');
     }
 
     public function delegados(){
-        return $this->belongsTo(Delegado::class,'Cod_Delegado');
+        return $this->belongsTo(Delegado::class,'id');
     }
 }

@@ -17,7 +17,15 @@ use App\Http\Controllers\NoticiasTController;
 use App\Http\Controllers\PartidoController;
 use App\Http\Controllers\Rol_partidoController;
 use App\Http\Controllers\Tabla_posisionController;
-
+use App\Http\Controllers\CatEqController;
+use App\Http\Controllers\CaToController;
+use App\Http\Controllers\DelEqController;
+use App\Http\Controllers\JugEqController;
+use App\Http\Controllers\ParEqController;
+use App\Http\Controllers\ToFoController;
+use App\Http\Controllers\ToNoController;
+use App\Http\Controllers\ToRoController;
+use App\Http\Controllers\ToTaController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -45,6 +53,15 @@ Route::resource('noticias', NoticiasTController::class);
 Route::resource('partidos', PartidoController::class);
 Route::resource('rol_partidos', Rol_partidoController::class);
 Route::resource('tabla_posiciones', Tabla_posisionController::class);
+Route::resource('cateq', CatEqController::class);
+Route::resource('cato', CaToController::class);
+Route::resource('deleq', DelEqController::class);
+Route::resource('jugeq', JugEqController::class);
+Route::resource('pareq', ParEqController::class);
+Route::resource('tofo', ToFoController::class);
+Route::resource('tono', ToNoController::class);
+Route::resource('toro', ToRoController::class);
+Route::resource('tota', ToTaController::class);
 //route::resource('auts', AuthController::class);
 
   //Prefijo V1, todo lo que este dentro de este grupo se accedera escribiendo v1 en el navegador, es decir /api/v1/*
