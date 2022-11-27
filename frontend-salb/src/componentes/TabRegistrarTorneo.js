@@ -20,14 +20,14 @@ const TabRegistrarTorneo = () => {
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example" className="contentBarraRegisterTorneo">
             <Tab className="colorTabSeccionSolicitudes" label="Registrar" value="10" />
-            {/*<Tab className="colorTabSeccionSolicitudes" label="Lista de Torneos" value="11" />*/}
+            <Tab className="colorTabSeccionSolicitudes" label="Lista de Torneos" value="11" />
           </TabList>
         </Box>
         <TabPanel value="10">
           <RegistrarTorneo/>
         </TabPanel>
         <TabPanel value="11">
-          {/*<ListaTorneos/>*/}
+          <ListaTorneos/>
         </TabPanel>
       </TabContext>
     </Box>
