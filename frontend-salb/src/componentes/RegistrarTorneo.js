@@ -40,13 +40,12 @@ const registrarCategorias = async (categorias) => {
     const { data } = axios.post("http://127.0.0.1:8000/api/categorias", {
       Categoria: item,
     });
-
-  })
-
-}
+  });
+};
 
 const RegistrarTorneo = () => {
   const [formularioEnviado, setFormularioEnviado] = useState(false);
+  const [formularioNoEnviado, setFormularioNoEnviado] = useState(false);
   //const [torneo, setTorneo] = useState({
   //  Campeon: "Bolivar",
   //  Subcampeon: "hola",
@@ -221,7 +220,9 @@ const RegistrarTorneo = () => {
           if (!valores.MontoPreinscripcion) {
             errores.MontoPreinscripcion =
               "Por favor ingresa un monto de pre-inscripción";
-          } else if (!(/^\d{1,40}\.?\d{0,2}$/).test(valores.MontoPreinscripcion)) {
+          } else if (
+            !/^\d{1,40}\.?\d{0,2}$/.test(valores.MontoPreinscripcion)
+          ) {
             errores.MontoPreinscripcion =
               'El monto pre-inscripción solo puede contener una secuencia de numeros seguido de un "." y 2 decimales';
           }
@@ -229,7 +230,7 @@ const RegistrarTorneo = () => {
           if (!valores.MontoInscripcion) {
             errores.MontoInscripcion =
               "Por favor ingresa el monto de inscripción";
-          } else if (!(/^\d{1,40}\.?\d{0,2}$/).test(valores.MontoInscripcion)) {
+          } else if (!/^\d{1,40}\.?\d{0,2}$/.test(valores.MontoInscripcion)) {
             errores.MontoInscripcion =
               "El monto de inscripción solo puede contener números";
           }
@@ -299,23 +300,37 @@ const RegistrarTorneo = () => {
           return errores;
         }}
         onSubmit={(valores, { resetForm }) => {
-          try {
-            registrarCategorias(valores.Categoria);
-            const { data } = axios.post("http://127.0.0.1:8000/api/torneos", {
-              ...valores,
-              Categoria: valores.Categoria.join(","),
-            });
-            resetForm();
-            setFormularioEnviado(true);
-            setTimeout(() => setFormularioEnviado(false), 3000);
-          } catch (error) {
-            console.log(error);
-          }
+          const registrarTorneo = async () => {
+            const resultado = await axios.get(
+              "http://127.0.0.1:8000/api/torneos"
+            );
+            if (resultado.data.length === 0) {
+              try {
+                registrarCategorias(valores.Categoria);
+                const { data } = axios.post(
+                  "http://127.0.0.1:8000/api/torneos",
+                  {
+                    ...valores,
+                    Categoria: valores.Categoria.join(","),
+                  }
+                );
+                resetForm();
+                setFormularioEnviado(true);
+                setTimeout(() => setFormularioEnviado(false), 3000);
+              } catch (error) {
+                console.log(error);
+              }
+            } else {
+              setFormularioNoEnviado(true);
+              setTimeout(() => setFormularioNoEnviado(false), 3000);
+            }
+          };
+          registrarTorneo();
         }}
-        const
+        /*const
         reiniciar={({ resetForm }) => {
           resetForm();
-        }}
+        }}*/
       >
         {({ values, errors, touched, handleChange, handleBlur, resetForm }) => (
           <Form>
@@ -515,7 +530,7 @@ const RegistrarTorneo = () => {
                       }}
                     >
                       <InputLabel id="demo-multiple-checkbox-label">
-                        Categoria(as):{" "}*
+                        Categoria(as): *
                       </InputLabel>
                       <Select
                         labelId="demo-multiple-checkbox-label"
@@ -528,7 +543,7 @@ const RegistrarTorneo = () => {
                         onChange={handleChange}
                         /*input={<OutlinedInput label="Name" />}*/
                         renderValue={(selected) => selected.join(", ")}
-                      /*MenuProps={MenuProps}*/
+                        /*MenuProps={MenuProps}*/
                       >
                         <MenuItem value={"30+"}>+30</MenuItem>
                         <MenuItem value={"35+"}>+35</MenuItem>
@@ -568,7 +583,7 @@ const RegistrarTorneo = () => {
                       }}
                     >
                       <InputLabel id="demo-simple-select-label">
-                        Rama:{" "}*
+                        Rama: *
                       </InputLabel>
                       <Select
                         labelId="demo-simple-select-label"
@@ -1021,6 +1036,27 @@ const RegistrarTorneo = () => {
                       }}
                     >
                       Registro exitoso del torneo!
+                    </h2>
+                  </Grid>
+                )}
+                {formularioNoEnviado && (
+                  <Grid
+                    item
+                    xs={12}
+                    md={12}
+                    align="center"
+                    style={{ color: "#fff", marginTop: "20px" }}
+                  >
+                    <h2
+                      style={{
+                        background: "red",
+                        paddingTop: "10px",
+                        paddingBottom: "10px",
+                        fontSize: "16px",
+                      }}
+                    >
+                      No se puede registrar el torneo por que ya hay un torneo
+                      activo!
                     </h2>
                   </Grid>
                 )}
