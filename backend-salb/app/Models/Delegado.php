@@ -11,7 +11,7 @@ class Delegado extends Model
     protected $table = 'delegados';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'CI', 'Nombre', 'Apellido', 'Telefono','Contraseña', 'Contraseña_confirmed', 'Correo', 'Foto_Perfil', 'Foto_DNI', 'Habilitado', 
+        'CI', 'Nombre', 'Apellido', 'Telefono','Contraseña', 'Contraseña_confirmed', 'Correo', 'Foto_Perfil', 'Foto_DNI', 'Habilitado','Contador' 
     ];
     public function boletas(){
         return $this->hasMany(boleta::class,'Cod_Boleta');

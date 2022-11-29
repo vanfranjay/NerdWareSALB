@@ -25,6 +25,7 @@ class CreateDelegadosTable extends Migration
             $table->string('Foto_Perfil')->nullable();
             $table->string('Foto_DNI', 80000)->nullable();
             $table->integer('Habilitado')->default(0); //0 que no puede incribir a su equipo
+            $table->integer('Contador')->default(0);
             $table->timestamps();
         });
     }

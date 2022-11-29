@@ -44,7 +44,7 @@ Route::resource('boletas', BoletaController::class);
 Route::resource('equipos', EquipoController::class);
 Route::resource('delegados', DelegadoController::class);
 Route::resource('personas', PersonaController::class);
-Route::resource('delbos', DelBolController::class);
+Route::resource('delbol', DelBolController::class);
 Route::resource('jugadores', JugadorController::class);
 Route::resource('torneos', TorneoController::class);
 Route::resource('fotos', FotoTController::class);

@@ -17,10 +17,25 @@ class DelBolController extends Controller
     {
         return DB::table('delegados')
         ->join('boletas', 'delegados.id', '=', 'boletas.Cod_Delegado')
-        ->select('boletas.*', 'delegados.Nombre', 'delegados.Apellido', 'delegados.Correo')
+        ->select('boletas.*', 'delegados.Nombre', 'delegados.Apellido', 'delegados.Correo', 'delegados.Contador')
         ->get(); 
     }
 
+    
+    
+    public function verificar($id){
+   
+    $delegado = Delegado::find($id);
+    if(!is_null($delegado)){
+     $cont = DB::table('delegados')
+     -> select('delegados.Contador');
+     if(!is_null($cont)){
+        return $cont;
+     }
+    }else{
+        return "No existe el delegado";
+    }
+}
     /**
      * Show the form for creating a new resource.
      *
@@ -52,7 +67,19 @@ class DelBolController extends Controller
      */
     public function show($id)
     {
-        return Delegado::find($id)->get();//
+        $delegado = Delegado::find($id);
+        if(!is_null($delegado)){
+         /*$cont = DB::table('delegados')
+         -> select('delegados.Contador');
+         */
+        $cont= $delegado->value('Contador');
+         $aux =$cont;
+        $cont= $aux +1;
+        $delegado->update(['Contador'=> $cont]);
+        return $cont;
+        }else{
+            return "No existe el delegado";
+        }
     }
 
     /**
@@ -73,13 +100,25 @@ class DelBolController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update( $id)
     {
-        $delegado = Delegado::find($id)->get();
+        $delegado = Delegado::find($id);
         if(!is_null($delegado)){
-         $delegado->update($request->all());
-         return $delegado;
-        } //
+         /*$cont = DB::table('delegados')
+         -> select('delegados.Contador');
+         */
+        $cont= $delegado->value('Contador');
+        if($cont==0){
+            return "No tiene vouchers disponibles";
+         }else{
+            $aux =$cont;
+            $cont= $aux -1;
+            $delegado->update(['Contador'=> $cont]);
+            return $cont;
+         }
+        }else{
+            return "No existe el delegado";
+        }
     }
 
     /**
