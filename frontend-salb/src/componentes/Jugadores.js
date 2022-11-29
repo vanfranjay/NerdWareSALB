@@ -102,7 +102,7 @@ export default function AlertDialog() {
                     color="text.secondary"
                     className="contenidoCardJugador"
                   >
-                    <b>Equipo:</b> Los fulanos
+                    <b>Equipo:</b> {jugador.Nombre_Equipo}
                   </Typography>
                 </CardContent>
                 <CardActions>

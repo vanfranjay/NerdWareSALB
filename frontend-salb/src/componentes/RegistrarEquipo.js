@@ -169,7 +169,7 @@ const RegistrarEquipo = () => {
     //var comprobantePagoFile = await toBase64(selectedFile);
     var imageURL = "";
     if (selectedFile && values.logoEquipo) {
-      imageURL = await postImageToServerExt();
+      //imageURL = await postImageToServerExt();
     }
 
     var selectedCategoria = categorias.find(categoria => categoria.Categoria === values.categoriaEquipo);
@@ -201,7 +201,6 @@ const RegistrarEquipo = () => {
       localStorage.setItem('categoriaValue', selectedCategoria.Categoria);
       localStorage.setItem('equipoId', equipo.id);
       localStorage.setItem('jugadoresReg', 0);
-      delayAndGo();
     }
 
     if (respuestaJson.status === 400) {
@@ -215,10 +214,6 @@ const RegistrarEquipo = () => {
       }
     }
 
-  }
-
-  function delayAndGo(e) {
-    setTimeout(() => navigate("/usuario/registrar-jugador"), 3000);
   }
 
   function borrar() {

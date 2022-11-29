@@ -40,14 +40,15 @@ const RegistrarJugador = () => {
     const [alertColor, setAlertColor] = useState('');
     const [alertContent, setAlertContent] = useState('');
     const [categorias, setCategorias] = useState([]);
+    const [equipos, setEquipos] = useState([]);
 
-    var maxFechaNac = moment().subtract(18, "years").format("DD/MM/YYYY");
-    var minFechaNac = moment().subtract(60, "years").format("DD/MM/YYYY");
+    var maxFechaNac = moment().subtract(18, "years").format("YYYY-MM-DD");
 
     var codEquipo = localStorage.getItem("equipoId");
     var codCategoria = localStorage.getItem("categoriaId");
     var categoriaEquipo = localStorage.getItem("categoriaValue");
     const postJugadorURL = "http://127.0.0.1:8000/api/jugadores";
+    const equipoURL = "http://127.0.0.1:8000/api/equipos";
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -65,12 +66,27 @@ const RegistrarJugador = () => {
             })
     }
 
+    const getEquipos = async () => {
+        await axios.get(equipoURL)
+            .then(response => {
+                setEquipos(response.data);
+            }).catch(error => {
+                console.log(error);
+            })
+    }
+
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
     });
 
     const formValidationSchema = Yup.object({
 
+        equipo: Yup
+            .string('Ingrese el equipo')
+            .required('Equipo es requerido'),
+        categoria: Yup
+            .string('Ingrese la categoria')
+            .required('Categoria es requerido'),
         nombreParticipante: Yup
             .string('Ingrese el Nombre del participante')
             .min(2, 'Nombre del participante debe ser mínimo 2 caracteres')
@@ -133,6 +149,8 @@ const RegistrarJugador = () => {
 
     const { handleSubmit, resetForm, handleChange, values, touched, errors, handleBlur, setFieldValue } = useFormik({
         initialValues: {
+            equipo: "",
+            categoria: "",
             nombreParticipante: "",
             apellidoParticipante: "",
             fechaNacParticipante: null,
@@ -218,7 +236,7 @@ const RegistrarJugador = () => {
 
     const registrarJugador = async () => {
 
-        if (esValidoEdadJugador(values.fechaNacParticipante)) {
+        if (esValidoEdadJugador(values.fechaNacParticipante, values.categoria)) {
 
             if (await existeFotosDuplicadas(values.fotoDNIParticipante, values.fotoParticipante)) {
                 setAlertColor("error");
@@ -231,13 +249,16 @@ const RegistrarJugador = () => {
                 var imageFotoDNIURL = "";
 
                 if ((selectedFileFotoParticipante && values.fotoParticipante) && (selectedFileFotoDNI && values.fotoDNIParticipante)) {
-                    imageFotoParticipanteURL = await postImageToServerExt(selectedFileFotoParticipante);
-                    imageFotoDNIURL = await postImageToServerExt(selectedFileFotoDNI);
+                    //imageFotoParticipanteURL = await postImageToServerExt(selectedFileFotoParticipante);
+                    //imageFotoDNIURL = await postImageToServerExt(selectedFileFotoDNI);
                 }
 
-                var selectedCategoria = categorias.find(categoria => categoria.Categoria === values.categoriaEquipo);
+                var selectedCategoria = categorias.find(categoria => categoria.Categoria === values.categoria);
                 console.log("Categoria ID: " + selectedCategoria);
                 var formatedFechaNac = values.fechaNacParticipante.format('YYYY-MM-DD');
+
+                var selectedEquipo = equipos.find(equipo => equipo.Nombre_Equipo === values.equipo);
+                console.log("Equipo ID: " + selectedEquipo);
 
                 const datos = {
                     "DNI": parseInt(values.dniParticipante),
@@ -248,8 +269,8 @@ const RegistrarJugador = () => {
                     "Foto_DNI": imageFotoDNIURL,
                     "Rol": values.rolParticipante,
                     "Fecha_Nacimiento": formatedFechaNac,
-                    "Cod_Equipo": parseInt(codEquipo),
-                    "Cod_Categoria": parseInt(codCategoria),
+                    "Cod_Equipo": selectedEquipo.id,
+                    "Cod_Categoria": selectedCategoria.id,
                     "Asistencia": 0,
                     "Faltas": 0,
                     "Puntos": 0,
@@ -299,9 +320,10 @@ const RegistrarJugador = () => {
         return iguales;
     }
 
-    const esValidoEdadJugador = (fechaNacimiento) => {
+    const esValidoEdadJugador = (fechaNacimiento, categoriaEquipo) => {
 
         var edadJugador = moment().diff(fechaNacimiento, 'years');
+
         console.log("Edad Jugador: " + edadJugador);
         if (categoriaEquipo.endsWith('+')) {
             console.log("Categoria start with +: " + categoriaEquipo.endsWith('+'));
@@ -358,6 +380,7 @@ const RegistrarJugador = () => {
 
     useEffect(() => {
         getCategorias();
+        getEquipos();
     }, [])
 
     return (
@@ -379,25 +402,120 @@ const RegistrarJugador = () => {
                     sx={{
                         input: { color: 'white' }
                     }}>
-                    Registrar Participante
+                    Registrar Jugador
                 </Typography>
                 <br>
                 </br>
                 <br>
                 </br>
                 <form>
-
                     <Stack
                         direction="row"
                         justifyContent="space-between"
                         alignItems="center"
                         spacing={1}>
-                        <h6 className='texto'>*Puede registrar minimo 8 y máximo 12 jugadores</h6>
-                        <h6 className='texto'> Participantes Registrados: {localStorage.getItem('jugadoresReg')} / 12 </h6>
                     </Stack>
-                    <br>
-                    </br>
                     <Grid container spacing={5}>
+                        <Grid item xs={12} sm={6}>
+                            <FormControl variant="standard" fullWidth required>
+                                <InputLabel
+                                    InputLabelProps={{
+                                        style: { color: '#ffff' },
+                                    }}
+                                    sx={{
+                                        color: 'white',
+                                        '& .MuiInputLabel-root': {
+                                            color: 'white'
+                                        },
+                                        '& .MuiFormLabelroot': {
+                                            color: 'white'
+                                        }
+                                    }}>Equipo</InputLabel>
+                                <Select
+
+                                    id="equipo"
+                                    name="equipo"
+                                    label="Equipo"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.equipo}
+                                    error={touched.equipo && Boolean(errors.equipo)}
+                                    helperText={touched.equipo && errors.equipo}
+                                    sx={{
+                                        '& .MuiInputBase-input': {
+                                            color: 'white'
+
+                                        },
+                                        '& .MuiSelect-iconStandard': {
+                                            color: 'white'
+                                        }
+                                    }}
+                                >
+                                    {equipos.map(({ id, Nombre_Equipo }, index) => (
+                                        <MenuItem key={index} value={Nombre_Equipo}>
+                                            {Nombre_Equipo}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                                {touched.equipo && errors.equipo ? (
+                                    <FormHelperText
+                                        sx={{ color: "#d32f2f", marginLeft: "!important" }}
+                                    >
+                                        {touched.equipo && errors.equipo}
+                                    </FormHelperText>
+                                ) : null}
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <FormControl variant="standard" fullWidth required>
+                                <InputLabel
+                                    InputLabelProps={{
+                                        style: { color: '#ffff' },
+                                    }}
+                                    sx={{
+                                        color: 'white',
+                                        '& .MuiInputLabel-root': {
+                                            color: 'white'
+                                        },
+                                        '& .MuiFormLabelroot': {
+                                            color: 'white'
+                                        }
+                                    }}>Categoria</InputLabel>
+                                <Select
+
+                                    id="categoria"
+                                    name="categoria"
+                                    label="Categoria"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.categoria}
+                                    error={touched.categoria && Boolean(errors.categoria)}
+                                    helperText={touched.categoria && errors.categoria}
+                                    sx={{
+                                        '& .MuiInputBase-input': {
+                                            color: 'white'
+
+                                        },
+                                        '& .MuiSelect-iconStandard': {
+                                            color: 'white'
+                                        }
+                                    }}
+                                >
+                                    {categorias.map(({ id, Categoria }, index) => (
+                                        <MenuItem key={index} value={Categoria}>
+                                            {Categoria}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                                {touched.categoria && errors.categoria ? (
+                                    <FormHelperText
+                                        sx={{ color: "#d32f2f", marginLeft: "!important" }}
+                                    >
+                                        {touched.categoria && errors.categoria}
+                                    </FormHelperText>
+                                ) : null}
+                            </FormControl>
+                        </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 id="nombreParticipante"
