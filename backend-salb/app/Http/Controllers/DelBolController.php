@@ -73,6 +73,7 @@ class DelBolController extends Controller
          -> select('delegados.Contador');
          */
         $cont= $delegado->value('Contador');
+        $cont = $delegado->Contador;
          $aux =$cont;
         $cont= $aux +1;
         $delegado->update(['Contador'=> $cont]);
@@ -108,6 +109,7 @@ class DelBolController extends Controller
          -> select('delegados.Contador');
          */
         $cont= $delegado->value('Contador');
+        $cont= $delegado->Contador;
         if($cont==0){
             return "No tiene vouchers disponibles";
          }else{

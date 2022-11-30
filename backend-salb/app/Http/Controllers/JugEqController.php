@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Equipo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class JugEqController extends Controller
@@ -49,7 +50,26 @@ class JugEqController extends Controller
      */
     public function show($id)
     {
-        //
+        
+        $jugadores = Equipo::find($id);
+        if(!is_null($jugadores)){
+         /*$cont = DB::table('delegados')
+         -> select('delegados.Contador');
+         */
+        $cont= $jugadores->value('NumJug');
+         $cont = $jugadores->NumJug;
+        
+        if($cont>11){
+           return "Maximo de jugadores alcanzado";
+        }else{
+        $aux =$cont;
+        $cont= $aux + 1;
+        $jugadores->update(['NumJug'=> $cont]);
+        return $cont;
+        }
+        }else{
+            return "No existe el Equipo";
+        }
     }
 
     /**

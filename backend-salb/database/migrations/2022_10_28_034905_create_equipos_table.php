@@ -21,7 +21,7 @@ class CreateEquiposTable extends Migration
             $table->integer('Partidos_Jugados');
             $table->integer('Partidos_Ganados');
             $table->integer('Partidos_Perdidos');
-            $table->integer('Contador')->default(0);
+            $table->integer('NumJug')->default(0);
             $table->timestamps();
             $table->foreignId('Cod_Categoria')
                    ->nullable()
