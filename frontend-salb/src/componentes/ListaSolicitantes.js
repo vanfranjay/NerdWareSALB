@@ -15,6 +15,7 @@ import emailjs from "@emailjs/browser";
 const ListaSolicitantes = () => {
   const [solicitudes, setSolicitudes] = useState([]);
   const [delegado, setDelegado] = useState([]);
+  const urlIncVoucherDelegado = "http://127.0.0.1:8000/api/delbol/"
 
   useEffect(() => {
     fetchData();
@@ -44,6 +45,19 @@ const ListaSolicitantes = () => {
       console.log(error);
     }
   };
+
+  const incVoucherDelegado = async (url) => {
+    const response = await fetch(url, {
+      method: 'GET',
+      //body: JSON.stringify(datos),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    return response;
+  }
+
   /////////////////////////////////////////////////////
   const form = useRef();
   const sendEmail = () => {
@@ -280,6 +294,7 @@ const ListaSolicitantes = () => {
                         {
                           updateDelegado(solicitud.Cod_Boleta, 1);
                           sendEmail();
+                          incVoucherDelegado(urlIncVoucherDelegado + 1);
                         }
                       }}
                       autoFocus

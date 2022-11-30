@@ -38,6 +38,7 @@ const RegistrarVoucher = () => {
 
     const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "application/pdf"];
     const FILE_SIZE = 7340032; // 7MB de tamaño del archivo
+    const urlIncVoucherDelegado = "http://127.0.0.1:8000/api/delbol/"
 
 
     //Obtener fechas de convocatoria de backend
@@ -223,6 +224,18 @@ const RegistrarVoucher = () => {
         return response;
     }
 
+    const incVoucherDelegado = async (url) => {
+        const response = await fetch(url, {
+            method: 'GET',
+            //body: JSON.stringify(datos),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        return response;
+    }
+
     // Construimos una Boleta con los datos introducidos
 
     const registrarVoucher = async () => {
@@ -241,7 +254,7 @@ const RegistrarVoucher = () => {
             "Fecha_Registro": formatedFechaDeposito,
             "Comprobante": imageURL,
             // TODO: Sacar el ID del delegado que esta logeado
-            "Cod_Delegado": null
+            "Cod_Delegado": 1
         };
 
         console.log("Voucher: ------> " + JSON.stringify(datos));
@@ -249,10 +262,12 @@ const RegistrarVoucher = () => {
 
         if (esFechaValida(formatedFechaDeposito) && esMontoValido(formatedFechaDeposito, values.monto)) {
             const respuestaJson = await postVoucher(postVoucherURL, datos);
+
             borrar();
             //Validadando si se envio correctamente o hubo algun fallo
             console.log("Response:------> " + respuestaJson.status);
             if (respuestaJson.status === 200) {
+                //const resIncVoucherDelegado = incVoucherDelegado(urlIncVoucherDelegado + 1);
                 setAlertColor("success");
                 setAlertContent(configData.MENSAJE_CREACION_DE_BOLETA_CON_EXITO);
                 setOpen(true);

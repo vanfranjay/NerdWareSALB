@@ -41,8 +41,11 @@ const RegistrarEquipo = () => {
   const [alertColor, setAlertColor] = useState('');
   const [alertContent, setAlertContent] = useState('');
   const [categorias, setCategorias] = useState([]);
+  const [delegado, setDelegado] = useState([]);
 
   const postEquipoURL = "http://127.0.0.1:8000/api/equipos";
+  const delegadoURL = "http://127.0.0.1:8000/api/delegados/";
+  const urlDecVoucherDelegado = "http://127.0.0.1:8000/api/delbol/";
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -186,34 +189,72 @@ const RegistrarEquipo = () => {
     };
     console.log("Equipo: ------> " + JSON.stringify(datos));
 
-    // Hacemos el post de Equipo 
-    const respuestaJson = await postEquipo(postEquipoURL, datos);
+    const resDelegadoVouchers = await getDelegado(delegadoURL + 1);
+    const responseVouchersDisp = await resDelegadoVouchers.json();
 
-    //Validadando si se envio correctamente o hubo algun fallo
-    console.log("Response:------> " + respuestaJson.status);
-    if (respuestaJson.status === 200) {
-      setAlertColor("success");
-      setAlertContent("Se registro el equipo exitosamente");
+    console.log("Contador voucher delegado: " + responseVouchersDisp.Contador);
+
+    if (responseVouchersDisp.Contador > 0) {
+
+      // Hacemos el post de Equipo 
+      const respuestaJson = await postEquipo(postEquipoURL, datos);
+
+      //Validadando si se envio correctamente o hubo algun fallo
+      console.log("Response:------> " + respuestaJson.status);
+      if (respuestaJson.status === 200) {
+        const resIncVoucherDelegado = decVoucherDelegado(urlDecVoucherDelegado + 1);
+        setAlertColor("success");
+        setAlertContent("Se registro el equipo exitosamente");
+        setOpen(true);
+        borrar();
+        var equipo = await respuestaJson.json();
+        localStorage.setItem('categoriaId', selectedCategoria.id);
+        localStorage.setItem('categoriaValue', selectedCategoria.Categoria);
+        localStorage.setItem('equipoId', equipo.id);
+        localStorage.setItem('jugadoresReg', 0);
+      }
+
+      if (respuestaJson.status === 400) {
+        var errorRes = await respuestaJson.json();
+        console.log("Error Response---" + JSON.stringify(errorRes));
+
+        if (errorRes.errorCode === "23505") {
+          setAlertColor("error");
+          setAlertContent(configData.MENSAJE_CREACION_EQUIPO_DUPLICADO);
+          setOpen(true);
+        }
+      }
+    } else {
+      setAlertColor("error");
+      setAlertContent("No tiene vouchers disponibles para registrar un equipo");
       setOpen(true);
       borrar();
-      var equipo = await respuestaJson.json();
-      localStorage.setItem('categoriaId', selectedCategoria.id);
-      localStorage.setItem('categoriaValue', selectedCategoria.Categoria);
-      localStorage.setItem('equipoId', equipo.id);
-      localStorage.setItem('jugadoresReg', 0);
     }
 
-    if (respuestaJson.status === 400) {
-      var errorRes = await respuestaJson.json();
-      console.log("Error Response---" + JSON.stringify(errorRes));
+  }
 
-      if (errorRes.errorCode === "23505") {
-        setAlertColor("error");
-        setAlertContent(configData.MENSAJE_CREACION_EQUIPO_DUPLICADO);
-        setOpen(true);
+  const getDelegado = async (url) => {
+    const response = await fetch(url, {
+      method: 'GET',
+      //body: JSON.stringify(datos),
+      headers: {
+        'Content-Type': 'application/json'
       }
-    }
+    });
 
+    return response;
+  }
+
+  const decVoucherDelegado = async (url) => {
+    const response = await fetch(url, {
+      method: 'PUT',
+      //body: JSON.stringify(datos),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    return response;
   }
 
   function borrar() {
