@@ -11,7 +11,7 @@ class Partido extends Model
     protected $table = 'partidos';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'E_Ganador', 'E_Perdedor','Puntos_Ganador','Puntos_Perdedor','Fecha_Partido', 
+        'E_Ganador', 'E_Perdedor','Puntos_Ganador','Puntos_Perdedor','Fecha_Partido', 'Hora_Inicio','Hora_Final', 'Lugar', 'Campeonato', 'Categoria', 'Entrenador_G', 'Entrenador_P',
     ];
 
     public function equipo(){

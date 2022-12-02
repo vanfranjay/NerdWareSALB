@@ -20,6 +20,13 @@ class CreatePartidosTable extends Migration
             $table->integer('Puntos_Ganador');
             $table->integer('Puntos_Perdedor');
             $table->date('Fecha_Partido');
+            $table->string('Hora_Inicio');
+            $table->string('Hora_Final');
+            $table->string('Lugar');
+            $table->string('Campeonato');
+            $table->string('Categoria');
+            $table->string('Entrenador_G');
+            $table->string('Entrenador_P');
             $table->timestamps();
         });
     }
