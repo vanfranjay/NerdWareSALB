@@ -49,6 +49,7 @@ const RegistrarJugador = () => {
     var categoriaEquipo = localStorage.getItem("categoriaValue");
     const postJugadorURL = "http://127.0.0.1:8000/api/jugadores";
     const equipoURL = "http://127.0.0.1:8000/api/equipos";
+    const urlIncJugadorEquipo = "http://127.0.0.1:8000/api/jugeq/"
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -234,6 +235,18 @@ const RegistrarJugador = () => {
         return response;
     }
 
+    const incJugadorEquipo = async (url) => {
+        const response = await fetch(url, {
+            method: 'GET',
+            //body: JSON.stringify(datos),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        return response;
+    }
+
     const registrarJugador = async () => {
 
         if (esValidoEdadJugador(values.fechaNacParticipante, values.categoria)) {
@@ -249,7 +262,7 @@ const RegistrarJugador = () => {
                 var imageFotoDNIURL = "";
 
                 if ((selectedFileFotoParticipante && values.fotoParticipante) && (selectedFileFotoDNI && values.fotoDNIParticipante)) {
-                    //imageFotoParticipanteURL = await postImageToServerExt(selectedFileFotoParticipante);
+                    imageFotoParticipanteURL = await postImageToServerExt(selectedFileFotoParticipante);
                     //imageFotoDNIURL = await postImageToServerExt(selectedFileFotoDNI);
                 }
 
@@ -288,6 +301,7 @@ const RegistrarJugador = () => {
                 //Validadando si se envio correctamente o hubo algun fallo
                 console.log("Response:------> " + respuestaJson.status);
                 if (respuestaJson.status === 200) {
+                    const resIncJugEquipo = await incJugadorEquipo(urlIncJugadorEquipo + selectedEquipo.id);
                     setAlertColor("success");
                     setAlertContent("Se registro al jugador exitosamente");
                     setOpen(true);
@@ -325,8 +339,8 @@ const RegistrarJugador = () => {
         var edadJugador = moment().diff(fechaNacimiento, 'years');
 
         console.log("Edad Jugador: " + edadJugador);
-        if (categoriaEquipo.endsWith('+')) {
-            console.log("Categoria start with +: " + categoriaEquipo.endsWith('+'));
+        if (categoriaEquipo.includes('+')) {
+            console.log("Categoria start with +: " + categoriaEquipo.includes('+'));
             var categoria = categoriaEquipo.replace('+', '');
             categoria = parseInt(categoria);
             console.log("Categoria Parsed: " + categoria);

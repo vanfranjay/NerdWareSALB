@@ -2,6 +2,8 @@ import React from "react";
 import "../css/styleNavBar.css";
 import logo from "../imagenes/LogoLMB1.png";
 import { Link, NavLink } from "react-router-dom";
+import { Stack, Box } from "@mui/system";
+import { Grid } from "@mui/material";
 //import Tab from "@mui/material/Tab";
 
 const BarraNavegacion = () => {
@@ -48,36 +50,97 @@ const BarraNavegacion = () => {
             className="collapse navbar-collapse tamañoFondo"
             id="navbarNavAltMarkup"
           >
-            <div className="navbar-nav menuOpciones tamañoFondo">
-              {/*<NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/estadisticas">ESTADISTICAS</NavLink>
+            <div className="navbar-nav  tamañoFondo">
+
+              <Stack
+                direction="row"
+                justifyContent="space-around"
+                alignItems="center"
+                rowSpacing={2}
+                columnSpacing={2}
+                columns={14}
+                spacing={5}
+              >
+
+                <Grid item xs={6} sm={3} >
+                  {/*<NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/estadisticas">ESTADISTICAS</NavLink>
                             <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/fotos">FOTOS</NavLink>*/}
-              <NavLink
-                className="nav-link colorLetra contenedorLetrasNavBar"
-                to="/convocatoria"
-              >
-                CONVOCATORIA
-              </NavLink>
-              <NavLink
-                className="nav-link colorLetra contenedorLetrasNavBar"
-                to="/jugadores"
-              >
-                JUGADORES
-              </NavLink>
-              {/*<NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/juegos">JUEGOS</NavLink>
+
+                  <NavLink
+
+                    className="nav-link colorLetra contenedorLetrasNavBar"
+                    to="/convocatoria"
+                  >
+                    CONVOCATORIA
+                  </NavLink>
+                </Grid>
+
+                <Grid item xs={6} sm={3}>
+                  <NavLink
+
+                    className="nav-link colorLetra contenedorLetrasNavBar"
+                    to="/jugadores"
+                  >
+                    JUGADORES
+                  </NavLink>
+
+                </Grid>
+
+                <Grid item xs={6} sm={3}>
+                  <NavLink
+                    className="nav-link colorLetra contenedorLetrasNavBar"
+                    to="/equipos"
+                  >
+                    EQUIPOS
+                  </NavLink>
+                </Grid>
+
+                <Grid item xs={6} sm={3}>
+                  <NavLink
+                    className="nav-link colorLetra contenedorLetrasNavBar"
+                    to="/partidos"
+                  >
+                    PARTIDOS
+                  </NavLink>
+                </Grid>
+
+                <Grid item xs={6} sm={3}>
+                  <NavLink
+                    className="nav-link colorLetra contenedorLetrasNavBar"
+                    to="/puntuaciones"
+                  >
+                    PUNTUACIONES
+                  </NavLink>
+                </Grid>
+
+                <Grid item xs={6} sm={3}>
+                  <NavLink
+                    className="nav-link colorLetra contenedorLetrasNavBar"
+                    to="/estadisticas"
+                  >
+                    ESTADISTICAS
+                  </NavLink>
+                </Grid>
+
+                <Grid item xs={6} sm={3}>
+                  {/*<NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/juegos">JUEGOS</NavLink>
                             <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/en-vivo">EN VIVO</NavLink>
                             <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/sobre-nosotros">SOBRE NOSOTROS</NavLink>*/}
-              <NavLink
-                className="nav-link colorLetra contenedorLetrasNavBar"
-                to="/noticias"
-              >
-                NOTICIAS
-              </NavLink>
-              {/*<NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/noticias">JUGADORES</NavLink>*/}
+                  <NavLink
+                    className="nav-link colorLetra contenedorLetrasNavBar"
+                    to="/noticias"
+                  >
+                    NOTICIAS
+                  </NavLink>
+                </Grid>
+                {/*<NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/noticias">JUGADORES</NavLink>*/}
+              </Stack>
+
             </div>
           </div>
         </div>
-      </nav>
-    </div>
+      </nav >
+    </div >
   );
 };
 

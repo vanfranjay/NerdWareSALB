@@ -17,6 +17,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import "../css/equipo.css";
 import { Box } from "@mui/material";
+import ShieldIcon from '@mui/icons-material/Shield';
 
 export default function AlertDialog() {
   const [open, setOpen] = React.useState(false);
@@ -57,104 +58,121 @@ export default function AlertDialog() {
     return edad;
   }
   return (
-    <Grid container spacing={2} className="cardEquipoJugadores espaciadoTop">
-      {jugadores.map((jugador, index) => {
-        return (
-          <>
-            <Grid item
-              xs={12}
-              sm={6}
-              md={4}
-              xl={3}
-              /*spacing={2}*/
-              variant="outlined"
-              onClick={() => {
-                {
-                  handleClickOpen(jugador.id);
-                }
-              }}
-              className="cardJugadores"
-            >
-              <Card sx={{ maxWidth: 345 }}>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={equipo}
-                  alt="green iguana"
-                />
-
-                <CardContent>
-                  <Avatar
-                    alt={`Foto del usuario" ${jugador.Nombre} ${jugador.Apellido}`}
-                    src={jugador.Foto}
-                    className="fotoJugador"
+    <div className='contentJugadores'>
+      <br></br>
+      <br></br>
+      <Typography variant="h3"
+        align='center'
+        color="#ffff"
+        sx={{
+          input: { color: 'white' }
+        }}>
+        Jugadores
+      </Typography>
+      <br></br>
+      <Grid container spacing={3} className="cardEquipoJugadores">
+        {jugadores.map((jugador, index) => {
+          return (
+            <>
+              <Grid item
+                xs={12}
+                sm={6}
+                md={4}
+                xl={3}
+                /*spacing={2}*/
+                variant="outlined"
+                onClick={() => {
+                  {
+                    handleClickOpen(jugador.id);
+                  }
+                }}
+                className="cardJugadores"
+              >
+                <Card sx={{ maxWidth: 345 }}>
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={equipo}
                   />
-                  <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="div"
-                    className="nombreJugador"
+
+                  <CardContent>
+                    <Avatar
+                      alt={`Foto del usuario" ${jugador.Nombre} ${jugador.Apellido}`}
+                      src={jugador.Foto}
+                      className="fotoJugador"
+                    />
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="div"
+                      className="nombreJugador"
+                    >
+                      {jugador.Nombre} {jugador.Apellido}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      align="center"
+                      color="text.secondary"
+                      className="contenidoCardJugador"
+                    >
+                      <ShieldIcon></ShieldIcon>
+                      {jugador.Nombre_Equipo}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+
+              <Dialog
+                open={open && idJugador === jugador.id}
+                /*onClose={handleClose}*/
+                aria-labelledby={`alert-dialog-title${jugador.id}`}
+                aria-describedby={`alert-dialog-description${jugador.id}`}
+              >
+                <Grid xs={12}>
+                  <DialogContentText>
+                    <img
+                      src={jugador.Foto}
+                      height="320"
+                      width="300"
+
+                      sx={{ padding: "1em 1em 0 1em", objectFit: "contain" }}
+
+                      alt={`foto de Perfil de ${jugador.Nombre} ${jugador.Apellido}`}
+                      className="fotoPerfilJugador"
+                    />
+                  </DialogContentText>
+                  <DialogTitle
+                    id={`alert-dialog-title${jugador.id}`}
+                    className="NombrePerfilJugador"
                   >
                     {jugador.Nombre} {jugador.Apellido}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    className="contenidoCardJugador"
-                  >
-                    <b>Equipo:</b> {jugador.Nombre_Equipo}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size="small">Mas detalles...</Button>
-                </CardActions>
-              </Card>
-            </Grid>
-
-            <Dialog
-              open={open && idJugador === jugador.id}
-              /*onClose={handleClose}*/
-              aria-labelledby={`alert-dialog-title${jugador.id}`}
-              aria-describedby={`alert-dialog-description${jugador.id}`}
-            >
-              <Grid xs={12}>
-                <DialogContentText>
-                  <img
-                    src={jugador.Foto}
-                    alt={`foto de Perfil de ${jugador.Nombre} ${jugador.Apellido}`}
-                    className="fotoPerfilJugador"
-                  />
-                </DialogContentText>
-                <DialogTitle
-                  id={`alert-dialog-title${jugador.id}`}
-                  className="NombrePerfilJugador"
-                >
-                  {jugador.Nombre} {jugador.Apellido}
-                </DialogTitle>
-                <DialogContent>
-                  <DialogContentText
-                    id={`alert-dialog-description${jugador.id}`}
-                    className="colorLetraDetallesJugador"
-                  >
-                    <b>Nombre:</b> {jugador.Nombre}
-                    <br />
-                    <b>Apellido:</b> {jugador.Apellido}
-                    <br />
-                    <b>Edad:</b> {calcularEdad(jugador.Fecha_Nacimiento)} años
-                    <br />
-                    <b>Equipo:</b> {jugador.Nombre_Equipo}
-                    <br />
-                    <b>Categoría:</b> {jugador.Categoria}
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleClose}>Cerrar</Button>
-                </DialogActions>
-              </Grid>
-            </Dialog>
-          </>
-        );
-      })}
-    </Grid>
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText
+                      id={`alert-dialog-description${jugador.id}`}
+                      className="colorLetraDetallesJugador"
+                    >
+                      <b>Nombre:</b> {jugador.Nombre}
+                      <br />
+                      <b>Apellido:</b> {jugador.Apellido}
+                      <br />
+                      <b>Edad:</b> {calcularEdad(jugador.Fecha_Nacimiento)} años
+                      <br />
+                      <b>Equipo:</b> {jugador.Nombre_Equipo}
+                      <br />
+                      <b>Categoría:</b> {jugador.Categoria}
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose}>Cerrar</Button>
+                  </DialogActions>
+                </Grid>
+              </Dialog>
+            </>
+          );
+        })}
+      </Grid>
+      <br></br>
+    </div>
   );
 }
