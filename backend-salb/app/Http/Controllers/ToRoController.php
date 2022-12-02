@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 class ToRoController extends Controller
 {
@@ -13,9 +14,22 @@ class ToRoController extends Controller
      */
     public function index()
     {
+       $año = date("Y");
+       $mes = date("m");
+       $dia = date("d");
+       $hoy = date("Y-m-d");
+       $dia1 = $dia + 2;
+       if($dia1<10){
+          $dia1= "0". $dia1;
+       }
+       $aux = $año ."-". $mes ."-". $dia1;
+      // $hoy1 = Date("$año", "$mes", "$dia1");
+       $hoy1= Date($aux);
+      // return $hoy1; 
         return DB::table('torneos')
         ->join('rol_partidos', 'torneos.id', '=', 'rol_partidos.Cod_Torneo')
-        ->select('rol_partidos.*', 'torneos.*')
+        ->select('rol_partidos.*', 'torneos.Nombre_Torneo')
+        ->whereBetween('Fecha', [$hoy, $hoy1])
         ->get();   //
     }
 

@@ -15,8 +15,11 @@ class CreateRolPartidosTable extends Migration
     {
         Schema::create('rol_partidos', function (Blueprint $table) {
             $table->id();
-            $table->binary('Foto_part')->nullable();
+            //$table->binary('Foto_part')->nullable();
             $table->date('Fecha');
+            $table->time('Hora');
+            $table->string('EquipoA');
+            $table->string('EquipoB');
             $table->timestamps();
             $table->foreignId('Cod_Torneo')
                    ->nullable()
