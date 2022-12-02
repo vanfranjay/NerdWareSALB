@@ -18,9 +18,10 @@ class CreateEquiposTable extends Migration
             $table->string('Nombre_Equipo')->unique();
             $table->string('Logo',80000)->nullable();
            // $table->string('Categoria'); //puede cambiarse a un entero
-            $table->integer('Partidos_Jugados');
-            $table->integer('Partidos_Ganados');
-            $table->integer('Partidos_Perdidos');
+            $table->integer('Partidos_Jugados')->default(0);
+            $table->integer('Partidos_Ganados')->default(0);
+            $table->integer('Partidos_Perdidos')->default(0);
+            $table->integer('Puntos')->default(0);
             $table->integer('NumJug')->default(0);
             $table->timestamps();
             $table->foreignId('Cod_Categoria')

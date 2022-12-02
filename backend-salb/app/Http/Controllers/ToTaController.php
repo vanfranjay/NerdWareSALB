@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Equipo;
+use App\Models\Torneo;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class ToTaController extends Controller
@@ -43,12 +46,31 @@ class ToTaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+     
+       /*
+        $cat = Categoria::find($id);
+        if(!is_null($cat)){
+            return DB::table('equipos')
+            ->join('categorias', 'categorias.id', '=', 'equipos.Cod_Categoria')
+            ->select('equipos.Nombre_Equipo', 'equipos.Logo', 'equipos.Partidos_Jugados', 'equipos.Partidos_Ganados', 'equipos.Partidos_Perdidos' , 'equipos.Puntos')
+            ->where('categorias.Categoria', $id)
+            ->orderBy('Puntos' , 'asc')
+            ->get();   
+        }else{
+            return "No existe la categoria escogida";
+        } 
+       */  
+      return DB::table('equipos')
+            ->join('categorias', 'categorias.id', '=', 'equipos.Cod_Categoria')
+            ->select('equipos.Nombre_Equipo', 'equipos.Logo', 'equipos.Partidos_Jugados', 'equipos.Partidos_Ganados', 'equipos.Partidos_Perdidos' , 'equipos.Puntos')
+            ->where('categorias.Categoria', $id)
+            ->orderBy('Puntos' , 'desc')
+            ->get(); 
     }
 
     /**

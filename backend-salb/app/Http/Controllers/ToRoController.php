@@ -19,17 +19,28 @@ class ToRoController extends Controller
        $dia = date("d");
        $hoy = date("Y-m-d");
        $dia1 = $dia + 2;
+       $hora = date("H:m:s");
+       $h = date("H");
+       $m = date("m");
+       $s = date("s");
+       $h= $h - 4;
+       if($h<10){
+        $h= "0". $h;
+     } 
+       $hora= $h. ":". $m . ":". $s; 
        if($dia1<10){
           $dia1= "0". $dia1;
        }
        $aux = $año ."-". $mes ."-". $dia1;
       // $hoy1 = Date("$año", "$mes", "$dia1");
        $hoy1= Date($aux);
-      // return $hoy1; 
+       $hora1 = Date("24:00:00");
+      // return $hora; 
         return DB::table('torneos')
         ->join('rol_partidos', 'torneos.id', '=', 'rol_partidos.Cod_Torneo')
         ->select('rol_partidos.*', 'torneos.Nombre_Torneo')
         ->whereBetween('Fecha', [$hoy, $hoy1])
+        //->whereBetween('Hora', [$hora, $hora1])
         ->get();   //
     }
 
