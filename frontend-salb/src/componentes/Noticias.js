@@ -36,6 +36,7 @@ const Noticias = () => {
     return (
         <div className='contentNoticias'>
             <br></br>
+            <br></br>
             <Typography variant="h3"
                 align='center'
                 color="#ffff"

@@ -264,8 +264,8 @@ const Registrarse = () => {
       var imageFotoDNIURL = "";
 
       if ((selectedFileFotoPerfil && values.fotoPerfil) && (selectedFileFotoDNI && values.fotoDNI)) {
-        imageFotoPerfilURL = await postImageToServerExt(selectedFileFotoPerfil);
-        imageFotoDNIURL = await postImageToServerExt(selectedFileFotoDNI);
+        //imageFotoPerfilURL = await postImageToServerExt(selectedFileFotoPerfil);
+        //imageFotoDNIURL = await postImageToServerExt(selectedFileFotoDNI);
       }
 
       const datos = {

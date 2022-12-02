@@ -4,6 +4,7 @@ import BarraNavegacion from "../componentes/BarraNavegacion";
 import Fotos from "../componentes/Fotos";
 import Estadisticas from "../componentes/Estadisticas";
 import Equipos from "../componentes/Equipos";
+import ListaEquipos from "../componentes/ListaEquipos";
 import Juegos from "../componentes/Juegos";
 import Noticias from "../componentes/Noticias";
 import EnVivo from "../componentes/EnVivo";
@@ -12,6 +13,8 @@ import Registrarse from "../componentes/Registrarse";
 import RegistrarJugador from "../componentes/RegistrarJugador";
 import Jugadores from "../componentes/Jugadores";
 import Inicio from "../componentes/Inicio";
+import Partidos from "../componentes/Partidos";
+import Puntuaciones from "../componentes/Puntuaciones";
 
 const Router2 = () => {
   return (
@@ -24,6 +27,10 @@ const Router2 = () => {
           <Route path="/fotos" element={<Fotos />} />
           <Route path="/estadisticas" element={<Estadisticas />} />
           <Route path="/jugadores" element={<Jugadores />} />
+          <Route path="/equipos" element={<ListaEquipos />} />
+          <Route path="/partidos" element={<Partidos />} />
+          <Route path="/puntuaciones" element={<Puntuaciones />} />
+          <Route path="/estadisticas" element={<Estadisticas />} />
           <Route path="/juegos" element={<Juegos />} />
           <Route path="/noticias" element={<Noticias />} />
           {/*<Route path="/jugadores" element={<Noticias />} />*/}

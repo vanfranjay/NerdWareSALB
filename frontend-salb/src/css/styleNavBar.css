@@ -187,6 +187,15 @@ body {
 .contenedorBtnLogin {
     align-self: center;
 }
-.contentNoticias{
+
+.contentJugadores {
+    padding-top: 100px;
+}
+
+.contentNoticias {
+    padding-top: 100px;
+}
+
+.contentEquipos {
     padding-top: 100px;
 }

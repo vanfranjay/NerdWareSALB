@@ -172,7 +172,7 @@ const RegistrarEquipo = () => {
     //var comprobantePagoFile = await toBase64(selectedFile);
     var imageURL = "";
     if (selectedFile && values.logoEquipo) {
-      //imageURL = await postImageToServerExt();
+      imageURL = await postImageToServerExt();
     }
 
     var selectedCategoria = categorias.find(categoria => categoria.Categoria === values.categoriaEquipo);

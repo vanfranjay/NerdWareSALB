@@ -1,56 +1,65 @@
-.cardEquipo{
+.cardEquipo {
     margin: auto;
     background-color: #ffffff;
 }
-.contendorSelectEquipo{
+
+.contendorSelectEquipo {
     padding-top: 25px;
 }
-.nombreEquipoSelect{
+
+.nombreEquipoSelect {
     min-width: 200px !important;
 }
-.selectEquipo{
+
+.selectEquipo {
     min-width: 200px;
 }
-.seleccionarEquipo{
+
+.seleccionarEquipo {
     display: grid;
     grid-template-columns: 1fr;
 }
-.cardEquipoJugadores{
+
+.cardEquipoJugadores {
     margin: auto;
 }
-.fotoJugador{
+
+.fotoJugador {
     position: absolute;
     bottom: 55px;
     margin: auto;
-    width: 80px !important;
-    height: 80px !important;
+    width: 100px !important;
+    height: 100px !important;
 }
-.nombreJugador{
+
+.nombreJugador {
     position: relative;
-    bottom: 20px;
+    bottom: 30px;
     display: flex;
     justify-content: center;
 }
-.contenidoCardJugador{
+
+.contenidoCardJugador {
     color: black !important;
 }
-.colorLetraDetallesJugador{
+
+.colorLetraDetallesJugador {
     color: black !important;
 }
-.NombrePerfilJugador{
+
+.NombrePerfilJugador {
     display: grid;
     text-align: center;
 }
-.fotoPerfilJugador{
+
+.fotoPerfilJugador {
     max-width: 500px;
     min-width: 400px;
 }
-.cardJugadores{
+
+.cardJugadores {
     padding-top: 20px;
     padding-right: 5px;
     padding-left: 5px;
     border: none !important;
-}
-.espaciadoTop{
-    padding-top: 100px;
 }
