@@ -26,6 +26,8 @@ use App\Http\Controllers\ToFoController;
 use App\Http\Controllers\ToNoController;
 use App\Http\Controllers\ToRoController;
 use App\Http\Controllers\ToTaController;
+use App\Http\Controllers\EstadisticasController;
+use App\Http\Controllers\Estadisticas1Controller;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -62,6 +64,8 @@ Route::resource('tofo', ToFoController::class);
 Route::resource('tono', ToNoController::class);
 Route::resource('toro', ToRoController::class);
 Route::resource('tota', ToTaController::class);
+Route::resource('puntos', EstadisticasController::class);
+Route::resource('faltas', Estadisticas1Controller::class);
 //route::resource('auts', AuthController::class);
 
   //Prefijo V1, todo lo que este dentro de este grupo se accedera escribiendo v1 en el navegador, es decir /api/v1/*
