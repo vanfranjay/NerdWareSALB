@@ -15,6 +15,7 @@ import '../css/usuario.css';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import SportsBasketballIcon from '@mui/icons-material/SportsBasketball';
 
 export const mainListItemsAdmi = (
 
@@ -35,6 +36,14 @@ export const mainListItemsAdmi = (
         </div>
         <div className='nombreOpcionesMenu'>
           Registrar Torneo
+        </div>
+      </NavLink>
+      <NavLink to="registrar-partido" className='nombreMenuOpciones'>
+        <div className='contenedorIcono'>
+          <SportsBasketballIcon className='colorIcono' />
+        </div>
+        <div className='nombreOpcionesMenu'>
+          Registrar Partido
         </div>
       </NavLink>
 
