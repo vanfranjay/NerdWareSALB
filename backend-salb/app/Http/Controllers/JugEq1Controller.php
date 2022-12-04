@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Partido;
-class ParEqController extends Controller
+class JugEq1Controller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,10 +13,7 @@ class ParEqController extends Controller
      */
     public function index()
     {
-        return DB::table('partidos')
-        ->join('equipos', 'partidos.id', '=', 'equipos.Cod_Partido')
-        ->select('partidos.*', 'equipos.*')
-        ->get();  //
+        //
     }
 
     /**
@@ -38,11 +34,7 @@ class ParEqController extends Controller
      */
     public function store(Request $request)
     {
-        $nombre_Equipo = $request->value('E_Ganador'); 
-        return $nombre_Equipo;
-        $partido = new Partido($request->all());
-        $partido->save();
-        return $partido;//
+        //
     }
 
     /**
@@ -53,7 +45,12 @@ class ParEqController extends Controller
      */
     public function show($id)
     {
-        //
+        return DB::table('jugadores')
+        ->join('equipos', 'equipos.id', '=', 'jugadores.Cod_Equipo')
+        ->join('categorias','categorias.id','=', 'jugadores.Cod_Categoria')
+        ->select('jugadores.*', 'equipos.Nombre_Equipo', 'categorias.Categoria')
+        ->where('jugadores.Cod_Equipo',$id)
+        ->get();
     }
 
     /**

@@ -14,6 +14,7 @@ class PartidoController extends Controller
 
     public function store(Request $request)
     {
+      
         $partido = new Partido($request->all());
         $partido->save();
         return $partido;
