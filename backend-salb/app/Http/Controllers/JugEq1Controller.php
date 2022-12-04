@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jugador;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Stmt\For_;
+
 class JugEq1Controller extends Controller
 {
     /**
@@ -34,7 +37,28 @@ class JugEq1Controller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $aux = "";
+        For( $i = 0; $i <12; $i++){
+            if (is_null($request[$i])){
+               // return "Se guardo todo"; 
+            } else{
+              $id = $request[$i]["id"];
+              $faltas = $request[$i]["faltas"];
+              $puntos = $request[$i]["puntos"];
+              $jugador = Jugador::find($id);
+              $f= $jugador->value('Faltas');
+              $f = $jugador->Faltas;
+              $fa= $faltas + $f;
+              $p= $jugador->value('Puntos');
+              $p = $jugador->Puntos;
+              $pu= $puntos + $p;
+              $jugador->update(['Puntos'=> $pu, 'Faltas'=> $fa]);
+              $aux= $aux . $jugador; 
+            }
+            
+        }
+        
+       return  "Se actualizo la tabla jugador con exito"; //
     }
 
     /**
@@ -71,9 +95,16 @@ class JugEq1Controller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        /*$jugador = Jugador::find($id);
+        if(!is_null($jugador)){
+         $jugador->update($request->all());
+         return $jugador;
+        }  */
+        $aux =new Jugador($request->all());
+        $aux->save();
+       return $aux; 
     }
 
     /**
