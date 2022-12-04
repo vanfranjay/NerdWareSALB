@@ -69,13 +69,16 @@ function CardPartido({ codigo, fecha, hora, equipoA, equipoB }) {
                         <Typography variant="h5" color="text.secondary" component="div">
                             <SportsBasketballIcon>
                             </SportsBasketballIcon>
+                            &nbsp;
+                            &nbsp;
                             {equipoA}
                         </Typography>
                         <br></br>
                         <Typography variant="h5" color="text.secondary" component="div">
                             <SportsBasketballIcon>
                             </SportsBasketballIcon>
-
+                            &nbsp;
+                            &nbsp;
                             {equipoB}
                         </Typography>
                     </CardContent>
