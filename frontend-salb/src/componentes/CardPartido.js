@@ -21,7 +21,7 @@ function CardPartido({ codigo, fecha, hora, equipoA, equipoB }) {
 
     var diaPartido = moment(fecha).format('D');
     var mesPartido = moment(fecha).format('MMMM');
-
+    var horaPartido = hora.substring(0, 5);
 
     return (
         <div>
@@ -58,7 +58,7 @@ function CardPartido({ codigo, fecha, hora, equipoA, equipoB }) {
                             width: '100%',
                             color: 'white',
                             padding: '10px',
-                        }}>Hrs. {hora}</Typography>
+                        }}>Hrs. {horaPartido}</Typography>
                     </Box>
 
                 </Box>
@@ -69,13 +69,16 @@ function CardPartido({ codigo, fecha, hora, equipoA, equipoB }) {
                         <Typography variant="h5" color="text.secondary" component="div">
                             <SportsBasketballIcon>
                             </SportsBasketballIcon>
+                            &nbsp;
+                            &nbsp;
                             {equipoA}
                         </Typography>
                         <br></br>
                         <Typography variant="h5" color="text.secondary" component="div">
                             <SportsBasketballIcon>
                             </SportsBasketballIcon>
-
+                            &nbsp;
+                            &nbsp;
                             {equipoB}
                         </Typography>
                     </CardContent>
