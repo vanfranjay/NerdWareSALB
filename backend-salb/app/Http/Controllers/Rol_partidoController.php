@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Rol_partido;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use function PHPUnit\Framework\isNull;
 
 class Rol_partidoController extends Controller
 {
@@ -36,8 +38,24 @@ class Rol_partidoController extends Controller
     public function store(Request $request)
     {
         $rolpartido = new Rol_partido($request->all());
-        $rolpartido->save();
-        return $rolpartido;
+        $equipoA= $rolpartido->value('EquipoA');
+        $equipoA = $rolpartido->EquipoA;
+        $equipoB= $rolpartido->value('EquipoB');
+        $equipoB = $rolpartido->EquipoB;
+        $fecha= $rolpartido->value('Fecha');
+        $fecha = $rolpartido->Fecha;
+        $buscar = DB::table('rol_partidos')
+        ->select( 'rol_partidos.*')
+        ->where('EquipoA', $equipoA  )
+        ->where( 'EquipoB' , $equipoB)
+        ->where('Fecha' , $fecha)
+        ->value('');
+        //return $buscar;
+        if(is_null($buscar)){
+            $rolpartido->save();
+            return $rolpartido;
+        }
+       return "Ya se registro";
     }
 
     /**
