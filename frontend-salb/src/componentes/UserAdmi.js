@@ -34,6 +34,7 @@ import LabTabs from './tabSeccionSolicitudes';
 import RegistrarTorneo from './RegistrarTorneo';
 import TabRegistrarTorneo from './TabRegistrarTorneo';
 import RegistrarPartido from './RegistrarPartido';
+import RegistrarResultadoPartido from './RegistrarResultadoPartido';
 
 const ocultar = document.getElementById('imgUser');
 const text = document.getElementById('imgUser');
@@ -229,6 +230,7 @@ function DashboardContent() {
                 <Route path="solicitante" element={<LabTabs />} />
                 <Route path="registrar-torneo" element={<TabRegistrarTorneo />} />
                 <Route path="registrar-partido" element={<RegistrarPartido />} />
+                <Route path="registrar-resultado-partido" element={<RegistrarResultadoPartido />} />
                 <Route path="/" element={<Navigate to='Solicitante' />} />
               </Routes>
             </div>

@@ -46,6 +46,14 @@ export const mainListItemsAdmi = (
           Registrar Partido
         </div>
       </NavLink>
+      <NavLink to="registrar-resultado-partido" className='nombreMenuOpciones'>
+        <div className='contenedorIcono'>
+          <AppRegistrationIcon className='colorIcono' />
+        </div>
+        <div className='nombreOpcionesMenu'>
+          Registrar Resultados
+        </div>
+      </NavLink>
 
       {/** 
       <NavLink to="rechazado" className='nombreMenuOpciones'>
