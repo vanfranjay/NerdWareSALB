@@ -25,9 +25,6 @@ function CardPartido({ codigo, fecha, hora, equipoA, equipoB }) {
 
     return (
         <div>
-
-
-
             <Card sx={{ display: 'flex', width: "700px" }}>
                 <Box sx={{ display: 'flex', flexDirection: 'row', width: "350px", position: 'relative' }}>
                     <CardMedia
