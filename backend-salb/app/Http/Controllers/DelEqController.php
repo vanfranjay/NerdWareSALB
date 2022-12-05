@@ -48,7 +48,18 @@ class DelEqController extends Controller
      */
     public function show($id)
     {
-        //
+         $aux =DB::table('delegados')
+        ->join('equipos', 'delegados.id', '=', 'equipos.Cod_Delegado')
+        ->select('delegados.id')
+        ->where('delegados.id',$id)
+        ->value('');
+        if(is_null($aux)){
+            $e=false;
+            return response()->json(['errorMessage' => $e ], 400); 
+        }else{
+            $exito=true;
+            return response()->json(['Message' => $exito], 201);
+        }//
     }
 
     /**
@@ -71,7 +82,7 @@ class DelEqController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**
