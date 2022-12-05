@@ -70,16 +70,24 @@ Route::resource('faltas', Estadisticas1Controller::class);
 Route::resource('jugeq1', JugEq1Controller::class);
 //route::resource('auts', AuthController::class);
 
-  //Prefijo V1, todo lo que este dentro de este grupo se accedera escribiendo v1 en el navegador, es decir /api/v1/*
-  Route::post('login', [AuthController::class, 'authenticate']);
-  Route::post('register', [AuthController::class, 'register']);
-  //Route::get('products', [ProductsController::class, 'index']);
-  //Route::get('products/{id}', [ProductsController::class, 'show']);
+  ////Prefijo V1, todo lo que este dentro de este grupo se accedera escribiendo v1 en el navegador, es decir /api/v1/*
+  //Route::post('login', [AuthController::class, 'authenticate']);
+  //Route::post('register', [AuthController::class, 'register']);
+  ////Route::get('products', [ProductsController::class, 'index']);
+  ////Route::get('products/{id}', [ProductsController::class, 'show']);
+  //Route::group(['middleware' => ['jwt.verify']], function() {
+  //    //Todo lo que este dentro de este grupo requiere verificación de usuario.
+  //    Route::post('logout', [AuthController::class, 'logout']);
+  //    Route::post('get-user', [AuthController::class, 'getUser']);
+  //  //  Route::post('products', [ProductsController::class, 'store']);
+  //   // Route::put('products/{id}', [ProductsController::class, 'update']);
+  //    //Route::delete('products/{id}', [ProductsController::class, 'destroy']);
+  //});
+  Route::post('register', 'App\Http\Controllers\UserController@register');
+  Route::post('login', 'App\Http\Controllers\UserController@authenticate');
+  
   Route::group(['middleware' => ['jwt.verify']], function() {
-      //Todo lo que este dentro de este grupo requiere verificación de usuario.
-      Route::post('logout', [AuthController::class, 'logout']);
-      Route::post('get-user', [AuthController::class, 'getUser']);
-    //  Route::post('products', [ProductsController::class, 'store']);
-     // Route::put('products/{id}', [ProductsController::class, 'update']);
-      //Route::delete('products/{id}', [ProductsController::class, 'destroy']);
+  
+      Route::post('user','App\Http\Controllers\UserController@getAuthenticatedUser');
+  
   });
