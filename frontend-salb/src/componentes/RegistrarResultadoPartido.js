@@ -17,10 +17,7 @@ import AlertTitle from '@mui/material/AlertTitle';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import axios from "axios";
-import { DataGrid } from '@mui/x-data-grid';
-
-//import MaterialTable from "material-table";
-
+import { DataGrid, useGridApiContext } from '@mui/x-data-grid';
 
 import { Container, Stack } from '@mui/system';
 
@@ -37,24 +34,49 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import moment from "moment";
 import "moment/locale/es";
 
-
 const RegistrarResultadoPartido = () => {
 
+    function setPuntos(params) {
+        var jugadoresActualizados = [];
+        var object = params.row;
+        object.puntos = params.value;
+        var jugadoresAll = jugadores;
+        jugadoresAll.forEach(function (item) {
+            if (item.id === object.id) {
+                jugadoresActualizados.push(object);
+            } else {
+                jugadoresActualizados.push(item);
+            }
+        });
+        jugadores = jugadoresActualizados;
+        const [puntos] = params.value;
+        params.row.puntos = params.value;
+        return { ...params.row };
+    }
 
+    function setFaltas(params) {
+        var jugadoresActualizados = [];
+        var object = params.row;
+        object.faltas = params.value;
+        var jugadoresAll = jugadores;
+        jugadoresAll.forEach(function (item) {
+            if (item.id === object.id) {
+                jugadoresActualizados.push(object);
+            } else {
+                jugadoresActualizados.push(item);
+            }
+        });
+        jugadores = jugadoresActualizados;
+        const [faltas] = params.value;
+        params.row.faltas = params.value;
+        return { ...params.row };
+    }
 
     const columns = [
         { field: 'jugador', headerName: 'Jugador', width: 250, editable: false },
-        { field: 'puntos', headerName: 'Puntos', width: 130, editable: true },
-        { field: 'faltas', headerName: 'Faltas', width: 130, editable: true },
+        { field: 'puntos', headerName: 'Puntos', width: 130, editable: true, valueSetter: setPuntos },
+        { field: 'faltas', headerName: 'Faltas', width: 130, editable: true, valueSetter: setFaltas },
 
-    ];
-
-    const defaultRows = [
-        { id: 1, jugador: 'Marcela Flores', puntos: 0, faltas: 0 },
-        { id: 2, jugador: 'Camila Soliz', puntos: 0, faltas: 0 },
-        { id: 3, jugador: 'Daniela Sandoval', puntos: 0, faltas: 0 },
-        { id: 4, jugador: 'Vivian Fiorilo', puntos: 0, faltas: 0 },
-        { id: 5, jugador: 'Luciana Perez', puntos: 0, faltas: 0 },
     ];
 
     const [open, setOpen] = React.useState(false);
@@ -65,6 +87,8 @@ const RegistrarResultadoPartido = () => {
     const equiposURL = "http://127.0.0.1:8000/api/equipos";
     const categoriasURL = "http://127.0.0.1:8000/api/categorias";
     const jugadoresEquipoURL = "http://127.0.0.1:8000/api/jugeq1/";
+    const registrarResPartidoURL = "http://127.0.0.1:8000/api/pareq";
+    const registrarResPartidoJugsURL = "http://127.0.0.1:8000/api/jugeq1";
     const [categorias, setCategorias] = useState([]);
     const [torneo, setTorneo] = useState([]);
     const [torneoID, setTorneoID] = useState([]);
@@ -74,6 +98,7 @@ const RegistrarResultadoPartido = () => {
     const [jugadoresEquipoGan, setJugadoresEquipoGan] = useState([]);
     const [jugadoresEquipoPer, setJugadoresEquipoPer] = useState([]);
 
+    var jugadores = jugadoresEquipoGan.concat(jugadoresEquipoPer);
 
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -85,6 +110,16 @@ const RegistrarResultadoPartido = () => {
         }
         setOpen(false);
     };
+
+    const processRowUpdate = React.useCallback(
+        async (newRow) => {
+            // Make the HTTP request to save in the backend
+            //const response = await mutateRow(newRow);
+            //setSnackbar({ children: 'User successfully saved', severity: 'success' });
+            //return response;
+            console.log("new row updated: " + newRow);
+        }
+    );
 
     const getRowsEquipGan = async (nombreEquipo) => {
         var selectedEquipo = equipos.find(equipo => equipo.Nombre_Equipo === nombreEquipo);
@@ -186,7 +221,6 @@ const RegistrarResultadoPartido = () => {
         equipoPerdedor: Yup
             .string('Ingrese el equipo B')
             .required('Equipo Perdedor es requerido'),
-
         puntosEquipoGanador: Yup
             .number('Ingrese los Puntos Equipo Ganador')
             .min(0, 'Puntos Equipo Ganador debe ser mínimo 0')
@@ -197,6 +231,16 @@ const RegistrarResultadoPartido = () => {
             .min(0, 'Puntos Equipo Perdedor debe ser mínimo 0')
             .max(200, "Puntos Equipo Perdedor debe ser máximo 200")
             .required('Puntos Equipo Perdedor es requerido'),
+        entrenadorEquipoGanador: Yup
+            .string('Ingrese el Entrenador Equipo Ganador')
+            .min(2, 'Entrenador Equipo Ganador debe ser mínimo 2 caracteres')
+            .max(255, "Entrenador Equipo Ganador debe ser máximo 100 caracteres")
+            .required('Entrenador Equipo Ganador es requerido'),
+        entrenadorEquipoPerdedor: Yup
+            .string('Ingrese el Entrenador Equipo Perdedor')
+            .min(2, 'Entrenador Equipo Perdedor debe ser mínimo 2 caracteres')
+            .max(255, "Entrenador Equipo Perdedor debe ser máximo 100 caracteres")
+            .required('Entrenador Equipo Perdedor es requerido'),
         horaInicial: Yup
             .date()
             .nullable()
@@ -228,6 +272,8 @@ const RegistrarResultadoPartido = () => {
         initialValues: {
             equipoGanador: '',
             equipoPerdedor: '',
+            entrenadorEquipoGanador: '',
+            entrenadorEquipoPerdedor: '',
             categoria: '',
             lugar: '',
             observaciones: '',
@@ -240,7 +286,8 @@ const RegistrarResultadoPartido = () => {
 
         validationSchema: formValidationSchema,
         onSubmit: (values, { setSubmitting, resetForm }) => {
-            registrarPartido();
+            registrarResPartido();
+            //registrarResPartidoJugadores();
 
             setSubmitting(true);
             setTimeout(() => {
@@ -252,8 +299,8 @@ const RegistrarResultadoPartido = () => {
 
     // Realiza un POST al API de crear Boleta en backend
 
-    const postPartido = async (url, datos) => {
-        const response = await fetch(url, {
+    const postRegistrarResPartido = async (datos) => {
+        const response = await fetch(registrarResPartidoURL, {
             method: 'POST',
             body: JSON.stringify(datos),
             headers: {
@@ -264,50 +311,66 @@ const RegistrarResultadoPartido = () => {
         return response;
     }
 
-    // Construimos una Boleta con los datos introducidos
+    const postRegistrarResPartidoJugs = async (datos) => {
+        const response = await fetch(registrarResPartidoJugsURL, {
+            method: 'POST',
+            body: JSON.stringify(datos),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
 
-    const registrarPartido = async () => {
+        return response;
+    }
+
+    const registrarResPartido = async () => {
 
         var formatedFechaPartido = values.fechaPartido.format('YYYY-MM-DD');
-        var formatedHoraInicial = values.horaPartido.format('HH:mm');
+        var formatedHoraInicial = values.horaInicial.format('HH:mm');
         var formatedHoraFinal = values.horaFinal.format('HH:mm');
 
-        const datos = {
-            "Equipo_Ganador": values.equipoGanador,
-            "Equipo_Perdedor": values.equipoPerdedor,
+        const datosPartido = {
+            "E_Ganador": values.equipoGanador,
+            "E_Perdedor": values.equipoPerdedor,
+            "Puntos_Ganador": values.puntosEquipoGanador,
+            "Puntos_Perdedor": values.puntosEquipoPerdedor,
             "Categoria": values.categoria,
             "Lugar": values.lugar,
-            "Hora_Inicial": formatedHoraInicial,
+            "Campeonato": "LMB",
+            "Entrenador_G": values.entrenadorEquipoGanador,
+            "Entrenador_P": values.entrenadorEquipoPerdedor,
+            "Hora_Inicio": formatedHoraInicial,
             "Hora_Final": formatedHoraFinal,
-            "Fecha": formatedFechaPartido,
-            "Puntos_Equipo_Ganador": 0,
-            "Puntos_Equipo_Perdedor": 0,
-            "Jugadores": []
+            "Fecha_Partido": formatedFechaPartido
         };
 
-        console.log("Partido: ------> " + JSON.stringify(datos));
-        // Validar fechas
+        var datosJugadores = jugadoresEquipoGan.concat(jugadoresEquipoPer);
+
+        console.log("Partido datos: " + JSON.stringify(datosPartido));
+
+        console.log("Jugadores datos: " + JSON.stringify(datosJugadores));
 
         if (values.equipoGanador !== values.equipoPerdedor) {
 
-            const respuestaJson = await postPartido(registrarPartidoURL, datos);
+            const resRegResPar = await postRegistrarResPartido(datosPartido);
+            const resRegResParJugs = await postRegistrarResPartidoJugs(datosJugadores);
 
-            console.log("Response:------> " + respuestaJson.status);
-            if (respuestaJson.status === 201) {
-
+            if (resRegResPar.status === 200 && resRegResParJugs.status === 200) {
                 setAlertColor("success");
-                setAlertContent("Partido registrado exitosamente");
+                setAlertContent("Resultados de Partido registrado exitosamente");
                 setOpen(true);
+                setJugadoresEquipoGan([]);
+                setJugadoresEquipoPer([]);
                 borrar();
             }
 
-            if (respuestaJson.status === 400) {
-                var errorRes = await respuestaJson.json();
+            if (resRegResPar.status === 400) {
+                var errorRes = await resRegResPar.json();
                 console.log("Error Response---" + JSON.stringify(errorRes));
 
                 if (errorRes.errorCode === "23505") {
                     setAlertColor("error");
-                    setAlertContent("El partido ya fue registrado");
+                    setAlertContent("Los resultados de partido ya fueron registrados");
                     setOpen(true);
                 }
             }
@@ -509,6 +572,52 @@ const RegistrarResultadoPartido = () => {
                             value={values.puntosEquipoPerdedor}
                             error={touched.puntosEquipoPerdedor && Boolean(errors.puntosEquipoPerdedor)}
                             helperText={touched.puntosEquipoPerdedor && errors.puntosEquipoPerdedor}
+                            InputLabelProps={{
+                                style: { color: '#ffff' },
+                            }}
+                            sx={{
+                                color: 'white',
+                                '& .MuiInputBase-root': { color: 'white' }
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            required
+                            type="text"
+                            id="entrenadorEquipoGanador"
+                            name="entrenadorEquipoGanador"
+                            label="Entrenador Equipo Ganador"
+                            fullWidth
+                            variant="standard"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.entrenadorEquipoGanador}
+                            error={touched.entrenadorEquipoGanador && Boolean(errors.entrenadorEquipoGanador)}
+                            helperText={touched.entrenadorEquipoGanador && errors.entrenadorEquipoGanador}
+                            InputLabelProps={{
+                                style: { color: '#ffff' },
+                            }}
+                            sx={{
+                                color: 'white',
+                                '& .MuiInputBase-root': { color: 'white' }
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            required
+                            type="text"
+                            id="entrenadorEquipoPerdedor"
+                            name="entrenadorEquipoPerdedor"
+                            label="Entrenador Equipo Perdedor"
+                            fullWidth
+                            variant="standard"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.entrenadorEquipoPerdedor}
+                            error={touched.entrenadorEquipoPerdedor && Boolean(errors.entrenadorEquipoPerdedor)}
+                            helperText={touched.entrenadorEquipoPerdedor && errors.entrenadorEquipoPerdedor}
                             InputLabelProps={{
                                 style: { color: '#ffff' },
                             }}
@@ -730,8 +839,11 @@ const RegistrarResultadoPartido = () => {
                                     '& .MuiDataGrid-columnHeaderTitle': { color: 'orange' },
                                     '& .MuiDataGrid-cellContent': { color: 'white' }
                                 }}
+                                processRowUpdate={processRowUpdate}
+                                experimentalFeatures={{ newEditingApi: true }}
                                 rows={jugadoresEquipoGan ? jugadoresEquipoGan : []}
-                                columns={columns} />
+                                columns={columns}
+                            />
                         </div>
                     </Grid>
 
@@ -752,6 +864,8 @@ const RegistrarResultadoPartido = () => {
                                     '& .MuiDataGrid-columnHeaderTitle': { color: 'orange' },
                                     '& .MuiDataGrid-cellContent': { color: 'white' }
                                 }}
+                                processRowUpdate={processRowUpdate}
+                                experimentalFeatures={{ newEditingApi: true }}
                                 rows={jugadoresEquipoPer ? jugadoresEquipoPer : []}
                                 columns={columns} />
                         </div>
