@@ -42,6 +42,9 @@ import moment from "moment";
 import "moment/locale/es";
 
 const Registrarse = () => {
+
+  const DELEGADO_URL = process.env.DELEGADO_API_URL || "http://127.0.0.1:8000/api/delegados";
+
   const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
   const FILE_SIZE = 7340032; // 7MB de tamaño del archivo
   const phoneRegExp = /^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*$/;
@@ -236,7 +239,7 @@ const Registrarse = () => {
 
   const postDelegado = async (datos) => {
     const res = await axios
-      .post(configData.REGISTER_DELEGADO_API_URL, {
+      .post(DELEGADO_URL, {
         ...datos,
       })
       .then(function (response) {

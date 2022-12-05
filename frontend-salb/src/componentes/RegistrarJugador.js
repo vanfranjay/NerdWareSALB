@@ -47,10 +47,12 @@ const RegistrarJugador = () => {
     var codEquipo = localStorage.getItem("equipoId");
     var codCategoria = localStorage.getItem("categoriaId");
     var categoriaEquipo = localStorage.getItem("categoriaValue");
-    const equiposDelegadoURL = "http://127.0.0.1:8000/api/deleq/";
-    const postJugadorURL = "http://127.0.0.1:8000/api/jugadores";
-    const equipoURL = "http://127.0.0.1:8000/api/equipos";
-    const urlIncJugadorEquipo = "http://127.0.0.1:8000/api/jugeq/"
+
+    const EQUIPOS_URL = process.env.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos";
+    const JUGADORES_URL = process.env.JUGADORES_API_URL || "http://127.0.0.1:8000/api/jugadores";
+    const EQUIPO_DELEGADO_URL = process.env.EQUIPO_DELEGADO_API_URL || "http://127.0.0.1:8000/api/deleq/";
+    const JUGADOR_EQUIPO_URL = process.env.JUGADOR_EQUIPO_API_URL || "http://127.0.0.1:8000/api/jugeq/";
+    const CATEGORIAS_URL = process.env.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -60,7 +62,7 @@ const RegistrarJugador = () => {
     };
 
     const getCategorias = async () => {
-        await axios.get(configData.CATEGORIAS_API_URL)
+        await axios.get(CATEGORIAS_URL)
             .then(response => {
                 setCategorias(response.data);
             }).catch(error => {
@@ -69,7 +71,7 @@ const RegistrarJugador = () => {
     }
 
     const getEquipos = async () => {
-        await axios.get(equipoURL)
+        await axios.get(EQUIPOS_URL)
             .then(response => {
                 setEquipos(response.data);
             }).catch(error => {
@@ -249,7 +251,7 @@ const RegistrarJugador = () => {
     }
 
     const tieneEquiposRegDelegado = async (delegadoID) => {
-        const response = await fetch(equiposDelegadoURL + delegadoID, {
+        const response = await fetch(EQUIPO_DELEGADO_URL + delegadoID, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -309,12 +311,12 @@ const RegistrarJugador = () => {
                 console.log("Jugador: ------> " + JSON.stringify(datos));
 
                 // Hacemos el post de Equipo 
-                const respuestaJson = await postJugador(postJugadorURL, datos);
+                const respuestaJson = await postJugador(JUGADORES_URL, datos);
 
                 //Validadando si se envio correctamente o hubo algun fallo
                 console.log("Response:------> " + respuestaJson.status);
                 if (respuestaJson.status === 200) {
-                    const resIncJugEquipo = await incJugadorEquipo(urlIncJugadorEquipo + selectedEquipo.id);
+                    const resIncJugEquipo = await incJugadorEquipo(JUGADOR_EQUIPO_URL + selectedEquipo.id);
                     setAlertColor("success");
                     setAlertContent("Se registro al jugador exitosamente");
                     setOpen(true);

@@ -19,14 +19,14 @@ import { MenuItem } from '@mui/material';
 
 const Puntuaciones = () => {
 
-    const puntuacionesURL = "http://127.0.0.1:8000/api/tota/";
-    const categoriasURL = "http://127.0.0.1:8000/api/categorias";
+    const PUNTUACIONES_URL = process.env.PUNTUACIONES_API_URL || "http://127.0.0.1:8000/api/tota/";
+    const CATEGORIAS_URL = process.env.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
     const [puntuaciones, setPuntuaciones] = useState([]);
     const [categorias, setCategorias] = useState([]);
     const [categoria, setCategoria] = useState([]);
 
     const getCategorias = async () => {
-        await axios.get(categoriasURL)
+        await axios.get(CATEGORIAS_URL)
             .then(response => {
                 setCategorias(response.data);
                 setTimeout(() => getPuntuaciones(response.data[0].Categoria), 100);
@@ -36,7 +36,7 @@ const Puntuaciones = () => {
     }
 
     const getPuntuaciones = async (categoriaID) => {
-        await axios.get(puntuacionesURL + categoriaID)
+        await axios.get(PUNTUACIONES_URL + categoriaID)
             .then(response => {
                 setPuntuaciones(response.data);
             }).catch(error => {

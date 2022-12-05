@@ -83,12 +83,13 @@ const RegistrarResultadoPartido = () => {
     const [alertColor, setAlertColor] = useState('');
     const [alertContent, setAlertContent] = useState('');
 
-    const registrarPartidoURL = "http://127.0.0.1:8000/api/rol_partidos";
-    const equiposURL = "http://127.0.0.1:8000/api/equipos";
-    const categoriasURL = "http://127.0.0.1:8000/api/categorias";
-    const jugadoresEquipoURL = "http://127.0.0.1:8000/api/jugeq1/";
-    const registrarResPartidoURL = "http://127.0.0.1:8000/api/pareq";
-    const registrarResPartidoJugsURL = "http://127.0.0.1:8000/api/jugeq1";
+    const TORNEOS_URL = process.env.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
+    const PARTIDOS_URL = process.env.PARTIDOS_API_URL || "http://127.0.0.1:8000/api/rol_partidos";
+    const EQUIPOS_URL = process.env.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos";
+    const CATEGORIAS_URL = process.env.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
+    const JUGADOR_EQUIPO_URL = process.env.JUGADOR_EQUIPO_API_URL || "http://127.0.0.1:8000/api/jugeq1";
+    const PARTIDO_EQUIPO_URL = process.env.PARTIDO_EQUIPO_API_URL || "http://127.0.0.1:8000/api/pareq";
+
     const [categorias, setCategorias] = useState([]);
     const [torneo, setTorneo] = useState([]);
     const [torneoID, setTorneoID] = useState([]);
@@ -160,7 +161,7 @@ const RegistrarResultadoPartido = () => {
     }
 
     const getTorneo = async () => {
-        await axios.get(configData.TORNEO_API_URL)
+        await axios.get(TORNEOS_URL)
             .then(response => {
                 //setTorneo(response.data);
                 setFechaFinTorneo(response.data[0].Fecha_Fin_Torneo);
@@ -172,7 +173,7 @@ const RegistrarResultadoPartido = () => {
     }
 
     const getEquipos = async () => {
-        await axios.get(equiposURL)
+        await axios.get(EQUIPOS_URL)
             .then(response => {
                 console.log("Equipos: " + JSON.stringify(response.data));
                 setEquipos(response.data);
@@ -182,7 +183,7 @@ const RegistrarResultadoPartido = () => {
     }
 
     const getCategorias = async () => {
-        await axios.get(categoriasURL)
+        await axios.get(CATEGORIAS_URL)
             .then(response => {
                 setCategorias(response.data);
             }).catch(error => {
@@ -191,7 +192,7 @@ const RegistrarResultadoPartido = () => {
     }
 
     const getJugadores = async (equipoID) => {
-        const response = await fetch(jugadoresEquipoURL + equipoID, {
+        const response = await fetch(JUGADOR_EQUIPO_URL + '/' + equipoID, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -203,7 +204,7 @@ const RegistrarResultadoPartido = () => {
     }
 
     const getJugadoresEquipo = async (equipoID) => {
-        await axios.get(jugadoresEquipoURL + equipoID)
+        await axios.get(JUGADOR_EQUIPO_URL + '/' + equipoID)
             .then(response => {
                 console.log("Jugadores Equipo response: " + JSON.stringify(response.data));
                 setJugadoresRes(response.data);
@@ -300,7 +301,7 @@ const RegistrarResultadoPartido = () => {
     // Realiza un POST al API de crear Boleta en backend
 
     const postRegistrarResPartido = async (datos) => {
-        const response = await fetch(registrarResPartidoURL, {
+        const response = await fetch(PARTIDO_EQUIPO_URL, {
             method: 'POST',
             body: JSON.stringify(datos),
             headers: {
@@ -312,7 +313,7 @@ const RegistrarResultadoPartido = () => {
     }
 
     const postRegistrarResPartidoJugs = async (datos) => {
-        const response = await fetch(registrarResPartidoJugsURL, {
+        const response = await fetch(JUGADOR_EQUIPO_URL, {
             method: 'POST',
             body: JSON.stringify(datos),
             headers: {

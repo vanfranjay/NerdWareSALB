@@ -18,6 +18,7 @@ import { useState, useEffect } from "react";
 import Grid from '@mui/material/Grid';
 
 export default function MediaCard() {
+  const EQUIPOS_URL = process.env.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos";
   const [age, setAge] = React.useState("");
   const handleChange = (event) => {
     setAge(event.target.value);
@@ -30,11 +31,11 @@ export default function MediaCard() {
 
   //console.log("Loading...");
   const fetchData = async () => {
-    const resultado = await axios.get("http://127.0.0.1:8000/api/equipos");
+    const resultado = await axios.get(EQUIPOS_URL);
     setEquipos([...resultado.data]);
     console.log(resultado.data);
   };
-  
+
   return (
     <Grid container className="contendorSelectEquipo">
       <Grid xs={12} sm={8} md={6} className="cardEquipo">
@@ -64,7 +65,7 @@ export default function MediaCard() {
                 label="Age"
                 className="selectEquipo"
               >
-                {equipos.map(equipo=>(
+                {equipos.map(equipo => (
                   <MenuItem key={equipo.id} value={equipo.id}>{equipo.Nombre}</MenuItem>
                 ))}
               </Select>

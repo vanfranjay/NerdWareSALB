@@ -43,9 +43,10 @@ const RegistrarEquipo = () => {
   const [categorias, setCategorias] = useState([]);
   const [delegado, setDelegado] = useState([]);
 
-  const postEquipoURL = "http://127.0.0.1:8000/api/equipos";
-  const delegadoURL = "http://127.0.0.1:8000/api/delegados/";
-  const urlDecVoucherDelegado = "http://127.0.0.1:8000/api/delbol/";
+  const EQUIPOS_URL = process.env.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos";
+  const DELEGADO_URL = process.env.DELEGADO_API_URL || "http://127.0.0.1:8000/api/delegados";
+  const DEC_BOLETA_DELEGADO_URL = process.env.BOLETA_DELEGADO_API_URL || "http://127.0.0.1:8000/api/delbol/";
+  const CATEGORIAS_URL = process.env.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -55,7 +56,7 @@ const RegistrarEquipo = () => {
   };
 
   const getCategorias = async () => {
-    await axios.get(configData.CATEGORIAS_API_URL)
+    await axios.get(CATEGORIAS_URL)
       .then(response => {
         setCategorias(response.data);
       }).catch(error => {
@@ -190,7 +191,7 @@ const RegistrarEquipo = () => {
     };
     console.log("Equipo: ------> " + JSON.stringify(datos));
 
-    const resDelegadoVouchers = await getDelegado(delegadoURL + 1);
+    const resDelegadoVouchers = await getDelegado(DELEGADO_URL + '/' + 1);
     const responseVouchersDisp = await resDelegadoVouchers.json();
 
     console.log("Contador voucher delegado: " + responseVouchersDisp.Contador);
@@ -198,12 +199,12 @@ const RegistrarEquipo = () => {
     if (responseVouchersDisp.Contador > 0) {
 
       // Hacemos el post de Equipo 
-      const respuestaJson = await postEquipo(postEquipoURL, datos);
+      const respuestaJson = await postEquipo(EQUIPOS_URL, datos);
 
       //Validadando si se envio correctamente o hubo algun fallo
       console.log("Response:------> " + respuestaJson.status);
       if (respuestaJson.status === 200) {
-        const resIncVoucherDelegado = decVoucherDelegado(urlDecVoucherDelegado + 1);
+        const resIncVoucherDelegado = decVoucherDelegado(DEC_BOLETA_DELEGADO_URL + 1);
         setAlertColor("success");
         setAlertContent("Se registro el equipo exitosamente");
         setOpen(true);

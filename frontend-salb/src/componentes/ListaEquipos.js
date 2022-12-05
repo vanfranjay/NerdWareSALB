@@ -8,12 +8,14 @@ import configData from "../config/config.json";
 
 const ListaEquipos = () => {
 
-    const baseUrl = "http://127.0.0.1:8000/api/equipos";
+    const EQUIPOS_URL = process.env.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos"
+    const CATEGORIAS_URL = process.env.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias"
+
     const [equipos, setEquipos] = useState([]);
     const [categorias, setCategorias] = useState([]);
 
     const getEquipos = async () => {
-        await axios.get(baseUrl)
+        await axios.get(EQUIPOS_URL)
             .then(response => {
                 setEquipos(response.data);
             }).catch(error => {
@@ -22,7 +24,7 @@ const ListaEquipos = () => {
     }
 
     const getCategorias = async () => {
-        await axios.get("http://127.0.0.1:8000/api/categorias")
+        await axios.get(CATEGORIAS_URL)
             .then(response => {
                 console.log("Categorias: " + response.data);
                 setCategorias(response.data);

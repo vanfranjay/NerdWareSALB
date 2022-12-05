@@ -12,6 +12,7 @@ import correoVerificación from "../imagenes/correoVerificación.JPG";
 import logo from "../imagenes/logoLigaBasket1.png";
 
 const ConvocatoriaDetalladaTorneo = () => {
+  const TORNEOS_URL = process.env.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
   const [torneos, setTorneos] = useState([]);
 
   useEffect(() => {
@@ -20,7 +21,7 @@ const ConvocatoriaDetalladaTorneo = () => {
 
   //console.log("Loading...");
   const obtenerTorneo = async () => {
-    const resultado = await axios.get("http://127.0.0.1:8000/api/torneos");
+    const resultado = await axios.get(TORNEOS_URL);
     setTorneos([...resultado.data]);
     console.log(resultado.data);
   };

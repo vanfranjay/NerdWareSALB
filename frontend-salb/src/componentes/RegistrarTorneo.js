@@ -16,6 +16,8 @@ import { useTheme } from "@mui/material/styles";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { Field, Formik, Form, ErrorMessage } from "formik";
 
+const CATEGORIAS_URL = process.env.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
+const TORNEOS_URL = process.env.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
 //const ITEM_HEIGHT = 48;
 //const ITEM_PADDING_TOP = 8;
 //const MenuProps = {
@@ -37,7 +39,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const registrarCategorias = async (categorias) => {
   categorias.forEach(function (item, index) {
-    const { data } = axios.post("http://127.0.0.1:8000/api/categorias", {
+    const { data } = axios.post(CATEGORIAS_URL, {
       Categoria: item,
     });
   });
@@ -302,13 +304,13 @@ const RegistrarTorneo = () => {
         onSubmit={(valores, { resetForm }) => {
           const registrarTorneo = async () => {
             const resultado = await axios.get(
-              "http://127.0.0.1:8000/api/torneos"
+              TORNEOS_URL
             );
             if (resultado.data.length === 0) {
               try {
-                registrarCategorias(valores.Categoria);
+                //registrarCategorias(valores.Categoria);
                 const { data } = axios.post(
-                  "http://127.0.0.1:8000/api/torneos",
+                  TORNEOS_URL,
                   {
                     ...valores,
                     Categoria: valores.Categoria.join(","),
@@ -327,10 +329,10 @@ const RegistrarTorneo = () => {
           };
           registrarTorneo();
         }}
-        /*const
-        reiniciar={({ resetForm }) => {
-          resetForm();
-        }}*/
+      /*const
+      reiniciar={({ resetForm }) => {
+        resetForm();
+      }}*/
       >
         {({ values, errors, touched, handleChange, handleBlur, resetForm }) => (
           <Form>
@@ -543,7 +545,7 @@ const RegistrarTorneo = () => {
                         onChange={handleChange}
                         /*input={<OutlinedInput label="Name" />}*/
                         renderValue={(selected) => selected.join(", ")}
-                        /*MenuProps={MenuProps}*/
+                      /*MenuProps={MenuProps}*/
                       >
                         <MenuItem value={"30+"}>+30</MenuItem>
                         <MenuItem value={"35+"}>+35</MenuItem>

@@ -20,6 +20,7 @@ import { Box } from "@mui/material";
 import ShieldIcon from '@mui/icons-material/Shield';
 
 export default function AlertDialog() {
+  const JUGADORES_URL = process.env.JUGADORES_API_URL || "http://127.0.0.1:8000/api/jugadores";
   const [open, setOpen] = React.useState(false);
   const [idJugador, setIdJugador] = React.useState(-1);
 
@@ -41,7 +42,7 @@ export default function AlertDialog() {
 
   //console.log("Loading...");
   const fetchGamer = async () => {
-    const resultado = await axios.get("http://127.0.0.1:8000/api/jugadores");
+    const resultado = await axios.get(JUGADORES_URL);
     setJugadores([...resultado.data]);
     console.log(resultado.data);
   };

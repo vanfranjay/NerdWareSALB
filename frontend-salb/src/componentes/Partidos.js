@@ -8,12 +8,12 @@ import configData from "../config/config.json";
 
 const Partidos = () => {
 
-    const baseUrl = "http://127.0.0.1:8000/api/rol_partidos";
+    const PARTIDOS_URL = process.env.PARTIDOS_API_URL || "http://127.0.0.1:8000/api/rol_partidos";
     const [partidos, setPartidos] = useState([]);
 
 
     const getPartidos = async () => {
-        await axios.get(baseUrl)
+        await axios.get(PARTIDOS_URL)
             .then(response => {
                 setPartidos(response.data);
             }).catch(error => {
