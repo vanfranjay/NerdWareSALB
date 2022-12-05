@@ -55,7 +55,9 @@ class Rol_partidoController extends Controller
             $rolpartido->save();
             return $rolpartido;
         }
-       return "Ya se registro";
+       //return "Ya se registro";
+       $e="Ya se registro el partido";
+       return response()->json(['errorMessage' => $e ], 400);
     }
 
     /**
