@@ -174,7 +174,7 @@ const RegistrarPartido = () => {
                 var errorRes = await respuestaJson.json();
                 console.log("Error Response---" + JSON.stringify(errorRes));
 
-                if (errorRes.errorCode === "23505") {
+                if (errorRes.errorMessage === "Ya se registro el partido") {
                     setAlertColor("error");
                     setAlertContent("El partido ya fue registrado");
                     setOpen(true);

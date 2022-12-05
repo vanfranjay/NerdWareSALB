@@ -47,6 +47,7 @@ const RegistrarJugador = () => {
     var codEquipo = localStorage.getItem("equipoId");
     var codCategoria = localStorage.getItem("categoriaId");
     var categoriaEquipo = localStorage.getItem("categoriaValue");
+    const equiposDelegadoURL = "http://127.0.0.1:8000/api/deleq/";
     const postJugadorURL = "http://127.0.0.1:8000/api/jugadores";
     const equipoURL = "http://127.0.0.1:8000/api/equipos";
     const urlIncJugadorEquipo = "http://127.0.0.1:8000/api/jugeq/"
@@ -247,9 +248,21 @@ const RegistrarJugador = () => {
         return response;
     }
 
+    const tieneEquiposRegDelegado = async (delegadoID) => {
+        const response = await fetch(equiposDelegadoURL + delegadoID, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return response;
+    }
+
     const registrarJugador = async () => {
 
-        if (esValidoEdadJugador(values.fechaNacParticipante, values.categoria)) {
+        const resDelegadoEquipos = await tieneEquiposRegDelegado(1);
+
+        if (esValidoEdadJugador(values.fechaNacParticipante, values.categoria) && (resDelegadoEquipos.status === 201)) {
 
             if (await existeFotosDuplicadas(values.fotoDNIParticipante, values.fotoParticipante)) {
                 setAlertColor("error");
@@ -321,9 +334,15 @@ const RegistrarJugador = () => {
                 }
             }
         } else {
-            mostrarErrorEdad();
+            if (resDelegadoEquipos.status === 400) {
+                setAlertColor("error");
+                setAlertContent("No tiene equipos registrados");
+                setOpen(true);
+                borrar();
+            } else {
+                mostrarErrorEdad();
+            }
         }
-
     }
 
     const existeFotosDuplicadas = async (fotoDNI, fotoPerfil) => {

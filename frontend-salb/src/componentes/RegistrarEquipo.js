@@ -185,7 +185,8 @@ const RegistrarEquipo = () => {
       "Partidos_Ganados": 0,
       "Partidos_Perdidos": 0,
       "Cod_Categoria": selectedCategoria.id,
-      "Cod_Partidos": null
+      "Cod_Partidos": null,
+      "Cod_Delegado": 1
     };
     console.log("Equipo: ------> " + JSON.stringify(datos));
 

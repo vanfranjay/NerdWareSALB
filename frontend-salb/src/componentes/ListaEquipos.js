@@ -65,7 +65,7 @@ const ListaEquipos = () => {
                 {Array.from(equipos).map(({ id, Nombre_Equipo, Logo, NumJug, Cod_Categoria }) => (
 
                     <Grid key={id} item xs={4}>
-                        <CardEquipo codigo={id} nombreEquipo={Nombre_Equipo} logo={Logo} numJug={NumJug} categoria={getCategoria(Cod_Categoria)} />
+                        <CardEquipo codigo={id} nombreEquipo={Nombre_Equipo} logo={Logo} numJug={NumJug} categoria={categorias ? getCategoria(Cod_Categoria) : []} />
                     </Grid>
                 ))}
             </Grid>
