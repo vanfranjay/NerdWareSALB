@@ -60,7 +60,8 @@ class JugEqController extends Controller
          $cont = $jugadores->NumJug;
         
         if($cont>11){
-           return "Maximo de jugadores alcanzado";
+            $e="Maximo de jugadores alcanzado";
+            return response()->json(['ErrorMessage' => $e], 400);
         }else{
         $aux =$cont;
         $cont= $aux + 1;
@@ -68,7 +69,8 @@ class JugEqController extends Controller
         return $cont;
         }
         }else{
-            return "No existe el Equipo";
+            $e="No existe el equipo";
+            return response()->json(['ErrorMessage' => $e], 400);
         }
     }
 

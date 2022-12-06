@@ -33,7 +33,8 @@ class DelBolController extends Controller
         return $cont;
      }
     }else{
-        return "No existe el delegado";
+        $e="No existe el delegado";
+        return response()->json(['ErrorMessage' => $e], 400);
     }
 }
     /**
@@ -79,7 +80,8 @@ class DelBolController extends Controller
         $delegado->update(['Contador'=> $cont]);
         return $cont;
         }else{
-            return "No existe el delegado";
+            $e="No existe el delegado";
+            return response()->json(['ErrorMessage' => $e], 400);
         }
     }
 
@@ -111,7 +113,8 @@ class DelBolController extends Controller
         $cont= $delegado->value('Contador');
         $cont= $delegado->Contador;
         if($cont==0){
-            return "No tiene vouchers disponibles";
+            $e="No tiene vouchers disponibles";
+            return response()->json(['ErrorMessage' => $e], 400);
          }else{
             $aux =$cont;
             $cont= $aux -1;
@@ -119,7 +122,8 @@ class DelBolController extends Controller
             return $cont;
          }
         }else{
-            return "No existe el delegado";
+            $e="No existe el delegado";
+            return response()->json(['ErrorMessage' => $e], 400);
         }
     }
 

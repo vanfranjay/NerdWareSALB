@@ -65,7 +65,8 @@ class ParEqController extends Controller
          ->value('');
         //return $EGP. ' '.$EGPG. ' ' . $EGPJ;
         if(is_null($EGP)){
-           return 'espicifique el equipo ganador porfavor';
+            $e="espicifique el equipo ganador porfavor";
+            return response()->json(['ErrorMessage' => $e], 400);
         }
         $EPP = DB::table('equipos')
         ->select( 'equipos.Puntos')
@@ -80,7 +81,8 @@ class ParEqController extends Controller
         ->where('Nombre_Equipo', $Equipo_P)
         ->value('');
         if(is_null($EPP)){
-            return 'espicifique el equipo perdedor porfavor';
+            $e="espicifique el equipo perdedor porfavor";
+            return response()->json(['ErrorMessage' => $e], 400);
          }
          $EPI = DB::table('equipos')
          ->select( 'equipos.id')
