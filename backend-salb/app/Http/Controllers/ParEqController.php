@@ -51,6 +51,18 @@ class ParEqController extends Controller
         ->select( 'equipos.Puntos')
         ->where('Nombre_Equipo', $Equipo_G)
         ->value('');
+        $EGPF = DB::table('equipos')
+        ->select( 'equipos.Puntos_F')
+        ->where('Nombre_Equipo', $Equipo_G)
+        ->value('');
+        $EGPC = DB::table('equipos')
+        ->select( 'equipos.Puntos_C')
+        ->where('Nombre_Equipo', $Equipo_G)
+        ->value('');
+        $EGD = DB::table('equipos')
+        ->select( 'equipos.Dif')
+        ->where('Nombre_Equipo', $Equipo_G)
+        ->value('');
         $EGPG = DB::table('equipos')
         ->select('equipos.Partidos_Ganados')
         ->where('Nombre_Equipo', $Equipo_G)
@@ -69,8 +81,16 @@ class ParEqController extends Controller
             return response()->json(['ErrorMessage' => $e], 400);
         }
         $EPP = DB::table('equipos')
-        ->select( 'equipos.Puntos')
+        ->select( 'equipos.Puntos_F')
         ->where('Nombre_Equipo', $Equipo_P)
+        ->value('');
+        $EPPC = DB::table('equipos')
+        ->select( 'equipos.Puntos_C')
+        ->where('Nombre_Equipo', $Equipo_G)
+        ->value('');
+        $EPD = DB::table('equipos')
+        ->select( 'equipos.Dif')
+        ->where('Nombre_Equipo', $Equipo_G)
         ->value('');
         $EPPP = DB::table('equipos')
         ->select('equipos.Partidos_Perdidos')
@@ -102,15 +122,20 @@ class ParEqController extends Controller
             return response()->json(['ErrorMessage' => $e], 400);
         }
         $partido->save();
-        $aux = $EGP + $Equipo_GP; //Puntos Equipo ganador
+        $aux0 = $EGP + 3; //Puntos
+        $aux = $EGPF + $Equipo_GP; //Puntos encestados Equipo ganador
         $aux1 = $EGPJ + 1; //Partidos jugados
-        $aux2 = $EGPG + 1; //Puntos ganados
-        $EG->update(['Puntos'=> $aux, 'Partidos_Jugados'=> $aux1, 'Partidos_Ganados'=>$aux2]);
+        $aux2 = $EGPG + 1; //Partidos ganados
+        $aux6 = $EGPC + $Equipo_PP; //Canastas en contra
+        $aux7 = $EGD + $Equipo_GP -  $Equipo_PP; //Dif de canastas
+        $EG->update(['Puntos'=> $aux0,'Puntos_F'=> $aux, 'Partidos_Jugados'=> $aux1, 'Partidos_Ganados'=>$aux2,'Puntos_C'=> $aux6,'Dif'=> $aux7]);
         //return $EPP. ' '.$EPPG. ' ' . $EPPJ.'/n'. $EGP. ' '.$EGPG. ' ' . $EGPJ;
-        $aux3 = $EPP + $Equipo_PP; //Puntos Equipo ganador
+        $aux3 = $EPP + $Equipo_PP; //Puntos encestados Equipo perdedor
         $aux4 = $EPPJ + 1; //Partidos jugados
-        $aux5 = $EPPP + 1; //Puntos perdidos
-        $EP->update(['Puntos'=> $aux3, 'Partidos_Jugados'=> $aux4, 'Partidos_Perdidos'=>$aux5]);
+        $aux5 = $EPPP + 1; //Partidos perdidos
+        $aux8 = $EPPC + $Equipo_GP; // Puntos encestados en contra
+        $aux9 = $EPD + $Equipo_PP - $Equipo_GP; // Dif de canastas
+        $EP->update(['Puntos_F'=> $aux3, 'Partidos_Jugados'=> $aux4, 'Partidos_Perdidos'=>$aux5, 'Puntos_C'=> $aux8, 'Dif'=> $aux9]);
         //return  "Se guardo los resultados"; 
         $exito="Datos guardado correctamente";
         return response()->json(['Message' => $exito], 200);//

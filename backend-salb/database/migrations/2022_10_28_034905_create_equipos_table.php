@@ -22,6 +22,9 @@ class CreateEquiposTable extends Migration
             $table->integer('Partidos_Ganados')->default(0);
             $table->integer('Partidos_Perdidos')->default(0);
             $table->integer('Puntos')->default(0);
+            $table->integer('Puntos_F')->default(0);
+            $table->integer('Puntos_C')->default(0);
+            $table->integer('Dif')->default(0);
             $table->integer('NumJug')->default(0);
             $table->timestamps();
             $table->foreignId('Cod_Categoria')
