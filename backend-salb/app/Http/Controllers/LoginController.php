@@ -50,8 +50,11 @@ class LoginController extends Controller
               ->value('Contraseña');
               if($c==$Contraseña){
                 $exito="Bienvenido al sistema";
-              return response()->json(['errorMessage' => $exito ], 200); 
-              }else{
+             // return response()->json(['errorMessage' => $exito ], 200); 
+                 return $c =  DB::table('delegados')
+                 ->where('id', $usuario)
+                 ->get(); 
+            }else{
                 $e="Contraseña no valida, verifique e intentelo de nuevo";
                 return response()->json(['errorMessage' => $e ], 400);
               }
