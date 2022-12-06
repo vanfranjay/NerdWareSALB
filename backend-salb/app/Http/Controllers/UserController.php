@@ -6,13 +6,13 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use JWTAuth;
+use JWta;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Log;
 
 class UserController extends Controller
 {
-    public function authenticate(Request $request)
+   /* public function authenticate(Request $request)
     {
       $credentials = $request->only('email', 'password');
       try {
@@ -65,6 +65,6 @@ class UserController extends Controller
         $token = JWTAuth::fromUser($user);
 
         return response()->json(compact('user','token'),201);
-    }
+    }*/
 }
 

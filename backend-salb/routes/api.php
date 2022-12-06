@@ -29,6 +29,9 @@ use App\Http\Controllers\ToTaController;
 use App\Http\Controllers\EstadisticasController;
 use App\Http\Controllers\Estadisticas1Controller;
 use App\Http\Controllers\JugEq1Controller;
+use App\Http\Controllers\LoginController;
+use Illuminate\Auth\Events\Login;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -68,6 +71,7 @@ Route::resource('tota', ToTaController::class);
 Route::resource('puntos', EstadisticasController::class);
 Route::resource('faltas', Estadisticas1Controller::class);
 Route::resource('jugeq1', JugEq1Controller::class);
+Route::resource('login', LoginController::class);
 //route::resource('auts', AuthController::class);
 
   ////Prefijo V1, todo lo que este dentro de este grupo se accedera escribiendo v1 en el navegador, es decir /api/v1/*
@@ -84,7 +88,7 @@ Route::resource('jugeq1', JugEq1Controller::class);
   //    //Route::delete('products/{id}', [ProductsController::class, 'destroy']);
   //});
   Route::post('register', 'App\Http\Controllers\UserController@register');
-  Route::post('login', 'App\Http\Controllers\UserController@authenticate');
+  //Route::post('login', 'App\Http\Controllers\UserController@authenticate');
   
   Route::group(['middleware' => ['jwt.verify']], function() {
   
