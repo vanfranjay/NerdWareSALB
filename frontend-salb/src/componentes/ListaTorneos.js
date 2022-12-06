@@ -4,9 +4,10 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import "../css/usuario.css";
+import configData from "../config/config.json";
 
 const ListaTorneos = () => {
-  const TORNEOS_URL = process.env.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
+  const TORNEOS_URL = configData.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
   const [torneos, setTorneos] = useState([]);
   const [eliminarTorneo, setEliminarTorneo] = useState(false);
 

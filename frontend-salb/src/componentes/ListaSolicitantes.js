@@ -11,12 +11,13 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import logo from "../imagenes/logoLigaBasket.JPG";
 import emailjs from "@emailjs/browser";
+import configData from "../config/config.json";
 
 const ListaSolicitantes = () => {
   const [solicitudes, setSolicitudes] = useState([]);
   const [delegado, setDelegado] = useState([]);
-  const INC_BOLETA_DELEGADO_URL = process.env.BOLETA_DELEGADO_API_URL || "http://127.0.0.1:8000/api/delbol/"
-  const BOLETAS_URL = process.env.BOLETAS_API_URL || "http://127.0.0.1:8000/api/boletas";
+  const INC_BOLETA_DELEGADO_URL = configData.BOLETA_DELEGADO_API_URL || "http://127.0.0.1:8000/api/delbol/"
+  const BOLETAS_URL = configData.BOLETAS_API_URL || "http://127.0.0.1:8000/api/boletas";
 
   useEffect(() => {
     fetchData();

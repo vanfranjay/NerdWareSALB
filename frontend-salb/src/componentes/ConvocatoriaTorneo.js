@@ -10,9 +10,10 @@ import imgFondo from "../imagenes/balonEnLlamas.png";
 import ConvocatoriaDetalladaTorneo from "./ConvocatoriaDetalladaTorneo";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import VistaPdf from "./VistaPdf";
+import configData from "../config/config.json";
 
 const ConvocatoriaTorneo = () => {
-  const TORNEOS_URL = process.env.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
+  const TORNEOS_URL = configData.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
   const [torneos, setTorneos] = useState([]);
 
   useEffect(() => {

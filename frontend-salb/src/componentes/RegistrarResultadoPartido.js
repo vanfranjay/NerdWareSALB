@@ -83,12 +83,12 @@ const RegistrarResultadoPartido = () => {
     const [alertColor, setAlertColor] = useState('');
     const [alertContent, setAlertContent] = useState('');
 
-    const TORNEOS_URL = process.env.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
-    const PARTIDOS_URL = process.env.PARTIDOS_API_URL || "http://127.0.0.1:8000/api/rol_partidos";
-    const EQUIPOS_URL = process.env.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos";
-    const CATEGORIAS_URL = process.env.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
-    const JUGADOR_EQUIPO_URL = process.env.JUGADOR_EQUIPO_API_URL || "http://127.0.0.1:8000/api/jugeq1";
-    const PARTIDO_EQUIPO_URL = process.env.PARTIDO_EQUIPO_API_URL || "http://127.0.0.1:8000/api/pareq";
+    const TORNEOS_URL = configData.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
+    const PARTIDOS_URL = configData.PARTIDOS_API_URL || "http://127.0.0.1:8000/api/rol_partidos";
+    const EQUIPOS_URL = configData.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos";
+    const CATEGORIAS_URL = configData.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
+    const JUGADOR_EQUIPO_URL = configData.JUGADOR_EQUIPO_API_URL || "http://127.0.0.1:8000/api/jugeq1";
+    const PARTIDO_EQUIPO_URL = configData.PARTIDO_EQUIPO_API_URL || "http://127.0.0.1:8000/api/pareq";
 
     const [categorias, setCategorias] = useState([]);
     const [torneo, setTorneo] = useState([]);

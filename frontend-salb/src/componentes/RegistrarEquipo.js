@@ -43,10 +43,10 @@ const RegistrarEquipo = () => {
   const [categorias, setCategorias] = useState([]);
   const [delegado, setDelegado] = useState([]);
 
-  const EQUIPOS_URL = process.env.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos";
-  const DELEGADO_URL = process.env.DELEGADO_API_URL || "http://127.0.0.1:8000/api/delegados";
-  const DEC_BOLETA_DELEGADO_URL = process.env.BOLETA_DELEGADO_API_URL || "http://127.0.0.1:8000/api/delbol/";
-  const CATEGORIAS_URL = process.env.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
+  const EQUIPOS_URL = configData.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos";
+  const DELEGADO_URL = configData.DELEGADO_API_URL || "http://127.0.0.1:8000/api/delegados";
+  const DEC_BOLETA_DELEGADO_URL = configData.BOLETA_DELEGADO_API_URL || "http://127.0.0.1:8000/api/delbol/";
+  const CATEGORIAS_URL = configData.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {

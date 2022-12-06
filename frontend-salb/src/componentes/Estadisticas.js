@@ -17,12 +17,13 @@ import { FormControl } from '@mui/material';
 import { InputLabel } from '@mui/material';
 import { Select } from '@mui/material';
 import { MenuItem } from '@mui/material';
+import configData from "../config/config.json";
 
 const Estadisticas = () => {
 
-    const puntosURL = process.env.PUNTOS_API_URL || "http://127.0.0.1:8000/api/puntos/";
-    const faltasURL = process.env.FALTAS_API_URL || "http://127.0.0.1:8000/api/faltas/";
-    const categoriasURL = process.env.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
+    const puntosURL = configData.PUNTOS_API_URL || "http://127.0.0.1:8000/api/puntos/";
+    const faltasURL = configData.FALTAS_API_URL || "http://127.0.0.1:8000/api/faltas/";
+    const categoriasURL = configData.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
     const [categorias, setCategorias] = useState([]);
     const [puntos, setPuntos] = useState([]);
     const [faltas, setFaltas] = useState([]);

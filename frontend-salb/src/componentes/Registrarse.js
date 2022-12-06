@@ -43,7 +43,7 @@ import "moment/locale/es";
 
 const Registrarse = () => {
 
-  const DELEGADO_URL = process.env.DELEGADO_API_URL || "http://127.0.0.1:8000/api/delegados";
+  const DELEGADO_URL = configData.DELEGADO_API_URL || "http://127.0.0.1:8000/api/delegados";
 
   const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
   const FILE_SIZE = 7340032; // 7MB de tamaño del archivo

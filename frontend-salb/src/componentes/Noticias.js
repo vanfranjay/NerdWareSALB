@@ -4,10 +4,11 @@ import { Typography } from '@mui/material';
 import CardNoticia from './CardNoticia';
 import axios from "axios";
 import "../css/styleNavBar.css";
+import configData from "../config/config.json";
 
 const Noticias = () => {
 
-    const NOTICIAS_URL = process.env.NOTICIAS_API_URL || "http://127.0.0.1:8000/api/noticias";
+    const NOTICIAS_URL = configData.NOTICIAS_API_URL || "http://127.0.0.1:8000/api/noticias";
     const [noticias, setNoticias] = useState([]);
 
     const getNoticias = async () => {
