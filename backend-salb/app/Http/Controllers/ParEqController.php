@@ -43,9 +43,10 @@ class ParEqController extends Controller
         $Equipo_GP = $request['Puntos_Ganador'];
         $Equipo_P = $request['E_Perdedor'];
         $Equipo_PP = $request['Puntos_Perdedor']; 
+        $Fecha = $request['Fecha_Partido'];
         //return $Equipo_GP . $Equipo_PP;
         $partido = new Partido($request->all());
-        $partido->save();
+        
         $EGP = DB::table('equipos')
         ->select( 'equipos.Puntos')
         ->where('Nombre_Equipo', $Equipo_G)
@@ -87,6 +88,18 @@ class ParEqController extends Controller
          ->value('');
         $EG = Equipo::find($EGI);
         $EP = Equipo::find($EPI);
+        $comparar=  DB::table('partidos')
+        ->select( 'partidos.id')
+        ->where('E_Ganador', $Equipo_G)
+        ->where('E_Perdedor', $Equipo_P)
+        ->where('Fecha_Partido', $Fecha)
+        ->value('');
+        //return $comparar;
+        if(!is_null($comparar)){
+            $e="El resultado del partido ya se guardo anteriormente";
+            return response()->json(['ErrorMessage' => $e], 400);
+        }
+        $partido->save();
         $aux = $EGP + $Equipo_GP; //Puntos Equipo ganador
         $aux1 = $EGPJ + 1; //Partidos jugados
         $aux2 = $EGPG + 1; //Puntos ganados
@@ -96,7 +109,9 @@ class ParEqController extends Controller
         $aux4 = $EPPJ + 1; //Partidos jugados
         $aux5 = $EPPP + 1; //Puntos perdidos
         $EP->update(['Puntos'=> $aux3, 'Partidos_Jugados'=> $aux4, 'Partidos_Perdidos'=>$aux5]);
-        return  "Se guardo los resultados"; //
+        //return  "Se guardo los resultados"; 
+        $exito="Datos guardado correctamente";
+        return response()->json(['Message' => $exito], 200);//
     }
 
     /**
