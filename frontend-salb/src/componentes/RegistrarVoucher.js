@@ -36,9 +36,9 @@ import "moment/locale/es";
 
 const RegistrarVoucher = () => {
 
+    const BOLETAS_URL = process.env.BOLETAS_API_URL || "http://127.0.0.1:8000/api/boletas";
     const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "application/pdf"];
     const FILE_SIZE = 7340032; // 7MB de tamaño del archivo
-    const urlIncVoucherDelegado = "http://127.0.0.1:8000/api/delbol/"
 
 
     //Obtener fechas de convocatoria de backend
@@ -57,8 +57,6 @@ const RegistrarVoucher = () => {
     const [fechaFinPreins, setFechaFinPreins] = useState([]);
     const [fechaIniIns, setFechaIniIns] = useState([]);
     const [fechaFinIns, setFechaFinIns] = useState([]);
-
-    const postVoucherURL = configData.REGISTER_VOUCHER_API_URL;
 
     const [selectedFile, setSelectedFile] = useState();
 
@@ -261,7 +259,7 @@ const RegistrarVoucher = () => {
         // Validar fechas
 
         if (esFechaValida(formatedFechaDeposito) && esMontoValido(formatedFechaDeposito, values.monto)) {
-            const respuestaJson = await postVoucher(postVoucherURL, datos);
+            const respuestaJson = await postVoucher(BOLETAS_URL, datos);
 
             borrar();
             //Validadando si se envio correctamente o hubo algun fallo

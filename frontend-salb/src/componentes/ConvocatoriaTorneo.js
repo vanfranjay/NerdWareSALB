@@ -12,6 +12,7 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import VistaPdf from "./VistaPdf";
 
 const ConvocatoriaTorneo = () => {
+  const TORNEOS_URL = process.env.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
   const [torneos, setTorneos] = useState([]);
 
   useEffect(() => {
@@ -20,7 +21,7 @@ const ConvocatoriaTorneo = () => {
 
   //console.log("Loading...");
   const obtenerTorneo = async () => {
-    const resultado = await axios.get("http://127.0.0.1:8000/api/torneos");
+    const resultado = await axios.get(TORNEOS_URL);
     setTorneos([...resultado.data]);
     //console.log(resultado.data);
   };
@@ -115,7 +116,7 @@ const ConvocatoriaTorneo = () => {
           return "Diciembre";
       }
     }
-    else{
+    else {
       const date = new Date(fecha);
       const mesActual = date.getMonth() + 1;
       switch (mesActual) {

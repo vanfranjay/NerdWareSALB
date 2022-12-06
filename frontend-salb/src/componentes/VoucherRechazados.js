@@ -11,6 +11,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 const VaucherHabilitados = () => {
+  const BOLETAS_URL = process.env.BOLETAS_API_URL || "http://127.0.0.1:8000/api/boletas";
   const [solicitudes, setSolicitudes] = useState([]);
 
   useEffect(() => {
@@ -19,7 +20,7 @@ const VaucherHabilitados = () => {
 
   //console.log("Loading...");
   const fetchData = async () => {
-    const resultado = await axios.get("http://127.0.0.1:8000/api/boletas");
+    const resultado = await axios.get(BOLETAS_URL);
     setSolicitudes([...resultado.data]);
     //console.log(resultado.data);
   };

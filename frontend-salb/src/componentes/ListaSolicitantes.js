@@ -15,7 +15,8 @@ import emailjs from "@emailjs/browser";
 const ListaSolicitantes = () => {
   const [solicitudes, setSolicitudes] = useState([]);
   const [delegado, setDelegado] = useState([]);
-  const urlIncVoucherDelegado = "http://127.0.0.1:8000/api/delbol/"
+  const INC_BOLETA_DELEGADO_URL = process.env.BOLETA_DELEGADO_API_URL || "http://127.0.0.1:8000/api/delbol/"
+  const BOLETAS_URL = process.env.BOLETAS_API_URL || "http://127.0.0.1:8000/api/boletas";
 
   useEffect(() => {
     fetchData();
@@ -23,7 +24,7 @@ const ListaSolicitantes = () => {
 
   //console.log("Loading...");
   const fetchData = async () => {
-    const resultado = await axios.get("http://127.0.0.1:8000/api/boletas");
+    const resultado = await axios.get(BOLETAS_URL);
     setSolicitudes([...resultado.data]);
     console.log(resultado.data);
   };
@@ -31,7 +32,7 @@ const ListaSolicitantes = () => {
   const updateDelegado = async (Cod_Boleta, Estado) => {
     try {
       const { data } = await axios.put(
-        `http://127.0.0.1:8000/api/boletas/${Cod_Boleta}`,
+        `${BOLETAS_URL}/${Cod_Boleta}`,
         {
           Cod_Boleta,
           Estado,
@@ -49,7 +50,6 @@ const ListaSolicitantes = () => {
   const incVoucherDelegado = async (url) => {
     const response = await fetch(url, {
       method: 'GET',
-      //body: JSON.stringify(datos),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -294,7 +294,7 @@ const ListaSolicitantes = () => {
                         {
                           updateDelegado(solicitud.Cod_Boleta, 1);
                           sendEmail();
-                          incVoucherDelegado(urlIncVoucherDelegado + 1);
+                          incVoucherDelegado(INC_BOLETA_DELEGADO_URL + 1);
                         }
                       }}
                       autoFocus

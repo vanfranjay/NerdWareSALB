@@ -47,8 +47,9 @@ const RegistrarPartido = () => {
     const [fechaFinTorneo, setFechaFinTorneo] = useState([]);
     const [equipos, setEquipos] = useState([]);
 
-    const registrarPartidoURL = "http://127.0.0.1:8000/api/rol_partidos";
-    const equiposURL = "http://127.0.0.1:8000/api/equipos";
+    const EQUIPOS_URL = process.env.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos";
+    const TORNEOS_URL = process.env.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
+    const PARTIDOS_URL = process.env.PARTIDOS_API_URL || "http://127.0.0.1:8000/api/rol_partidos";
 
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -62,7 +63,7 @@ const RegistrarPartido = () => {
     };
 
     const getTorneo = async () => {
-        await axios.get(configData.TORNEO_API_URL)
+        await axios.get(TORNEOS_URL)
             .then(response => {
                 //setTorneo(response.data);
                 setFechaFinTorneo(response.data[0].Fecha_Fin_Torneo);
@@ -74,7 +75,7 @@ const RegistrarPartido = () => {
     }
 
     const getEquipos = async () => {
-        await axios.get(equiposURL)
+        await axios.get(EQUIPOS_URL)
             .then(response => {
                 setEquipos(response.data);
             }).catch(error => {
@@ -159,7 +160,7 @@ const RegistrarPartido = () => {
 
         if (values.equipoA !== values.equipoB) {
 
-            const respuestaJson = await postPartido(registrarPartidoURL, datos);
+            const respuestaJson = await postPartido(PARTIDOS_URL, datos);
 
             console.log("Response:------> " + respuestaJson.status);
             if (respuestaJson.status === 201) {
@@ -174,7 +175,7 @@ const RegistrarPartido = () => {
                 var errorRes = await respuestaJson.json();
                 console.log("Error Response---" + JSON.stringify(errorRes));
 
-                if (errorRes.errorCode === "23505") {
+                if (errorRes.errorMessage === "Ya se registro el partido") {
                     setAlertColor("error");
                     setAlertContent("El partido ya fue registrado");
                     setOpen(true);

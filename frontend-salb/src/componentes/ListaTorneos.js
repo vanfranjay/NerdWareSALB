@@ -6,6 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import "../css/usuario.css";
 
 const ListaTorneos = () => {
+  const TORNEOS_URL = process.env.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
   const [torneos, setTorneos] = useState([]);
   const [eliminarTorneo, setEliminarTorneo] = useState(false);
 
@@ -15,15 +16,15 @@ const ListaTorneos = () => {
 
   //console.log("Loading...");
   const obtenerTorneo = async () => {
-    const resultado = await axios.get("http://127.0.0.1:8000/api/torneos");
+    const resultado = await axios.get(TORNEOS_URL);
     setTorneos([...resultado.data]);
     //console.log(...resultado.data);
   };
   function deletPost(id) {
-      axios.delete(`http://127.0.0.1:8000/api/torneos/${id}`);
-      obtenerTorneo();
-      setEliminarTorneo(true);
-      setTimeout(() => setEliminarTorneo(false), 3000);      
+    axios.delete(`${TORNEOS_URL}/${id}`);
+    obtenerTorneo();
+    setEliminarTorneo(true);
+    setTimeout(() => setEliminarTorneo(false), 3000);
   }
   return (
     <>

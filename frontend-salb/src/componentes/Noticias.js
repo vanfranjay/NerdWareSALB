@@ -7,11 +7,11 @@ import "../css/styleNavBar.css";
 
 const Noticias = () => {
 
-    const baseUrl = "http://127.0.0.1:8000/api/noticias";
+    const NOTICIAS_URL = process.env.NOTICIAS_API_URL || "http://127.0.0.1:8000/api/noticias";
     const [noticias, setNoticias] = useState([]);
 
     const getNoticias = async () => {
-        await axios.get(baseUrl)
+        await axios.get(NOTICIAS_URL)
             .then(response => {
                 setNoticias(response.data);
             }).catch(error => {

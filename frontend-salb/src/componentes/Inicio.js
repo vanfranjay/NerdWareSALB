@@ -9,6 +9,7 @@ import { PDFViewer } from "@react-pdf/renderer";
 import "../css/convocatoria.css";
 
 const Inicio = () => {
+  const TORNEOS_URL = process.env.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
   const [torneos, setTorneos] = useState([]);
 
   React.useEffect(() => {
@@ -17,7 +18,7 @@ const Inicio = () => {
 
   //console.log("Loading...");
   const obtenerTorneo = async () => {
-    const resultado = await axios.get("http://127.0.0.1:8000/api/torneos");
+    const resultado = await axios.get(TORNEOS_URL);
     setTorneos([...resultado.data]);
   };
 
