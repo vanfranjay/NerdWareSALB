@@ -258,14 +258,8 @@ const RegistrarResultadoPartido = () => {
             .string('Ingrese el Lugar')
             .min(2, 'Lugar debe ser mínimo 2 caracteres')
             .max(255, "Lugar debe ser máximo 255 caracteres")
-            .required('Lugar es requerido'),
-        categoria: Yup
-            .string('Ingrese la categoria')
-            .required('Categoria es requerido'),
-        observaciones: Yup
-            .string('Ingrese las observaciones')
-            .min(2, 'Observaciones debe ser mínimo 2 caracteres')
-            .max(255, "Observaciones debe ser máximo 255 caracteres")
+            .required('Lugar es requerido')
+       
 
     });
 
@@ -275,9 +269,9 @@ const RegistrarResultadoPartido = () => {
             equipoPerdedor: '',
             entrenadorEquipoGanador: '',
             entrenadorEquipoPerdedor: '',
-            categoria: '',
+         
             lugar: '',
-            observaciones: '',
+           
             fechaPartido: null,
             horaInicial: null,
             horaFinal: null,
@@ -335,7 +329,7 @@ const RegistrarResultadoPartido = () => {
             "E_Perdedor": values.equipoPerdedor,
             "Puntos_Ganador": values.puntosEquipoGanador,
             "Puntos_Perdedor": values.puntosEquipoPerdedor,
-            "Categoria": values.categoria,
+            "Categoria": "+35",
             "Lugar": values.lugar,
             "Campeonato": "LMB",
             "Entrenador_G": values.entrenadorEquipoGanador,
@@ -372,6 +366,21 @@ const RegistrarResultadoPartido = () => {
                 if (errorRes.errorCode === "23505") {
                     setAlertColor("error");
                     setAlertContent("Los resultados de partido ya fueron registrados");
+                    setOpen(true);
+                }
+                if (errorRes.ErrorMessage === "Seleccione los equipos de la misma categoria") {
+                    setAlertColor("error");
+                    setAlertContent("Seleccione los equipos de la misma categoria");
+                    setOpen(true);
+                }
+                if (errorRes.ErrorMessage === "Ponga el mayor puntaje al equipo ganador") {
+                    setAlertColor("error");
+                    setAlertContent("Ponga el mayor puntaje al equipo ganador");
+                    setOpen(true);
+                }
+                if (errorRes.ErrorMessage === "El resultado del partido ya se guardo anteriormente") {
+                    setAlertColor("error");
+                    setAlertContent("El resultado del partido ya se guardo anteriormente");
                     setOpen(true);
                 }
             }
@@ -748,80 +757,7 @@ const RegistrarResultadoPartido = () => {
                     </Grid>
 
 
-                    <Grid item xs={12} sm={6}>
-                        <FormControl variant="standard" fullWidth required>
-                            <InputLabel
-                                InputLabelProps={{
-                                    style: { color: '#ffff' },
-                                }}
-                                sx={{
-                                    color: 'white',
-                                    '& .MuiInputLabel-root': {
-                                        color: 'white'
-                                    },
-                                    '& .MuiFormLabelroot': {
-                                        color: 'white'
-                                    }
-                                }}>Categoria</InputLabel>
-                            <Select
-
-                                id="categoria"
-                                name="categoria"
-                                label="Categoria"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.categoria}
-                                error={touched.categoria && Boolean(errors.categoria)}
-                                helperText={touched.categoria && errors.categoria}
-                                sx={{
-                                    '& .MuiInputBase-input': {
-                                        color: 'white'
-
-                                    },
-                                    '& .MuiSelect-iconStandard': {
-                                        color: 'white'
-                                    }
-                                }}
-                            >
-                                {categorias.map(({ id, Categoria }, index) => (
-                                    <MenuItem key={index} value={Categoria}>
-                                        {Categoria}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                            {touched.categoria && errors.categoria ? (
-                                <FormHelperText
-                                    sx={{ color: "#d32f2f", marginLeft: "!important" }}
-                                >
-                                    {touched.categoria && errors.categoria}
-                                </FormHelperText>
-                            ) : null}
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            id="observaciones"
-                            name="observaciones"
-                            label="Observaciones"
-                            fullWidth
-                            variant="standard"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.observaciones}
-                            error={touched.observaciones && Boolean(errors.observaciones)}
-                            helperText={touched.observaciones && errors.observaciones}
-                            multiline
-                            InputLabelProps={{
-                                style: { color: "#ffff" },
-                            }}
-                            sx={{
-                                color: "white",
-                                "& .MuiInputBase-root": { color: "white" },
-                            }}
-                        />
-                    </Grid>
-
+                   
 
                     <Grid item xs={12} sm={6}>
                         <Typography variant="h6"

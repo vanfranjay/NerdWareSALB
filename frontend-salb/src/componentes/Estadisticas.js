@@ -3,7 +3,7 @@ import { Grid } from '@mui/material';
 import { Typography } from '@mui/material';
 import axios from "axios";
 import "../css/styleNavBar.css";
-import configData from "../config/config.json";
+//import configData from "../config/config.json";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';

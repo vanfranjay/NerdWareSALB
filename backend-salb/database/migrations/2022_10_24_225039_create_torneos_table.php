@@ -15,8 +15,8 @@ class CreateTorneosTable extends Migration
     {
         Schema::create('torneos', function (Blueprint $table) {
             $table->id();
-            $table->string('Campeon');
-            $table->string('Subcampeon');
+            $table->string('Campeon')->nullable();
+            $table->string('Subcampeon')->nullable();
             $table->date('Fecha_Ini_Convocatoria')->default('2022-09-14');
             $table->date('Fecha_Fin_Convocatoria')->default('2022-10-14');
             $table->date('Fecha_Ini_Preinscripcion')->default('2022-09-14');

@@ -46,7 +46,10 @@ class ParEqController extends Controller
         $Fecha = $request['Fecha_Partido'];
         //return $Equipo_GP . $Equipo_PP;
         $partido = new Partido($request->all());
-        
+        if($Equipo_GP<$Equipo_PP){
+            $e="Ponga el mayor puntaje al equipo ganador";
+            return response()->json(['ErrorMessage' => $e], 400);
+        }
         $EGP = DB::table('equipos')
         ->select( 'equipos.Puntos')
         ->where('Nombre_Equipo', $Equipo_G)
@@ -75,6 +78,10 @@ class ParEqController extends Controller
          ->select( 'equipos.id')
          ->where('Nombre_Equipo', $Equipo_G)
          ->value('');
+         $EGCC = DB::table('equipos')
+         ->select( 'equipos.Cod_Categoria')
+         ->where('Nombre_Equipo', $Equipo_G)
+         ->value('');
         //return $EGP. ' '.$EGPG. ' ' . $EGPJ;
         if(is_null($EGP)){
             $e="espicifique el equipo ganador porfavor";
@@ -86,11 +93,11 @@ class ParEqController extends Controller
         ->value('');
         $EPPC = DB::table('equipos')
         ->select( 'equipos.Puntos_C')
-        ->where('Nombre_Equipo', $Equipo_G)
+        ->where('Nombre_Equipo', $Equipo_P)
         ->value('');
         $EPD = DB::table('equipos')
         ->select( 'equipos.Dif')
-        ->where('Nombre_Equipo', $Equipo_G)
+        ->where('Nombre_Equipo', $Equipo_P)
         ->value('');
         $EPPP = DB::table('equipos')
         ->select('equipos.Partidos_Perdidos')
@@ -100,8 +107,16 @@ class ParEqController extends Controller
         ->select( 'equipos.Partidos_Jugados')
         ->where('Nombre_Equipo', $Equipo_P)
         ->value('');
+        $EPCC = DB::table('equipos')
+         ->select( 'equipos.Cod_Categoria')
+         ->where('Nombre_Equipo', $Equipo_P)
+         ->value('');
         if(is_null($EPP)){
             $e="espicifique el equipo perdedor porfavor";
+            return response()->json(['ErrorMessage' => $e], 400);
+         }
+         if($EGCC!=$EPCC){
+            $e="Seleccione los equipos de la misma categoria";
             return response()->json(['ErrorMessage' => $e], 400);
          }
          $EPI = DB::table('equipos')
@@ -127,14 +142,22 @@ class ParEqController extends Controller
         $aux1 = $EGPJ + 1; //Partidos jugados
         $aux2 = $EGPG + 1; //Partidos ganados
         $aux6 = $EGPC + $Equipo_PP; //Canastas en contra
-        $aux7 = $EGD + $Equipo_GP -  $Equipo_PP; //Dif de canastas
+        if($EGD<0){
+            $aux7 =  $Equipo_GP - $EGD -  $Equipo_PP; // Dif de canastas negativo
+        }else{
+            $aux7 = $EGD + $Equipo_GP -  $Equipo_PP; //Dif de canastas  
+        }
         $EG->update(['Puntos'=> $aux0,'Puntos_F'=> $aux, 'Partidos_Jugados'=> $aux1, 'Partidos_Ganados'=>$aux2,'Puntos_C'=> $aux6,'Dif'=> $aux7]);
         //return $EPP. ' '.$EPPG. ' ' . $EPPJ.'/n'. $EGP. ' '.$EGPG. ' ' . $EGPJ;
         $aux3 = $EPP + $Equipo_PP; //Puntos encestados Equipo perdedor
         $aux4 = $EPPJ + 1; //Partidos jugados
         $aux5 = $EPPP + 1; //Partidos perdidos
         $aux8 = $EPPC + $Equipo_GP; // Puntos encestados en contra
-        $aux9 = $EPD + $Equipo_PP - $Equipo_GP; // Dif de canastas
+        if($EPD<0){
+          $aux9 =  $Equipo_PP - $EPD - $Equipo_GP; // Dif de canastas
+        }else{
+            $aux9 = $EPD + $Equipo_PP - $Equipo_GP; // Dif de canastas
+        }
         $EP->update(['Puntos_F'=> $aux3, 'Partidos_Jugados'=> $aux4, 'Partidos_Perdidos'=>$aux5, 'Puntos_C'=> $aux8, 'Dif'=> $aux9]);
         //return  "Se guardo los resultados"; 
         $exito="Datos guardado correctamente";

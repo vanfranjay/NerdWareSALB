@@ -3,7 +3,7 @@ import { Grid } from '@mui/material';
 import { Typography } from '@mui/material';
 import axios from "axios";
 import "../css/styleNavBar.css";
-import configData from "../config/config.json";
+//import configData from "../config/config.json";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -117,10 +117,13 @@ const Puntuaciones = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell>Equipo</TableCell>
-                            <TableCell align="right">Partidos Jugados</TableCell>
-                            <TableCell align="right">Partidos Ganados</TableCell>
-                            <TableCell align="right">Partidos Perdidos</TableCell>
-                            <TableCell align="right">Puntos</TableCell>
+                            <TableCell align="right">PJ</TableCell>
+                            <TableCell align="right">G</TableCell>
+                            <TableCell align="right">P</TableCell>
+                            <TableCell align="right">Pts+</TableCell>
+                            <TableCell align="right">Pts-</TableCell>
+                            <TableCell align="right">Dif</TableCell>
+                            <TableCell align="right">Pts</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -138,6 +141,9 @@ const Puntuaciones = () => {
                                 <TableCell align="right">{puntuacion.Partidos_Jugados}</TableCell>
                                 <TableCell align="right">{puntuacion.Partidos_Ganados}</TableCell>
                                 <TableCell align="right">{puntuacion.Partidos_Perdidos}</TableCell>
+                                <TableCell align="right">{puntuacion.Puntos_F}</TableCell>
+                                <TableCell align="right">{puntuacion.Puntos_C}</TableCell>
+                                <TableCell align="right">{puntuacion.Dif}</TableCell>
                                 <TableCell align="right">{puntuacion.Puntos}</TableCell>
                             </TableRow>
                         ))}

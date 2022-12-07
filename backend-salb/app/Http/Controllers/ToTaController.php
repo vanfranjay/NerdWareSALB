@@ -67,9 +67,10 @@ class ToTaController extends Controller
        */  
       return DB::table('equipos')
             ->join('categorias', 'categorias.id', '=', 'equipos.Cod_Categoria')
-            ->select('equipos.Nombre_Equipo', 'equipos.Logo', 'equipos.Partidos_Jugados', 'equipos.Partidos_Ganados', 'equipos.Partidos_Perdidos' , 'equipos.Puntos')
+            ->select('equipos.Nombre_Equipo', 'equipos.Logo', 'equipos.Partidos_Jugados', 'equipos.Partidos_Ganados', 'equipos.Partidos_Perdidos' ,'equipos.Puntos_F', 'equipos.Puntos_C', 'equipos.Dif', 'equipos.Puntos')
             ->where('categorias.Categoria', $id)
             ->orderBy('Puntos' , 'desc')
+            ->orderBy('Dif', 'desc')
             ->get(); 
     }
 

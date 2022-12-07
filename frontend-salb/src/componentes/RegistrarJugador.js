@@ -385,27 +385,8 @@ const RegistrarJugador = () => {
         setTimeout(() => navigate("/registrar-equipo"), 3000);
     }
 
-    const finalizarRegistro = () => {
-        var jugadores = parseInt(localStorage.getItem('jugadoresReg'));
-        if (jugadores < 8) {
-            setAlertColor("error");
-            setAlertContent("No puede registrar menos 8 jugadores");
-            setOpen(true);
-        }
-        if (jugadores > 12) {
-            setAlertColor("error");
-            setAlertContent("No se puede registrar mas de 12 jugadores");
-            setOpen(true);
-        }
-        if (jugadores > 7 && jugadores < 13) {
-            setAlertColor("success");
-            setAlertContent("Se registro a los " + jugadores + " exitosamente");
-            setOpen(true);
-            localStorage.setItem('jugadoresReg', 0);
-            borrar();
-            delayAndGo();
-        }
-    }
+   
+    
 
     function borrar() {
         document.getElementById("fotoDNIParticipante").value = "";
@@ -848,20 +829,7 @@ const RegistrarJugador = () => {
                         </Button>
 
                     </Stack>
-                    <Stack m={5}
-                        direction="row"
-                        spacing={3}
-                        justifyContent="center"
-                        alignItems="center">
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            onClick={finalizarRegistro}
-                            type="submit"
-                            sx={{ width: '25%' }}
-                        >Finalizar Registro
-                        </Button>
-                    </Stack>
+                   
                     <div>
                         <table id="tabla" className="table table-dark"></table>
                     </div>
