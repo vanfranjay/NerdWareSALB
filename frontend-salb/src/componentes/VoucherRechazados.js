@@ -9,9 +9,10 @@ import Typography from "@mui/material/Typography";
 import "../css/styleVaucherHabilitadosRechazados.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import configData from "../config/config.json";
 
 const VaucherHabilitados = () => {
-  const BOLETAS_URL = process.env.BOLETAS_API_URL || "http://127.0.0.1:8000/api/boletas";
+  const BOLETAS_URL = configData.BOLETAS_API_URL || "http://127.0.0.1:8000/api/boletas";
   const [solicitudes, setSolicitudes] = useState([]);
 
   useEffect(() => {

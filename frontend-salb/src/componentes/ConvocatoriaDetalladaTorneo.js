@@ -10,9 +10,10 @@ import registrarEquipo from "../imagenes/registrarEquipo.JPG";
 import registrarVoucher from "../imagenes/registrarVoucher.JPG";
 import correoVerificación from "../imagenes/correoVerificación.JPG";
 import logo from "../imagenes/logoLigaBasket1.png";
+import configData from "../config/config.json";
 
 const ConvocatoriaDetalladaTorneo = () => {
-  const TORNEOS_URL = process.env.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
+  const TORNEOS_URL = configData.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
   const [torneos, setTorneos] = useState([]);
 
   useEffect(() => {

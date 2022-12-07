@@ -18,9 +18,10 @@ import { useState, useEffect } from "react";
 import "../css/equipo.css";
 import { Box } from "@mui/material";
 import ShieldIcon from '@mui/icons-material/Shield';
+import configData from "../config/config.json";
 
 export default function AlertDialog() {
-  const JUGADORES_URL = process.env.JUGADORES_API_URL || "http://127.0.0.1:8000/api/jugadores";
+  const JUGADORES_URL = configData.JUGADORES_API_URL || "http://127.0.0.1:8000/api/jugadores";
   const [open, setOpen] = React.useState(false);
   const [idJugador, setIdJugador] = React.useState(-1);
 

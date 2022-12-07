@@ -48,11 +48,11 @@ const RegistrarJugador = () => {
     var codCategoria = localStorage.getItem("categoriaId");
     var categoriaEquipo = localStorage.getItem("categoriaValue");
 
-    const EQUIPOS_URL = process.env.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos";
-    const JUGADORES_URL = process.env.JUGADORES_API_URL || "http://127.0.0.1:8000/api/jugadores";
-    const EQUIPO_DELEGADO_URL = process.env.EQUIPO_DELEGADO_API_URL || "http://127.0.0.1:8000/api/deleq/";
-    const JUGADOR_EQUIPO_URL = process.env.JUGADOR_EQUIPO_API_URL || "http://127.0.0.1:8000/api/jugeq/";
-    const CATEGORIAS_URL = process.env.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
+    const EQUIPOS_URL = configData.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos";
+    const JUGADORES_URL = configData.JUGADORES_API_URL || "http://127.0.0.1:8000/api/jugadores";
+    const EQUIPO_DELEGADO_URL = configData.EQUIPO_DELEGADO_API_URL || "http://127.0.0.1:8000/api/deleq/";
+    const JUGADOR_EQUIPO_URL = configData.JUGADOR_EQUIPO_API_URL || "http://127.0.0.1:8000/api/jugeq/";
+    const CATEGORIAS_URL = configData.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {

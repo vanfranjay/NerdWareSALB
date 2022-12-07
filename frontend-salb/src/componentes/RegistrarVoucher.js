@@ -36,7 +36,7 @@ import "moment/locale/es";
 
 const RegistrarVoucher = () => {
 
-    const BOLETAS_URL = process.env.BOLETAS_API_URL || "http://127.0.0.1:8000/api/boletas";
+    const BOLETAS_URL = configData.BOLETAS_API_URL || "http://127.0.0.1:8000/api/boletas";
     const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "application/pdf"];
     const FILE_SIZE = 7340032; // 7MB de tamaño del archivo
 

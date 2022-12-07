@@ -7,9 +7,10 @@ import { useState } from "react";
 import axios from "axios";
 import { PDFViewer } from "@react-pdf/renderer";
 import "../css/convocatoria.css";
+import configData from "../config/config.json";
 
 const Inicio = () => {
-  const TORNEOS_URL = process.env.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
+  const TORNEOS_URL = configData.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
   const [torneos, setTorneos] = useState([]);
 
   React.useEffect(() => {

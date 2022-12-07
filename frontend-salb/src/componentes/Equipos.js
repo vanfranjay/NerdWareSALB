@@ -16,9 +16,10 @@ import Jugadores from "./Jugadores";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Grid from '@mui/material/Grid';
+import configData from "../config/config.json";
 
 export default function MediaCard() {
-  const EQUIPOS_URL = process.env.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos";
+  const EQUIPOS_URL = configData.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos";
   const [age, setAge] = React.useState("");
   const handleChange = (event) => {
     setAge(event.target.value);

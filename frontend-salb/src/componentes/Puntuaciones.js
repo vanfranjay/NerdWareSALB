@@ -16,11 +16,12 @@ import { FormControl } from '@mui/material';
 import { InputLabel } from '@mui/material';
 import { Select } from '@mui/material';
 import { MenuItem } from '@mui/material';
+import configData from "../config/config.json";
 
 const Puntuaciones = () => {
 
-    const PUNTUACIONES_URL = process.env.PUNTUACIONES_API_URL || "http://127.0.0.1:8000/api/tota/";
-    const CATEGORIAS_URL = process.env.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
+    const PUNTUACIONES_URL = configData.PUNTUACIONES_API_URL || "http://127.0.0.1:8000/api/tota/";
+    const CATEGORIAS_URL = configData.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
     const [puntuaciones, setPuntuaciones] = useState([]);
     const [categorias, setCategorias] = useState([]);
     const [categoria, setCategoria] = useState([]);

@@ -8,7 +8,7 @@ import configData from "../config/config.json";
 
 const Partidos = () => {
 
-    const PARTIDOS_URL = process.env.PARTIDOS_API_URL || "http://127.0.0.1:8000/api/rol_partidos";
+    const PARTIDOS_URL = configData.PARTIDOS_API_URL || "http://127.0.0.1:8000/api/rol_partidos";
     const [partidos, setPartidos] = useState([]);
 
 

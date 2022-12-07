@@ -8,8 +8,8 @@ import configData from "../config/config.json";
 
 const ListaEquipos = () => {
 
-    const EQUIPOS_URL = process.env.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos"
-    const CATEGORIAS_URL = process.env.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias"
+    const EQUIPOS_URL = configData.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos"
+    const CATEGORIAS_URL = configData.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias"
 
     const [equipos, setEquipos] = useState([]);
     const [categorias, setCategorias] = useState([]);
