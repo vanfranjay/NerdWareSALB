@@ -51,7 +51,7 @@ const RegistrarJugador = () => {
     const EQUIPOS_URL = configData.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos";
     const JUGADORES_URL = configData.JUGADORES_API_URL || "http://127.0.0.1:8000/api/jugadores";
     const EQUIPO_DELEGADO_URL = configData.EQUIPO_DELEGADO_API_URL || "http://127.0.0.1:8000/api/deleq/";
-    const JUGADOR_EQUIPO_URL = configData.JUGADOR_EQUIPO_API_URL || "http://127.0.0.1:8000/api/jugeq/";
+    const JUGADOR_EQUIPO_URL = "http://127.0.0.1:8000/api/jugeq/";
     const CATEGORIAS_URL = configData.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
 
     const handleClose = (event, reason) => {
@@ -71,7 +71,7 @@ const RegistrarJugador = () => {
     }
 
     const getEquipos = async () => {
-        await axios.get(EQUIPOS_URL)
+        await axios.get(EQUIPO_DELEGADO_URL + 1)
             .then(response => {
                 setEquipos(response.data);
             }).catch(error => {
@@ -264,7 +264,7 @@ const RegistrarJugador = () => {
 
         const resDelegadoEquipos = await tieneEquiposRegDelegado(1);
 
-        if (esValidoEdadJugador(values.fechaNacParticipante, values.categoria) && (resDelegadoEquipos.status === 201)) {
+        if (esValidoEdadJugador(values.fechaNacParticipante, values.categoria) && (resDelegadoEquipos.status === 200)) {
 
             if (await existeFotosDuplicadas(values.fotoDNIParticipante, values.fotoParticipante)) {
                 setAlertColor("error");
@@ -385,27 +385,8 @@ const RegistrarJugador = () => {
         setTimeout(() => navigate("/registrar-equipo"), 3000);
     }
 
-    const finalizarRegistro = () => {
-        var jugadores = parseInt(localStorage.getItem('jugadoresReg'));
-        if (jugadores < 8) {
-            setAlertColor("error");
-            setAlertContent("No puede registrar menos 8 jugadores");
-            setOpen(true);
-        }
-        if (jugadores > 12) {
-            setAlertColor("error");
-            setAlertContent("No se puede registrar mas de 12 jugadores");
-            setOpen(true);
-        }
-        if (jugadores > 7 && jugadores < 13) {
-            setAlertColor("success");
-            setAlertContent("Se registro a los " + jugadores + " exitosamente");
-            setOpen(true);
-            localStorage.setItem('jugadoresReg', 0);
-            borrar();
-            delayAndGo();
-        }
-    }
+   
+
 
     function borrar() {
         document.getElementById("fotoDNIParticipante").value = "";
@@ -848,20 +829,7 @@ const RegistrarJugador = () => {
                         </Button>
 
                     </Stack>
-                    <Stack m={5}
-                        direction="row"
-                        spacing={3}
-                        justifyContent="center"
-                        alignItems="center">
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            onClick={finalizarRegistro}
-                            type="submit"
-                            sx={{ width: '25%' }}
-                        >Finalizar Registro
-                        </Button>
-                    </Stack>
+                   
                     <div>
                         <table id="tabla" className="table table-dark"></table>
                     </div>

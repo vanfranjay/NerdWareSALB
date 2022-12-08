@@ -548,12 +548,12 @@ const RegistrarTorneo = () => {
                         renderValue={(selected) => selected.join(", ")}
                       /*MenuProps={MenuProps}*/
                       >
-                        <MenuItem value={"30+"}>+30</MenuItem>
-                        <MenuItem value={"35+"}>+35</MenuItem>
-                        <MenuItem value={"40+"}>+40</MenuItem>
-                        <MenuItem value={"45+"}>+45</MenuItem>
-                        <MenuItem value={"50+"}>+50</MenuItem>
-                        <MenuItem value={"55+"}>+55</MenuItem>
+                        <MenuItem value={"+30"}>+30</MenuItem>
+                        <MenuItem value={"+35"}>+35</MenuItem>
+                        <MenuItem value={"+40"}>+40</MenuItem>
+                        <MenuItem value={"+45"}>+45</MenuItem>
+                        <MenuItem value={"+50"}>+50</MenuItem>
+                        <MenuItem value={"+55"}>+55</MenuItem>
                       </Select>
                     </FormControl>
                   </Item>
