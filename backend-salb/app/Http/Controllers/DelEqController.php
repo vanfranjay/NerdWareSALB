@@ -58,7 +58,11 @@ class DelEqController extends Controller
             return response()->json(['errorMessage' => $e ], 400); 
         }else{
             $exito=true;
-            return response()->json(['Message' => $exito], 201);
+            return DB::table('delegados')
+            ->join('equipos', 'delegados.id', '=', 'equipos.Cod_Delegado')
+            ->where('delegados.id',$id)
+            ->select('delegados.*', 'equipos.*')
+            ->get();
         }//
     }
 
