@@ -17,7 +17,6 @@ import { FormControl } from '@mui/material';
 import { InputLabel } from '@mui/material';
 import { Select } from '@mui/material';
 import { MenuItem } from '@mui/material';
-import configData from "../config/config.json";
 
 const Estadisticas = () => {
 

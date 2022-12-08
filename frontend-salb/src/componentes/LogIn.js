@@ -1,41 +1,50 @@
 import React, { useState } from "react";
-import { Grid } from '@mui/material';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import { InputLabel } from '@mui/material';
-import { Typography } from '@mui/material';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
-import { Container, Stack } from '@mui/system';
+import { Grid } from "@mui/material";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import { InputLabel } from "@mui/material";
+import { Typography } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { Container, Stack } from "@mui/system";
 import { useFormik, useField, useFormikContext } from "formik";
 import * as Yup from "yup";
 import configData from "../config/config.json";
-import IconButton from '@mui/material/IconButton';
-import Input from '@mui/material/Input';
-import FilledInput from '@mui/material/FilledInput';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import IconButton from "@mui/material/IconButton";
+import Input from "@mui/material/Input";
+import FilledInput from "@mui/material/FilledInput";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import axios from "axios";
+import UserDelegado from "./UserDelegado";
+import { Routes, Route } from "react-router-dom";
 
-import '../css/logIn.css';
+import "../css/logIn.css";
+import Usuario from "./Usuario";
+import { useEffect } from "react";
 
 const Login = () => {
-
   const [open, setOpen] = React.useState(false);
-  const [alertColor, setAlertColor] = useState('');
-  const [alertContent, setAlertContent] = useState('');
+  const [alertColor, setAlertColor] = useState("");
+  const [alertContent, setAlertContent] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [usuarioLogin, setUsuarioLogin] = useState([]);
+
+  useEffect(() => {
+    setUsuarioLogin([])
+  }, [])
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setOpen(false);
@@ -46,127 +55,170 @@ const Login = () => {
   };
 
   const formValidationSchema = Yup.object().shape({
-    userEmail: Yup.string()
+    Correo: Yup.string()
       .required("El Correo electrónico es requerido")
       .min(6, "El Correo electrónico debe contener al menos 6 caracteres")
       .max(256, "La Contraseña debe contener máximo 256 caracteres")
-      .matches(/^(?=.{2,}@)[0-9a-z]+(?:\.[0-9a-z]+)*@[a-z0-9]{2,}(?:\.[a-z]{2,})+$/, "El correo debe seguir el formato mínimo: us@bo.co"),
-    userPassword: Yup.string()
+      .matches(
+        /^(?=.{2,}@)[0-9a-z]+(?:\.[0-9a-z]+)*@[a-z0-9]{2,}(?:\.[a-z]{2,})+$/,
+        "El correo debe seguir el formato mínimo: us@bo.co"
+      ),
+    Contraseña: Yup.string()
       .required("La Contraseña es requerido")
       .min(8, "La Contraseña debe contener al menos 8 caracteres")
       .max(127, "La Contraseña debe contener máximo 127 caracteres")
-      .matches(/(?!.* )(?!.*[-_,.#$%&:;'?¡!"{}()¿°|[@^~+*¬<>])(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,15})/, "La contraseña debe tener al menos una letra Mayúscula y una letra minúscula"),
+      .matches(
+        /(?!.* )(?!.*[-_,.#$%&:;'?¡!"{}()¿°|[@^~+*¬<>])(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,15})/,
+        "La contraseña debe tener al menos una letra Mayúscula y una letra minúscula"
+      ),
   });
 
-  const { handleSubmit, resetForm, handleChange, values, touched, errors, handleBlur, setFieldValue } = useFormik({
+  const {
+    handleSubmit,
+    resetForm,
+    handleChange,
+    values,
+    touched,
+    errors,
+    handleBlur,
+    setFieldValue,
+  } = useFormik({
     initialValues: {
-      userEmail: '',
-      userPassword: ''
+      Correo: "",
+      Contraseña: "",
     },
 
     validationSchema: formValidationSchema,
 
     onSubmit: (values, { setSubmitting, resetForm }) => {
       //login();
+      try {
+        const resultado = axios
+          .post("http://127.0.0.1:8000/api/login", {
+            ...values,
+          })
+          .then(function (response) {
+            const datosUsuario = [...response.data];
+            console.log(...datosUsuario);
+            
+            //const mensaje = response.data.errorMessage;
+            //setUsuarioLogin(datosUsuario);
+            //console.log(...usuarioLogin);
+            //if(usuarioLogin.length === 0){
+            //  console.log("error al loguear");
+            //}
+            //else{
+//
+            //}
+            //console.log(mensaje);
+            //mensajeLogin = mensaje;
+            //console.log(mensajeLogin);
+            //mensaje = response.data;
+            //console.log(mensaje);
+          });
 
-      setSubmitting(true);
-      setTimeout(() => {
         resetForm();
-        setSubmitting(false);
-      }, 4000);
+        //smsLogin(mensajeLogin);
+        //setSubmitting(true);
+        //setTimeout(() => {
+        //  resetForm();
+        //  setSubmitting(false);
+        //}, 2000);
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 
   return (
-
-    <Grid justifyItems='center' className="contentLogin">
-      <Snackbar open={open}
+    <Grid justifyItems="center" className="contentLogin">
+      <Snackbar
+        open={open}
         autoHideDuration={5000}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert severity={alertColor} onClose={handleClose}>
           {alertContent}
         </Alert>
       </Snackbar>
-      <br>
-      </br>
-      <br>
-      </br>
-      <Typography variant="h3"
-        align='center'
+      <br></br>
+      <br></br>
+      <Typography
+        variant="h3"
+        align="center"
         color="#ffff"
         sx={{
-          input: { color: 'white' }
-        }}>
+          input: { color: "white" },
+        }}
+      >
         ¡Bienvenido!
       </Typography>
-      <br>
-      </br>
+      <br></br>
       <form onSubmit={handleSubmit}>
-        <Box display="flex"
-          justifyContent="center"
-          alignItems="center">
-
-          <Stack m={3}
-            direction="column"
-            width={500}
-            spacing={6}
-          >
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <Stack m={3} direction="column" width={500} spacing={6}>
             <TextField
               required
-              id="userEmail"
-              name="userEmail"
+              id="Correo"
+              name="Correo"
               label="Correo electrónico"
               InputLabelProps={{
-                style: { color: '#ffff' },
+                style: { color: "#ffff" },
               }}
               sx={{
-                color: 'white',
-                '& .MuiInputBase-root': { color: 'white' }
+                color: "white",
+                "& .MuiInputBase-root": { color: "white" },
               }}
               fullWidth
+              autoComplete="off"
               variant="standard"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.userEmail}
-              error={touched.userEmail && Boolean(errors.userEmail)}
-              helperText={touched.userEmail && errors.userEmail}
-
+              value={values.Correo}
+              error={touched.Correo && Boolean(errors.Correo)}
+              helperText={touched.Correo && errors.Correo}
             />
 
-            <FormControl variant="standard" required sx={{ '& .MuiInputBase-input': { color: 'white' } }} >
+            <FormControl
+              variant="standard"
+              required
+              sx={{ "& .MuiInputBase-input": { color: "white" } }}
+            >
               <InputLabel
                 sx={{
-                  color: 'white',
-                  '& .MuiInputLabel-root': {
-                    color: 'white'
+                  color: "white",
+                  "& .MuiInputLabel-root": {
+                    color: "white",
                   },
-                  '& .MuiFormLabelroot': {
-                    color: 'white'
-                  }
-                }}>Password</InputLabel>
+                  "& .MuiFormLabelroot": {
+                    color: "white",
+                  },
+                }}
+              >
+                Password
+              </InputLabel>
               <Input
                 required
                 fullWidth
-                id="userPassword"
-                name="userPassword"
-                type={showPassword ? 'text' : 'password'}
+                id="Contraseña"
+                name="Contraseña"
+                type={showPassword ? "text" : "password"}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.userPassword}
+                value={values.Contraseña}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={handleClickShowPassword}
                       sx={{
-                        '.MuiSvgIcon-root ': {
+                        ".MuiSvgIcon-root ": {
                           fill: "white !important",
                         },
-                        '& .MuiInputBase-input': {
-                          color: 'white'
-                        }
+                        "& .MuiInputBase-input": {
+                          color: "white",
+                        },
                       }}
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -174,11 +226,11 @@ const Login = () => {
                   </InputAdornment>
                 }
               />
-              {touched.userPassword && errors.userPassword ? (
+              {touched.Contraseña && errors.Contraseña ? (
                 <FormHelperText
                   sx={{ color: "#d32f2f", marginLeft: "!important" }}
                 >
-                  {touched.userPassword && errors.userPassword}
+                  {touched.Contraseña && errors.Contraseña}
                 </FormHelperText>
               ) : null}
             </FormControl>
@@ -194,16 +246,16 @@ const Login = () => {
                 color="primary"
                 onClick={handleSubmit}
                 type="submit"
-                sx={{ width: '50%' }}
-              >Iniciar Sesión
+                sx={{ width: "50%" }}
+              >
+                Iniciar Sesión
               </Button>
             </Stack>
           </Stack>
         </Box>
       </form>
     </Grid>
-
   );
-}
+};
 
 export default Login;
