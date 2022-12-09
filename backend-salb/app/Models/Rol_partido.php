@@ -11,7 +11,7 @@ class Rol_partido extends Model
     protected $table = 'rol_partidos';
     protected $primarykey = 'id';
     protected $fillable = [
-        'Fecha', 'Hora', 'EquipoA', 'EquipoB','Cod_Torneo',
+        'Fecha', 'Hora', 'EquipoA', 'EquipoB','Lugar', 'Cancha','Cod_Torneo', 
         // 'Cod_torneo',
     ];
     

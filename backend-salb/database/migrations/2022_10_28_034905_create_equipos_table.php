@@ -27,17 +27,6 @@ class CreateEquiposTable extends Migration
             $table->integer('Dif')->default(0);
             $table->integer('NumJug')->default(0);
             $table->timestamps();
-            $table->foreignId('Cod_Categoria')
-                   ->nullable()
-                   ->constrained('categorias')
-                   ->cascadeOnUpdate()
-                   ->nullOnDelete();
-                   $table->foreignId('Cod_Partido')
-                   ->nullable()
-                   ->constrained('partidos')
-                   ->cascadeOnUpdate()
-                   ->nullOnDelete()
-                   ;
                    $table->foreignId('Cod_Delegado')
                    ->nullable()
                    ->constrained('delegados')

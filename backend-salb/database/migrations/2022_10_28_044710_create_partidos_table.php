@@ -23,10 +23,20 @@ class CreatePartidosTable extends Migration
             $table->string('Hora_Inicio');
             $table->string('Hora_Final');
             $table->string('Lugar');
-            $table->string('Campeonato');
-            $table->string('Categoria');
-            $table->string('Entrenador_G');
-            $table->string('Entrenador_P');
+            $table->string('Cancha');
+            
+            $table->foreignId('Cod_EquipoG')
+            ->nullable()
+            ->constrained('equipos')
+            ->cascadeOnUpdate()
+            ->nullOnDelete()
+            ;
+            $table->foreignId('Cod_EquipoP')
+            ->nullable()
+            ->constrained('equipos')
+            ->cascadeOnUpdate()
+            ->nullOnDelete()
+            ;
             $table->timestamps();
         });
     }

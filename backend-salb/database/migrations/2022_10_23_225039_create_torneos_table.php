@@ -28,19 +28,15 @@ class CreateTorneosTable extends Migration
             $table->string('Invitacion');
             $table->string('Nombre_Torneo');
             $table->string('Lugar_Evento');
+            $table->integer('Canchas_Disponibles');
             $table->date('Fecha_Ini_Torneo');
             $table->date('Fecha_Fin_Torneo');
             $table->string('Rama');
             $table->string('Caracter');
             $table->string('Responsable');
             $table->string('Telefono');
-            $table->string('Categoria');
-            $table->foreignId('Cod_Categoria')
-                   ->nullable()
-                   ->constrained('categorias')
-                   ->cascadeOnUpdate()
-                   ->nullOnDelete()
-                   ;
+           // $table->string('Categoria');
+            
             $table->timestamps();
         });
     }

@@ -17,6 +17,12 @@ class CreateCategoriasTable extends Migration
             $table->id();
             $table->string('Categoria');
             $table->timestamps();
+            $table->foreignId('Cod_Torneo')
+                   ->nullable()
+                   ->constrained('torneos')
+                   ->cascadeOnUpdate()
+                   ->nullOnDelete()
+                   ;
         });
     }
 

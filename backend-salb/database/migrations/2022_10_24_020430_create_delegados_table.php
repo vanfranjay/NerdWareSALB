@@ -27,6 +27,12 @@ class CreateDelegadosTable extends Migration
             $table->integer('Habilitado')->default(0); //0 que no puede incribir a su equipo
             $table->integer('Contador')->default(0);
             $table->timestamps();
+            $table->foreignId('Cod_Torneo')
+                   ->nullable()
+                   ->constrained('torneos')
+                   ->cascadeOnUpdate()
+                   ->nullOnDelete()
+                   ;
         });
     }
 

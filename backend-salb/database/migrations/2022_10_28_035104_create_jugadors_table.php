@@ -34,14 +34,7 @@ class CreateJugadorsTable extends Migration
                    ->nullable()
                    ->constrained('equipos')
                    ->cascadeOnUpdate()
-                   ->nullOnDelete()
-                   ;
-            $table->foreignId('Cod_Categoria')
-                    ->nullable()
-                    ->constrained('categorias')
-                    ->cascadeOnUpdate()
-                    ->nullOnDelete()
-                    ;
+                   ->nullOnDelete();
         });
     }
 

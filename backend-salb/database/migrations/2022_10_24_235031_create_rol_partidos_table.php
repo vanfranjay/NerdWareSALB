@@ -20,6 +20,8 @@ class CreateRolPartidosTable extends Migration
             $table->time('Hora');
             $table->string('EquipoA');
             $table->string('EquipoB');
+            $table->string('Lugar');
+            $table->string('Cancha');
             $table->timestamps();
             $table->foreignId('Cod_Torneo')
                    ->nullable()
