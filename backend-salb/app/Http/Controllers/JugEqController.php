@@ -16,7 +16,9 @@ class JugEqController extends Controller
     {
         return DB::table('jugadores')
         ->join('equipos', 'equipos.id', '=', 'jugadores.Cod_Equipo')
-        ->join('categorias','categorias.id','=', 'jugadores.Cod_Categoria')
+        ->join('delegados', 'delegados.id', '=' ,'equipos.Cod_Delegado')
+        ->join('torneos', 'torneos.id', '=', 'delegados.Cod_Torneo')
+        ->join('categorias','categorias.Cod_Torneo','=', 'torneos.id')
         ->select('jugadores.*', 'equipos.Nombre_Equipo', 'categorias.Categoria')
         ->get();
     }

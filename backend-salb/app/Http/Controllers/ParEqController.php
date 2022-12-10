@@ -16,7 +16,8 @@ class ParEqController extends Controller
     public function index()
     {
         return DB::table('partidos')
-        ->join('equipos', 'partidos.id', '=', 'equipos.Cod_Partido')
+        ->join('equipos', 'partidos.Cod_EquipoG', '=', 'equipos.id')
+       // ->join('equipos', 'partidos.Cod_EquipoP', '=', 'equipos.id')
         ->select('partidos.*', 'equipos.*')
         ->get();  //
     }

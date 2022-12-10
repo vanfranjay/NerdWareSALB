@@ -15,7 +15,7 @@ class CaToController extends Controller
     public function index()
     {
         return DB::table('categorias')
-        ->join('torneos', 'categorias.id', '=', 'torneos.Cod_Categoria')
+        ->join('torneos', 'categorias.Cod_Torneo', '=', 'torneos.id')
         ->select('categorias.*',  'torneos.*')
         ->get();
     }
