@@ -27,6 +27,7 @@ import { Routes, Route } from "react-router-dom";
 import "../css/logIn.css";
 import Usuario from "./Usuario";
 import { useEffect } from "react";
+import App from "../App";
 
 const Login = () => {
   const [open, setOpen] = React.useState(false);
@@ -35,9 +36,23 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [usuarioLogin, setUsuarioLogin] = useState([]);
 
+  const getUser = (datoUsuario) => {
+    const datosUser = datoUsuario[0];
+    return datosUser;
+  };
+
+  function enviar(){
+    return(<App hola="Hola"/>);
+  }
+  
+  //return {
+  //  getUser,
+  //};
+
   useEffect(() => {
-    setUsuarioLogin([])
-  }, [])
+    console.log("usuarioLogin");
+  }, [usuarioLogin]);
+  
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -99,8 +114,15 @@ const Login = () => {
           })
           .then(function (response) {
             const datosUsuario = [...response.data];
-            console.log(...datosUsuario);
-            
+            //console.log(...datosUsuario);
+
+            const datoUsuario = { ...datosUsuario };
+            console.log(datoUsuario[0].Apellido);
+            setUsuarioLogin(datoUsuario[0]);
+            console.log(datoUsuario[0]);
+            getUser(datoUsuario);
+            enviar();
+
             //const mensaje = response.data.errorMessage;
             //setUsuarioLogin(datosUsuario);
             //console.log(...usuarioLogin);
@@ -108,7 +130,7 @@ const Login = () => {
             //  console.log("error al loguear");
             //}
             //else{
-//
+            //
             //}
             //console.log(mensaje);
             //mensajeLogin = mensaje;
@@ -131,6 +153,7 @@ const Login = () => {
   });
 
   return (
+    <>
     <Grid justifyItems="center" className="contentLogin">
       <Snackbar
         open={open}
@@ -255,7 +278,8 @@ const Login = () => {
         </Box>
       </form>
     </Grid>
-  );
+    </>
+  )
 };
 
 export default Login;
