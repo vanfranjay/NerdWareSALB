@@ -17,8 +17,10 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import { Field, Formik, Form, ErrorMessage } from "formik";
 import configData from "../config/config.json";
 
-const CATEGORIAS_URL = configData.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
-const TORNEOS_URL = configData.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
+const CATEGORIAS_URL =
+  configData.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
+const TORNEOS_URL =
+  configData.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
 //const ITEM_HEIGHT = 48;
 //const ITEM_PADDING_TOP = 8;
 //const MenuProps = {
@@ -49,10 +51,29 @@ const registrarCategorias = async (categorias) => {
 const RegistrarTorneo = () => {
   const [formularioEnviado, setFormularioEnviado] = useState(false);
   const [formularioNoEnviado, setFormularioNoEnviado] = useState(false);
+
+
+  var today = new Date();
+ 
+// `getDate()` devuelve el día del mes (del 1 al 31)
+var day = today.getDate();
+ 
+// `getMonth()` devuelve el mes (de 0 a 11)
+var month = today.getMonth() + 1;
+ 
+// `getFullYear()` devuelve el año completo
+var year = today.getFullYear();
+ 
+// muestra la fecha de hoy en formato `MM/DD/YYYY`
+const fechaActual = `${year}-${month}-${day}`;
+console.log(fechaActual);
+
+
+
   //const [torneo, setTorneo] = useState({
   //  Campeon: "Bolivar",
   //  Subcampeon: "hola",
-  //  Fecha_Ini_Convocatoria: "2022-10-15",
+  //  FechaActual_Ini_Convocatoria: "2022-10-15",
   //  Fecha_Fin_Convocatoria: "2022-11-30",
   //  Invitacion: "",
   //  Nombre_Torneo: "",
@@ -240,34 +261,76 @@ const RegistrarTorneo = () => {
           // validaciones para Categoria
           if (valores.Categoria.length === 0) {
             errores.Categoria =
-              "Por favor seleccione la categoria o las categorias para el evento";
+              "Por favor seleccione la categoria o las categorias para el torneo";
           }
           // validacion de Fecha_Ini_Torneo
           if (!valores.Fecha_Ini_Torneo) {
             errores.Fecha_Ini_Torneo =
-              "Por favor seleccione una fecha de inicio del evento";
+              "Por favor seleccione una fecha de inicio del torneo";
           } else if (f1.getTime() > f2.getTime()) {
             errores.Fecha_Ini_Torneo =
-              "La fecha de inico del evento tiene que ser menor a la fecha de finalización del evento";
+              "La fecha de inico del evento tiene que ser menor a la fecha de finalización del torneo";
+          } else if (f1.getTime() <= f3.getTime()) {
+            errores.Fecha_Ini_Torneo =
+              "La fecha de inicio del evento tiene que ser mayor a la fecha de inico de preinscripción";
+          } else if (f1.getTime() <= f4.getTime()) {
+            errores.Fecha_Ini_Torneo =
+              "La fecha de inicio del evento tiene que ser mayor a la fecha de fin de preinscripción";
+          } else if (f1.getTime() <= f5.getTime()) {
+            errores.Fecha_Ini_Torneo =
+              "La fecha de inicio del evento tiene que ser mayor a la fecha de inico de inscripción";
+          } else if (f1.getTime() <= f6.getTime()) {
+            errores.Fecha_Ini_Torneo =
+              "La fecha de inicio del evento tiene que ser mayor a la fecha de fin de inscripción";
+          } else if (valores.Fecha_Ini_Torneo < fechaActual) {
+            errores.Fecha_Ini_Preinscripcion =
+              "Fecha inicio de torneo invalido";
           }
           // validacion de Fecha_Fin_Torneo
           if (!valores.Fecha_Fin_Torneo) {
             errores.Fecha_Fin_Torneo =
-              "Por favor seleccione una fecha de fin del evento";
+              "Por favor seleccione una fecha de fin del torneo";
           } else if (!valores.Fecha_Ini_Torneo) {
             errores.Fecha_Fin_Torneo =
-              "Por favor establesca una fecha de inicio del evento";
-          } else if (f1.getTime() > f2.getTime()) {
+              "Por favor establesca una fecha de inicio del torneo";
+          } else if (f2.getTime() < f1.getTime()) {
             errores.Fecha_Fin_Torneo =
-              "La fecha de finalización del evento tiene que ser mayor a la fecha de inicio del evento";
+              "La fecha de finalización del evento tiene que ser mayor a la fecha de inicio del torneo";
+          } else if (f2.getTime() <= f3.getTime()) {
+            errores.Fecha_Fin_Torneo =
+              "La fecha de finalización del evento tiene que ser mayor a la fecha de inicio de preinscripción";
+          } else if (f2.getTime() <= f4.getTime()) {
+            errores.Fecha_Fin_Torneo =
+              "La fecha de finalización del evento tiene que ser mayor a la fecha de fin de preinscripción";
+          } else if (f2.getTime() <= f5.getTime()) {
+            errores.Fecha_Fin_Torneo =
+              "La fecha de finalización del evento tiene que ser mayor a la fecha de inicio de inscripción";
+          } else if (f2.getTime() <= f6.getTime()) {
+            errores.Fecha_Fin_Torneo =
+              "La fecha de finalización del evento tiene que ser mayor a la feha fin de inscripción";
           }
           // validacion de Fecha_Ini_Preinscripcion
           if (!valores.Fecha_Ini_Preinscripcion) {
             errores.Fecha_Ini_Preinscripcion =
-              "Por favor seleccione una fecha de pre-inscripción del evento";
+              "Por favor seleccione una fecha de pre-inscripción del torneo";
           } else if (f3.getTime() > f4.getTime()) {
             errores.Fecha_Ini_Preinscripcion =
-              "La fecha de inicio de pre-inscripción tiene que ser menor a la fecha de fin de pre-inscripción";
+              "La fecha de inicio de preinscripción tiene que ser menor a la fecha de fin de pre-inscripción";
+          } else if (f3.getTime() >= f1.getTime()) {
+            errores.Fecha_Ini_Preinscripcion =
+              "La fecha de inicio de preinscripción tiene que ser menor a la fecha de inicio del torneo";
+          } else if (f3.getTime() >= f2.getTime()) {
+            errores.Fecha_Ini_Preinscripcion =
+              "La fecha de inicio de preinscripción tiene que ser menor a la feha fin de torneo";
+          } else if (f3.getTime() >= f5.getTime()) {
+            errores.Fecha_Ini_Preinscripcion =
+              "La fecha de inicio de preinscripción tiene que ser menor a la feha fin de inscripción";
+          } else if (f3.getTime() >= f6.getTime()) {
+            errores.Fecha_Ini_Preinscripcion =
+              "La fecha de inicio de preinscripción tiene que ser menor a la fecha fin de inscripción";
+          } else if (valores.Fecha_Ini_Preinscripcion < fechaActual) {
+            errores.Fecha_Ini_Preinscripcion =
+              "Fecha inicio de preinscripción invalido";
           }
           // validacion de Fecha_Fin_Preinscripcion
           if (!valores.Fecha_Fin_Preinscripcion) {
@@ -278,7 +341,19 @@ const RegistrarTorneo = () => {
               "Por favor establesca una fecha de inicio de pre-inscripción";
           } else if (f3.getTime() > f4.getTime()) {
             errores.Fecha_Fin_Preinscripcion =
-              "La fecha de fin de pre-inscripción del evento tiene que ser mayor a la fecha de inicio de pre-inscripción";
+              "La fecha de fin de preinscripción del evento tiene que ser mayor a la fecha de inicio de pre-inscripción";
+          } else if (f4.getTime() >= f1.getTime()) {
+            errores.Fecha_Fin_Preinscripcion =
+              "La fecha de fin de preinscripción del evento tiene que ser menor a la fecha de inico del torneo";
+          } else if (f4.getTime() >= f2.getTime()) {
+            errores.Fecha_Fin_Preinscripcion =
+              "La fecha de fin de preinscripción del evento tiene que ser menor a la fecha fin del torneo";
+          } else if (f4.getTime() >= f5.getTime()) {
+            errores.Fecha_Fin_Preinscripcion =
+              "La fecha de fin de preinscripción del evento tiene que ser menor a la fecha inicio de inscripción";
+          } else if (f4.getTime() >= f6.getTime()) {
+            errores.Fecha_Fin_Preinscripcion =
+              "La fecha de fin de preinscripción del evento tiene que ser menor a la fecha fin de inscripción";
           }
           // validacion de Fecha_Ini_Inscripcion
           if (!valores.Fecha_Ini_Inscripcion) {
@@ -287,6 +362,21 @@ const RegistrarTorneo = () => {
           } else if (f5.getTime() > f6.getTime()) {
             errores.Fecha_Ini_Inscripcion =
               "La fecha de inicio de inscripción tiene que ser menor a la fecha de fin de inscripción";
+          } else if (f5.getTime() >= f1.getTime()) {
+            errores.Fecha_Ini_Inscripcion =
+              "La fecha de inicio de inscripción tiene que ser menor a la fecha de inicio del torneo";
+          } else if (f5.getTime() >= f2.getTime()) {
+            errores.Fecha_Ini_Inscripcion =
+              "La fecha de inicio de inscripción tiene que ser menor a la fecha fin del torneo";
+          } else if (f5.getTime() <= f3.getTime()) {
+            errores.Fecha_Ini_Inscripcion =
+              "La fecha de inicio de inscripción tiene que ser mayor a la fecha de inicio de preinscripción";
+          } else if (f5.getTime() <= f4.getTime()) {
+            errores.Fecha_Ini_Inscripcion =
+              "La fecha de inicio de inscripción tiene que ser mayor a la fecha fin de preinscripción";
+          } else if (valores.Fecha_Ini_Inscripcion < fechaActual) {
+            errores.Fecha_Ini_Preinscripcion =
+              "Fecha inicio de inscripción invalido";
           }
           // validacion de Fecha_Fin_Inscripcion
           if (!valores.Fecha_Fin_Inscripcion) {
@@ -298,39 +388,64 @@ const RegistrarTorneo = () => {
           } else if (f5.getTime() > f6.getTime()) {
             errores.Fecha_Fin_Inscripcion =
               "La fecha de fin de inscripción del evento tiene que ser mayor a la fecha de inicio de inscripción";
+          } else if (f6.getTime() >= f1.getTime()) {
+            errores.Fecha_Fin_Inscripcion =
+              "La fecha de fin de inscripción del evento tiene que ser menor a la fecha de inicio del torneo";
+          } else if (f6.getTime() >= f2.getTime()) {
+            errores.Fecha_Fin_Inscripcion =
+              "La fecha de fin de inscripción del evento tiene que ser menor a la fecha fin del torneo";
+          } else if (f6.getTime() <= f3.getTime()) {
+            errores.Fecha_Fin_Inscripcion =
+              "La fecha de fin de inscripción del evento tiene que ser mayor a la fecha inicio de preinscripción";
+          } else if (f6.getTime() <= f4.getTime()) {
+            errores.Fecha_Fin_Inscripcion =
+              "La fecha de fin de inscripción del evento tiene que ser mayor a la fecha fin de preinscripción";
           }
 
           return errores;
         }}
         onSubmit={(valores, { resetForm }) => {
-          const registrarTorneo = async () => {
-            const resultado = await axios.get(
-              TORNEOS_URL
-            );
-            if (resultado.data.length === 0) {
-              try {
-                //registrarCategorias(valores.Categoria);
-                const { data } = axios.post(
-                  TORNEOS_URL,
-                  {
-                    ...valores,
-                    Categoria: valores.Categoria.join(","),
-                  }
-                );
-                resetForm();
-                setFormularioEnviado(true);
-                setTimeout(() => setFormularioEnviado(false), 3000);
-              } catch (error) {
-                console.log(error);
-              }
-            } else {
-              setFormularioNoEnviado(true);
-              setTimeout(() => setFormularioNoEnviado(false), 3000);
-            }
-          };
-          registrarTorneo();
+          try {
+            //registrarCategorias(valores.Categoria);
+            const { data } = axios.post(TORNEOS_URL, {
+              ...valores,
+              Categoria: valores.Categoria.join(","),
+            });
+            resetForm();
+            setFormularioEnviado(true);
+            setTimeout(() => setFormularioEnviado(false), 3000);
+          } catch (error) {
+            console.log(error);
+          }
+
+          //const registrarTorneo = async () => {
+          //  const resultado = await axios.get(
+          //    TORNEOS_URL
+          //  );
+          //  if (resultado.data.length === 0) {
+          //    try {
+          //      //registrarCategorias(valores.Categoria);
+          //      const { data } = axios.post(
+          //        TORNEOS_URL,
+          //        {
+          //          ...valores,
+          //          Categoria: valores.Categoria.join(","),
+          //        }
+          //      );
+          //      resetForm();
+          //      setFormularioEnviado(true);
+          //      setTimeout(() => setFormularioEnviado(false), 3000);
+          //    } catch (error) {
+          //      console.log(error);
+          //    }
+          //  } else {
+          //    setFormularioNoEnviado(true);
+          //    setTimeout(() => setFormularioNoEnviado(false), 3000);
+          //  }
+          //};
+          //registrarTorneo();
         }}
-      /*const
+        /*const
       reiniciar={({ resetForm }) => {
         resetForm();
       }}*/
@@ -546,7 +661,7 @@ const RegistrarTorneo = () => {
                         onChange={handleChange}
                         /*input={<OutlinedInput label="Name" />}*/
                         renderValue={(selected) => selected.join(", ")}
-                      /*MenuProps={MenuProps}*/
+                        /*MenuProps={MenuProps}*/
                       >
                         <MenuItem value={"+30"}>+30</MenuItem>
                         <MenuItem value={"+35"}>+35</MenuItem>
