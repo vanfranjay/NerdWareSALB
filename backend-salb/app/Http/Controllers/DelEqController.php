@@ -14,8 +14,10 @@ class DelEqController extends Controller
     public function index()
     {
         return DB::table('delegados')
-        ->join('equipos', 'delegados.id', '=', 'equipos.Cod_Delegado')
-        ->select('delegados.*',  'equipos.*')
+        ->join('equipos', 'delegados.id', '=' ,'equipos.Cod_Delegado')
+        ->join('torneos', 'torneos.id', '=', 'delegados.Cod_Torneo')
+        ->join('categorias','categorias.Cod_Torneo','=', 'torneos.id')
+        ->select('delegados.*',  'equipos.*', 'categorias.*')
         ->get();
     }
 
@@ -50,8 +52,9 @@ class DelEqController extends Controller
     {
          $aux =DB::table('delegados')
         ->join('equipos', 'delegados.id', '=', 'equipos.Cod_Delegado')
+        ->where('delegados.id', $id)
         ->select('delegados.id')
-        ->where('delegados.id',$id)
+        //->where('delegados.id',$id)
         ->value('');
         if(is_null($aux)){
             $e=false;
