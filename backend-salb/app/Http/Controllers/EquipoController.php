@@ -4,12 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Equipo;
+use Illuminate\Support\Facades\DB;
 
 class EquipoController extends Controller
 {
     public function index()
     {
-        return Equipo::all();
+        //return Equipo::all();
+        return DB::table('equipos')
+       // ->join('equipos', 'equipos.id', '=', 'jugadores.Cod_Equipo')
+        ->join('delegados', 'delegados.id', '=' ,'equipos.Cod_Delegado')
+        ->join('torneos', 'torneos.id', '=', 'delegados.Cod_Torneo')
+        ->join('categorias','categorias.Cod_Torneo','=', 'torneos.id')
+        ->select( 'equipos.*', 'categorias.Categoria')
+        ->get();
     }
 
     public function store(Request $request)
@@ -31,7 +39,14 @@ class EquipoController extends Controller
         return $equipo;//para almacenar
         */
         $equipo = new Equipo($request->all());
-
+        $nombre= $equipo->value('Nombre_Equipo');
+        $nombre = $equipo->Nombre_Equipo;
+        $categoria= $equipo->value('Cod_Categoria');
+        $categoria = $equipo->Cod_Categoria;
+        $n = DB::table('equipos')
+        ->select('equipos.id') 
+        ->where('Nombre_Equipo',$nombre)
+        ->where('Cod_Categoria',$nombre);
         try {
              $equipo->save();
         } catch (\Exception $e) {

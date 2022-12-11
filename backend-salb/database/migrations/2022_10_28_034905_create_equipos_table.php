@@ -15,7 +15,7 @@ class CreateEquiposTable extends Migration
     {
         Schema::create('equipos', function (Blueprint $table) {
             $table->id();
-            $table->string('Nombre_Equipo')->unique();
+            $table->string('Nombre_Equipo');
             $table->string('Logo',80000)->nullable();
            // $table->string('Categoria'); //puede cambiarse a un entero
             $table->integer('Partidos_Jugados')->default(0);
@@ -26,6 +26,7 @@ class CreateEquiposTable extends Migration
             $table->integer('Puntos_C')->default(0);
             $table->integer('Dif')->default(0);
             $table->integer('NumJug')->default(0);
+            $table->string('Entrenador');
             $table->timestamps();
                    $table->foreignId('Cod_Delegado')
                    ->nullable()
