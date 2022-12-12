@@ -231,6 +231,7 @@ class ParEqController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $partido = Partido::find($id);
+        $partido->delete();  //
     }
 }
