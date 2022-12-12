@@ -18,7 +18,7 @@ class CreatePersonasTable extends Migration
             $table->string('Nombre');
             $table->string('Apellido');
             $table->string('Rol');
-            $table->binary('Imagen')->nullable();
+            $table->string('Imagen',8000)->nullable();
             $table->date('Fecha_nacimiento');
             $table->integer('Telefono');
             $table->string('Email')->unique();
