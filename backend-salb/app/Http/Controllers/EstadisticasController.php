@@ -15,9 +15,7 @@ class EstadisticasController extends Controller
     {
         return DB::table('jugadores')
         ->join('equipos', 'equipos.id', '=', 'jugadores.Cod_Equipo')
-        ->join('delegados', 'delegados.id', '=' ,'equipos.Cod_Delegado')
-        ->join('torneos', 'torneos.id', '=', 'delegados.Cod_Torneo')
-        ->join('categorias','categorias.Cod_Torneo','=', 'torneos.id')
+        ->join('categorias','equipos.Cod_Categoria','=', 'categorias.id')
         ->select('jugadores.Nombre', 'jugadores.Apellido', 'jugadores.Puntos', 'jugadores.Foto', 'equipos.Nombre_Equipo', 'equipos.Logo', "categorias.Categoria")
        // ->where('categorias.Categoria', $id)
         ->orderBy('Puntos' , 'desc')
@@ -56,9 +54,7 @@ class EstadisticasController extends Controller
     {
         return DB::table('jugadores')
         ->join('equipos', 'equipos.id', '=', 'jugadores.Cod_Equipo')
-        ->join('delegados', 'delegados.id', '=' ,'equipos.Cod_Delegado')
-        ->join('torneos', 'torneos.id', '=', 'delegados.Cod_Torneo')
-        ->join('categorias','categorias.Cod_Torneo','=', 'torneos.id')
+        ->join('categorias','equipos.Cod_Categoria','=', 'categorias.id')
         ->select('jugadores.Nombre', 'jugadores.Apellido', 'jugadores.Puntos', 'jugadores.Foto', 'equipos.Nombre_Equipo', 'equipos.Logo', "categorias.Categoria")
         ->where('categorias.Categoria', $id)
         ->orderBy('Puntos' , 'desc')
