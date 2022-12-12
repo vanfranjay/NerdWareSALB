@@ -433,6 +433,9 @@ const RegistrarTorneo = () => {
               ...valores,
               //Categoria: valores.Categoria.join(","),
             });
+            const { datas } = axios.post(CATEGORIAS_URL, {
+              Categoria: valores.Categoria.join(","),
+            });
             resetForm();
             setFormularioEnviado(true);
             setTimeout(() => setFormularioEnviado(false), 3000);
