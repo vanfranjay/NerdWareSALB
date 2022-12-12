@@ -283,7 +283,7 @@ console.log(fechaActual);
             errores.Fecha_Ini_Torneo =
               "La fecha de inicio del evento tiene que ser mayor a la fecha de fin de inscripción";
           } else if (valores.Fecha_Ini_Torneo < fechaActual) {
-            errores.Fecha_Ini_Preinscripcion =
+            errores.Fecha_Ini_Torneo =
               "Fecha inicio de torneo invalido";
           }
           // validacion de Fecha_Fin_Torneo
@@ -375,7 +375,7 @@ console.log(fechaActual);
             errores.Fecha_Ini_Inscripcion =
               "La fecha de inicio de inscripción tiene que ser mayor a la fecha fin de preinscripción";
           } else if (valores.Fecha_Ini_Inscripcion < fechaActual) {
-            errores.Fecha_Ini_Preinscripcion =
+            errores.Fecha_Ini_Inscripcion =
               "Fecha inicio de inscripción invalido";
           }
           // validacion de Fecha_Fin_Inscripcion
