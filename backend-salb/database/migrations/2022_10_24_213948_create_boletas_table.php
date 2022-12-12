@@ -18,7 +18,7 @@ class CreateBoletasTable extends Migration
             $table->string('N_Transaccion');//->unique();
             $table->decimal('Monto');
             $table->date('Fecha_Registro');
-            $table->string('Comprobante',80000)->nullable();
+            $table->string('Comprobante',1000)->nullable();
             $table->integer('Estado')->default(0); //0 pendiente, 1 aprobado, 2 rechazado
             $table->timestamps();
             $table->foreignId('Cod_Delegado')

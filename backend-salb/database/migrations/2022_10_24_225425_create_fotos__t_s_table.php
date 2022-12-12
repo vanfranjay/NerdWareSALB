@@ -18,7 +18,7 @@ class CreateFotosTSTable extends Migration
             $table->string('Titulo');
             $table->string('Descripcion');
             $table->date('Fecha_Publicacion');
-            $table->binary('Foto')->nullable();
+            $table->string('Foto',1000)->nullable();
             $table->foreignId('Cod_Torneo')
                    ->nullable()
                    ->constrained('torneos')
