@@ -59,7 +59,12 @@ class EquipoController extends Controller
 
     public function show($id)
     {
-        return Equipo::find($id); //busca un equipo especifico y lo devuelve
+        return DB::table('equipos')
+        ->join('categorias','categorias.id','=', 'equipos.Cod_Categoria')
+        ->select( 'equipos.*', 'categorias.Categoria')
+        ->where('categorias.id', $id)
+        ->whereBetween('equipos.NumJug', [6, 12])
+        ->get(); //busca un equipo especifico y lo devuelve
     }
 
     public function update(Request $request, $id)
