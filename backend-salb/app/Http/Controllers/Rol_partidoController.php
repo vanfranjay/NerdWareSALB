@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Rol_partido;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use function PHPUnit\Framework\isNull;
@@ -44,20 +45,59 @@ class Rol_partidoController extends Controller
         $equipoB = $rolpartido->EquipoB;
         $fecha= $rolpartido->value('Fecha');
         $fecha = $rolpartido->Fecha;
+        $cancha = $rolpartido->value('Cancha');
+        $cancha = $rolpartido->Cancha;
+        $hora= $rolpartido->value('Hora');
+        $hora= $rolpartido->Hora;
+        $ho = date_create($hora);
+       $h = $ho->format('H');
+       $m = $ho->format('i');
+      
+       if($h>23){
+       $h = "01"; 
+       }else{
+        $h = $h +1;
+        if($h<10){
+         $h= 0 . $h;
+        }
+       }
+       $ho1= date_create($h . $m);
         $buscar = DB::table('rol_partidos')
         ->select( 'rol_partidos.*')
         ->where('EquipoA', $equipoA  )
+       // ->where( 'EquipoB' , $equipoB)
+        ->where('Fecha' , $fecha)
+        ->value('');
+        $buscar1 = DB::table('rol_partidos')
+        ->select( 'rol_partidos.*')
+       // ->where('EquipoA', $equipoA  )
         ->where( 'EquipoB' , $equipoB)
         ->where('Fecha' , $fecha)
         ->value('');
+        $buscar2 = DB::table('rol_partidos')
+        ->select( 'rol_partidos.*')
+       // ->where('EquipoA', $equipoA  )
+        ->where('Fecha' , $fecha)
+        ->where('Cancha', $cancha)
+        ->whereBetween('Hora', [$hora, $ho1])
+        ->value('');
         //return $buscar;
-        if(is_null($buscar)){
-            $rolpartido->save();
-            return $rolpartido;
+        if(!is_null($buscar)){
+            $e="El equipo A seleccionado ya tiene un partido programado en la fecha seleccionada";
+       return response()->json(['errorMessage' => $e ], 400);      
         }
+        if(!is_null($buscar1)){
+            $e="El equipo B seleccionado ya tiene un partido programado en la fecha seleccionada";
+       return response()->json(['errorMessage' => $e ], 400);      
+        }
+        if(!is_null($buscar2)){
+            $e="La cancha seleccionada ya esta ocupada en la hora solicitada";
+       return response()->json(['errorMessage' => $e ], 400);      
+        }
+        $rolpartido->save();
+            return $rolpartido;
        //return "Ya se registro";
-       $e="Ya se registro el partido";
-       return response()->json(['errorMessage' => $e ], 400);
+       
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Models\Jugador;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Equipo;
 
 class JugadorController extends Controller
 {
@@ -42,7 +43,9 @@ class JugadorController extends Controller
      */
     public function store(Request $request)
     {
-        $jugador = new Jugador($request->all());     
+        $jugador = new Jugador($request->all());  
+        $id = $jugador->value('Cod_Equipo');
+        $id = $jugador->Cod_Equipo;   
         $validator = Validator::make($request->all(), [
             '' => 'required|unique:DNI' ,
         ],
@@ -51,7 +54,29 @@ class JugadorController extends Controller
         ]);
 
         try {
-            $jugador->save();
+           
+            $jugadores = Equipo::find($id);
+        if(!is_null($jugadores)){
+         /*$cont = DB::table('delegados')
+         -> select('delegados.Contador');
+         */
+        $cont= $jugadores->value('NumJug');
+         $cont = $jugadores->NumJug;
+        
+        if($cont>11){
+            $e="Maximo de jugadores alcanzado";
+            return response()->json(['ErrorMessage' => $e], 400);
+        }else{
+        $aux =$cont;
+        $cont= $aux + 1;
+        $jugadores->update(['NumJug'=> $cont]);
+        $jugador->save();
+        //return $cont;
+        }
+        }else{
+            $e="No existe el equipo";
+            return response()->json(['ErrorMessage' => $e], 400);
+        }
         } catch (\Exception $e) {
             return response()->json(['errorCode' => $e->errorInfo[0], 'errorMessage' => $e->errorInfo[2] ], 400);
         }
