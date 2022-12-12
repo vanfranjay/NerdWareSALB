@@ -54,6 +54,7 @@ class ParEqController extends Controller
         $Equipo_P = $request['E_Perdedor'];
         $Equipo_PP = $request['Puntos_Perdedor']; 
         $Fecha = $request['Fecha_Partido'];
+        $cat = $request['Cod_Categoria'];
         //return $Equipo_GP . $Equipo_PP;
         $partido = new Partido($request->all());
         if($Equipo_GP<$Equipo_PP){
@@ -63,18 +64,22 @@ class ParEqController extends Controller
         $EGP = DB::table('equipos')
         ->select( 'equipos.Puntos')
         ->where('Nombre_Equipo', $Equipo_G)
+        ->where('Cod_Categoria', $cat)
         ->value('');
         $EGPF = DB::table('equipos')
         ->select( 'equipos.Puntos_F')
         ->where('Nombre_Equipo', $Equipo_G)
+        ->where('Cod_Categoria', $cat)
         ->value('');
         $EGPC = DB::table('equipos')
         ->select( 'equipos.Puntos_C')
         ->where('Nombre_Equipo', $Equipo_G)
+        ->where('Cod_Categoria', $cat)
         ->value('');
         $EGD = DB::table('equipos')
         ->select( 'equipos.Dif')
         ->where('Nombre_Equipo', $Equipo_G)
+        ->where('Cod_Categoria', $cat)
         ->value('');
         $EGPG = DB::table('equipos')
         ->select('equipos.Partidos_Ganados')
@@ -83,14 +88,17 @@ class ParEqController extends Controller
         $EGPJ = DB::table('equipos')
         ->select( 'equipos.Partidos_Jugados')
         ->where('Nombre_Equipo', $Equipo_G)
+        ->where('Cod_Categoria', $cat)
         ->value('');
         $EGI = DB::table('equipos')
          ->select( 'equipos.id')
          ->where('Nombre_Equipo', $Equipo_G)
+         ->where('Cod_Categoria', $cat)
          ->value('');
          $EGCC = DB::table('equipos')
          ->select( 'equipos.Cod_Categoria')
          ->where('Nombre_Equipo', $Equipo_G)
+         ->where('Cod_Categoria', $cat)
          ->value('');
         //return $EGP. ' '.$EGPG. ' ' . $EGPJ;
         if(is_null($EGP)){
@@ -100,26 +108,32 @@ class ParEqController extends Controller
         $EPP = DB::table('equipos')
         ->select( 'equipos.Puntos_F')
         ->where('Nombre_Equipo', $Equipo_P)
+        ->where('Cod_Categoria', $cat)
         ->value('');
         $EPPC = DB::table('equipos')
         ->select( 'equipos.Puntos_C')
         ->where('Nombre_Equipo', $Equipo_P)
+        ->where('Cod_Categoria', $cat)
         ->value('');
         $EPD = DB::table('equipos')
         ->select( 'equipos.Dif')
         ->where('Nombre_Equipo', $Equipo_P)
+        ->where('Cod_Categoria', $cat)
         ->value('');
         $EPPP = DB::table('equipos')
         ->select('equipos.Partidos_Perdidos')
         ->where('Nombre_Equipo', $Equipo_P)
+        ->where('Cod_Categoria', $cat)
         ->value('');
         $EPPJ = DB::table('equipos')
         ->select( 'equipos.Partidos_Jugados')
         ->where('Nombre_Equipo', $Equipo_P)
+        ->where('Cod_Categoria', $cat)
         ->value('');
         $EPCC = DB::table('equipos')
          ->select( 'equipos.Cod_Categoria')
          ->where('Nombre_Equipo', $Equipo_P)
+         ->where('Cod_Categoria', $cat)
          ->value('');
         if(is_null($EPP)){
             $e="espicifique el equipo perdedor porfavor";
@@ -132,6 +146,7 @@ class ParEqController extends Controller
          $EPI = DB::table('equipos')
          ->select( 'equipos.id')
          ->where('Nombre_Equipo', $Equipo_P)
+         ->where('Cod_Categoria', $cat)
          ->value('');
         $EG = Equipo::find($EGI);
         $EP = Equipo::find($EPI);
