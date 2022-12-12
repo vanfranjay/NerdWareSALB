@@ -62,6 +62,9 @@ class Rol_partidoController extends Controller
         }
        }
        $ho1= date_create($h . $m);
+       $ho2 =$ho1->format('H:i');
+       $ho3 = date($h . $m);
+       //return gettype($ho3);
         $buscar = DB::table('rol_partidos')
         ->select( 'rol_partidos.*')
         ->where('EquipoA', $equipoA  )
@@ -79,7 +82,7 @@ class Rol_partidoController extends Controller
        // ->where('EquipoA', $equipoA  )
         ->where('Fecha' , $fecha)
         ->where('Cancha', $cancha)
-        ->whereBetween('Hora', [$hora, $ho1])
+        ->whereBetween('Hora', [$ho, $ho2])
         ->value('');
         //return $buscar;
         if(!is_null($buscar)){
