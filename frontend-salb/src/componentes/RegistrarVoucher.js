@@ -37,12 +37,9 @@ import "moment/locale/es";
 const RegistrarVoucher = () => {
 
     const BOLETAS_URL = configData.BOLETAS_API_URL || "http://127.0.0.1:8000/api/boletas";
+    const TORNEOS_URL = configData.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
     const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "application/pdf"];
     const FILE_SIZE = 7340032; // 7MB de tamaño del archivo
-
-
-    //Obtener fechas de convocatoria de backend
-    var fechaIniConvocatotia = "2022-10-01";
 
     const [open, setOpen] = React.useState(false);
     const [alertColor, setAlertColor] = useState('');
@@ -59,11 +56,13 @@ const RegistrarVoucher = () => {
     const [fechaFinIns, setFechaFinIns] = useState([]);
 
     const [selectedFile, setSelectedFile] = useState();
+    const [torneos, setTorneos] = useState([]);
 
-    const getTorneo = async () => {
-        await axios.get(configData.TORNEO_API_URL)
+    const getTorneos = async () => {
+        await axios.get(TORNEOS_URL)
             .then(response => {
-                //setTorneo(response.data);
+                setTorneos(response.data);
+                console.log("Torneos: " + JSON.stringify(response.data));
                 setMontoRebajaIns(Math.trunc(response.data[0].MontoPreinscripcion).toString());
                 setMontoIns(Math.trunc(response.data[0].MontoInscripcion).toString());
                 setFechaIniConv(response.data[0].Fecha_Ini_Convocatoria);
@@ -72,8 +71,6 @@ const RegistrarVoucher = () => {
                 setFechaFinPreins(response.data[0].Fecha_Fin_Preinscripcion);
                 setFechaIniIns(response.data[0].Fecha_Ini_Inscripcion);
                 setFechaFinIns(response.data[0].Fecha_Fin_Inscripcion);
-
-                console.log("Torneo: " + JSON.stringify(response.data));
             }).catch(error => {
                 console.log(error);
             })
@@ -92,6 +89,9 @@ const RegistrarVoucher = () => {
 
 
     const formValidationSchema = Yup.object({
+        torneo: Yup
+            .string('Ingrese el torneo')
+            .required('Torneo es requerido'),
         numTransaccion: Yup
             .string('Ingrese el Número de transacción')
             .min(4, 'Número de transacción debe ser mínimo 4 caracteres')
@@ -119,6 +119,7 @@ const RegistrarVoucher = () => {
 
     const { handleSubmit, resetForm, handleChange, values, touched, errors, handleBlur, setFieldValue } = useFormik({
         initialValues: {
+            torneo: '',
             numTransaccion: '',
             monto: '',
             fechaDeposito: null,
@@ -247,6 +248,7 @@ const RegistrarVoucher = () => {
         }
 
         const datos = {
+            "Cod_Torneo": 0,
             "N_Transaccion": values.numTransaccion,
             "Monto": values.monto,
             "Fecha_Registro": formatedFechaDeposito,
@@ -356,7 +358,7 @@ const RegistrarVoucher = () => {
     }
 
     useEffect(() => {
-        getTorneo();
+        getTorneos();
     }, [])
 
     return (
@@ -388,6 +390,58 @@ const RegistrarVoucher = () => {
             <form onSubmit={handleSubmit}>
 
                 <Grid container spacing={5}>
+
+                    <Grid item xs={12} sm={6}>
+                        <FormControl variant="standard" fullWidth required>
+                            <InputLabel
+                                InputLabelProps={{
+                                    style: { color: '#ffff' },
+                                }}
+                                sx={{
+                                    color: 'white',
+                                    '& .MuiInputLabel-root': {
+                                        color: 'white'
+                                    },
+                                    '& .MuiFormLabelroot': {
+                                        color: 'white'
+                                    }
+                                }}>Torneo</InputLabel>
+                            <Select
+                                id="torneo"
+                                name="torneo"
+                                label="Torneo"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.torneo}
+                                error={touched.torneo && Boolean(errors.torneo)}
+                                helperText={touched.torneo && errors.torneo}
+                                sx={{
+                                    '& .MuiInputBase-input': {
+                                        color: 'white'
+
+                                    },
+                                    '& .MuiSelect-iconStandard': {
+                                        color: 'white'
+                                    }
+                                }}
+                            >
+
+                                {torneos.map(({ id, Nombre_Torneo }, index) => (
+                                    <MenuItem key={index} value={Nombre_Torneo}>
+                                        {Nombre_Torneo}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                            {touched.torneo && errors.torneo ? (
+                                <FormHelperText
+                                    sx={{ color: "#d32f2f", marginLeft: "!important" }}
+                                >
+                                    {touched.torneo && errors.torneo}
+                                </FormHelperText>
+                            ) : null}
+                        </FormControl>
+                    </Grid>
+
                     <Grid item xs={12} sm={6}>
                         <TextField
                             InputLabelProps={{
@@ -414,7 +468,7 @@ const RegistrarVoucher = () => {
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
-
+                        <br></br>
                         <FormControl variant="standard" fullWidth required>
                             <InputLabel
                                 InputLabelProps={{

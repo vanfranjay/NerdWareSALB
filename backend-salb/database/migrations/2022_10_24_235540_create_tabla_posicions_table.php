@@ -15,7 +15,7 @@ class CreateTablaPosicionsTable extends Migration
     {
         Schema::create('tabla_posicions', function (Blueprint $table) {
             $table->id();
-            $table->binary('Foto_pos')->nullable();
+            $table->string('Foto_pos',1000)->nullable();
             $table->date('Fecha');
             $table->timestamps();
             $table->foreignId('Cod_Torneo')

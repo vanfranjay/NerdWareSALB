@@ -22,8 +22,8 @@ class CreateDelegadosTable extends Migration
             $table->string('Contraseña');
             $table->string('Contraseña_confirmed');
             $table->string('Correo');
-            $table->string('Foto_Perfil')->nullable();
-            $table->string('Foto_DNI', 80000)->nullable();
+            $table->string('Foto_Perfil',1000)->nullable();
+            $table->string('Foto_DNI', 1000)->nullable();
             $table->integer('Habilitado')->default(0); //0 que no puede incribir a su equipo
             $table->integer('Contador')->default(0);
             $table->timestamps();

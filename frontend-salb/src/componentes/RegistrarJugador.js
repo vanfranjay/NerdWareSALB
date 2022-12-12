@@ -71,7 +71,7 @@ const RegistrarJugador = () => {
     }
 
     const getEquipos = async () => {
-        await axios.get(EQUIPO_DELEGADO_URL + 1)
+        await axios.get(EQUIPOS_URL)
             .then(response => {
                 setEquipos(response.data);
             }).catch(error => {
@@ -88,9 +88,6 @@ const RegistrarJugador = () => {
         equipo: Yup
             .string('Ingrese el equipo')
             .required('Equipo es requerido'),
-        categoria: Yup
-            .string('Ingrese la categoria')
-            .required('Categoria es requerido'),
         nombreParticipante: Yup
             .string('Ingrese el Nombre del participante')
             .min(2, 'Nombre del participante debe ser mínimo 2 caracteres')
@@ -154,7 +151,6 @@ const RegistrarJugador = () => {
     const { handleSubmit, resetForm, handleChange, values, touched, errors, handleBlur, setFieldValue } = useFormik({
         initialValues: {
             equipo: "",
-            categoria: "",
             nombreParticipante: "",
             apellidoParticipante: "",
             fechaNacParticipante: null,
@@ -385,7 +381,7 @@ const RegistrarJugador = () => {
         setTimeout(() => navigate("/registrar-equipo"), 3000);
     }
 
-   
+
 
 
     function borrar() {
@@ -467,9 +463,9 @@ const RegistrarJugador = () => {
                                         }
                                     }}
                                 >
-                                    {equipos.map(({ id, Nombre_Equipo }, index) => (
+                                    {equipos.map(({ id, Nombre_Equipo, Categoria }, index) => (
                                         <MenuItem key={index} value={Nombre_Equipo}>
-                                            {Nombre_Equipo}
+                                            {Nombre_Equipo} {Categoria}
                                         </MenuItem>
                                     ))}
                                 </Select>
@@ -483,54 +479,54 @@ const RegistrarJugador = () => {
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <FormControl variant="standard" fullWidth required>
-                                <InputLabel
-                                    InputLabelProps={{
-                                        style: { color: '#ffff' },
-                                    }}
-                                    sx={{
-                                        color: 'white',
-                                        '& .MuiInputLabel-root': {
-                                            color: 'white'
-                                        },
-                                        '& .MuiFormLabelroot': {
-                                            color: 'white'
-                                        }
-                                    }}>Categoria</InputLabel>
-                                <Select
+                            <Box sx={{ minWidth: 120 }}>
+                                <FormControl variant="standard" fullWidth>
+                                    <InputLabel
+                                        InputLabelProps={{
+                                            style: { color: '#ffff' },
+                                        }}
+                                        sx={{
+                                            color: 'white',
+                                            '& .MuiInputLabel-root': {
+                                                color: 'white'
+                                            },
+                                            '& .MuiFormLabelroot': {
+                                                color: 'white'
+                                            }
+                                        }}>Rol</InputLabel>
+                                    <Select
+                                        id='rolParticipante'
+                                        name="rolParticipante"
+                                        label="Categoria"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.rolParticipante}
+                                        error={touched.rolParticipante && Boolean(errors.rolParticipante)}
+                                        helperText={touched.rolParticipante && errors.rolParticipante}
+                                        sx={{
+                                            '& .MuiInputBase-input': {
+                                                color: 'white'
 
-                                    id="categoria"
-                                    name="categoria"
-                                    label="Categoria"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.categoria}
-                                    error={touched.categoria && Boolean(errors.categoria)}
-                                    helperText={touched.categoria && errors.categoria}
-                                    sx={{
-                                        '& .MuiInputBase-input': {
-                                            color: 'white'
-
-                                        },
-                                        '& .MuiSelect-iconStandard': {
-                                            color: 'white'
-                                        }
-                                    }}
-                                >
-                                    {categorias.map(({ id, Categoria }, index) => (
-                                        <MenuItem key={index} value={Categoria}>
-                                            {Categoria}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                                {touched.categoria && errors.categoria ? (
-                                    <FormHelperText
-                                        sx={{ color: "#d32f2f", marginLeft: "!important" }}
+                                            },
+                                            '& .MuiSelect-iconStandard': {
+                                                color: 'white'
+                                            }
+                                        }}
                                     >
-                                        {touched.categoria && errors.categoria}
-                                    </FormHelperText>
-                                ) : null}
-                            </FormControl>
+                                        <MenuItem value={0} >Ninguna</MenuItem>
+                                        <MenuItem value={10} >Alero</MenuItem>
+                                        <MenuItem value={20}>Pivot</MenuItem>
+                                        <MenuItem value={30}>Armador</MenuItem>
+                                    </Select>
+                                    {touched.rolParticipante && errors.rolParticipante ? (
+                                        <FormHelperText
+                                            sx={{ color: "#d32f2f", marginLeft: "!important" }}
+                                        >
+                                            {touched.rolParticipante && errors.rolParticipante}
+                                        </FormHelperText>
+                                    ) : null}
+                                </FormControl>
+                            </Box>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
@@ -644,56 +640,7 @@ const RegistrarJugador = () => {
                                 }}
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <Box sx={{ minWidth: 120 }}>
-                                <FormControl variant="standard" fullWidth>
-                                    <InputLabel
-                                        InputLabelProps={{
-                                            style: { color: '#ffff' },
-                                        }}
-                                        sx={{
-                                            color: 'white',
-                                            '& .MuiInputLabel-root': {
-                                                color: 'white'
-                                            },
-                                            '& .MuiFormLabelroot': {
-                                                color: 'white'
-                                            }
-                                        }}>Rol</InputLabel>
-                                    <Select
-                                        id='rolParticipante'
-                                        name="rolParticipante"
-                                        label="Categoria"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.rolParticipante}
-                                        error={touched.rolParticipante && Boolean(errors.rolParticipante)}
-                                        helperText={touched.rolParticipante && errors.rolParticipante}
-                                        sx={{
-                                            '& .MuiInputBase-input': {
-                                                color: 'white'
 
-                                            },
-                                            '& .MuiSelect-iconStandard': {
-                                                color: 'white'
-                                            }
-                                        }}
-                                    >
-                                        <MenuItem value={0} >Ninguna</MenuItem>
-                                        <MenuItem value={10} >Alero</MenuItem>
-                                        <MenuItem value={20}>Pivot</MenuItem>
-                                        <MenuItem value={30}>Armador</MenuItem>
-                                    </Select>
-                                    {touched.rolParticipante && errors.rolParticipante ? (
-                                        <FormHelperText
-                                            sx={{ color: "#d32f2f", marginLeft: "!important" }}
-                                        >
-                                            {touched.rolParticipante && errors.rolParticipante}
-                                        </FormHelperText>
-                                    ) : null}
-                                </FormControl>
-                            </Box>
-                        </Grid>
 
                         <Grid item xs={12} sm={6}>
                             <TextField
@@ -829,7 +776,7 @@ const RegistrarJugador = () => {
                         </Button>
 
                     </Stack>
-                   
+
                     <div>
                         <table id="tabla" className="table table-dark"></table>
                     </div>

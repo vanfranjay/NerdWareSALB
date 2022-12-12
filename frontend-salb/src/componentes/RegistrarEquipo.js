@@ -42,8 +42,10 @@ const RegistrarEquipo = () => {
   const [alertContent, setAlertContent] = useState('');
   const [categorias, setCategorias] = useState([]);
   const [delegado, setDelegado] = useState([]);
+  const [torneos, setTorneos] = useState([]);
 
   const EQUIPOS_URL = configData.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos";
+  const TORNEOS_URL = configData.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
   const DELEGADO_URL = configData.DELEGADO_API_URL || "http://127.0.0.1:8000/api/delegados";
   const DEC_BOLETA_DELEGADO_URL = configData.BOLETA_DELEGADO_API_URL || "http://127.0.0.1:8000/api/delbol/";
   const CATEGORIAS_URL = configData.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
@@ -64,6 +66,16 @@ const RegistrarEquipo = () => {
       })
   }
 
+  const getTorneos = async () => {
+    await axios.get(TORNEOS_URL)
+      .then(response => {
+        setTorneos(response.data);
+        console.log("Torneos: " + JSON.stringify(response.data));
+      }).catch(error => {
+        console.log(error);
+      })
+  }
+
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -71,12 +83,17 @@ const RegistrarEquipo = () => {
   const formValidationSchema = Yup.object({
     nombreEquipo: Yup
       .string('Ingrese el Nombre del equipo')
-      .min(4, 'Nombre del equipo debe ser mínimo 2 caracteres')
+      .min(2, 'Nombre del equipo debe ser mínimo 2 caracteres')
       .max(30, "Nombre del equipo debe ser máximo 30 caracteres")
       .required('Nombre del equipo es requerido'),
     categoriaEquipo: Yup
       .string('Ingrese la categoria del equipo')
       .required('Categoria del equipo es requerido'),
+    entrenador: Yup
+      .string('Ingrese el Entrenador')
+      .min(2, 'Entrenador debe ser mínimo 2 caracteres')
+      .max(30, "Entrenador debe ser máximo 30 caracteres")
+      .required('Entrenador es requerido'),
     logoEquipo: Yup.mixed()
       .nullable()
       .test("fileSize",
@@ -92,6 +109,7 @@ const RegistrarEquipo = () => {
     initialValues: {
       nombreEquipo: '',
       categoriaEquipo: '',
+      entrenador: '',
       logoEquipo: undefined
 
     },
@@ -182,6 +200,7 @@ const RegistrarEquipo = () => {
     const datos = {
       "Nombre_Equipo": values.nombreEquipo,
       "Logo": imageURL ? imageURL : "",
+      "Entrenador": values.entrenador,
       "Partidos_Jugados": 0,
       "Partidos_Ganados": 0,
       "Partidos_Perdidos": 0,
@@ -220,9 +239,11 @@ const RegistrarEquipo = () => {
         var errorRes = await respuestaJson.json();
         console.log("Error Response---" + JSON.stringify(errorRes));
 
-        if (errorRes.errorCode === "23505") {
+        var mensajeDeDuplicado = "El equipo ya fue registrado en la misma categoria seleccionada"
+
+        if (errorRes.ErrorMessage === mensajeDeDuplicado) {
           setAlertColor("error");
-          setAlertContent(configData.MENSAJE_CREACION_EQUIPO_DUPLICADO);
+          setAlertContent(mensajeDeDuplicado);
           setOpen(true);
         }
       }
@@ -266,6 +287,7 @@ const RegistrarEquipo = () => {
 
   useEffect(() => {
     getCategorias();
+    getTorneos();
   }, [])
 
   return (
@@ -369,6 +391,31 @@ const RegistrarEquipo = () => {
                 ) : null}
               </FormControl>
             </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                type="text"
+                id="entrenador"
+                name="entrenador"
+                label="Entrenador"
+                fullWidth
+                variant="standard"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.entrenador}
+                error={touched.entrenador && Boolean(errors.entrenador)}
+                helperText={touched.entrenador && errors.entrenador}
+                InputLabelProps={{
+                  style: { color: '#ffff' },
+                }}
+                sx={{
+                  color: 'white',
+                  '& .MuiInputBase-root': { color: 'white' }
+                }}
+              />
+            </Grid>
+
             <Grid item xs={12} sm={6}>
               <TextField
                 id="logoEquipo"

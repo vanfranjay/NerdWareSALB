@@ -46,10 +46,14 @@ const RegistrarPartido = () => {
     const [torneoID, setTorneoID] = useState([]);
     const [fechaFinTorneo, setFechaFinTorneo] = useState([]);
     const [equipos, setEquipos] = useState([]);
+    const [equiposCategoriaSel, setEquiposCategoriaSel] = useState([]);
+    const [categorias, setCategorias] = useState([]);
+    const [categoria, setCategoria] = useState([]);
 
     const EQUIPOS_URL = configData.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos";
     const TORNEOS_URL = configData.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
     const PARTIDOS_URL = configData.PARTIDOS_API_URL || "http://127.0.0.1:8000/api/rol_partidos";
+    const CATEGORIAS_URL = configData.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
 
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -75,9 +79,18 @@ const RegistrarPartido = () => {
     }
 
     const getEquipos = async () => {
-        await axios.get(EQUIPOS_URL)
+        await axios.get(EQUIPOS_URL + '/' + 1)
             .then(response => {
                 setEquipos(response.data);
+            }).catch(error => {
+                console.log(error);
+            })
+    }
+
+    const getCategorias = async () => {
+        await axios.get(CATEGORIAS_URL)
+            .then(response => {
+                setCategorias(response.data);
             }).catch(error => {
                 console.log(error);
             })
@@ -98,7 +111,16 @@ const RegistrarPartido = () => {
         horaPartido: Yup
             .date()
             .nullable()
-            .required('Hora del partido es requerido')
+            .required('Hora del partido es requerido'),
+        lugar: Yup
+            .string('Ingrese el Lugar')
+            .min(2, 'Lugar debe ser mínimo 2 caracteres')
+            .max(30, "Lugar debe ser máximo 30 caracteres")
+            .required('Lugar es requerido'),
+        cancha: Yup
+            .string('Ingrese el Número de Cancha')
+            .required('Número de Cancha es requerido'),
+
 
     });
 
@@ -107,7 +129,9 @@ const RegistrarPartido = () => {
             equipoA: '',
             equipoB: '',
             fechaPartido: null,
-            horaPartido: null
+            horaPartido: null,
+            lugar: '',
+            cancha: 0
         },
 
         validationSchema: formValidationSchema,
@@ -152,7 +176,9 @@ const RegistrarPartido = () => {
             "Hora": formatedHoraPartido,
             "EquipoA": values.equipoA,
             "EquipoB": values.equipoB,
-            "Cod_Torneo": torneoID
+            "Cod_Torneo": torneoID,
+            "Lugar": values.lugar,
+            "Cancha": values.cancha
         };
 
         console.log("Partido: ------> " + JSON.stringify(datos));
@@ -175,9 +201,25 @@ const RegistrarPartido = () => {
                 var errorRes = await respuestaJson.json();
                 console.log("Error Response---" + JSON.stringify(errorRes));
 
-                if (errorRes.errorMessage === "Ya se registro el partido") {
+                var errorFechaEquipoA = "El equipo A seleccionado ya tiene un partido programado en la fecha seleccionada"
+
+                if (errorRes.errorMessage === errorFechaEquipoA) {
                     setAlertColor("error");
-                    setAlertContent("El partido ya fue registrado");
+                    setAlertContent(errorFechaEquipoA);
+                    setOpen(true);
+                }
+
+                var errorFechaEquipoB = "El equipo B seleccionado ya tiene un partido programado en la fecha seleccionada"
+                if (errorRes.errorMessage === errorFechaEquipoB) {
+                    setAlertColor("error");
+                    setAlertContent(errorFechaEquipoB);
+                    setOpen(true);
+                }
+
+                var errorCancha = "La cancha seleccionada ya esta ocupada en la hora solicitada"
+                if (errorRes.errorMessage === errorCancha) {
+                    setAlertColor("error");
+                    setAlertContent(errorCancha);
                     setOpen(true);
                 }
             }
@@ -186,16 +228,34 @@ const RegistrarPartido = () => {
             setAlertContent("Los equipos no pueden ser iguales");
             setOpen(true);
         }
-
-
-
     }
+
+    const getEquiposPorCategoria = (categoria) => {
+
+        console.log("Categoria: ", categoria);
+
+        getEquipos();
+        var equiposCategoria = equipos.filter(equipo => equipo.Categoria === categoria);
+
+        console.log("Categorias filtered: ", equiposCategoria);
+        setEquipos(equiposCategoria);
+
+        setEquiposCategoriaSel(equiposCategoria);
+
+    };
+
+    const handleChangeCategoria = (event) => {
+        setCategoria(event.target.value);
+        setEquiposCategoriaSel(null);
+        getEquiposPorCategoria(event.target.value);
+    };
 
     function borrar() {
         return resetForm();
     }
 
     useEffect(() => {
+        getCategorias();
         getTorneo();
         getEquipos();
     }, [])
@@ -229,6 +289,51 @@ const RegistrarPartido = () => {
             <form onSubmit={handleSubmit}>
 
                 <Grid container spacing={5}>
+
+                    <Grid container spacing={5}
+                        alignItems="center"
+                        justifyContent="center">
+                        <Grid item xs={12} sm={6} >
+                            <FormControl variant="standard" fullWidth required>
+                                <InputLabel
+                                    InputLabelProps={{
+                                        style: { color: '#ffff' },
+                                    }}
+                                    sx={{
+                                        color: 'white',
+                                        '& .MuiInputLabel-root': {
+                                            color: 'white'
+                                        },
+                                        '& .MuiFormLabelroot': {
+                                            color: 'white'
+                                        }
+                                    }}>Categoria</InputLabel>
+                                <Select
+                                    required
+                                    id="categoria"
+                                    name="categoria"
+                                    label="Categoria"
+                                    value={categoria}
+                                    onChange={handleChangeCategoria}
+                                    sx={{
+                                        '& .MuiInputBase-input': {
+                                            color: 'white'
+
+                                        },
+                                        '& .MuiSelect-iconStandard': {
+                                            color: 'white'
+                                        }
+                                    }}
+                                >
+                                    {categorias.map(({ id, Categoria }, index) => (
+                                        <MenuItem key={index} value={Categoria}>
+                                            {Categoria}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                    </Grid>
 
                     <Grid item xs={12} sm={6}>
 
@@ -266,11 +371,13 @@ const RegistrarPartido = () => {
                                 error={touched.equipoA && Boolean(errors.equipoA)}
                                 helperText={touched.equipoA && errors.equipoA}
                             >
-                                {equipos.map(({ id, Nombre_Equipo }, index) => (
-                                    <MenuItem key={index} value={Nombre_Equipo}>
-                                        {Nombre_Equipo}
-                                    </MenuItem>
-                                ))}
+                                {equiposCategoriaSel ?
+                                    equiposCategoriaSel.map(({ id, Nombre_Equipo }, index) => (
+                                        <MenuItem key={index} value={Nombre_Equipo}>
+                                            {Nombre_Equipo}
+                                        </MenuItem>
+                                    ))
+                                    : []}
                             </Select>
 
                             {touched.equipoA && errors.equipoA ? (
@@ -319,11 +426,13 @@ const RegistrarPartido = () => {
                                 error={touched.equipoB && Boolean(errors.equipoB)}
                                 helperText={touched.equipoB && errors.equipoB}
                             >
-                                {equipos.map(({ id, Nombre_Equipo }, index) => (
-                                    <MenuItem key={index} value={Nombre_Equipo}>
-                                        {Nombre_Equipo}
-                                    </MenuItem>
-                                ))}
+                                {equiposCategoriaSel ?
+                                    equiposCategoriaSel.map(({ id, Nombre_Equipo }, index) => (
+                                        <MenuItem key={index} value={Nombre_Equipo}>
+                                            {Nombre_Equipo}
+                                        </MenuItem>
+                                    ))
+                                    : []}
                             </Select>
 
                             {touched.equipoB && errors.equipoB ? (
@@ -399,6 +508,54 @@ const RegistrarPartido = () => {
                                 }}
                             />
                         </LocalizationProvider>
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            required
+                            type="text"
+                            id="lugar"
+                            name="lugar"
+                            label="Lugar"
+                            fullWidth
+                            variant="standard"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.lugar}
+                            error={touched.lugar && Boolean(errors.lugar)}
+                            helperText={touched.lugar && errors.lugar}
+                            InputLabelProps={{
+                                style: { color: '#ffff' },
+                            }}
+                            sx={{
+                                color: 'white',
+                                '& .MuiInputBase-root': { color: 'white' }
+                            }}
+                        />
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            required
+                            type="number"
+                            id="cancha"
+                            name="cancha"
+                            label="Numero de Cancha"
+                            fullWidth
+                            variant="standard"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.cancha}
+                            error={touched.cancha && Boolean(errors.cancha)}
+                            helperText={touched.cancha && errors.cancha}
+                            InputLabelProps={{
+                                style: { color: '#ffff' },
+                            }}
+                            sx={{
+                                color: 'white',
+                                '& .MuiInputBase-root': { color: 'white' }
+                            }}
+                        />
                     </Grid>
                 </Grid>
 

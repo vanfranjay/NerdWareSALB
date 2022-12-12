@@ -52,23 +52,20 @@ const RegistrarTorneo = () => {
   const [formularioEnviado, setFormularioEnviado] = useState(false);
   const [formularioNoEnviado, setFormularioNoEnviado] = useState(false);
 
-
   var today = new Date();
- 
-// `getDate()` devuelve el día del mes (del 1 al 31)
-var day = today.getDate();
- 
-// `getMonth()` devuelve el mes (de 0 a 11)
-var month = today.getMonth() + 1;
- 
-// `getFullYear()` devuelve el año completo
-var year = today.getFullYear();
- 
-// muestra la fecha de hoy en formato `MM/DD/YYYY`
-const fechaActual = `${year}-${month}-${day}`;
-console.log(fechaActual);
 
+  // `getDate()` devuelve el día del mes (del 1 al 31)
+  var day = today.getDate();
 
+  // `getMonth()` devuelve el mes (de 0 a 11)
+  var month = today.getMonth() + 1;
+
+  // `getFullYear()` devuelve el año completo
+  var year = today.getFullYear();
+
+  // muestra la fecha de hoy en formato `MM/DD/YYYY`
+  const fechaActual = `${year}-${month}-${day}`;
+  console.log(fechaActual);
 
   //const [torneo, setTorneo] = useState({
   //  Campeon: "Bolivar",
@@ -179,6 +176,7 @@ console.log(fechaActual);
           Fecha_Fin_Inscripcion: "",
           Telefono: "",
           Responsable: "",
+          Canchas_Disponibles: "",
         }}
         validate={(valores) => {
           let errores = {};
@@ -230,7 +228,8 @@ console.log(fechaActual);
             errores.Telefono =
               "Por favor ingresa el número telefónico del responsable";
           } else if (!/^\d{7,20}$/.test(valores.Telefono)) {
-            errores.Telefono = "El teléfono solo puede contener números";
+            errores.Telefono =
+              "El teléfono solo puede contener números y tiene que tener un mínimo de 7 digitos";
           }
           // validación para Rama
           if (!valores.Rama) {
@@ -283,8 +282,7 @@ console.log(fechaActual);
             errores.Fecha_Ini_Torneo =
               "La fecha de inicio del evento tiene que ser mayor a la fecha de fin de inscripción";
           } else if (valores.Fecha_Ini_Torneo < fechaActual) {
-            errores.Fecha_Ini_Torneo =
-              "Fecha inicio de torneo invalido";
+            errores.Fecha_Ini_Torneo = "Fecha inicio de torneo invalido";
           }
           // validacion de Fecha_Fin_Torneo
           if (!valores.Fecha_Fin_Torneo) {
@@ -401,6 +399,30 @@ console.log(fechaActual);
             errores.Fecha_Fin_Inscripcion =
               "La fecha de fin de inscripción del evento tiene que ser mayor a la fecha fin de preinscripción";
           }
+          // validacion de MontoPreinscripcion
+          if (!valores.MontoPreinscripcion) {
+            errores.MontoPreinscripcion =
+              "Por favor seleccione un monto de preinscripción";
+          } else if (valores.MontoPreinscripcion >= valores.MontoInscripcion) {
+            errores.MontoPreinscripcion =
+              "El monto de preinscripción no puede ser mayor o igual al monto de inscripción";
+          }
+          // validacion de MontoInscripcion
+          if (!valores.MontoInscripcion) {
+            errores.MontoInscripcion =
+              "Por favor seleccione un monto de inscripción";
+          } else if (valores.MontoInscripcion <= valores.MontoPreinscripcion) {
+            errores.MontoInscripcion =
+              "El monto de inscripción no puede ser menor o igual al monto de preinscripción";
+          }
+          // validacion de Canchas_Disponibles
+          if (!valores.Canchas_Disponibles) {
+            errores.Canchas_Disponibles =
+              "Por favor seleccione la cantidad de canchas deportivas disponibles para el torneo";
+          } else if (!/^[1-9]\d*$/.test(valores.Canchas_Disponibles)) {
+            errores.Canchas_Disponibles =
+              "El número ingresado no puede ser cero";
+          }
 
           return errores;
         }}
@@ -409,7 +431,7 @@ console.log(fechaActual);
             //registrarCategorias(valores.Categoria);
             const { data } = axios.post(TORNEOS_URL, {
               ...valores,
-              Categoria: valores.Categoria.join(","),
+              //Categoria: valores.Categoria.join(","),
             });
             resetForm();
             setFormularioEnviado(true);
@@ -714,9 +736,6 @@ console.log(fechaActual);
                       >
                         <MenuItem value={"Femenina"}>Femenina</MenuItem>
                         <MenuItem value={"Masculino"}>Masculino</MenuItem>
-                        <MenuItem value={"Femenina/Masculino"}>
-                          Femenina/Masculino
-                        </MenuItem>
                       </Select>
                     </FormControl>
                   </Item>
@@ -781,6 +800,40 @@ console.log(fechaActual);
                         fullWidth
                       >
                         {errors.Caracter}
+                      </Grid>
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Item className="fondoColor">
+                    <TextField
+                      sx={{
+                        input: { color: "white" },
+                        label: { color: "white" },
+                      }}
+                      type="number"
+                      id="standard-required7"
+                      label="Canchas disponibles: *"
+                      fullWidth
+                      name="Canchas_Disponibles"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.Canchas_Disponibles}
+                      defaultValue=""
+                      variant="standard"
+                    />
+                  </Item>
+                  <ErrorMessage
+                    name="Canchas_Disponibles"
+                    component={() => (
+                      <Grid
+                        style={{ color: "#FF0000", fontSize: "16px" }}
+                        item
+                        xs={12}
+                        md={12}
+                        fullWidth
+                      >
+                        {errors.Canchas_Disponibles}
                       </Grid>
                     )}
                   />
