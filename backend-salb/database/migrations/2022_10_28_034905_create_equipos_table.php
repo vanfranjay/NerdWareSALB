@@ -33,6 +33,11 @@ class CreateEquiposTable extends Migration
                    ->constrained('delegados')
                    ->cascadeOnUpdate()
                    ->nullOnDelete();
+                   $table->foreignId('Cod_Categoria')
+                   ->nullable()
+                   ->constrained('categorias')
+                   ->cascadeOnUpdate()
+                   ->nullOnDelete();
         });
     }
 

@@ -12,10 +12,7 @@ class EquipoController extends Controller
     {
         //return Equipo::all();
         return DB::table('equipos')
-       // ->join('equipos', 'equipos.id', '=', 'jugadores.Cod_Equipo')
-        ->join('delegados', 'delegados.id', '=' ,'equipos.Cod_Delegado')
-        ->join('torneos', 'torneos.id', '=', 'delegados.Cod_Torneo')
-        ->join('categorias','categorias.Cod_Torneo','=', 'torneos.id')
+        ->join('categorias','categorias.id','=', 'equipos.Cod_Categoria')
         ->select( 'equipos.*', 'categorias.Categoria')
         ->get();
     }
@@ -46,7 +43,12 @@ class EquipoController extends Controller
         $n = DB::table('equipos')
         ->select('equipos.id') 
         ->where('Nombre_Equipo',$nombre)
-        ->where('Cod_Categoria',$nombre);
+        ->where('Cod_Categoria',$categoria)
+        ->value('equipos.id');
+        if(!is_null($n)){
+            $e="El equipo ya fue registrado en la misma categoria seleccionada";
+            return response()->json(['ErrorMessage' => $e], 400);
+        }
         try {
              $equipo->save();
         } catch (\Exception $e) {
