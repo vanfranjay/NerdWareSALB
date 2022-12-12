@@ -93,11 +93,17 @@ const RegistrarResultadoPartido = () => {
     const [categorias, setCategorias] = useState([]);
     const [torneo, setTorneo] = useState([]);
     const [torneoID, setTorneoID] = useState([]);
+    //const [partido, setPartido] = useState([]);
+    const [partidos, setPartidos] = useState([]);
     const [fechaFinTorneo, setFechaFinTorneo] = useState([]);
     const [equipos, setEquipos] = useState([]);
     const [jugadoresRes, setJugadoresRes] = useState([]);
     const [jugadoresEquipoGan, setJugadoresEquipoGan] = useState([]);
     const [jugadoresEquipoPer, setJugadoresEquipoPer] = useState([]);
+    const [equiposPartidoSel, setEquiposPartidoSel] = useState([]);
+    const [selectedPartido, setSelectedPartido] = useState([]);
+    const [partidosFinalizados, setPartidosFinalizados] = useState([]);
+
 
     var jugadores = jugadoresEquipoGan.concat(jugadoresEquipoPer);
 
@@ -160,6 +166,29 @@ const RegistrarResultadoPartido = () => {
         setJugadoresEquipoPer(jugadores);
     }
 
+    const cargarEquiposPartido = async (idPartido) => {
+
+        console.log("Selected Partido id: " + idPartido);
+        var selectedPartido = partidos ? partidos.find(equipo => equipo.id === idPartido) : null;
+
+        console.log("Selected Partido: " + selectedPartido);
+
+        var equipos = [];
+
+        if (selectedPartido != null) {
+
+            equipos.push({ Nombre_Equipo: selectedPartido.EquipoA, Cod_Partido: idPartido });
+            equipos.push({ Nombre_Equipo: selectedPartido.EquipoB, Cod_Partido: idPartido });
+
+            setEquiposPartidoSel(equipos);
+
+            console.log("Equipos: " + JSON.stringify(equipos));
+        }
+
+
+
+    }
+
     const getTorneo = async () => {
         await axios.get(TORNEOS_URL)
             .then(response => {
@@ -191,6 +220,23 @@ const RegistrarResultadoPartido = () => {
             })
     }
 
+    const getPartidos = async () => {
+        await axios.get(PARTIDOS_URL)
+            .then(response => {
+                var partidos = filtrarPartidos(response.data);
+                console.log("Partidos: " + JSON.stringify(partidos));
+                setPartidos(partidos);
+            }).catch(error => {
+                console.log(error);
+            })
+    }
+
+    const filtrarPartidos = async (partidos) => {
+        var partidosJugados = partidos.filter(partido => new Date(partido.Fecha) < new Date());
+        setPartidosFinalizados(partidosJugados);
+        return partidosJugados;
+    }
+
     const getJugadores = async (equipoID) => {
         const response = await fetch(JUGADOR_EQUIPO_URL + '/' + equipoID, {
             method: 'GET',
@@ -216,6 +262,13 @@ const RegistrarResultadoPartido = () => {
     }
 
     const formValidationSchema = Yup.object({
+        partido: Yup
+            .string('Ingrese el Equipo ganador')
+            .required('Equipo Ganador es requerido'),
+        horaFinal: Yup
+            .date()
+            .nullable()
+            .required('Hora Final es requerido'),
         equipoGanador: Yup
             .string('Ingrese el Equipo ganador')
             .required('Equipo Ganador es requerido'),
@@ -232,34 +285,6 @@ const RegistrarResultadoPartido = () => {
             .min(0, 'Puntos Equipo Perdedor debe ser mínimo 0')
             .max(200, "Puntos Equipo Perdedor debe ser máximo 200")
             .required('Puntos Equipo Perdedor es requerido'),
-        entrenadorEquipoGanador: Yup
-            .string('Ingrese el Entrenador Equipo Ganador')
-            .min(2, 'Entrenador Equipo Ganador debe ser mínimo 2 caracteres')
-            .max(255, "Entrenador Equipo Ganador debe ser máximo 100 caracteres")
-            .required('Entrenador Equipo Ganador es requerido'),
-        entrenadorEquipoPerdedor: Yup
-            .string('Ingrese el Entrenador Equipo Perdedor')
-            .min(2, 'Entrenador Equipo Perdedor debe ser mínimo 2 caracteres')
-            .max(255, "Entrenador Equipo Perdedor debe ser máximo 100 caracteres")
-            .required('Entrenador Equipo Perdedor es requerido'),
-        horaInicial: Yup
-            .date()
-            .nullable()
-            .required('Hora Inicial es requerido'),
-        horaFinal: Yup
-            .date()
-            .nullable()
-            .required('Hora Final es requerido'),
-        fechaPartido: Yup
-            .date()
-            .nullable()
-            .required('Fecha de partido es requerido'),
-        lugar: Yup
-            .string('Ingrese el Lugar')
-            .min(2, 'Lugar debe ser mínimo 2 caracteres')
-            .max(255, "Lugar debe ser máximo 255 caracteres")
-            .required('Lugar es requerido')
-       
 
     });
 
@@ -267,13 +292,6 @@ const RegistrarResultadoPartido = () => {
         initialValues: {
             equipoGanador: '',
             equipoPerdedor: '',
-            entrenadorEquipoGanador: '',
-            entrenadorEquipoPerdedor: '',
-         
-            lugar: '',
-           
-            fechaPartido: null,
-            horaInicial: null,
             horaFinal: null,
             puntosEquipoGanador: '',
             puntosEquipoPerdedor: ''
@@ -324,17 +342,19 @@ const RegistrarResultadoPartido = () => {
         var formatedHoraInicial = values.horaInicial.format('HH:mm');
         var formatedHoraFinal = values.horaFinal.format('HH:mm');
 
+        console.log("Selected Partido: " + values.partido)
+
         const datosPartido = {
             "E_Ganador": values.equipoGanador,
             "E_Perdedor": values.equipoPerdedor,
             "Puntos_Ganador": values.puntosEquipoGanador,
             "Puntos_Perdedor": values.puntosEquipoPerdedor,
             "Categoria": "+35",
-            "Lugar": values.lugar,
-            "Campeonato": "LMB",
-            "Entrenador_G": values.entrenadorEquipoGanador,
-            "Entrenador_P": values.entrenadorEquipoPerdedor,
-            "Hora_Inicio": formatedHoraInicial,
+            "Lugar": values.partido,
+            "Cancha": "",
+            "Cod_EquipoG": 2,
+            "Cod_EquipoP": 4,
+            "Hora_Inicio": "",
             "Hora_Final": formatedHoraFinal,
             "Fecha_Partido": formatedFechaPartido
         };
@@ -363,16 +383,6 @@ const RegistrarResultadoPartido = () => {
                 var errorRes = await resRegResPar.json();
                 console.log("Error Response---" + JSON.stringify(errorRes));
 
-                if (errorRes.errorCode === "23505") {
-                    setAlertColor("error");
-                    setAlertContent("Los resultados de partido ya fueron registrados");
-                    setOpen(true);
-                }
-                if (errorRes.ErrorMessage === "Seleccione los equipos de la misma categoria") {
-                    setAlertColor("error");
-                    setAlertContent("Seleccione los equipos de la misma categoria");
-                    setOpen(true);
-                }
                 if (errorRes.ErrorMessage === "Ponga el mayor puntaje al equipo ganador") {
                     setAlertColor("error");
                     setAlertContent("Ponga el mayor puntaje al equipo ganador");
@@ -391,11 +401,19 @@ const RegistrarResultadoPartido = () => {
         }
     }
 
+    const handleChangePartido = (event) => {
+        setSelectedPartido(event.target.value);
+    };
+
     function borrar() {
+        setSelectedPartido([]);
+        document.getElementByName("partido").value = "";
         return resetForm();
+
     }
 
     useEffect(() => {
+        getPartidos();
         getEquipos();
         getCategorias();
         getTorneo();
@@ -447,6 +465,94 @@ const RegistrarResultadoPartido = () => {
                                     '& .MuiFormLabelroot': {
                                         color: 'white'
                                     }
+                                }}>Partido</InputLabel>
+                            <Select
+                                required
+                                id="partido"
+                                name="partido"
+                                label="Partido"
+                                sx={{
+                                    '& .MuiInputBase-input': {
+                                        color: 'white'
+
+                                    },
+                                    '& .MuiSelect-iconStandard': {
+                                        color: 'white'
+                                    }
+                                }}
+                                onChange={(e) => {
+                                    handleChangePartido(e);
+                                    cargarEquiposPartido(e.target.value);
+                                }}
+
+
+                                error={touched.partido && Boolean(errors.partido)}
+                                helperText={touched.partido && errors.partido}
+                            >
+                                {partidosFinalizados ? partidosFinalizados.map(({ id, EquipoA, EquipoB, Fecha, Hora }, index) => (
+                                    <MenuItem key={index} value={id}>
+                                        {EquipoA} vs {EquipoB} - {Fecha} - {Hora}
+                                    </MenuItem>
+                                )) : []}
+                            </Select>
+
+                            {touched.partido && errors.partido ? (
+                                <FormHelperText
+                                    sx={{ color: "#d32f2f", marginLeft: "!important" }}
+                                >
+                                    {touched.partido && errors.partido}
+                                </FormHelperText>
+                            ) : null}
+
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
+                        <LocalizationProvider dateAdapter={AdapterMoment}>
+                            <TimePicker
+                                label="Hora Final"
+                                value={values.horaFinal}
+                                onChange={(value) => setFieldValue("horaFinal", value, true)}
+                                renderInput={(params) => {
+                                    return <TextField {...params}
+                                        variant="standard"
+                                        fullWidth
+                                        required
+                                        onBlur={handleBlur}
+                                        error={touched.horaFinal && Boolean(errors.horaFinal)}
+                                        helperText={touched.horaFinal && errors.horaFinal}
+                                        InputLabelProps={{ style: { color: 'white' } }}
+                                        sx={{
+                                            '.MuiSvgIcon-root ': {
+                                                fill: "white !important",
+
+                                            },
+                                            '& .MuiInputBase-input': {
+                                                color: 'white'
+
+                                            }
+                                        }}
+                                    />;
+                                }}
+                            />
+                        </LocalizationProvider>
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
+
+                        <FormControl variant="standard" fullWidth required>
+                            <InputLabel
+                                InputLabelProps={{
+                                    style: { color: '#ffff' },
+                                }}
+                                sx={{
+                                    color: 'white',
+                                    '& .MuiInputLabel-root': {
+                                        color: 'white'
+                                    },
+                                    '& .MuiFormLabelroot': {
+                                        color: 'white'
+                                    }
                                 }}>Equipo Ganador</InputLabel>
                             <Select
                                 required
@@ -466,16 +572,15 @@ const RegistrarResultadoPartido = () => {
                                     handleChange(e);
                                     getRowsEquipGan(e.target.value);
                                 }}
-                                onBlur={handleBlur}
                                 value={values.equipoGanador}
                                 error={touched.equipoGanador && Boolean(errors.equipoGanador)}
                                 helperText={touched.equipoGanador && errors.equipoGanador}
                             >
-                                {equipos.map(({ id, Nombre_Equipo }, index) => (
+                                {equiposPartidoSel ? equiposPartidoSel.map(({ Nombre_Equipo, Cod_Partido }, index) => (
                                     <MenuItem key={index} value={Nombre_Equipo}>
                                         {Nombre_Equipo}
                                     </MenuItem>
-                                ))}
+                                )) : []}
                             </Select>
 
                             {touched.equipoGanador && errors.equipoGanador ? (
@@ -527,11 +632,11 @@ const RegistrarResultadoPartido = () => {
                                 error={touched.equipoPerdedor && Boolean(errors.equipoPerdedor)}
                                 helperText={touched.equipoPerdedor && errors.equipoPerdedor}
                             >
-                                {equipos.map(({ id, Nombre_Equipo }, index) => (
+                                {selectedPartido ? equiposPartidoSel.map(({ Nombre_Equipo, Cod_Partido }, index) => (
                                     <MenuItem key={index} value={Nombre_Equipo}>
                                         {Nombre_Equipo}
                                     </MenuItem>
-                                ))}
+                                )) : []}
                             </Select>
 
                             {touched.equipoPerdedor && errors.equipoPerdedor ? (
@@ -591,173 +696,13 @@ const RegistrarResultadoPartido = () => {
                             }}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            required
-                            type="text"
-                            id="entrenadorEquipoGanador"
-                            name="entrenadorEquipoGanador"
-                            label="Entrenador Equipo Ganador"
-                            fullWidth
-                            variant="standard"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.entrenadorEquipoGanador}
-                            error={touched.entrenadorEquipoGanador && Boolean(errors.entrenadorEquipoGanador)}
-                            helperText={touched.entrenadorEquipoGanador && errors.entrenadorEquipoGanador}
-                            InputLabelProps={{
-                                style: { color: '#ffff' },
-                            }}
-                            sx={{
-                                color: 'white',
-                                '& .MuiInputBase-root': { color: 'white' }
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            required
-                            type="text"
-                            id="entrenadorEquipoPerdedor"
-                            name="entrenadorEquipoPerdedor"
-                            label="Entrenador Equipo Perdedor"
-                            fullWidth
-                            variant="standard"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.entrenadorEquipoPerdedor}
-                            error={touched.entrenadorEquipoPerdedor && Boolean(errors.entrenadorEquipoPerdedor)}
-                            helperText={touched.entrenadorEquipoPerdedor && errors.entrenadorEquipoPerdedor}
-                            InputLabelProps={{
-                                style: { color: '#ffff' },
-                            }}
-                            sx={{
-                                color: 'white',
-                                '& .MuiInputBase-root': { color: 'white' }
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <LocalizationProvider dateAdapter={AdapterMoment}>
-                            <TimePicker
-                                label="Hora Inicial"
-                                value={values.horaInicial}
-                                onChange={(value) => setFieldValue("horaInicial", value, true)}
-                                renderInput={(params) => {
-                                    return <TextField {...params}
-                                        variant="standard"
-                                        fullWidth
-                                        required
-                                        onBlur={handleBlur}
-                                        error={touched.horaInicial && Boolean(errors.horaInicial)}
-                                        helperText={touched.horaInicial && errors.horaInicial}
-                                        InputLabelProps={{ style: { color: 'white' } }}
-                                        sx={{
-                                            '.MuiSvgIcon-root ': {
-                                                fill: "white !important",
-
-                                            },
-                                            '& .MuiInputBase-input': {
-                                                color: 'white'
-
-                                            }
-                                        }}
-                                    />;
-                                }}
-                            />
-                        </LocalizationProvider>
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                        <LocalizationProvider dateAdapter={AdapterMoment}>
-                            <TimePicker
-                                label="Hora Final"
-                                value={values.horaFinal}
-                                onChange={(value) => setFieldValue("horaFinal", value, true)}
-                                renderInput={(params) => {
-                                    return <TextField {...params}
-                                        variant="standard"
-                                        fullWidth
-                                        required
-                                        onBlur={handleBlur}
-                                        error={touched.horaFinal && Boolean(errors.horaFinal)}
-                                        helperText={touched.horaFinal && errors.horaFinal}
-                                        InputLabelProps={{ style: { color: 'white' } }}
-                                        sx={{
-                                            '.MuiSvgIcon-root ': {
-                                                fill: "white !important",
-
-                                            },
-                                            '& .MuiInputBase-input': {
-                                                color: 'white'
-
-                                            }
-                                        }}
-                                    />;
-                                }}
-                            />
-                        </LocalizationProvider>
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                        <LocalizationProvider dateAdapter={AdapterMoment}>
-                            <DesktopDatePicker
-                                label="Fecha"
-                                inputFormat="DD/MM/YYYY"
-                                value={values.fechaPartido}
-                                onChange={(value) => setFieldValue("fechaPartido", value, true)}
-                                minDate={moment(new Date())}
-                                maxDate={moment(new Date(fechaFinTorneo))}
-                                renderInput={(params) => {
-                                    return <TextField {...params}
-                                        variant="standard"
-                                        fullWidth
-                                        required
-                                        onBlur={handleBlur}
-                                        error={touched.fechaPartido && Boolean(errors.fechaPartido)}
-                                        helperText={touched.fechaPartido && errors.fechaPartido}
-                                        InputLabelProps={{ style: { color: 'white' } }}
-                                        sx={{
-                                            '.MuiSvgIcon-root ': {
-                                                fill: "white !important",
-                                            },
-                                            '& .MuiInputBase-input': {
-                                                color: 'white'
-
-                                            }
-                                        }}
-                                    />;
-                                }}
-                            />
-                        </LocalizationProvider>
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            required
-                            id="lugar"
-                            name="lugar"
-                            label="Lugar"
-                            fullWidth
-                            variant="standard"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.lugar}
-                            error={touched.lugar && Boolean(errors.lugar)}
-                            helperText={touched.lugar && errors.lugar}
-                            multiline
-                            InputLabelProps={{
-                                style: { color: "#ffff" },
-                            }}
-                            sx={{
-                                color: "white",
-                                "& .MuiInputBase-root": { color: "white" },
-                            }}
-                        />
-                    </Grid>
 
 
-                   
+
+
+
+
+
 
                     <Grid item xs={12} sm={6}>
                         <Typography variant="h6"
