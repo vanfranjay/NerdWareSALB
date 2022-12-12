@@ -98,6 +98,9 @@ const RegistrarPartido = () => {
 
 
     const formValidationSchema = Yup.object({
+        categoria: Yup
+            .string('Ingrese la categoria')
+            .required('Categoria es requerido'),
         equipoA: Yup
             .string('Ingrese el equipo A')
             .required('Equipo A es requerido'),
@@ -126,6 +129,7 @@ const RegistrarPartido = () => {
 
     const { handleSubmit, resetForm, handleChange, values, touched, errors, handleBlur, setFieldValue } = useFormik({
         initialValues: {
+            categoria: '',
             equipoA: '',
             equipoB: '',
             fechaPartido: null,
@@ -171,6 +175,9 @@ const RegistrarPartido = () => {
         var formatedFechaPartido = values.fechaPartido.format('YYYY-MM-DD');
         var formatedHoraPartido = values.horaPartido.format('HH:mm');
 
+        var selectedCategoria = categorias.find(categoria => categoria.Categoria === values.categoria);
+        console.log("Categoria ID: " + selectedCategoria);
+
         const datos = {
             "Fecha": formatedFechaPartido,
             "Hora": formatedHoraPartido,
@@ -178,13 +185,16 @@ const RegistrarPartido = () => {
             "EquipoB": values.equipoB,
             "Cod_Torneo": torneoID,
             "Lugar": values.lugar,
-            "Cancha": values.cancha
+            "Cancha": values.cancha,
+            "Cod_Categoria": selectedCategoria.id
         };
 
         console.log("Partido: ------> " + JSON.stringify(datos));
         // Validar fechas
 
-        if (values.equipoA !== values.equipoB) {
+        var esHoraMayor = new Date(values.horaPartido) > new Date();
+        console.log("Es hora mayor: " + esHoraMayor);
+        if ((values.equipoA !== values.equipoB) && esHoraMayor) {
 
             const respuestaJson = await postPartido(PARTIDOS_URL, datos);
 
@@ -224,9 +234,16 @@ const RegistrarPartido = () => {
                 }
             }
         } else {
-            setAlertColor("error");
-            setAlertContent("Los equipos no pueden ser iguales");
-            setOpen(true);
+            if (!esHoraMayor) {
+                setAlertColor("error");
+                setAlertContent("La hora debe ser mayor a la actual");
+                setOpen(true);
+            } else {
+                setAlertColor("error");
+                setAlertContent("Los equipos no pueden ser iguales");
+                setOpen(true);
+            }
+
         }
     }
 
@@ -290,51 +307,61 @@ const RegistrarPartido = () => {
 
                 <Grid container spacing={5}>
 
-                    <Grid container spacing={5}
-                        alignItems="center"
-                        justifyContent="center">
-                        <Grid item xs={12} sm={6} >
-                            <FormControl variant="standard" fullWidth required>
-                                <InputLabel
-                                    InputLabelProps={{
-                                        style: { color: '#ffff' },
-                                    }}
-                                    sx={{
-                                        color: 'white',
-                                        '& .MuiInputLabel-root': {
-                                            color: 'white'
-                                        },
-                                        '& .MuiFormLabelroot': {
-                                            color: 'white'
-                                        }
-                                    }}>Categoria</InputLabel>
-                                <Select
-                                    required
-                                    id="categoria"
-                                    name="categoria"
-                                    label="Categoria"
-                                    value={categoria}
-                                    onChange={handleChangeCategoria}
-                                    sx={{
-                                        '& .MuiInputBase-input': {
-                                            color: 'white'
+                    <Grid item xs={12} sm={6} >
+                        <FormControl variant="standard" fullWidth required>
+                            <InputLabel
+                                InputLabelProps={{
+                                    style: { color: '#ffff' },
+                                }}
+                                sx={{
+                                    color: 'white',
+                                    '& .MuiInputLabel-root': {
+                                        color: 'white'
+                                    },
+                                    '& .MuiFormLabelroot': {
+                                        color: 'white'
+                                    }
+                                }}>Categoria</InputLabel>
+                            <Select
+                                required
+                                id="categoria"
+                                name="categoria"
+                                label="Categoria"
+                                value={values.categoria}
+                                onChange={(e) => {
+                                    setFieldValue("categoria", e.target.value);
+                                    handleChangeCategoria(e);
+                                }}
+                                error={touched.categoria && Boolean(errors.categoria)}
+                                helperText={touched.categoria && errors.categoria}
 
-                                        },
-                                        '& .MuiSelect-iconStandard': {
-                                            color: 'white'
-                                        }
-                                    }}
+                                sx={{
+                                    '& .MuiInputBase-input': {
+                                        color: 'white'
+
+                                    },
+                                    '& .MuiSelect-iconStandard': {
+                                        color: 'white'
+                                    }
+                                }}
+                            >
+                                {categorias.map(({ id, Categoria }, index) => (
+                                    <MenuItem key={index} value={Categoria}>
+                                        {Categoria}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                            {touched.categoria && errors.categoria ? (
+                                <FormHelperText
+                                    sx={{ color: "#d32f2f", marginLeft: "!important" }}
                                 >
-                                    {categorias.map(({ id, Categoria }, index) => (
-                                        <MenuItem key={index} value={Categoria}>
-                                            {Categoria}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
+                                    {touched.categoria && errors.categoria}
+                                </FormHelperText>
+                            ) : null}
+                        </FormControl>
                     </Grid>
-
+                    <Grid item xs={12} sm={6} >
+                    </Grid>
                     <Grid item xs={12} sm={6}>
 
                         <FormControl variant="standard" fullWidth required>
@@ -446,7 +473,6 @@ const RegistrarPartido = () => {
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <br></br>
                         <LocalizationProvider dateAdapter={AdapterMoment}>
                             <DesktopDatePicker
                                 label="Fecha"
@@ -480,7 +506,6 @@ const RegistrarPartido = () => {
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
-                        <br></br>
                         <LocalizationProvider dateAdapter={AdapterMoment}>
                             <TimePicker
                                 label="Hora"

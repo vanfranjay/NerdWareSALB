@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
@@ -44,6 +44,7 @@ import "moment/locale/es";
 const Registrarse = () => {
 
   const DELEGADO_URL = configData.DELEGADO_API_URL || "http://127.0.0.1:8000/api/delegados";
+  const TORNEOS_URL = configData.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
 
   const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
   const FILE_SIZE = 7340032; // 7MB de tamaño del archivo
@@ -56,6 +57,7 @@ const Registrarse = () => {
 
   const [selectedFileFotoDNI, setSelectedFileFotoDNI] = useState();
   const [selectedFileFotoPerfil, setSelectedFileFotoPerfil] = useState();
+  const [torneos, setTorneos] = useState([]);
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -73,6 +75,16 @@ const Registrarse = () => {
     }
     setOpen(false);
   };
+
+  const getTorneos = async () => {
+    await axios.get(TORNEOS_URL)
+      .then(response => {
+        setTorneos(response.data);
+        console.log("Torneos: " + JSON.stringify(response.data));
+      }).catch(error => {
+        console.log(error);
+      })
+  }
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -159,6 +171,9 @@ const Registrarse = () => {
         "El tipo de archivo no es permitido",
         (value) => !value || (value && SUPPORTED_FORMATS.includes(value.type))
       ),
+    torneo: Yup
+      .string('Ingrese el torneo')
+      .required('Torneo es requerido'),
   });
 
   const {
@@ -182,6 +197,7 @@ const Registrarse = () => {
       direccion: "",
       fotoPerfil: undefined,
       fotoDNI: undefined,
+      torneo: ""
     },
 
     validationSchema: formValidationSchema,
@@ -267,9 +283,13 @@ const Registrarse = () => {
       var imageFotoDNIURL = "";
 
       if ((selectedFileFotoPerfil && values.fotoPerfil) && (selectedFileFotoDNI && values.fotoDNI)) {
-        //imageFotoPerfilURL = await postImageToServerExt(selectedFileFotoPerfil);
-        //imageFotoDNIURL = await postImageToServerExt(selectedFileFotoDNI);
+        imageFotoPerfilURL = await postImageToServerExt(selectedFileFotoPerfil);
+        imageFotoDNIURL = await postImageToServerExt(selectedFileFotoDNI);
       }
+
+      console.log("Torneo: " + values.torneo);
+      var selectedTorneo = torneos.find(torneo => torneo.Nombre_Torneo === values.torneo);
+      console.log("Torneo ID: " + selectedTorneo.id);
 
       const datos = {
         CI: values.dni,
@@ -281,9 +301,12 @@ const Registrarse = () => {
         Correo: values.email,
         Foto_Perfil: imageFotoPerfilURL,
         Foto_DNI: imageFotoDNIURL,
+        Cod_Torneo: selectedTorneo.id
       };
 
       console.log("Delegado: " + JSON.stringify(datos));
+
+
 
       var response = await postDelegado(datos);
 
@@ -329,6 +352,10 @@ const Registrarse = () => {
     document.getElementById("fotoDNI").value = "";
     return resetForm();
   }
+
+  useEffect(() => {
+    getTorneos();
+  }, [])
 
   return (
     <Grid justifyItems="center" className="contentRegistrarse">
@@ -675,6 +702,58 @@ const Registrarse = () => {
               }}
             />
           </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <FormControl variant="standard" fullWidth required>
+              <InputLabel
+                InputLabelProps={{
+                  style: { color: '#ffff' },
+                }}
+                sx={{
+                  color: 'white',
+                  '& .MuiInputLabel-root': {
+                    color: 'white'
+                  },
+                  '& .MuiFormLabelroot': {
+                    color: 'white'
+                  }
+                }}>Torneo</InputLabel>
+              <Select
+                id="torneo"
+                name="torneo"
+                label="Torneo"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.torneo}
+                error={touched.torneo && Boolean(errors.torneo)}
+                helperText={touched.torneo && errors.torneo}
+                sx={{
+                  '& .MuiInputBase-input': {
+                    color: 'white'
+
+                  },
+                  '& .MuiSelect-iconStandard': {
+                    color: 'white'
+                  }
+                }}
+              >
+
+                {torneos.map(({ id, Nombre_Torneo }, index) => (
+                  <MenuItem key={index} value={Nombre_Torneo}>
+                    {Nombre_Torneo}
+                  </MenuItem>
+                ))}
+              </Select>
+              {touched.torneo && errors.torneo ? (
+                <FormHelperText
+                  sx={{ color: "#d32f2f", marginLeft: "!important" }}
+                >
+                  {touched.torneo && errors.torneo}
+                </FormHelperText>
+              ) : null}
+            </FormControl>
+          </Grid>
+
         </Grid>
         <Stack
           m={5}
