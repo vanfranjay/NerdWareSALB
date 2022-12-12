@@ -18,13 +18,14 @@ class ParEqController extends Controller
         return DB::table('partidos')
         ->join('equipos as equiposg', 'partidos.Cod_EquipoG', '=', 'equiposg.id' )
         ->join('equipos as equiposp', 'partidos.Cod_EquipoP', '=', 'equiposp.id')
-        ->select('partidos.*', 'equiposg.Nombre_Equipo', 'equiposp.Nombre_Equipo')
+        //->select('equiposg.Nombre_Equipo')
+        ->select('partidos.*', 'equiposg.Nombre_Equipo as Nombre_EquipoG', 'equiposp.Nombre_Equipo as Nombre_EquipoP')
         ->get();
-        $equipop= DB::table('partidos')
-        ->join('equipos', 'partidos.Cod_EquipoP', '=', 'equipos.id' )
-       // ->join('equipos', 'partidos.Cod_EquipoP', '=', 'equipos.id')
-        ->select('partidos.*', 'equipos.*')
-        ->get();//
+    //     $equipop= DB::table('partidos')
+    //     ->join('equipos', 'partidos.Cod_EquipoP', '=', 'equipos.id' )
+    //    // ->join('equipos', 'partidos.Cod_EquipoP', '=', 'equipos.id')
+    //     ->select('equipos.E_Ganador', 'equipos.E_Perdedor')
+    //     ->get();//
        
        // return json_encode($equipog , $equipop);
        // return $equipog;
