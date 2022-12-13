@@ -38,13 +38,14 @@ class TorneoController extends Controller
         $ac=0;
         $solo = DB::table('torneos')
         ->select('torneos.id')
-        ->first()
+       // ->first()
         ->value('torneos.id');
         if(is_null($solo)){
            $ac= 1;
         }
         $torneo = new Torneo($request->all());
         $FIT = $request['Fecha_Ini_Torneo'];
+        $nombre= $request['Nombre_Torneo'];
         $FFT= DB::table('torneos')
         ->select('torneos.Fecha_Fin_Torneo')
         ->where('Activo',  1)
@@ -52,11 +53,18 @@ class TorneoController extends Controller
         $aux= DB::table('torneos')
        // ->join('rol_partidos', 'torneos.id', '=', 'rol_partidos.Cod_Torneo')
         ->select('torneos.id')
-        ->whereBetween('Fecha_Fin_Torneo', [$FIT,$FFT ])
+        ->whereBetween('Fecha_Fin_Torneo', [$FIT,$FFT])
         ->value('torneos.id');
+        //return $FIT . "-". $FFT;
         if(is_null($aux)){
-            $torneo->save();
-           // $torneo->update('Activo', $ac);
+             $torneo->save();
+             $id= DB::table('torneos')
+              ->select('torneos.id')
+              ->where('Nombre_Torneo',$nombre)
+              ->where("Fecha_Ini_Torneo",$FIT)
+              ->value('torneos.id');
+             $r = Torneo::find($id);
+             $r->update(['Activo'=> $ac]);
             return $torneo;
         }
         $e="La fecha Inicio de Torneo, conincide con el toreno actual";
