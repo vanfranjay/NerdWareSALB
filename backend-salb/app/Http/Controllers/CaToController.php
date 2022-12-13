@@ -49,7 +49,11 @@ class CaToController extends Controller
      */
     public function show($id)
     {
-        //
+        return DB::table('categorias')
+        ->join('torneos', 'categorias.Cod_Torneo', '=', 'torneos.id')
+        ->select('categorias.*',  'torneos.*')
+        ->where('torneos.id', $id)
+        ->get();  //
     }
 
     /**

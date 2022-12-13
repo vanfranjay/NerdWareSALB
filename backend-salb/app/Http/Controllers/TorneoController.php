@@ -35,6 +35,14 @@ class TorneoController extends Controller
      */
     public function store(Request $request)
     {
+        $ac=0;
+        $solo = DB::table('torneos')
+        ->select('torneos.id')
+        ->first()
+        ->value('torneos.id');
+        if(is_null($solo)){
+           $ac= 1;
+        }
         $torneo = new Torneo($request->all());
         $FIT = $request['Fecha_Ini_Torneo'];
         $FFT= DB::table('torneos')
@@ -48,6 +56,7 @@ class TorneoController extends Controller
         ->value('torneos.id');
         if(is_null($aux)){
             $torneo->save();
+           // $torneo->update('Activo', $ac);
             return $torneo;
         }
         $e="La fecha Inicio de Torneo, conincide con el toreno actual";
