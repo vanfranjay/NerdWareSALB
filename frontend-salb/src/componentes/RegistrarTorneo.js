@@ -65,7 +65,12 @@ const RegistrarTorneo = () => {
 
   // muestra la fecha de hoy en formato `MM/DD/YYYY`
   const fechaActual = `${year}-${month}-${day}`;
-  console.log(fechaActual);
+  //console.log(fechaActual);
+
+  function sumarDias(fecha, dias){
+    fecha.setDate(fecha.getDate() + dias);
+    return fecha;
+  }
 
   //const [torneo, setTorneo] = useState({
   //  Campeon: "Bolivar",
@@ -291,9 +296,9 @@ const RegistrarTorneo = () => {
           } else if (!valores.Fecha_Ini_Torneo) {
             errores.Fecha_Fin_Torneo =
               "Por favor establesca una fecha de inicio del torneo";
-          } else if (f2.getTime() < f1.getTime()) {
+          } else if (f2.getTime() < sumarDias(f1, 5).getTime()) {
             errores.Fecha_Fin_Torneo =
-              "La fecha de finalización del evento tiene que ser mayor a la fecha de inicio del torneo";
+              "La fecha de finalización del evento tiene que ser mayor a la fecha de inicio del torneo, por lo menos con 1 dia";
           } else if (f2.getTime() <= f3.getTime()) {
             errores.Fecha_Fin_Torneo =
               "La fecha de finalización del evento tiene que ser mayor a la fecha de inicio de preinscripción";
@@ -333,25 +338,25 @@ const RegistrarTorneo = () => {
           // validacion de Fecha_Fin_Preinscripcion
           if (!valores.Fecha_Fin_Preinscripcion) {
             errores.Fecha_Fin_Preinscripcion =
-              "Por favor seleccione una fecha de fin de pre-inscripción del evento";
+              "Por favor seleccione una fecha de fin de pre-inscripción del torneo";
           } else if (!valores.Fecha_Ini_Preinscripcion) {
             errores.Fecha_Fin_Preinscripcion =
               "Por favor establesca una fecha de inicio de pre-inscripción";
-          } else if (f3.getTime() > f4.getTime()) {
+          } else if (sumarDias(f3, 1).getTime() > f4.getTime()) {
             errores.Fecha_Fin_Preinscripcion =
-              "La fecha de fin de preinscripción del evento tiene que ser mayor a la fecha de inicio de pre-inscripción";
+              "La fecha de fin de preinscripción del torneo tiene que ser mayor a la fecha de inicio de pre-inscripción, por lo menos con 1 dia";
           } else if (f4.getTime() >= f1.getTime()) {
             errores.Fecha_Fin_Preinscripcion =
-              "La fecha de fin de preinscripción del evento tiene que ser menor a la fecha de inico del torneo";
+              "La fecha de fin de preinscripción del torneo tiene que ser menor a la fecha de inico del torneo";
           } else if (f4.getTime() >= f2.getTime()) {
             errores.Fecha_Fin_Preinscripcion =
-              "La fecha de fin de preinscripción del evento tiene que ser menor a la fecha fin del torneo";
+              "La fecha de fin de preinscripción del torneo tiene que ser menor a la fecha fin del torneo";
           } else if (f4.getTime() >= f5.getTime()) {
             errores.Fecha_Fin_Preinscripcion =
-              "La fecha de fin de preinscripción del evento tiene que ser menor a la fecha inicio de inscripción";
+              "La fecha de fin de preinscripción del torneo tiene que ser menor a la fecha inicio de inscripción";
           } else if (f4.getTime() >= f6.getTime()) {
             errores.Fecha_Fin_Preinscripcion =
-              "La fecha de fin de preinscripción del evento tiene que ser menor a la fecha fin de inscripción";
+              "La fecha de fin de preinscripción del torneo tiene que ser menor a la fecha fin de inscripción";
           }
           // validacion de Fecha_Ini_Inscripcion
           if (!valores.Fecha_Ini_Inscripcion) {
@@ -379,25 +384,25 @@ const RegistrarTorneo = () => {
           // validacion de Fecha_Fin_Inscripcion
           if (!valores.Fecha_Fin_Inscripcion) {
             errores.Fecha_Fin_Inscripcion =
-              "Por favor seleccione una fecha de fin de inscripción del evento";
+              "Por favor seleccione una fecha de fin de inscripción del torneo";
           } else if (!valores.Fecha_Ini_Inscripcion) {
             errores.Fecha_Fin_Inscripcion =
               "Por favor establesca una fecha de inicio de inscripción";
-          } else if (f5.getTime() > f6.getTime()) {
-            errores.Fecha_Fin_Inscripcion =
-              "La fecha de fin de inscripción del evento tiene que ser mayor a la fecha de inicio de inscripción";
+          } else if (sumarDias(f5, 1).getTime() > f6.getTime()) {
+            errores.Fecha_Fin_Inscripcion = 
+              "La fecha de fin de inscripción del torneo tiene que ser mayor a la fecha de inicio de inscripción, por lo menos con 1 día";
           } else if (f6.getTime() >= f1.getTime()) {
             errores.Fecha_Fin_Inscripcion =
-              "La fecha de fin de inscripción del evento tiene que ser menor a la fecha de inicio del torneo";
+              "La fecha de fin de inscripción del torneo tiene que ser menor a la fecha de inicio del torneo";
           } else if (f6.getTime() >= f2.getTime()) {
             errores.Fecha_Fin_Inscripcion =
-              "La fecha de fin de inscripción del evento tiene que ser menor a la fecha fin del torneo";
+              "La fecha de fin de inscripción del torneo tiene que ser menor a la fecha fin del torneo";
           } else if (f6.getTime() <= f3.getTime()) {
             errores.Fecha_Fin_Inscripcion =
-              "La fecha de fin de inscripción del evento tiene que ser mayor a la fecha inicio de preinscripción";
+              "La fecha de fin de inscripción del torneo tiene que ser mayor a la fecha inicio de preinscripción";
           } else if (f6.getTime() <= f4.getTime()) {
             errores.Fecha_Fin_Inscripcion =
-              "La fecha de fin de inscripción del evento tiene que ser mayor a la fecha fin de preinscripción";
+              "La fecha de fin de inscripción del torneo tiene que ser mayor a la fecha fin de preinscripción";
           }
           // validacion de MontoPreinscripcion
           if (!valores.MontoPreinscripcion) {
