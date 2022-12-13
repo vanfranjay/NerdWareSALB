@@ -35,6 +35,7 @@ class CreateTorneosTable extends Migration
             $table->string('Caracter');
             $table->string('Responsable');
             $table->string('Telefono');
+            $table->integer('Activo')->default(0);
            // $table->string('Categoria');
             
             $table->timestamps();

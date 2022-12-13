@@ -12,7 +12,7 @@ class Torneo extends Model
     protected $primarykey = 'id';
     protected $fillable = [
         'Campeon', 'Subcampeon', 'Fecha_Ini_Convocatoria', 'Fecha_Fin_Convocatoria','Fecha_Ini_Preinscripcion', 'Fecha_Fin_Preinscripcion', 'Fecha_Ini_Inscripcion', 'Fecha_Fin_Inscripcion', 'MontoPreinscripcion', 'MontoInscripcion',
-        'Invitacion','Nombre_Torneo','Lugar_Evento','Canchas_Disponibles','Fecha_Ini_Torneo','Fecha_Fin_Torneo','Rama','Caracter','Responsable','Telefono', 
+        'Invitacion','Nombre_Torneo','Lugar_Evento','Canchas_Disponibles','Activo','Fecha_Ini_Torneo','Fecha_Fin_Torneo','Rama','Caracter','Responsable','Telefono', 
     ];
 
     public function fotos(){

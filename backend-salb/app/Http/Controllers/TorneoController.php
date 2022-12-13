@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Torneo;
-
+use Illuminate\Support\Facades\DB;
 class TorneoController extends Controller
 {
     /**
@@ -36,8 +36,23 @@ class TorneoController extends Controller
     public function store(Request $request)
     {
         $torneo = new Torneo($request->all());
-        $torneo->save();
-        return $torneo; //
+        $FIT = $request['Fecha_Ini_Torneo'];
+        $FFT= DB::table('torneos')
+        ->select('torneos.Fecha_Fin_Torneo')
+        ->where('Activo',  1)
+        ->value('torneos.Fecha_Fin_Torneo');
+        $aux= DB::table('torneos')
+       // ->join('rol_partidos', 'torneos.id', '=', 'rol_partidos.Cod_Torneo')
+        ->select('torneos.id')
+        ->whereBetween('Fecha_Fin_Torneo', [$FIT,$FFT ])
+        ->value('torneos.id');
+        if(is_null($aux)){
+            $torneo->save();
+            return $torneo;
+        }
+        $e="La fecha Inicio de Torneo, conincide con el toreno actual";
+        return response()->json(['Message' => $e], 400);
+         //
     }
 
     /**
