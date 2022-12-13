@@ -31,7 +31,7 @@ import configData from "../config/config.json";
 
 //Setup for Datepicker
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import moment from "moment";
+import moment, { now } from "moment";
 import "moment/locale/es";
 
 const RegistrarResultadoPartido = () => {
@@ -169,7 +169,9 @@ const RegistrarResultadoPartido = () => {
     const cargarEquiposPartido = async (idPartido) => {
 
         console.log("Selected Partido id: " + idPartido);
-        var selectedPartido = partidos ? partidos.find(equipo => equipo.id === idPartido) : null;
+        console.log("Partidos Filtrados Finali: " + JSON.stringify(partidosFinalizados));
+        console.log("Partidos: " + JSON.stringify(partidos));
+        var selectedPartido = partidosFinalizados ? partidosFinalizados.find(equipo => equipo.id === idPartido) : null;
 
         console.log("Selected Partido: " + selectedPartido);
 
@@ -232,8 +234,12 @@ const RegistrarResultadoPartido = () => {
     }
 
     const filtrarPartidos = async (partidos) => {
-        var partidosJugados = partidos.filter(partido => new Date(partido.Fecha) < new Date());
+        var horaActual = moment(new Date()).format('HH:mm');
+
+        var partidosJugados = partidos.filter(partido => (moment(getFechaHoraP(partido.Fecha, partido.Hora, horaActual)).isBefore(new Date())));
+
         setPartidosFinalizados(partidosJugados);
+        console.log("Partidos Filtrados Finali: " + JSON.stringify(partidosFinalizados));
         return partidosJugados;
     }
 
@@ -263,8 +269,8 @@ const RegistrarResultadoPartido = () => {
 
     const formValidationSchema = Yup.object({
         partido: Yup
-            .string('Ingrese el Equipo ganador')
-            .required('Equipo Ganador es requerido'),
+            .string('Ingrese el Partido')
+            .required('Equipo Ganador el Partido'),
         horaFinal: Yup
             .date()
             .nullable()
@@ -277,28 +283,31 @@ const RegistrarResultadoPartido = () => {
             .required('Equipo Perdedor es requerido'),
         puntosEquipoGanador: Yup
             .number('Ingrese los Puntos Equipo Ganador')
-            .min(0, 'Puntos Equipo Ganador debe ser mínimo 0')
-            .max(200, "Puntos Equipo Ganador debe ser máximo 200")
             .required('Puntos Equipo Ganador es requerido'),
         puntosEquipoPerdedor: Yup
             .number('Ingrese los Puntos Equipo Perdedor')
-            .min(0, 'Puntos Equipo Perdedor debe ser mínimo 0')
-            .max(200, "Puntos Equipo Perdedor debe ser máximo 200")
             .required('Puntos Equipo Perdedor es requerido'),
 
     });
 
     const { handleSubmit, resetForm, handleChange, values, touched, errors, handleBlur, setFieldValue } = useFormik({
         initialValues: {
+            partido: '',
             equipoGanador: '',
             equipoPerdedor: '',
             horaFinal: null,
-            puntosEquipoGanador: '',
-            puntosEquipoPerdedor: ''
+            puntosEquipoGanador: 0,
+            puntosEquipoPerdedor: 0
         },
 
         validationSchema: formValidationSchema,
         onSubmit: (values, { setSubmitting, resetForm }) => {
+            console.log("Partido: " + values.partido);
+            console.log("Equipo Ganador: " + values.equipoGanador);
+            console.log("Equipo Perdedor: " + values.equipoPerdedor);
+            console.log("Hora Final: " + values.horaFinal);
+            console.log("Puntos E Ganador: " + values.puntosEquipoGanador);
+            console.log("Puntos E Perdedor: " + values.puntosEquipoPerdedor);
             registrarResPartido();
             //registrarResPartidoJugadores();
 
@@ -337,35 +346,38 @@ const RegistrarResultadoPartido = () => {
     }
 
     const registrarResPartido = async () => {
+        console.log("Selected Partido ID: " + values.partido);
+        var selectedPartido = partidosFinalizados ? partidosFinalizados.find(equipo => equipo.id === values.partido) : null;
+        console.log("Selected Partido: " + JSON.stringify(selectedPartido));
 
-        var formatedFechaPartido = values.fechaPartido.format('YYYY-MM-DD');
-        var formatedHoraInicial = values.horaInicial.format('HH:mm');
-        var formatedHoraFinal = values.horaFinal.format('HH:mm');
+        var formatedHoraFinal = values.horaFinal.format('HH:mm:ss');
 
-        console.log("Selected Partido: " + values.partido)
+        var selectedEquipoGanador = equipos ? equipos.find(equipo => (equipo.Nombre_Equipo === values.equipoGanador) && (equipo.Cod_Categoria === selectedPartido.Cod_Categoria)) : null;
+        var selectedEquipoPerdedor = equipos ? equipos.find(equipo => (equipo.Nombre_Equipo === values.equipoPerdedor) && (equipo.Cod_Categoria === selectedPartido.Cod_Categoria)) : null;
 
         const datosPartido = {
             "E_Ganador": values.equipoGanador,
             "E_Perdedor": values.equipoPerdedor,
             "Puntos_Ganador": values.puntosEquipoGanador,
             "Puntos_Perdedor": values.puntosEquipoPerdedor,
-            "Categoria": "+35",
-            "Lugar": values.partido,
-            "Cancha": "",
-            "Cod_EquipoG": 2,
-            "Cod_EquipoP": 4,
-            "Hora_Inicio": "",
+            "Fecha_Partido": selectedPartido.Fecha,
+            "Hora_Inicio": selectedPartido.Hora,
             "Hora_Final": formatedHoraFinal,
-            "Fecha_Partido": formatedFechaPartido
+            "Lugar": selectedPartido.Lugar,
+            "Cancha": selectedPartido.Cancha,
+            "Cod_EquipoG": selectedEquipoGanador.id,
+            "Cod_EquipoP": selectedEquipoPerdedor.id,
+            "Cod_Categoria": selectedPartido.Cod_Categoria
         };
 
         var datosJugadores = jugadoresEquipoGan.concat(jugadoresEquipoPer);
 
-        console.log("Partido datos: " + JSON.stringify(datosPartido));
+        console.log("Resultados Partido datos: " + JSON.stringify(datosPartido));
 
         console.log("Jugadores datos: " + JSON.stringify(datosJugadores));
 
-        if (values.equipoGanador !== values.equipoPerdedor) {
+        var esValidaHoraFinalPartido = esValidoHoraFinal(selectedPartido.Fecha, selectedPartido.Hora, formatedHoraFinal);
+        if ((values.equipoGanador !== values.equipoPerdedor) && esValidaHoraFinalPartido) {
 
             const resRegResPar = await postRegistrarResPartido(datosPartido);
             const resRegResParJugs = await postRegistrarResPartidoJugs(datosJugadores);
@@ -395,11 +407,62 @@ const RegistrarResultadoPartido = () => {
                 }
             }
         } else {
-            setAlertColor("error");
-            setAlertContent("Los equipos no pueden ser iguales");
-            setOpen(true);
+            console.log("Hora final: ", values.horaFinal);
+            if (!esValidaHoraFinalPartido) {
+                setAlertColor("error");
+                setAlertContent("La hora final debe ser mayor a la hora inicio del partido y menor o igual la hora actual");
+                setOpen(true);
+            } else {
+                setAlertColor("error");
+                setAlertContent("Los equipos no pueden ser iguales");
+                setOpen(true);
+            }
+
         }
     }
+
+    const esValidoHoraFinal = (fechaP, horaInicialP, horaFinalP) => {
+
+        var dateIni = moment(fechaP);
+        var timeIni = moment(horaInicialP, 'HH:mm');
+
+        var dateFin = moment(fechaP);
+        var timeFin = moment(horaFinalP, 'HH:mm');
+
+        dateIni.set({
+            hour: timeIni.get('hour'),
+            minute: timeIni.get('minute'),
+            second: timeIni.get('second')
+        });
+
+        dateFin.set({
+            hour: timeFin.get('hour'),
+            minute: timeFin.get('minute'),
+            second: timeFin.get('second')
+        });
+
+        var esMayor = moment(dateFin).isAfter(dateIni) && moment(dateFin).isBetween(dateIni, dateFin, undefined, '[]');
+        console.log("Es hora final es mayor a la actual: " + esMayor);
+        return esMayor;
+    };
+
+    const getFechaHoraP = (fechaP, horaInicialP, horaActual) => {
+
+        var date = moment(fechaP);
+        var time = moment(horaInicialP, 'HH:mm');
+
+        date.set({
+            hour: time.get('hour'),
+            minute: time.get('minute'),
+            second: time.get('second')
+        });
+
+        console.log("Fecha Moment: " + date);
+
+
+        console.log("Es hora partido menor a la actual: " + moment(date).isBefore(new Date()));
+        return date;
+    };
 
     const handleChangePartido = (event) => {
         setSelectedPartido(event.target.value);
@@ -407,7 +470,7 @@ const RegistrarResultadoPartido = () => {
 
     function borrar() {
         setSelectedPartido([]);
-        document.getElementByName("partido").value = "";
+        setFieldValue("partido", "");
         return resetForm();
 
     }
@@ -481,11 +544,12 @@ const RegistrarResultadoPartido = () => {
                                     }
                                 }}
                                 onChange={(e) => {
+                                    //handleChange(e.target.value);
+                                    setFieldValue("partido", e.target.value);
                                     handleChangePartido(e);
                                     cargarEquiposPartido(e.target.value);
                                 }}
-
-
+                                value={values.partido}
                                 error={touched.partido && Boolean(errors.partido)}
                                 helperText={touched.partido && errors.partido}
                             >
@@ -696,13 +760,6 @@ const RegistrarResultadoPartido = () => {
                             }}
                         />
                     </Grid>
-
-
-
-
-
-
-
 
                     <Grid item xs={12} sm={6}>
                         <Typography variant="h6"

@@ -312,7 +312,7 @@ const RegistrarJugador = () => {
                 //Validadando si se envio correctamente o hubo algun fallo
                 console.log("Response:------> " + respuestaJson.status);
                 if (respuestaJson.status === 200) {
-                    const resIncJugEquipo = await incJugadorEquipo(JUGADOR_EQUIPO_URL + selectedEquipo.id);
+                    //const resIncJugEquipo = await incJugadorEquipo(JUGADOR_EQUIPO_URL + selectedEquipo.id);
                     setAlertColor("success");
                     setAlertContent("Se registro al jugador exitosamente");
                     setOpen(true);

@@ -38,6 +38,7 @@ const RegistrarVoucher = () => {
 
     const BOLETAS_URL = configData.BOLETAS_API_URL || "http://127.0.0.1:8000/api/boletas";
     const TORNEOS_URL = configData.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
+    const DELEGADOS_URL = configData.DELEGADO_API_URL || "http://127.0.0.1:8000/api/delegados";
     const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "application/pdf"];
     const FILE_SIZE = 7340032; // 7MB de tamaño del archivo
 
@@ -65,12 +66,6 @@ const RegistrarVoucher = () => {
                 console.log("Torneos: " + JSON.stringify(response.data));
                 setMontoRebajaIns(Math.trunc(response.data[0].MontoPreinscripcion).toString());
                 setMontoIns(Math.trunc(response.data[0].MontoInscripcion).toString());
-                setFechaIniConv(response.data[0].Fecha_Ini_Convocatoria);
-                setFechaFinConv(response.data[0].Fecha_Fin_Convocatoria);
-                setFechaIniPreins(response.data[0].Fecha_Ini_Preinscripcion);
-                setFechaFinPreins(response.data[0].Fecha_Fin_Preinscripcion);
-                setFechaIniIns(response.data[0].Fecha_Ini_Inscripcion);
-                setFechaFinIns(response.data[0].Fecha_Fin_Inscripcion);
             }).catch(error => {
                 console.log(error);
             })
@@ -223,6 +218,17 @@ const RegistrarVoucher = () => {
         return response;
     }
 
+    const updateDelegadoTorneo = async (datos, delegadoID) => {
+        const response = await fetch(DELEGADOS_URL + '/' + delegadoID, {
+            method: 'PUT',
+            body: JSON.stringify(datos),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return response;
+    }
+
     const incVoucherDelegado = async (url) => {
         const response = await fetch(url, {
             method: 'GET',
@@ -238,30 +244,39 @@ const RegistrarVoucher = () => {
     // Construimos una Boleta con los datos introducidos
 
     const registrarVoucher = async () => {
-
-        //var comprobantePagoFile = await toBase64(selectedFile);
         var formatedFechaDeposito = values.fechaDeposito.format('YYYY-MM-DD');
-        var imageURL = "";
-        if (selectedFile && values.comprobantePago) {
-            //imageURL = await postImage();
-            imageURL = await postImageToServerExt();
+
+        console.log("Torneo: " + values.torneo);
+        var selectedTorneo = torneos.find(torneo => torneo.Nombre_Torneo === values.torneo);
+        console.log("Torneo ID: " + selectedTorneo.id);
+
+        const datosDelegadoTorneo = {
+            "Cod_Torneo": selectedTorneo.id
         }
 
-        const datos = {
-            "Cod_Torneo": 0,
-            "N_Transaccion": values.numTransaccion,
-            "Monto": values.monto,
-            "Fecha_Registro": formatedFechaDeposito,
-            "Comprobante": imageURL,
-            // TODO: Sacar el ID del delegado que esta logeado
-            "Cod_Delegado": 1
-        };
+        if (esFechaValida(formatedFechaDeposito, selectedTorneo) && esMontoValido(formatedFechaDeposito, values.monto, selectedTorneo)) {
 
-        console.log("Voucher: ------> " + JSON.stringify(datos));
-        // Validar fechas
+            //var comprobantePagoFile = await toBase64(selectedFile);
 
-        if (esFechaValida(formatedFechaDeposito) && esMontoValido(formatedFechaDeposito, values.monto)) {
+            var imageURL = "";
+            if (selectedFile && values.comprobantePago) {
+                //imageURL = await postImage();
+                imageURL = await postImageToServerExt();
+            }
+            const datos = {
+
+                "N_Transaccion": values.numTransaccion,
+                "Monto": values.monto,
+                "Fecha_Registro": formatedFechaDeposito,
+                "Comprobante": imageURL,
+                // TODO: Sacar el ID del delegado que esta logeado
+                "Cod_Delegado": 1
+            };
+
+            console.log("Boleta: ------> " + JSON.stringify(datos));
+
             const respuestaJson = await postVoucher(BOLETAS_URL, datos);
+            const respuestaDelegadoTorneo = await updateDelegadoTorneo(datosDelegadoTorneo, 1);
 
             borrar();
             //Validadando si se envio correctamente o hubo algun fallo
@@ -287,31 +302,40 @@ const RegistrarVoucher = () => {
         }
     }
 
-    const esFechaValida = (fechaDeposito) => {
-        var esValido = moment(fechaDeposito).isBetween(fechaIniConv, fechaFinConv, undefined, '[]');
+    const esFechaValida = (fechaDeposito, torneo) => {
+        var esValido = moment(fechaDeposito).isBetween(torneo.Fecha_Ini_Convocatoria, torneo.Fecha_Fin_Convocatoria, undefined, '[]');
+        var esFechaFutura = new Date(torneo.Fecha_Ini_Convocatoria) > new Date(fechaDeposito);
+        if (esFechaFutura) {
+            borrar();
+            setAlertColor("error");
+            setAlertContent("Aun no inicio la fecha de inscripciones");
+            setOpen(true);
+            esValido = esFechaFutura;
+        }
         if (!esValido) {
             borrar();
             setAlertColor("error");
             setAlertContent(configData.MENSAJE_FECHA_DE_DEPOSITO_FUERA_DEL_RANGO_DE_CONVOCATORIA);
             setOpen(true);
+
         }
         return esValido;
     }
 
-    const esMontoValido = (fechaDeposito, selectedMonto) => {
+    const esMontoValido = (fechaDeposito, selectedMonto, torneo) => {
 
-        var esValidoPreIns = moment(fechaDeposito).isBetween(fechaIniPreins, fechaFinPreins, undefined, '[]');
-        var esValidoIns = moment(fechaDeposito).isBetween(fechaIniIns, fechaFinIns, undefined, '[]');
+        var esValidoPreIns = moment(fechaDeposito).isBetween(torneo.Fecha_Ini_Preinscripcion, torneo.Fecha_Fin_Preinscripcion, undefined, '[]');
+        var esValidoIns = moment(fechaDeposito).isBetween(torneo.Fecha_Ini_Inscripcion, torneo.Fecha_Fin_Inscripcion, undefined, '[]');
 
         if (esValidoPreIns) {
-            if (montoRebajaIns === selectedMonto) {
+            if (torneo.MontoPreinscripcion === selectedMonto) {
                 return true;
             }
             mostrarErrorMonto();
             return false;
         }
         if (esValidoIns) {
-            if (montoIns === selectedMonto) {
+            if (torneo.MontoInscripcion === selectedMonto) {
                 return true;
             }
             mostrarErrorMonto();
@@ -350,6 +374,18 @@ const RegistrarVoucher = () => {
         console.log("Correo response full: " + res);
         return res;
 
+    }
+
+    const setTorneoBoleta = async (torneoName) => {
+        var selectedTorneo = torneos.find(torneo => torneo.Nombre_Torneo === torneoName);
+        var montosTorneo = [];
+
+        montosTorneo.push({ id: selectedTorneo.id, Monto: selectedTorneo.MontoPreinscripcion });
+        montosTorneo.push({ id: selectedTorneo.id, Monto: selectedTorneo.MontoInscripcion });
+
+        setMontos(montosTorneo);
+
+        setTorneo(selectedTorneo);
     }
 
     function borrar() {
@@ -410,7 +446,10 @@ const RegistrarVoucher = () => {
                                 id="torneo"
                                 name="torneo"
                                 label="Torneo"
-                                onChange={handleChange}
+                                onChange={(e) => {
+                                    handleChange(e);
+                                    setTorneoBoleta(e.target.value);
+                                }}
                                 onBlur={handleBlur}
                                 value={values.torneo}
                                 error={touched.torneo && Boolean(errors.torneo)}
@@ -503,8 +542,11 @@ const RegistrarVoucher = () => {
                                 error={touched.monto && Boolean(errors.monto)}
                                 helperText={touched.monto && errors.monto}
                             >
-                                <MenuItem value={montoRebajaIns}>$ {montoRebajaIns}</MenuItem>
-                                <MenuItem value={montoIns}>$ {montoIns}</MenuItem>
+                                {montos ? montos.map(({ id, Monto }, index) => (
+                                    <MenuItem key={index} value={Monto}>
+                                        {Monto}
+                                    </MenuItem>
+                                )) : []}
                             </Select>
 
                             {touched.monto && errors.monto ? (
@@ -525,7 +567,7 @@ const RegistrarVoucher = () => {
                                 inputFormat="DD/MM/YYYY"
                                 value={values.fechaDeposito}
                                 onChange={(value) => setFieldValue("fechaDeposito", value, true)}
-                                minDate={moment(fechaIniConv)}
+                                minDate={moment(torneo.Fecha_Ini_Preinscripcion)}
                                 maxDate={moment(new Date())}
                                 renderInput={(params) => {
                                     return <TextField {...params}
