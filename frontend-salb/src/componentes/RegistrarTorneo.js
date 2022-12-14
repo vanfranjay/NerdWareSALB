@@ -298,7 +298,7 @@ const RegistrarTorneo = () => {
               "Por favor establesca una fecha de inicio del torneo";
           } else if (f2.getTime() < sumarDias(f1, 5).getTime()) {
             errores.Fecha_Fin_Torneo =
-              "La fecha de finalización del evento tiene que ser mayor a la fecha de inicio del torneo, por lo menos con 1 dia";
+              "El torneo tiene que tener una duración minima de 5 dias";
           } else if (f2.getTime() <= f3.getTime()) {
             errores.Fecha_Fin_Torneo =
               "La fecha de finalización del evento tiene que ser mayor a la fecha de inicio de preinscripción";
