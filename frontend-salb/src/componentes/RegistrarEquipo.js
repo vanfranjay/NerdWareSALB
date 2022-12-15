@@ -41,6 +41,7 @@ const RegistrarEquipo = () => {
   const [alertColor, setAlertColor] = useState('');
   const [alertContent, setAlertContent] = useState('');
   const [categorias, setCategorias] = useState([]);
+  const [categoriasTorneo, setCategoriasTorneo] = useState([]);
   const [delegado, setDelegado] = useState([]);
   const [torneos, setTorneos] = useState([]);
 
@@ -60,7 +61,7 @@ const RegistrarEquipo = () => {
   const getCategorias = async () => {
     await axios.get(CATEGORIAS_URL)
       .then(response => {
-        setCategorias(response.data);
+        setCategorias(filtrarCategoriasDelTorneo(response.data));
       }).catch(error => {
         console.log(error);
       })
@@ -74,6 +75,17 @@ const RegistrarEquipo = () => {
       }).catch(error => {
         console.log(error);
       })
+  }
+
+  const filtrarCategoriasDelTorneo = async (categoriasData) => {
+    const resDelegado = await getDelegado(DELEGADO_URL + '/' + 1);
+    var delegado = await resDelegado.json();
+
+    var filteredCategorias = categoriasData.filter(categoria => categoria.Cod_Torneo == delegado.Cod_Torneo);
+
+    setCategoriasTorneo(filteredCategorias);
+    console.log("Categorias Filtradas : " + JSON.stringify(filteredCategorias));
+    return filteredCategorias;
   }
 
   const Alert = React.forwardRef(function Alert(props, ref) {
@@ -376,11 +388,11 @@ const RegistrarEquipo = () => {
                     }
                   }}
                 >
-                  {categorias.map(({ id, Categoria }, index) => (
+                  {categoriasTorneo ? categoriasTorneo.map(({ id, Categoria }, index) => (
                     <MenuItem key={index} value={Categoria}>
                       {Categoria}
                     </MenuItem>
-                  ))}
+                  )) : []}
                 </Select>
                 {touched.categoriaEquipo && errors.categoriaEquipo ? (
                   <FormHelperText

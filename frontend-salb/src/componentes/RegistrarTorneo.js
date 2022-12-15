@@ -1,5 +1,5 @@
+import React, { useState, useEffect } from "react";
 import { Divider, Grid, MenuItem, Select } from "@mui/material";
-import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import "../css/usuario.css";
@@ -15,12 +15,20 @@ import ListItemText from "@mui/material/ListItemText";
 import { useTheme } from "@mui/material/styles";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { Field, Formik, Form, ErrorMessage } from "formik";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import configData from "../config/config.json";
+
+//Setup for Moment
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import moment, { now } from "moment";
+import "moment/locale/es";
 
 const CATEGORIAS_URL =
   configData.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
 const TORNEOS_URL =
   configData.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
+
 //const ITEM_HEIGHT = 48;
 //const ITEM_PADDING_TOP = 8;
 //const MenuProps = {
@@ -48,9 +56,70 @@ const registrarCategorias = async (categorias) => {
   });
 };
 
+const postRegistrarTorneo = async (datos) => {
+  console.log("Send Torneo: " + JSON.stringify(datos));
+  const response = await fetch(TORNEOS_URL, {
+    method: 'POST',
+    body: JSON.stringify(datos),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  return response;
+}
+
+const postRegistrarCategorias = async (datos) => {
+  const response = await fetch(CATEGORIAS_URL, {
+    method: 'POST',
+    body: JSON.stringify(datos),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  return response;
+}
+
 const RegistrarTorneo = () => {
+
+  const [open, setOpen] = React.useState(false);
+  const [alertColor, setAlertColor] = useState('');
+  const [alertContent, setAlertContent] = useState('');
   const [formularioEnviado, setFormularioEnviado] = useState(false);
   const [formularioNoEnviado, setFormularioNoEnviado] = useState(false);
+  const [categorias, setCategorias] = useState([]);
+  const [torneos, setTorneos] = useState([]);
+  const [fechaTorneoValida, setFechaTorneoValida] = useState([]);
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const getCategorias = async () => {
+    await axios.get(CATEGORIAS_URL)
+      .then(response => {
+        setCategorias(response.data);
+      }).catch(error => {
+        console.log(error);
+      })
+  }
+
+  const getTorneos = async () => {
+    await axios.get(TORNEOS_URL)
+      .then(response => {
+        setTorneos(response.data);
+        console.log("Torneos: " + JSON.stringify(response.data));
+      }).catch(error => {
+        console.log(error);
+      })
+  }
 
   var today = new Date();
 
@@ -67,10 +136,98 @@ const RegistrarTorneo = () => {
   const fechaActual = `${year}-${month}-${day}`;
   //console.log(fechaActual);
 
-  function sumarDias(fecha, dias){
+  function sumarDias(fecha, dias) {
     fecha.setDate(fecha.getDate() + dias);
     return fecha;
   }
+
+  const enviarTorneoData = async (torneoData) => {
+
+    const data = {
+      Campeon: torneoData.Campeon,
+      Subcampeon: torneoData.Subcampeon,
+      Fecha_Ini_Convocatoria: torneoData.Fecha_Ini_Preinscripcion,
+      Fecha_Fin_Convocatoria: torneoData.Fecha_Fin_Inscripcion,
+      Invitacion: torneoData.Invitacion,
+      Nombre_Torneo: torneoData.Nombre_Torneo,
+      Lugar_Evento: torneoData.Lugar_Evento,
+      Fecha_Ini_Torneo: torneoData.Fecha_Ini_Torneo,
+      Fecha_Fin_Torneo: torneoData.Fecha_Fin_Torneo,
+      Categoria: torneoData.Categoria,
+      Rama: torneoData.Rama,
+      Caracter: torneoData.Caracter,
+      MontoPreinscripcion: torneoData.MontoPreinscripcion,
+      Fecha_Ini_Preinscripcion: torneoData.Fecha_Fin_Preinscripcion,
+      Fecha_Fin_Preinscripcion: torneoData.Fecha_Fin_Preinscripcion,
+      MontoInscripcion: torneoData.MontoInscripcion,
+      Fecha_Ini_Inscripcion: torneoData.Fecha_Ini_Inscripcion,
+      Fecha_Fin_Inscripcion: torneoData.Fecha_Fin_Inscripcion,
+      Telefono: torneoData.Telefono,
+      Responsable: torneoData.Responsable,
+      Canchas_Disponibles: torneoData.Canchas_Disponibles
+    }
+
+    var categoriasData = [];
+
+    //console.log("Existe Nombre de Torneo:" + torneo.Nombre_Torneo === data.Nombre_Torneo);
+    //console.log("Existe Fechas:" + torneo.Fecha_Ini_Torneo === data.Fecha_Fin_Torneo);
+    var existeTorneo = torneos.some(torneo => ((torneo.Nombre_Torneo == data.Nombre_Torneo) || esValidoFechas(data, torneo)));
+    console.log("Existe Torneo:" + existeTorneo);
+    if (!existeTorneo) {
+      const responseTorneo = await postRegistrarTorneo(data);
+      var torneo = await responseTorneo.json();
+
+      if (responseTorneo.status === 201) {
+        setFormularioEnviado(true);
+        setAlertColor("success");
+        setAlertContent("Resultados de Partido registrado exitosamente");
+        setOpen(true);
+        var categoriasSelected = torneoData.Categoria;
+        var categoriasData = [];
+        console.log("Categorias seleccionadas:" + categoriasSelected);
+        categoriasSelected.forEach((categoria) => {
+
+          categoriasData.push({
+            Categoria: categoria,
+            Cod_Torneo: torneo.id
+          });
+
+        });
+        console.log("Categorias Data:" + JSON.stringify(categoriasData));
+
+        categoriasData.forEach((categoria) => {
+          postRegistrarCategorias(categoria);
+        });
+
+
+      }
+
+      if (responseTorneo.status === 400) {
+        if (torneo.Message === "La fecha Inicio de Torneo, conincide con el toreno actual") {
+          setAlertColor("error");
+          setAlertContent("La Fecha Inicio y Fin de torneo, coincide con las fechas torneo actual");
+          setOpen(true);
+        }
+      }
+    } else {
+      setAlertColor("error");
+      setAlertContent("Ya existe un torneo con el mismo nombre y rango de fechas registrado");
+      setOpen(true);
+    }
+  }
+
+  const esValidoFechas = (newTorneo, createdTorneo) => {
+
+    var dateNewIniTorneo = moment(newTorneo.Fecha_Ini_Torneo);
+    var dateNewFinTorneo = moment(newTorneo.Fecha_Fin_Torneo);
+
+    var dateCreatedIniTorneo = moment(createdTorneo.Fecha_Ini_Torneo);
+    var dateCreatedFinTorneo = moment(createdTorneo.Fecha_Fin_Torneo);
+
+    var existeFechaIni = moment(dateNewIniTorneo).isBetween(dateCreatedIniTorneo, dateCreatedFinTorneo, undefined, '[]');
+    var existeFechaFin = moment(dateNewFinTorneo).isBetween(dateCreatedIniTorneo, dateCreatedFinTorneo, undefined, '[]');
+    return existeFechaIni || existeFechaFin;
+  };
 
   //const [torneo, setTorneo] = useState({
   //  Campeon: "Bolivar",
@@ -146,8 +303,16 @@ const RegistrarTorneo = () => {
   //  );
   //};
 
+  useEffect(() => {
+
+    getCategorias();
+    getTorneos();
+
+  }, [])
+
   return (
     <>
+
       <Typography
         variant="h5"
         align="center"
@@ -161,10 +326,10 @@ const RegistrarTorneo = () => {
       <hr className="hr" />
       <Formik
         initialValues={{
-          Campeon: "Bolivar",
-          Subcampeon: "hola",
-          Fecha_Ini_Convocatoria: "2022-10-15",
-          Fecha_Fin_Convocatoria: "2022-11-30",
+          Campeon: "",
+          Subcampeon: "",
+          Fecha_Ini_Convocatoria: "",
+          Fecha_Fin_Convocatoria: "",
           Invitacion: "",
           Nombre_Torneo: "",
           Lugar_Evento: "",
@@ -389,7 +554,7 @@ const RegistrarTorneo = () => {
             errores.Fecha_Fin_Inscripcion =
               "Por favor establesca una fecha de inicio de inscripción";
           } else if (sumarDias(f5, 1).getTime() > f6.getTime()) {
-            errores.Fecha_Fin_Inscripcion = 
+            errores.Fecha_Fin_Inscripcion =
               "La fecha de fin de inscripción del torneo tiene que ser mayor a la fecha de inicio de inscripción, por lo menos con 1 día";
           } else if (f6.getTime() >= f1.getTime()) {
             errores.Fecha_Fin_Inscripcion =
@@ -433,17 +598,14 @@ const RegistrarTorneo = () => {
         }}
         onSubmit={(valores, { resetForm }) => {
           try {
-            //registrarCategorias(valores.Categoria);
-            const { data } = axios.post(TORNEOS_URL, {
-              ...valores,
-              //Categoria: valores.Categoria.join(","),
-            });
-            const { datas } = axios.post(CATEGORIAS_URL, {
-              Categoria: valores.Categoria.join(","),
-            });
-            resetForm();
-            setFormularioEnviado(true);
-            setTimeout(() => setFormularioEnviado(false), 3000);
+            enviarTorneoData(valores);
+            console.log("Es Formulario Enviado: " + formularioEnviado);
+            if (formularioEnviado) {
+              console.log("Es Formulario Enviado IF: " + formularioEnviado);
+              resetForm();
+              setFormularioEnviado(false)
+            }
+            //setTimeout(() => setFormularioEnviado(false), 3000);
           } catch (error) {
             console.log(error);
           }
@@ -475,13 +637,22 @@ const RegistrarTorneo = () => {
           //};
           //registrarTorneo();
         }}
-        /*const
-      reiniciar={({ resetForm }) => {
-        resetForm();
-      }}*/
+      /*const
+    reiniciar={({ resetForm }) => {
+      resetForm();
+    }}*/
       >
         {({ values, errors, touched, handleChange, handleBlur, resetForm }) => (
           <Form>
+            <Snackbar open={open}
+              autoHideDuration={5000}
+              onClose={handleClose}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+              <Alert severity={alertColor} onClose={handleClose}>
+                {alertContent}
+              </Alert>
+            </Snackbar>
             <div className="cuandroContentRegisterTorneo">
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
@@ -685,19 +856,22 @@ const RegistrarTorneo = () => {
                         id="demo-multiple-checkbox"
                         multiple
                         name="Categoria"
-                        /*onChange={handleChange}*/
+
                         onBlur={handleBlur}
                         value={values.Categoria}
                         onChange={handleChange}
-                        /*input={<OutlinedInput label="Name" />}*/
+
                         renderValue={(selected) => selected.join(", ")}
-                        /*MenuProps={MenuProps}*/
+
                       >
-                        <MenuItem value={"+30"}>+30</MenuItem>
                         <MenuItem value={"+35"}>+35</MenuItem>
+                        <MenuItem value={"35"}>35</MenuItem>
                         <MenuItem value={"+40"}>+40</MenuItem>
+                        <MenuItem value={"40"}>40</MenuItem>
                         <MenuItem value={"+45"}>+45</MenuItem>
+                        <MenuItem value={"45"}>45</MenuItem>
                         <MenuItem value={"+50"}>+50</MenuItem>
+                        <MenuItem value={"50"}>50</MenuItem>
                         <MenuItem value={"+55"}>+55</MenuItem>
                       </Select>
                     </FormControl>
@@ -1198,47 +1372,6 @@ const RegistrarTorneo = () => {
                     Cancelar
                   </Button>
                 </Grid>
-                {formularioEnviado && (
-                  <Grid
-                    item
-                    xs={12}
-                    md={12}
-                    align="center"
-                    style={{ color: "#fff", marginTop: "20px" }}
-                  >
-                    <h2
-                      style={{
-                        background: "#009c05",
-                        paddingTop: "10px",
-                        paddingBottom: "10px",
-                        fontSize: "16px",
-                      }}
-                    >
-                      Registro exitoso del torneo!
-                    </h2>
-                  </Grid>
-                )}
-                {formularioNoEnviado && (
-                  <Grid
-                    item
-                    xs={12}
-                    md={12}
-                    align="center"
-                    style={{ color: "#fff", marginTop: "20px" }}
-                  >
-                    <h2
-                      style={{
-                        background: "red",
-                        paddingTop: "10px",
-                        paddingBottom: "10px",
-                        fontSize: "16px",
-                      }}
-                    >
-                      No se puede registrar el torneo por que ya hay un torneo
-                      activo!
-                    </h2>
-                  </Grid>
-                )}
               </Grid>
             </div>
           </Form>
