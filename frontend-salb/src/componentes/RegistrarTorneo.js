@@ -18,6 +18,7 @@ import { Field, Formik, Form, ErrorMessage } from "formik";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import configData from "../config/config.json";
+import { Container, Stack } from '@mui/system';
 
 //Setup for Moment
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
@@ -178,9 +179,9 @@ const RegistrarTorneo = () => {
       var torneo = await responseTorneo.json();
 
       if (responseTorneo.status === 201) {
-        setFormularioEnviado(true);
+
         setAlertColor("success");
-        setAlertContent("Resultados de Partido registrado exitosamente");
+        setAlertContent("Torneo registrado exitosamente");
         setOpen(true);
         var categoriasSelected = torneoData.Categoria;
         var categoriasData = [];
@@ -198,7 +199,7 @@ const RegistrarTorneo = () => {
         categoriasData.forEach((categoria) => {
           postRegistrarCategorias(categoria);
         });
-
+        setFormularioEnviado(true);
 
       }
 
@@ -302,6 +303,14 @@ const RegistrarTorneo = () => {
   //    // On autofill we get a stringified value.
   //  );
   //};
+
+  /**
+  function borrar() {
+    document.getElementById("logoEquipo").value = "";
+    return resetForm();
+  }
+  */
+
 
   useEffect(() => {
 
@@ -656,46 +665,6 @@ const RegistrarTorneo = () => {
             <div className="cuandroContentRegisterTorneo">
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
-                  <Item
-                    className="fondoColor"
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "white" },
-                    }}
-                  >
-                    <TextField
-                      sx={{
-                        input: { color: "white" },
-                        label: { color: "white" },
-                        value: { color: "white" },
-                      }}
-                      id="standard-required"
-                      label="Invitación Para: *"
-                      name="Invitacion"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.Invitacion}
-                      fullWidth
-                      defaultValue="Equipos y clubes de maxi basquet"
-                      variant="standard"
-                    />
-                  </Item>
-                  <ErrorMessage
-                    name="Invitacion"
-                    component={() => (
-                      <Grid
-                        style={{ color: "#FF0000", fontSize: "16px" }}
-                        item
-                        xs={12}
-                        md={12}
-                        fullWidth
-                      >
-                        {errors.Invitacion}
-                      </Grid>
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6}>
                   <Item className="fondoColor">
                     <TextField
                       sx={{
@@ -730,24 +699,47 @@ const RegistrarTorneo = () => {
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Item className="fondoColor">
-                    <TextField
-                      sx={{
-                        input: { color: "white" },
-                        label: { color: "white" },
-                      }}
-                      id="standard-required5"
-                      label="Lugar del Evento: *"
-                      fullWidth
-                      defaultValue=""
-                      name="Lugar_Evento"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.Lugar_Evento}
+                    <FormControl
                       variant="standard"
-                    />
+                      fullWidth
+                      sx={{
+                        input: { color: "#fff" },
+                        label: { color: "#fff" },
+                        select: { color: "#fff" },
+                        option: { color: "#000" },
+                        div: { color: "#fff" },
+                      }}
+                    >
+                      <InputLabel id="demo-multiple-checkbox-label">
+                        Categoria(as): *
+                      </InputLabel>
+                      <Select
+                        labelId="demo-multiple-checkbox-label"
+                        id="demo-multiple-checkbox"
+                        multiple
+                        name="Categoria"
+
+                        onBlur={handleBlur}
+                        value={values.Categoria}
+                        onChange={handleChange}
+
+                        renderValue={(selected) => selected.join(", ")}
+
+                      >
+                        <MenuItem value={"+35"}>+35</MenuItem>
+                        <MenuItem value={"35"}>35</MenuItem>
+                        <MenuItem value={"+40"}>+40</MenuItem>
+                        <MenuItem value={"40"}>40</MenuItem>
+                        <MenuItem value={"+45"}>+45</MenuItem>
+                        <MenuItem value={"45"}>45</MenuItem>
+                        <MenuItem value={"+50"}>+50</MenuItem>
+                        <MenuItem value={"50"}>50</MenuItem>
+                        <MenuItem value={"+55"}>+55</MenuItem>
+                      </Select>
+                    </FormControl>
                   </Item>
                   <ErrorMessage
-                    name="Lugar_Evento"
+                    name="Categoria"
                     component={() => (
                       <Grid
                         style={{ color: "#FF0000", fontSize: "16px" }}
@@ -756,7 +748,7 @@ const RegistrarTorneo = () => {
                         md={12}
                         fullWidth
                       >
-                        {errors.Lugar_Evento}
+                        {errors.Categoria}
                       </Grid>
                     )}
                   />
@@ -835,107 +827,7 @@ const RegistrarTorneo = () => {
                     )}
                   />
                 </Grid>
-                <Grid item xs={12} md={6}>
-                  <Item className="fondoColor">
-                    <FormControl
-                      variant="standard"
-                      fullWidth
-                      sx={{
-                        input: { color: "#fff" },
-                        label: { color: "#fff" },
-                        select: { color: "#fff" },
-                        option: { color: "#000" },
-                        div: { color: "#fff" },
-                      }}
-                    >
-                      <InputLabel id="demo-multiple-checkbox-label">
-                        Categoria(as): *
-                      </InputLabel>
-                      <Select
-                        labelId="demo-multiple-checkbox-label"
-                        id="demo-multiple-checkbox"
-                        multiple
-                        name="Categoria"
 
-                        onBlur={handleBlur}
-                        value={values.Categoria}
-                        onChange={handleChange}
-
-                        renderValue={(selected) => selected.join(", ")}
-
-                      >
-                        <MenuItem value={"+35"}>+35</MenuItem>
-                        <MenuItem value={"35"}>35</MenuItem>
-                        <MenuItem value={"+40"}>+40</MenuItem>
-                        <MenuItem value={"40"}>40</MenuItem>
-                        <MenuItem value={"+45"}>+45</MenuItem>
-                        <MenuItem value={"45"}>45</MenuItem>
-                        <MenuItem value={"+50"}>+50</MenuItem>
-                        <MenuItem value={"50"}>50</MenuItem>
-                        <MenuItem value={"+55"}>+55</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Item>
-                  <ErrorMessage
-                    name="Categoria"
-                    component={() => (
-                      <Grid
-                        style={{ color: "#FF0000", fontSize: "16px" }}
-                        item
-                        xs={12}
-                        md={12}
-                        fullWidth
-                      >
-                        {errors.Categoria}
-                      </Grid>
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <Item className="fondoColor">
-                    <FormControl
-                      variant="standard"
-                      fullWidth
-                      sx={{
-                        input: { color: "#fff" },
-                        label: { color: "#fff" },
-                        select: { color: "#fff" },
-                        option: { color: "#000" },
-                        div: { color: "#fff" },
-                      }}
-                    >
-                      <InputLabel id="demo-simple-select-label">
-                        Rama: *
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        name="Rama"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.Rama}
-                        label="Rama"
-                      >
-                        <MenuItem value={"Femenina"}>Femenina</MenuItem>
-                        <MenuItem value={"Masculino"}>Masculino</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Item>
-                  <ErrorMessage
-                    name="Rama"
-                    component={() => (
-                      <Grid
-                        style={{ color: "#FF0000", fontSize: "16px" }}
-                        item
-                        xs={12}
-                        md={12}
-                        fullWidth
-                      >
-                        {errors.Rama}
-                      </Grid>
-                    )}
-                  />
-                </Grid>
                 <Grid item xs={12} md={6}>
                   <Item className="fondoColor">
                     <FormControl
@@ -993,6 +885,128 @@ const RegistrarTorneo = () => {
                         input: { color: "white" },
                         label: { color: "white" },
                       }}
+                      id="standard-required5"
+                      label="Lugar del Evento: *"
+                      fullWidth
+                      defaultValue=""
+                      name="Lugar_Evento"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.Lugar_Evento}
+                      variant="standard"
+                    />
+                  </Item>
+                  <ErrorMessage
+                    name="Lugar_Evento"
+                    component={() => (
+                      <Grid
+                        style={{ color: "#FF0000", fontSize: "16px" }}
+                        item
+                        xs={12}
+                        md={12}
+                        fullWidth
+                      >
+                        {errors.Lugar_Evento}
+                      </Grid>
+                    )}
+                  />
+                </Grid>
+
+
+                <Grid item xs={12} md={6}>
+                  <Item className="fondoColor">
+                    <FormControl
+                      variant="standard"
+                      fullWidth
+                      sx={{
+                        input: { color: "#fff" },
+                        label: { color: "#fff" },
+                        select: { color: "#fff" },
+                        option: { color: "#000" },
+                        div: { color: "#fff" },
+                      }}
+                    >
+                      <InputLabel id="demo-simple-select-label">
+                        Rama: *
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        name="Rama"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.Rama}
+                        label="Rama"
+                      >
+                        <MenuItem value={"Femenina"}>Femenina</MenuItem>
+                        <MenuItem value={"Masculino"}>Masculino</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Item>
+                  <ErrorMessage
+                    name="Rama"
+                    component={() => (
+                      <Grid
+                        style={{ color: "#FF0000", fontSize: "16px" }}
+                        item
+                        xs={12}
+                        md={12}
+                        fullWidth
+                      >
+                        {errors.Rama}
+                      </Grid>
+                    )}
+                  />
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <Item
+                    className="fondoColor"
+                    sx={{
+                      input: { color: "white" },
+                      label: { color: "white" },
+                    }}
+                  >
+                    <TextField
+                      sx={{
+                        input: { color: "white" },
+                        label: { color: "white" },
+                        value: { color: "white" },
+                      }}
+                      id="standard-required"
+                      label="Invitación Para: *"
+                      name="Invitacion"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.Invitacion}
+                      fullWidth
+                      defaultValue="Equipos y clubes de maxi basquet"
+                      variant="standard"
+                    />
+                  </Item>
+                  <ErrorMessage
+                    name="Invitacion"
+                    component={() => (
+                      <Grid
+                        style={{ color: "#FF0000", fontSize: "16px" }}
+                        item
+                        xs={12}
+                        md={12}
+                        fullWidth
+                      >
+                        {errors.Invitacion}
+                      </Grid>
+                    )}
+                  />
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <Item className="fondoColor">
+                    <TextField
+                      sx={{
+                        input: { color: "white" },
+                        label: { color: "white" },
+                      }}
                       type="number"
                       id="standard-required7"
                       label="Canchas disponibles: *"
@@ -1036,40 +1050,7 @@ const RegistrarTorneo = () => {
             <hr className="hr" />
             <div className="cuandroContentRegisterTorneo">
               <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
-                  <Item className="fondoColor">
-                    <TextField
-                      type="number"
-                      id="standard-required4"
-                      label="Costo de Preinscripción ($): *"
-                      fullWidth
-                      name="MontoPreinscripcion"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.MontoPreinscripcion}
-                      defaultValue=""
-                      variant="standard"
-                      sx={{
-                        input: { color: "#fff" },
-                        label: { color: "#fff" },
-                      }}
-                    />
-                  </Item>
-                  <ErrorMessage
-                    name="MontoPreinscripcion"
-                    component={() => (
-                      <Grid
-                        style={{ color: "#FF0000", fontSize: "16px" }}
-                        item
-                        xs={12}
-                        md={12}
-                        fullWidth
-                      >
-                        {errors.MontoPreinscripcion}
-                      </Grid>
-                    )}
-                  />
-                </Grid>
+
                 <Grid item xs={12} md={6}>
                   <Item className="fondoColor">
                     <TextField
@@ -1144,6 +1125,40 @@ const RegistrarTorneo = () => {
                     )}
                   />
                 </Grid>
+                <Grid item xs={12} md={6}>
+                  <Item className="fondoColor">
+                    <TextField
+                      type="number"
+                      id="standard-required4"
+                      label="Costo de Preinscripción ($): *"
+                      fullWidth
+                      name="MontoPreinscripcion"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.MontoPreinscripcion}
+                      defaultValue=""
+                      variant="standard"
+                      sx={{
+                        input: { color: "#fff" },
+                        label: { color: "#fff" },
+                      }}
+                    />
+                  </Item>
+                  <ErrorMessage
+                    name="MontoPreinscripcion"
+                    component={() => (
+                      <Grid
+                        style={{ color: "#FF0000", fontSize: "16px" }}
+                        item
+                        xs={12}
+                        md={12}
+                        fullWidth
+                      >
+                        {errors.MontoPreinscripcion}
+                      </Grid>
+                    )}
+                  />
+                </Grid>
               </Grid>
             </div>
             <Typography
@@ -1161,40 +1176,7 @@ const RegistrarTorneo = () => {
             <hr className="hr" />
             <div className="cuandroContentRegisterTorneo">
               <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
-                  <Item className="fondoColor">
-                    <TextField
-                      sx={{
-                        input: { color: "white" },
-                        label: { color: "white" },
-                      }}
-                      type="number"
-                      id="standard-required4"
-                      label="Costo de Inscripción ($): *"
-                      name="MontoInscripcion"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.MontoInscripcion}
-                      fullWidth
-                      defaultValue=""
-                      variant="standard"
-                    />
-                  </Item>
-                  <ErrorMessage
-                    name="MontoInscripcion"
-                    component={() => (
-                      <Grid
-                        style={{ color: "#FF0000", fontSize: "16px" }}
-                        item
-                        xs={12}
-                        md={12}
-                        fullWidth
-                      >
-                        {errors.MontoInscripcion}
-                      </Grid>
-                    )}
-                  />
-                </Grid>
+
                 <Grid item xs={12} md={6}>
                   <Item className="fondoColor">
                     <TextField
@@ -1265,6 +1247,40 @@ const RegistrarTorneo = () => {
                         fullWidth
                       >
                         {errors.Fecha_Fin_Inscripcion}
+                      </Grid>
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Item className="fondoColor">
+                    <TextField
+                      sx={{
+                        input: { color: "white" },
+                        label: { color: "white" },
+                      }}
+                      type="number"
+                      id="standard-required4"
+                      label="Costo de Inscripción ($): *"
+                      name="MontoInscripcion"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.MontoInscripcion}
+                      fullWidth
+                      defaultValue=""
+                      variant="standard"
+                    />
+                  </Item>
+                  <ErrorMessage
+                    name="MontoInscripcion"
+                    component={() => (
+                      <Grid
+                        style={{ color: "#FF0000", fontSize: "16px" }}
+                        item
+                        xs={12}
+                        md={12}
+                        fullWidth
+                      >
+                        {errors.MontoInscripcion}
                       </Grid>
                     )}
                   />
@@ -1357,22 +1373,30 @@ const RegistrarTorneo = () => {
               </Grid>
             </div>
             <div>
-              <Grid
-                container
-                spacing={2}
-                className="contentBtnRegisterCancelar"
-              >
-                <Grid item xs={6} md={6} align="end">
-                  <Button className="botonHabilitadoAceptar" type="submit">
-                    Registrar
-                  </Button>
-                </Grid>
-                <Grid item xs={6} md={6}>
-                  <Button type="reset" className="botonHabilitadoCancelar">
-                    Cancelar
-                  </Button>
-                </Grid>
-              </Grid>
+              <Stack m={5}
+                direction="row"
+                spacing={3}
+                justifyContent="center"
+                alignItems="center">
+
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  sx={{ width: '25%' }}
+                >Registrar
+
+                </Button>
+
+                <Button
+                  variant="contained"
+                  color="warning"
+                  sx={{ width: '25%' }}
+                  type="reset"
+                >Cancelar
+                </Button>
+
+              </Stack>
             </div>
           </Form>
         )}
