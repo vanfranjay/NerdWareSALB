@@ -142,7 +142,7 @@ const RegistrarTorneo = () => {
     return fecha;
   }
 
-  const enviarTorneoData = async (torneoData) => {
+  const enviarTorneoData = async (torneoData, resetForm) => {
 
     const data = {
       Campeon: torneoData.Campeon,
@@ -199,7 +199,8 @@ const RegistrarTorneo = () => {
         categoriasData.forEach((categoria) => {
           postRegistrarCategorias(categoria);
         });
-        setFormularioEnviado(true);
+        resetForm();
+        //setFormularioEnviado(true);
 
       }
 
@@ -373,68 +374,12 @@ const RegistrarTorneo = () => {
           f5.setHours(0, 0, 0, 0);
           f6.setHours(0, 0, 0, 0);
 
-          // validacion Invitacion
-          if (!valores.Invitacion) {
-            errores.Invitacion = "Por favor ingresa una invitación para";
-          } else if (!/^[a-zA-ZÀ-ÿ\s]{1,100}$/.test(valores.Invitacion)) {
-            errores.Invitacion =
-              "La invitación solo puede contener letras y espacios";
-          }
           // validacion Nombre_Torneo
           if (!valores.Nombre_Torneo) {
             errores.Nombre_Torneo = "Por favor ingresa un nombre de torneo";
           } else if (!/^[a-zA-ZÀ-ÿ\s0-9]{1,40}$/.test(valores.Nombre_Torneo)) {
             errores.Nombre_Torneo =
               "El nombre del Torneo solo puede contener letras y espacios";
-          }
-          // validacion de Lugar_Evento
-          if (!valores.Lugar_Evento) {
-            errores.Lugar_Evento = "Por favor ingresa el lugar del evento";
-          } else if (!/^[a-zA-ZÀ-ÿ\s-./]{1,40}$/.test(valores.Lugar_Evento)) {
-            errores.Lugar_Evento =
-              "El lugar del evento solo puede contener letras, espacios, - y /";
-          }
-          // validación para Responsable
-          if (!valores.Responsable) {
-            errores.Responsable =
-              "Por favor ingresa el nombre del responsable del evento";
-          } else if (!/^[a-zA-ZÀ-ÿ\s.]{1,40}$/.test(valores.Responsable)) {
-            errores.Responsable =
-              "El nombre del responsable solo puede contener letras y espacios";
-          }
-          // validación para Telefono
-          if (!valores.Telefono) {
-            errores.Telefono =
-              "Por favor ingresa el número telefónico del responsable";
-          } else if (!/^\d{7,20}$/.test(valores.Telefono)) {
-            errores.Telefono =
-              "El teléfono solo puede contener números y tiene que tener un mínimo de 7 digitos";
-          }
-          // validación para Rama
-          if (!valores.Rama) {
-            errores.Rama = "Por favor seleccione una rama";
-          }
-          // validación para caracter del evento
-          if (!valores.Caracter) {
-            errores.Caracter = "Por favor seleccione el caracter del evento";
-          }
-          // validación para MontoPreinscripcion
-          if (!valores.MontoPreinscripcion) {
-            errores.MontoPreinscripcion =
-              "Por favor ingresa un monto de pre-inscripción";
-          } else if (
-            !/^\d{1,40}\.?\d{0,2}$/.test(valores.MontoPreinscripcion)
-          ) {
-            errores.MontoPreinscripcion =
-              'El monto pre-inscripción solo puede contener una secuencia de numeros seguido de un "." y 2 decimales';
-          }
-          // validación para MontoInscripcion
-          if (!valores.MontoInscripcion) {
-            errores.MontoInscripcion =
-              "Por favor ingresa el monto de inscripción";
-          } else if (!/^\d{1,40}\.?\d{0,2}$/.test(valores.MontoInscripcion)) {
-            errores.MontoInscripcion =
-              "El monto de inscripción solo puede contener números";
           }
           // validaciones para Categoria
           if (valores.Categoria.length === 0) {
@@ -486,6 +431,65 @@ const RegistrarTorneo = () => {
             errores.Fecha_Fin_Torneo =
               "La fecha de finalización del evento tiene que ser mayor a la feha fin de inscripción";
           }
+          // validación para caracter del evento
+          if (!valores.Caracter) {
+            errores.Caracter = "Por favor seleccione el caracter del evento";
+          }
+          // validacion de Lugar_Evento
+          if (!valores.Lugar_Evento) {
+            errores.Lugar_Evento = "Por favor ingresa el lugar del evento";
+          } else if (!/^[a-zA-ZÀ-ÿ\s-./]{1,40}$/.test(valores.Lugar_Evento)) {
+            errores.Lugar_Evento =
+              "El lugar del evento solo puede contener letras, espacios, - y /";
+          }
+          // validación para Rama
+          if (!valores.Rama) {
+            errores.Rama = "Por favor seleccione una rama";
+          }
+          // validacion Invitacion
+          if (!valores.Invitacion) {
+            errores.Invitacion = "Por favor ingresa una invitación para";
+          } else if (!/^[a-zA-ZÀ-ÿ\s]{1,100}$/.test(valores.Invitacion)) {
+            errores.Invitacion =
+              "La invitación solo puede contener letras y espacios";
+          }
+          // validación para Responsable
+          if (!valores.Responsable) {
+            errores.Responsable =
+              "Por favor ingresa el nombre del responsable del evento";
+          } else if (!/^[a-zA-ZÀ-ÿ\s.]{1,40}$/.test(valores.Responsable)) {
+            errores.Responsable =
+              "El nombre del responsable solo puede contener letras y espacios";
+          }
+          // validación para Telefono
+          if (!valores.Telefono) {
+            errores.Telefono =
+              "Por favor ingresa el número telefónico del responsable";
+          } else if (!/^\d{7,20}$/.test(valores.Telefono)) {
+            errores.Telefono =
+              "El teléfono solo puede contener números y tiene que tener un mínimo de 7 digitos";
+          }
+
+
+          // validación para MontoPreinscripcion
+          if (!valores.MontoPreinscripcion) {
+            errores.MontoPreinscripcion =
+              "Por favor ingresa un monto de pre-inscripción";
+          } else if (
+            !/^\d{1,40}\.?\d{0,2}$/.test(valores.MontoPreinscripcion)
+          ) {
+            errores.MontoPreinscripcion =
+              'El monto pre-inscripción solo puede contener una secuencia de numeros seguido de un "." y 2 decimales';
+          }
+          // validación para MontoInscripcion
+          if (!valores.MontoInscripcion) {
+            errores.MontoInscripcion =
+              "Por favor ingresa el monto de inscripción";
+          } else if (!/^\d{1,40}\.?\d{0,2}$/.test(valores.MontoInscripcion)) {
+            errores.MontoInscripcion =
+              "El monto de inscripción solo puede contener números";
+          }
+
           // validacion de Fecha_Ini_Preinscripcion
           if (!valores.Fecha_Ini_Preinscripcion) {
             errores.Fecha_Ini_Preinscripcion =
@@ -582,7 +586,7 @@ const RegistrarTorneo = () => {
           if (!valores.MontoPreinscripcion) {
             errores.MontoPreinscripcion =
               "Por favor seleccione un monto de preinscripción";
-          } else if (valores.MontoPreinscripcion >= valores.MontoInscripcion) {
+          } else if (valores.MontoInscripcion && (valores.MontoPreinscripcion >= valores.MontoInscripcion)) {
             errores.MontoPreinscripcion =
               "El monto de preinscripción no puede ser mayor o igual al monto de inscripción";
           }
@@ -607,12 +611,13 @@ const RegistrarTorneo = () => {
         }}
         onSubmit={(valores, { resetForm }) => {
           try {
-            enviarTorneoData(valores);
+            enviarTorneoData(valores, resetForm);
             console.log("Es Formulario Enviado: " + formularioEnviado);
+
             if (formularioEnviado) {
-              console.log("Es Formulario Enviado IF: " + formularioEnviado);
-              resetForm();
-              setFormularioEnviado(false)
+              console.log("Formulario enviado IF: " + formularioEnviado);
+
+              //setFormularioEnviado(false);
             }
             //setTimeout(() => setFormularioEnviado(false), 3000);
           } catch (error) {
@@ -648,10 +653,10 @@ const RegistrarTorneo = () => {
         }}
       /*const
     reiniciar={({ resetForm }) => {
-      resetForm();
-    }}*/
+        resetForm();
+      }}*/
       >
-        {({ values, errors, touched, handleChange, handleBlur, resetForm }) => (
+        {({ handleSubmit, values, errors, touched, handleChange, handleBlur, resetForm }) => (
           <Form>
             <Snackbar open={open}
               autoHideDuration={5000}
@@ -1383,6 +1388,7 @@ const RegistrarTorneo = () => {
                   variant="contained"
                   color="primary"
                   type="submit"
+                  onClick={handleSubmit}
                   sx={{ width: '25%' }}
                 >Registrar
 
