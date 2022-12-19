@@ -158,7 +158,7 @@ const RegistrarTorneo = () => {
       Rama: torneoData.Rama,
       Caracter: torneoData.Caracter,
       MontoPreinscripcion: torneoData.MontoPreinscripcion,
-      Fecha_Ini_Preinscripcion: torneoData.Fecha_Fin_Preinscripcion,
+      Fecha_Ini_Preinscripcion: torneoData.Fecha_Ini_Preinscripcion,
       Fecha_Fin_Preinscripcion: torneoData.Fecha_Fin_Preinscripcion,
       MontoInscripcion: torneoData.MontoInscripcion,
       Fecha_Ini_Inscripcion: torneoData.Fecha_Ini_Inscripcion,

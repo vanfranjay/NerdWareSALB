@@ -44,10 +44,6 @@ const RegistrarJugador = () => {
 
     var maxFechaNac = moment().subtract(18, "years").format("YYYY-MM-DD");
 
-    var codEquipo = localStorage.getItem("equipoId");
-    var codCategoria = localStorage.getItem("categoriaId");
-    var categoriaEquipo = localStorage.getItem("categoriaValue");
-
     const EQUIPOS_URL = configData.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos";
     const JUGADORES_URL = configData.JUGADORES_API_URL || "http://127.0.0.1:8000/api/jugadores";
     const EQUIPO_DELEGADO_URL = configData.EQUIPO_DELEGADO_API_URL || "http://127.0.0.1:8000/api/deleq/";
@@ -260,7 +256,10 @@ const RegistrarJugador = () => {
 
         const resDelegadoEquipos = await tieneEquiposRegDelegado(1);
 
-        if (esValidoEdadJugador(values.fechaNacParticipante, values.categoria) && (resDelegadoEquipos.status === 200)) {
+        const equipoSelected = equipos.find(equipo => equipo.Nombre_Equipo === values.equipo);
+        const categoriaEquipo = equipoSelected.Categoria;
+
+        if (esValidoEdadJugador(values.fechaNacParticipante, categoriaEquipo) && (resDelegadoEquipos.status === 200)) {
 
             if (await existeFotosDuplicadas(values.fotoDNIParticipante, values.fotoParticipante)) {
                 setAlertColor("error");
@@ -277,7 +276,7 @@ const RegistrarJugador = () => {
                     //imageFotoDNIURL = await postImageToServerExt(selectedFileFotoDNI);
                 }
 
-                var selectedCategoria = categorias.find(categoria => categoria.Categoria === values.categoria);
+                var selectedCategoria = categorias.find(categoria => categoria.Categoria === categoriaEquipo);
                 console.log("Categoria ID: " + selectedCategoria);
                 var formatedFechaNac = values.fechaNacParticipante.format('YYYY-MM-DD');
 
@@ -480,7 +479,7 @@ const RegistrarJugador = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <Box sx={{ minWidth: 120 }}>
-                                <FormControl variant="standard" fullWidth>
+                                <FormControl variant="standard" fullWidth required>
                                     <InputLabel
                                         InputLabelProps={{
                                             style: { color: '#ffff' },
@@ -530,6 +529,7 @@ const RegistrarJugador = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
+                                required
                                 id="nombreParticipante"
                                 name="nombreParticipante"
                                 label="Nombre"
@@ -549,7 +549,7 @@ const RegistrarJugador = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-
+                                required
                                 id="apellidoParticipante"
                                 name="apellidoParticipante"
                                 label="Apellido"
@@ -575,12 +575,12 @@ const RegistrarJugador = () => {
                                     label="Fecha de nacimiento "
                                     inputFormat="DD/MM/YYYY"
                                     value={values.fechaNacParticipante}
-
                                     maxDate={moment({ maxFechaNac })}
                                     onChange={(value) => setFieldValue("fechaNacParticipante", value, true)}
 
                                     renderInput={(params) => {
                                         return <TextField {...params}
+                                            required
                                             variant="standard"
                                             fullWidth
                                             onBlur={handleBlur}
@@ -603,7 +603,7 @@ const RegistrarJugador = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-
+                                required
                                 id="telefonoParticipante"
                                 name="telefonoParticipante"
                                 label="Celular/Teléfono"
@@ -644,7 +644,7 @@ const RegistrarJugador = () => {
 
                         <Grid item xs={12} sm={6}>
                             <TextField
-
+                                required
                                 id="dniParticipante"
                                 name="dniParticipante"
                                 label="DNI/CI"
@@ -664,7 +664,7 @@ const RegistrarJugador = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-
+                                required
                                 id="direccionParticipante"
                                 name="direccionParticipante"
                                 label="Dirección"
@@ -687,7 +687,7 @@ const RegistrarJugador = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-
+                                required
                                 id="fotoDNIParticipante"
                                 name="fotoDNIParticipante"
                                 type="file"
@@ -719,7 +719,7 @@ const RegistrarJugador = () => {
 
                         <Grid item xs={12} sm={6}>
                             <TextField
-
+                                required
                                 id="fotoParticipante"
                                 name="fotoParticipante"
                                 type="file"

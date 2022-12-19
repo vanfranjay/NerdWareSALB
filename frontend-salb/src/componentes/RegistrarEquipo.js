@@ -206,7 +206,7 @@ const RegistrarEquipo = () => {
       imageURL = await postImageToServerExt();
     }
 
-    var selectedCategoria = categorias.find(categoria => categoria.Categoria === values.categoriaEquipo);
+    var selectedCategoria = categoriasTorneo.find(categoria => categoria.Categoria === values.categoriaEquipo);
     console.log("Categoria ID: " + selectedCategoria);
 
     const datos = {
