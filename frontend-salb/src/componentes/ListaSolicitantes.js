@@ -31,6 +31,7 @@ const ListaSolicitantes = () => {
   };
 
   const updateDelegado = async (Cod_Boleta, Estado) => {
+    const boletaDelegado = await incVoucherDelegado(INC_BOLETA_DELEGADO_URL + 1);
     try {
       const { data } = await axios.put(
         `${BOLETAS_URL}/${Cod_Boleta}`,
@@ -295,7 +296,6 @@ const ListaSolicitantes = () => {
                         {
                           updateDelegado(solicitud.Cod_Boleta, 1);
                           sendEmail();
-                          incVoucherDelegado(INC_BOLETA_DELEGADO_URL + 1);
                         }
                       }}
                       autoFocus

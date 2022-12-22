@@ -199,7 +199,7 @@ const RegistrarPartido = () => {
         var formatedFechaPartido = values.fechaPartido.format('YYYY-MM-DD');
         var formatedHoraPartido = values.horaPartido.format('HH:mm');
 
-        var selectedCategoria = categorias.find(categoria => categoria.Categoria === values.categoria);
+        var selectedCategoria = categoriasTorneo.find(categoria => categoria.Categoria === values.categoria);
         console.log("Categoria ID: " + selectedCategoria);
 
         const datos = {
@@ -216,8 +216,16 @@ const RegistrarPartido = () => {
         console.log("Partido: ------> " + JSON.stringify(datos));
         // Validar fechas
 
-        var esHoraMayor = new Date(values.horaPartido) > new Date();
-        console.log("Es hora mayor: " + esHoraMayor);
+        var date = moment(values.fechaPartido);
+        var time = moment(values.horaPartido, 'HH:mm');
+
+        date.set({
+            hour: time.get('hour'),
+            minute: time.get('minute'),
+            second: time.get('second')
+        });
+
+        var esHoraMayor = moment(date) > new Date();
         if ((values.equipoA !== values.equipoB) && esHoraMayor) {
 
             const respuestaJson = await postPartido(PARTIDOS_URL, datos);

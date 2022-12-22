@@ -26,16 +26,19 @@ export default function MediaCard() {
   };
   const [equipos, setEquipos] = useState([]);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const getEquipos = async () => {
+    await axios.get(EQUIPOS_URL)
+        .then(response => {
+            setEquipos(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+  }
 
-  //console.log("Loading...");
-  const fetchData = async () => {
-    const resultado = await axios.get(EQUIPOS_URL);
-    setEquipos([...resultado.data]);
-    console.log(resultado.data);
-  };
+
+useEffect(() => {
+  getEquipos();
+}, []);
 
   return (
     <Grid container className="contendorSelectEquipo">
@@ -66,9 +69,9 @@ export default function MediaCard() {
                 label="Age"
                 className="selectEquipo"
               >
-                {equipos.map(equipo => (
+                {equipos ? equipos.map(equipo => (
                   <MenuItem key={equipo.id} value={equipo.id}>{equipo.Nombre}</MenuItem>
-                ))}
+                )) : [] }
               </Select>
             </FormControl>
           </Typography>
