@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Equipo;
+use App\Models\equipo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class JugEqController extends Controller
@@ -51,7 +51,7 @@ class JugEqController extends Controller
     public function show($id)
     {
         
-        $jugadores = Equipo::find($id);
+        $jugadores = equipo::find($id);
         if(!is_null($jugadores)){
          /*$cont = DB::table('delegados')
          -> select('delegados.Contador');

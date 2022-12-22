@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Partido;
-use App\Models\Equipo;
+use App\Models\equipo;
 class ParEqController extends Controller
 {
     /**
@@ -148,8 +148,8 @@ class ParEqController extends Controller
          ->where('Nombre_Equipo', $Equipo_P)
          ->where('Cod_Categoria', $cat)
          ->value('');
-        $EG = Equipo::find($EGI);
-        $EP = Equipo::find($EPI);
+        $EG = equipo::find($EGI);
+        $EP = equipo::find($EPI);
         $comparar=  DB::table('partidos')
         ->select( 'partidos.id')
         ->where('E_Ganador', $Equipo_G)

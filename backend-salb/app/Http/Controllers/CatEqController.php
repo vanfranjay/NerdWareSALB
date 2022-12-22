@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Categoria;
-use App\Models\Equipo;
+use App\Models\equipo;
 use Illuminate\Support\Facades\DB;
 class CatEqController extends Controller
 {

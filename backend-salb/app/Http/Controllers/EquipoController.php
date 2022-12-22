@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Equipo;
+use App\Models\equipo;
 use Illuminate\Support\Facades\DB;
 
 class EquipoController extends Controller
@@ -35,7 +35,7 @@ class EquipoController extends Controller
         $equipo->save();
         return $equipo;//para almacenar
         */
-        $equipo = new Equipo($request->all());
+        $equipo = new equipo($request->all());
         $nombre= $equipo->value('Nombre_Equipo');
         $nombre = $equipo->Nombre_Equipo;
         $categoria= $equipo->value('Cod_Categoria');
@@ -69,7 +69,7 @@ class EquipoController extends Controller
 
     public function update(Request $request, $id)
     {
-        $equipo = Equipo::find($id);
+        $equipo = equipo::find($id);
         if(!is_null($equipo)){
             $equipo->update($request->all());
             return $equipo;
@@ -78,7 +78,7 @@ class EquipoController extends Controller
 
     public function destroy($id)
     {
-        $equipo = Equipo::find($id);
+        $equipo = equipo::find($id);
         $equipo->delete();
     }
 

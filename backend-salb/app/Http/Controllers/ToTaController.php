@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Equipo;
+use App\Models\equipo;
 use App\Models\Torneo;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
