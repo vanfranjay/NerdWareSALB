@@ -11,7 +11,7 @@ class Categoria extends Model
     protected $table = 'categorias';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'Categoria',
+        'Categoria', 'Cod_Torneo'
     ];
     public function equipo(){
         return $this->hasMany(Equipo::class,'id');
@@ -21,6 +21,6 @@ class Categoria extends Model
         return $this->hasMany(Jugador::class,'Cod_Jugador');
     }*/
     public function torneo(){
-        return $this->hasMany(Torneo::class,'id');
+        return $this->hasMany(Torneo::class,'Cod_Torneo');
     }
 }

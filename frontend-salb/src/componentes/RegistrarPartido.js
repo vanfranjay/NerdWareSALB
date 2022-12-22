@@ -48,12 +48,14 @@ const RegistrarPartido = () => {
     const [equipos, setEquipos] = useState([]);
     const [equiposCategoriaSel, setEquiposCategoriaSel] = useState([]);
     const [categorias, setCategorias] = useState([]);
+    const [categoriasTorneo, setCategoriasTorneo] = useState([]);
     const [categoria, setCategoria] = useState([]);
 
     const EQUIPOS_URL = configData.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos";
     const TORNEOS_URL = configData.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
     const PARTIDOS_URL = configData.PARTIDOS_API_URL || "http://127.0.0.1:8000/api/rol_partidos";
     const CATEGORIAS_URL = configData.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
+    const DELEGADO_URL = configData.DELEGADO_API_URL || "http://127.0.0.1:8000/api/delegados";
 
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -87,13 +89,35 @@ const RegistrarPartido = () => {
             })
     }
 
+    const getDelegado = async (url) => {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        return response;
+    }
+
     const getCategorias = async () => {
         await axios.get(CATEGORIAS_URL)
             .then(response => {
-                setCategorias(response.data);
+                setCategorias(filtrarCategoriasDelTorneo(response.data));
             }).catch(error => {
                 console.log(error);
             })
+    }
+
+    const filtrarCategoriasDelTorneo = async (categoriasData) => {
+        const resDelegado = await getDelegado(DELEGADO_URL + '/' + 1);
+        var delegado = await resDelegado.json();
+
+        var filteredCategorias = categoriasData.filter(categoria => categoria.Cod_Torneo == delegado.Cod_Torneo);
+
+        setCategoriasTorneo(filteredCategorias);
+        console.log("Categorias Filtradas : " + JSON.stringify(filteredCategorias));
+        return filteredCategorias;
     }
 
 
@@ -175,7 +199,7 @@ const RegistrarPartido = () => {
         var formatedFechaPartido = values.fechaPartido.format('YYYY-MM-DD');
         var formatedHoraPartido = values.horaPartido.format('HH:mm');
 
-        var selectedCategoria = categorias.find(categoria => categoria.Categoria === values.categoria);
+        var selectedCategoria = categoriasTorneo.find(categoria => categoria.Categoria === values.categoria);
         console.log("Categoria ID: " + selectedCategoria);
 
         const datos = {
@@ -192,8 +216,16 @@ const RegistrarPartido = () => {
         console.log("Partido: ------> " + JSON.stringify(datos));
         // Validar fechas
 
-        var esHoraMayor = new Date(values.horaPartido) > new Date();
-        console.log("Es hora mayor: " + esHoraMayor);
+        var date = moment(values.fechaPartido);
+        var time = moment(values.horaPartido, 'HH:mm');
+
+        date.set({
+            hour: time.get('hour'),
+            minute: time.get('minute'),
+            second: time.get('second')
+        });
+
+        var esHoraMayor = moment(date) > new Date();
         if ((values.equipoA !== values.equipoB) && esHoraMayor) {
 
             const respuestaJson = await postPartido(PARTIDOS_URL, datos);
@@ -345,11 +377,11 @@ const RegistrarPartido = () => {
                                     }
                                 }}
                             >
-                                {categorias.map(({ id, Categoria }, index) => (
+                                {categoriasTorneo ? categoriasTorneo.map(({ id, Categoria }, index) => (
                                     <MenuItem key={index} value={Categoria}>
                                         {Categoria}
                                     </MenuItem>
-                                ))}
+                                )) : []}
                             </Select>
                             {touched.categoria && errors.categoria ? (
                                 <FormHelperText

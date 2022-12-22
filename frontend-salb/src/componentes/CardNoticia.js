@@ -22,6 +22,8 @@ import CardActions from "@mui/material/CardActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
+import moment from "moment";
+import "moment/locale/es";
 
 
 function CardNoticia({ codigo, fecha, imagen, titulo, descripcion, link }) {
@@ -59,13 +61,13 @@ function CardNoticia({ codigo, fecha, imagen, titulo, descripcion, link }) {
         <div
             onClick={() => {
                 {
-                    handleClickOpen();
+                    //handleClickOpen();
                     //handleClose();
                 }
             }}>
 
 
-            <Card sx={{ display: 'flex', width: "750px" }}>
+            <Card sx={{ display: 'flex', width: "750px", height: "180px" }}>
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', width: "550px" }}>
                     <CardContent sx={{ flex: '1 0 auto' }}>
@@ -79,7 +81,7 @@ function CardNoticia({ codigo, fecha, imagen, titulo, descripcion, link }) {
                     <Box sx={{ display: 'flex', alignItems: 'center', pl: 2, pb: 1 }}>
                         <QueryBuilderRoundedIcon>
                         </QueryBuilderRoundedIcon>
-                        {fecha}
+                        {moment(fecha).format('D / MM / YYYY')}
                     </Box>
 
                 </Box>

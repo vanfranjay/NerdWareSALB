@@ -13,6 +13,34 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
+Configuracion por defecto no carga la pagina principal de la app ---->No Funciona
+
 Route::get('/', function () {
-    return "textoTitulo";
+    return view('index');
 });
+*/
+
+Route::fallback(function() {
+    return view('index');
+});
+
+/*
+Web TIS configuracion recomendada ---->No Funciona
+
+Route::get('/{any}', function () {
+    return view('index');
+})->where('any','.*');
+*/
+
+
+
+/*
+No funciona
+
+Route::get('/{any}', function ($any) {
+
+  return view('index');
+
+})->where('any', '.*');
+*/

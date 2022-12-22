@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import "../css/usuario.css";
 import configData from "../config/config.json";
+import moment from "moment";
+import "moment/locale/es";
 
 const ListaTorneos = () => {
   const TORNEOS_URL = configData.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
@@ -38,6 +40,22 @@ const ListaTorneos = () => {
               </Grid>
               <Grid item xs={10} sm={10} className="listaTorneo">
                 {torneo.Nombre_Torneo}
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <b>Inicio:</b>
+                &nbsp;
+                &nbsp;
+                {moment(torneo.Fecha_Ini_Torneo).format('D / MM / YYYY')}
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <b>Fin:</b>
+                &nbsp;
+                &nbsp;
+                {moment(torneo.Fecha_Fin_Torneo).format('D / MM / YYYY')}
               </Grid>
               <Grid item xs={1} sm={1}>
                 <DeleteIcon
