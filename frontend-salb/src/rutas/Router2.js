@@ -37,7 +37,7 @@ const Router2 = () => {
           <Route path="/en-vivo" element={<EnVivo />} />
           <Route path="/sobre-nosotros" element={<SobreNosotros />} />
           <Route path="/registrarse" element={<Registrarse />} />
-          <Route path="/usuario/registrar-jugador" element={<RegistrarJugador />} />
+          {/*<Route path="/usuario/registrar-jugador" element={<RegistrarJugador />} />*/}
           <Route path="/*" element={<Navigate to="logIn" />} />
           <Route />
           <Route />

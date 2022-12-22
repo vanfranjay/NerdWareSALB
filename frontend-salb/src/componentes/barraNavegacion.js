@@ -5,8 +5,50 @@ import { Link, NavLink } from "react-router-dom";
 import { Stack, Box } from "@mui/system";
 import { Grid } from "@mui/material";
 //import Tab from "@mui/material/Tab";
+//import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+//import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import AdbIcon from "@mui/icons-material/Adb";
+
+const pages = [
+  "convocatoria",
+  "jugadores",
+  "equipos",
+  "partidos",
+  "puntuaciones",
+  "estadisticas",
+  "noticias",
+];
 
 const BarraNavegacion = () => {
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
   return (
     <div className="contenedorPrincipalNavBar">
       <div className="cuadroLogoBasquet">
@@ -33,114 +75,68 @@ const BarraNavegacion = () => {
           </button>
         </div>
       </div>
-      <nav className="navbar navbar-expand-lg bg-light fondoNavBar tamañoFondo">
-        <div className="container-fluid tamañoFondo">
-          <button
-            className="navbar-toggler menuDespliegue"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div
-            className="collapse navbar-collapse tamañoFondo"
-            id="navbarNavAltMarkup"
-          >
-            <div className="navbar-nav  tamañoFondo">
-
-              <Stack
-                direction="row"
-                justifyContent="space-around"
-                alignItems="center"
-                rowSpacing={2}
-                columnSpacing={2}
-                columns={14}
-                spacing={5}
-              >
-
-                <Grid item xs={6} sm={3} >
-                  {/*<NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/estadisticas">ESTADISTICAS</NavLink>
-                            <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/fotos">FOTOS</NavLink>*/}
-
-                  <NavLink
-
-                    className="nav-link colorLetra contenedorLetrasNavBar"
-                    to="/convocatoria"
+      <div>
+        <AppBar position="static" style={{background: "none", boxShadow: "none"}}>
+          <Container maxWidth="xl">
+            <Toolbar disableGutters>
+              <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleOpenNavMenu}
+                  color="inherit"
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElNav}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  open={Boolean(anchorElNav)}
+                  onClose={handleCloseNavMenu}
+                  sx={{
+                    display: { xs: "block", md: "none" },
+                  }}
+                >
+                  {pages.map((page) => (
+                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">
+                        <NavLink className="nav-link" to={page}>
+                          {page}
+                        </NavLink>
+                      </Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                {pages.map((page) => (
+                  <Button
+                    key={page}
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}
                   >
-                    CONVOCATORIA
-                  </NavLink>
-                </Grid>
-
-                <Grid item xs={6} sm={3}>
-                  <NavLink
-
-                    className="nav-link colorLetra contenedorLetrasNavBar"
-                    to="/jugadores"
-                  >
-                    JUGADORES
-                  </NavLink>
-
-                </Grid>
-
-                <Grid item xs={6} sm={3}>
-                  <NavLink
-                    className="nav-link colorLetra contenedorLetrasNavBar"
-                    to="/equipos"
-                  >
-                    EQUIPOS
-                  </NavLink>
-                </Grid>
-
-                <Grid item xs={6} sm={3}>
-                  <NavLink
-                    className="nav-link colorLetra contenedorLetrasNavBar"
-                    to="/partidos"
-                  >
-                    PARTIDOS
-                  </NavLink>
-                </Grid>
-
-                <Grid item xs={6} sm={3}>
-                  <NavLink
-                    className="nav-link colorLetra contenedorLetrasNavBar"
-                    to="/puntuaciones"
-                  >
-                    PUNTUACIONES
-                  </NavLink>
-                </Grid>
-
-                <Grid item xs={6} sm={3}>
-                  <NavLink
-                    className="nav-link colorLetra contenedorLetrasNavBar"
-                    to="/estadisticas"
-                  >
-                    ESTADISTICAS
-                  </NavLink>
-                </Grid>
-
-                <Grid item xs={6} sm={3}>
-                  {/*<NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/juegos">JUEGOS</NavLink>
-                            <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/en-vivo">EN VIVO</NavLink>
-                            <NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/sobre-nosotros">SOBRE NOSOTROS</NavLink>*/}
-                  <NavLink
-                    className="nav-link colorLetra contenedorLetrasNavBar"
-                    to="/noticias"
-                  >
-                    NOTICIAS
-                  </NavLink>
-                </Grid>
-                {/*<NavLink className="nav-link colorLetra contenedorLetrasNavBar" to="/noticias">JUGADORES</NavLink>*/}
-              </Stack>
-
-            </div>
-          </div>
-        </div>
-      </nav >
-    </div >
+                    <NavLink className="nav-link" to={page}>
+                      {page}
+                    </NavLink>
+                  </Button>
+                ))}
+              </Box>
+            </Toolbar>
+          </Container>
+        </AppBar>
+      </div>
+    </div>
   );
 };
 
