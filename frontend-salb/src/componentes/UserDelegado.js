@@ -30,6 +30,8 @@ import MenuItem from '@mui/material/MenuItem';
 import '../css/styleNavBar.css';
 import logoApp from '../imagenes/LogoLMB1.png';
 import RegistrarJugador from './RegistrarJugador';
+import { useNavigate } from "react-router-dom";
+import configData from "../config/config.json";
 
 const ocultar = document.getElementById('imgUser');
 const text = document.getElementById('imgUser');
@@ -96,7 +98,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 function DashboardContent() {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
+  const DELEGADO_URL = configData.DELEGADO_API_URL || "http://127.0.0.1:8000/api/delegados";
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -106,8 +111,11 @@ function DashboardContent() {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
-    setAnchorEl(null);
+    localStorage.setItem('userID', null);
+    localStorage.setItem('nameUser', null);
+    setTimeout(() => navigate("/login"), 1000);
   };
 
   return (

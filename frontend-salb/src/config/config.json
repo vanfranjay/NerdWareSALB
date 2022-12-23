@@ -13,6 +13,7 @@
     "DELEGADO_API_URL": "http://127.0.0.1:8000/api/delegados",
     "JUGADOR_EQUIPO_API_URL": "http://127.0.0.1:8000/api/jugeq1",
     "PARTIDO_EQUIPO_API_URL": "http://127.0.0.1:8000/api/pareq",
+    "PARTIDOS_FINALIZADOS_API_URL": "http://127.0.0.1:8000/api/partidos",
     "REGISTER_VOUCHER_API_URL": "http://127.0.0.1:8000/api/boletas",
     "REGISTER_DELEGADO_API_URL": "http://127.0.0.1:8000/api/delegados",
     "EQUIPO_DELEGADO_API_URL": "http://127.0.0.1:8000/api/deleq/",

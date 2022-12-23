@@ -17,11 +17,14 @@ import { orange } from "@mui/material/colors";
 import moment from "moment";
 import "moment/locale/es";
 
-function CardPartido({ codigo, fecha, hora, equipoA, equipoB }) {
+function CardPartido({ codigo, fecha, hora, equipoA, equipoB, estado, puntosGan, puntosPer, eqGanador, eqPerdedor }) {
 
     var diaPartido = moment(fecha).format('D');
     var mesPartido = moment(fecha).format('MMMM');
     var horaPartido = hora.substring(0, 5);
+
+    var puntosGanador = puntosGan !== 0 ? puntosGan : "";
+    var puntosPerdedor = puntosPer !== 0 ? puntosPer : "";
 
     return (
         <div>
@@ -56,6 +59,16 @@ function CardPartido({ codigo, fecha, hora, equipoA, equipoB }) {
                             color: 'white',
                             padding: '10px',
                         }}>Hrs. {horaPartido}</Typography>
+
+                        <Typography variant="body2" sx={{
+                            position: 'absolute',
+                            bottom: 60,
+                            top: 60,
+                            left: "6%",
+                            width: '100%',
+                            color: 'white',
+                            padding: '10px',
+                        }}>{estado}</Typography>
                     </Box>
 
                 </Box>
@@ -68,7 +81,13 @@ function CardPartido({ codigo, fecha, hora, equipoA, equipoB }) {
                             </SportsBasketballIcon>
                             &nbsp;
                             &nbsp;
+                            <b>{equipoA === eqGanador ? puntosGanador : puntosPerdedor}</b>
+                            &nbsp;
+                            &nbsp;
                             {equipoA}
+                            &nbsp;
+                            &nbsp;
+                            
                         </Typography>
                         <br></br>
                         <Typography variant="h5" color="text.secondary" component="div">
@@ -76,7 +95,12 @@ function CardPartido({ codigo, fecha, hora, equipoA, equipoB }) {
                             </SportsBasketballIcon>
                             &nbsp;
                             &nbsp;
+                            <b>{equipoB === eqGanador ? puntosGanador : puntosPerdedor}</b>
+                            &nbsp;
+                            &nbsp;
                             {equipoB}
+                            &nbsp;
+                            &nbsp;
                         </Typography>
                     </CardContent>
 
@@ -94,7 +118,12 @@ CardPartido.propTypes = {
     fecha: PropTypes.string,
     hora: PropTypes.string,
     equipoA: PropTypes.string,
-    equipoB: PropTypes.string
+    equipoB: PropTypes.string,
+    estado: PropTypes.string,
+    puntosGan: PropTypes.number,
+    puntosPer: PropTypes.number,
+    eqGanador: PropTypes.string,
+    eqPerdedor: PropTypes.string
 };
 
 export default CardPartido;

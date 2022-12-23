@@ -35,6 +35,7 @@ import RegistrarTorneo from './RegistrarTorneo';
 import TabRegistrarTorneo from './TabRegistrarTorneo';
 import RegistrarPartido from './RegistrarPartido';
 import RegistrarResultadoPartido from './RegistrarResultadoPartido';
+import { useNavigate } from "react-router-dom";
 
 const ocultar = document.getElementById('imgUser');
 const text = document.getElementById('imgUser');
@@ -101,6 +102,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 function DashboardContent() {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -112,7 +114,9 @@ function DashboardContent() {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
-    setAnchorEl(null);
+    localStorage.setItem('userID', null);
+    localStorage.setItem('nameUser', null);
+    setTimeout(() => navigate("/login"), 1000);
   };
 
   return (

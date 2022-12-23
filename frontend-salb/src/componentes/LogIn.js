@@ -23,6 +23,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
 import UserDelegado from "./UserDelegado";
 import { Routes, Route } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "../css/logIn.css";
 import Usuario from "./Usuario";
@@ -30,6 +31,7 @@ import { useEffect } from "react";
 import App from "../App";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [alertColor, setAlertColor] = useState("");
   const [alertContent, setAlertContent] = useState("");
@@ -41,10 +43,10 @@ const Login = () => {
     return datosUser;
   };
 
-  function enviar(){
-    return(<App hola="Hola"/>);
+  function enviar() {
+    return (<App hola="Hola" />);
   }
-  
+
   //return {
   //  getUser,
   //};
@@ -52,7 +54,7 @@ const Login = () => {
   useEffect(() => {
     console.log("usuarioLogin");
   }, [usuarioLogin]);
-  
+
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -113,15 +115,34 @@ const Login = () => {
             ...values,
           })
           .then(function (response) {
-            const datosUsuario = [...response.data];
-            //console.log(...datosUsuario);
+            console.log("Response Status:" + response.status);
+            if (response.status === 200) {
+              const datosUsuario = [...response.data];
+              console.log("Usuario Response: " + JSON.stringify(...datosUsuario));
+              const datoUsuario = { ...datosUsuario };
+              var idUser = datosUsuario ? datoUsuario[0].id : null;
+              localStorage.setItem('userID', idUser);
+              var nameUser = datoUsuario ? datoUsuario[0].Nombre : null;
+              var lastNameUser = datoUsuario ? datoUsuario[0].Apellido : null;
+              localStorage.setItem('nameUser', nameUser + " " + lastNameUser);
 
-            const datoUsuario = { ...datosUsuario };
-            console.log(datoUsuario[0].Apellido);
-            setUsuarioLogin(datoUsuario[0]);
-            console.log(datoUsuario[0]);
-            getUser(datoUsuario);
-            enviar();
+              setUsuarioLogin(datoUsuario[0]);
+              getUser(datoUsuario);
+              enviar();
+              resetForm();
+
+              setAlertColor("success");
+              setAlertContent("Se han valido exitosamente sus credenciales");
+              setOpen(true);
+              setTimeout(() => navigate("/usuario"), 3000);
+            }
+
+            if (response.status === 400) {
+              setAlertColor("error");
+              setAlertContent("El correo o contraseña no son correctos");
+              setOpen(true);
+            }
+
 
             //const mensaje = response.data.errorMessage;
             //setUsuarioLogin(datosUsuario);
@@ -137,9 +158,20 @@ const Login = () => {
             //console.log(mensajeLogin);
             //mensaje = response.data;
             //console.log(mensaje);
+          })
+          .catch((err) => {
+            console.log("API error ↓");
+            console.log(err);
+
+            if (err.response.data.error) {
+              console.log(err.response.data.error);
+            }
+            setAlertColor("error");
+            setAlertContent("El correo o contraseña no son correctos");
+            setOpen(true);
           });
 
-        resetForm();
+
         //smsLogin(mensajeLogin);
         //setSubmitting(true);
         //setTimeout(() => {
@@ -154,130 +186,130 @@ const Login = () => {
 
   return (
     <>
-    <Grid justifyItems="center" className="contentLogin">
-      <Snackbar
-        open={open}
-        autoHideDuration={5000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        <Alert severity={alertColor} onClose={handleClose}>
-          {alertContent}
-        </Alert>
-      </Snackbar>
-      <br></br>
-      <br></br>
-      <Typography
-        variant="h3"
-        align="center"
-        color="#ffff"
-        sx={{
-          input: { color: "white" },
-        }}
-      >
-        ¡Bienvenido!
-      </Typography>
-      <br></br>
-      <form onSubmit={handleSubmit}>
-        <Box display="flex" justifyContent="center" alignItems="center">
-          <Stack m={3} direction="column" width={500} spacing={6}>
-            <TextField
-              required
-              id="Correo"
-              name="Correo"
-              label="Correo electrónico"
-              InputLabelProps={{
-                style: { color: "#ffff" },
-              }}
-              sx={{
-                color: "white",
-                "& .MuiInputBase-root": { color: "white" },
-              }}
-              fullWidth
-              autoComplete="off"
-              variant="standard"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.Correo}
-              error={touched.Correo && Boolean(errors.Correo)}
-              helperText={touched.Correo && errors.Correo}
-            />
-
-            <FormControl
-              variant="standard"
-              required
-              sx={{ "& .MuiInputBase-input": { color: "white" } }}
-            >
-              <InputLabel
+      <Grid justifyItems="center" className="contentLogin">
+        <Snackbar
+          open={open}
+          autoHideDuration={5000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        >
+          <Alert severity={alertColor} onClose={handleClose}>
+            {alertContent}
+          </Alert>
+        </Snackbar>
+        <br></br>
+        <br></br>
+        <Typography
+          variant="h3"
+          align="center"
+          color="#ffff"
+          sx={{
+            input: { color: "white" },
+          }}
+        >
+          ¡Bienvenido!
+        </Typography>
+        <br></br>
+        <form onSubmit={handleSubmit}>
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <Stack m={3} direction="column" width={500} spacing={6}>
+              <TextField
+                required
+                id="Correo"
+                name="Correo"
+                label="Correo electrónico"
+                InputLabelProps={{
+                  style: { color: "#ffff" },
+                }}
                 sx={{
                   color: "white",
-                  "& .MuiInputLabel-root": {
-                    color: "white",
-                  },
-                  "& .MuiFormLabelroot": {
-                    color: "white",
-                  },
+                  "& .MuiInputBase-root": { color: "white" },
                 }}
-              >
-                Password
-              </InputLabel>
-              <Input
-                required
                 fullWidth
-                id="Contraseña"
-                name="Contraseña"
-                type={showPassword ? "text" : "password"}
+                autoComplete="off"
+                variant="standard"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.Contraseña}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      sx={{
-                        ".MuiSvgIcon-root ": {
-                          fill: "white !important",
-                        },
-                        "& .MuiInputBase-input": {
-                          color: "white",
-                        },
-                      }}
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
+                value={values.Correo}
+                error={touched.Correo && Boolean(errors.Correo)}
+                helperText={touched.Correo && errors.Correo}
               />
-              {touched.Contraseña && errors.Contraseña ? (
-                <FormHelperText
-                  sx={{ color: "#d32f2f", marginLeft: "!important" }}
-                >
-                  {touched.Contraseña && errors.Contraseña}
-                </FormHelperText>
-              ) : null}
-            </FormControl>
 
-            <Stack
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
-              spacing={3}
-            >
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleSubmit}
-                type="submit"
-                sx={{ width: "50%" }}
+              <FormControl
+                variant="standard"
+                required
+                sx={{ "& .MuiInputBase-input": { color: "white" } }}
               >
-                Iniciar Sesión
-              </Button>
+                <InputLabel
+                  sx={{
+                    color: "white",
+                    "& .MuiInputLabel-root": {
+                      color: "white",
+                    },
+                    "& .MuiFormLabelroot": {
+                      color: "white",
+                    },
+                  }}
+                >
+                  Password
+                </InputLabel>
+                <Input
+                  required
+                  fullWidth
+                  id="Contraseña"
+                  name="Contraseña"
+                  type={showPassword ? "text" : "password"}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.Contraseña}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        sx={{
+                          ".MuiSvgIcon-root ": {
+                            fill: "white !important",
+                          },
+                          "& .MuiInputBase-input": {
+                            color: "white",
+                          },
+                        }}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+                {touched.Contraseña && errors.Contraseña ? (
+                  <FormHelperText
+                    sx={{ color: "#d32f2f", marginLeft: "!important" }}
+                  >
+                    {touched.Contraseña && errors.Contraseña}
+                  </FormHelperText>
+                ) : null}
+              </FormControl>
+
+              <Stack
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                spacing={3}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSubmit}
+                  type="submit"
+                  sx={{ width: "50%" }}
+                >
+                  Iniciar Sesión
+                </Button>
+              </Stack>
             </Stack>
-          </Stack>
-        </Box>
-      </form>
-    </Grid>
+          </Box>
+        </form>
+      </Grid>
     </>
   )
 };

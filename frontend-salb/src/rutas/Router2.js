@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import LogIn from "../componentes/LogIn";
-import BarraNavegacion from "../componentes/BarraNavegacion";
+import BarraNavegacion from "../componentes/barraNavegacion";
 import Fotos from "../componentes/Fotos";
 import Estadisticas from "../componentes/Estadisticas";
 import Equipos from "../componentes/Equipos";

@@ -35,6 +35,7 @@ import moment, { now } from "moment";
 import "moment/locale/es";
 
 const RegistrarResultadoPartido = () => {
+    var userID = localStorage.getItem('userID');
 
     function setPuntos(params) {
         var jugadoresActualizados = [];
@@ -85,6 +86,7 @@ const RegistrarResultadoPartido = () => {
 
     const TORNEOS_URL = configData.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
     const PARTIDOS_URL = configData.PARTIDOS_API_URL || "http://127.0.0.1:8000/api/rol_partidos";
+    const PARTIDOS_REGISTRADOS_URL = configData.PARTIDOS_FINALIZADOS_API_URL || "http://127.0.0.1:8000/api/partidos";
     const EQUIPOS_URL = configData.EQUIPOS_API_URL || "http://127.0.0.1:8000/api/equipos";
     const CATEGORIAS_URL = configData.CATEGORIAS_API_URL || "http://127.0.0.1:8000/api/categorias";
     const JUGADOR_EQUIPO_URL = configData.JUGADOR_EQUIPO_API_URL || "http://127.0.0.1:8000/api/jugeq1";
@@ -103,7 +105,7 @@ const RegistrarResultadoPartido = () => {
     const [equiposPartidoSel, setEquiposPartidoSel] = useState([]);
     const [selectedPartido, setSelectedPartido] = useState([]);
     const [partidosFinalizados, setPartidosFinalizados] = useState([]);
-
+    const [partidosRegistrados, setPartidosRegistrados] = useState([]);
 
     var jugadores = jugadoresEquipoGan.concat(jugadoresEquipoPer);
 
@@ -233,14 +235,32 @@ const RegistrarResultadoPartido = () => {
             })
     }
 
+    const getPartidosRegistrados = async () => {
+        await axios.get(PARTIDOS_REGISTRADOS_URL)
+            .then(response => {
+                console.log("Partidos Registrados: " + JSON.stringify(response.data));
+                setPartidosRegistrados(response.data);
+            }).catch(error => {
+                console.log(error);
+            })
+    }
+
     const filtrarPartidos = async (partidos) => {
         var horaActual = moment(new Date()).format('HH:mm');
 
-        var partidosJugados = partidos.filter(partido => (moment(getFechaHoraP(partido.Fecha, partido.Hora, horaActual)).isBefore(new Date())));
+        var partidosJugados = partidos.filter(partido => (moment(getFechaHoraP(partido.Fecha, partido.Hora, horaActual)).isBefore(new Date()) && estaRegistradoPartido(partido)));
 
         setPartidosFinalizados(partidosJugados);
-        console.log("Partidos Filtrados Finali: " + JSON.stringify(partidosFinalizados));
+        console.log("Partidos Filtrados Finali: " + JSON.stringify(partidosJugados));
         return partidosJugados;
+    }
+
+    const estaRegistradoPartido = async (partidoIn) => {
+        console.log("Partidos Registrados 2: " + JSON.stringify(partidosRegistrados));
+        console.log("Partidos In : " + JSON.stringify(partidoIn));
+        var existePartido = partidosRegistrados.some(partido => (partido.Fecha_Partido === partidoIn.Fecha) && (partido.Hora_Inicio === partidoIn.Hora));
+        console.log("Partido esta registrado: " + existePartido);
+        return !existePartido;
     }
 
     const getJugadores = async (equipoID) => {
@@ -302,14 +322,7 @@ const RegistrarResultadoPartido = () => {
 
         validationSchema: formValidationSchema,
         onSubmit: (values, { setSubmitting, resetForm }) => {
-            console.log("Partido: " + values.partido);
-            console.log("Equipo Ganador: " + values.equipoGanador);
-            console.log("Equipo Perdedor: " + values.equipoPerdedor);
-            console.log("Hora Final: " + values.horaFinal);
-            console.log("Puntos E Ganador: " + values.puntosEquipoGanador);
-            console.log("Puntos E Perdedor: " + values.puntosEquipoPerdedor);
             registrarResPartido();
-            //registrarResPartidoJugadores();
 
             setSubmitting(true);
             setTimeout(() => {
@@ -440,7 +453,6 @@ const RegistrarResultadoPartido = () => {
             minute: timeFin.get('minute'),
             second: timeFin.get('second')
         });
-
         var esMayor = moment(dateFin).isAfter(dateIni) && moment(dateFin).isBetween(dateIni, dateFin, undefined, '[]');
         console.log("Es hora final es mayor a la actual: " + esMayor);
         return esMayor;
@@ -477,6 +489,7 @@ const RegistrarResultadoPartido = () => {
 
     useEffect(() => {
         getPartidos();
+        getPartidosRegistrados();
         getEquipos();
         getCategorias();
         getTorneo();

@@ -27,7 +27,7 @@ import configData from "../config/config.json";
 import { useNavigate } from "react-router-dom";
 
 const RegistrarJugador = () => {
-
+    var userID = localStorage.getItem('userID');
     const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
     const FILE_SIZE = 7340032; // 7MB de tamaño del archivo
     const phoneRegExp = /^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*$/;
@@ -254,7 +254,7 @@ const RegistrarJugador = () => {
 
     const registrarJugador = async () => {
 
-        const resDelegadoEquipos = await tieneEquiposRegDelegado(1);
+        const resDelegadoEquipos = await tieneEquiposRegDelegado(userID);
 
         const equipoSelected = equipos.find(equipo => equipo.Nombre_Equipo === values.equipo);
         const categoriaEquipo = equipoSelected.Categoria;
@@ -311,11 +311,9 @@ const RegistrarJugador = () => {
                 //Validadando si se envio correctamente o hubo algun fallo
                 console.log("Response:------> " + respuestaJson.status);
                 if (respuestaJson.status === 200) {
-                    //const resIncJugEquipo = await incJugadorEquipo(JUGADOR_EQUIPO_URL + selectedEquipo.id);
                     setAlertColor("success");
                     setAlertContent("Se registro al jugador exitosamente");
                     setOpen(true);
-                    localStorage.setItem('jugadoresReg', parseInt(localStorage.getItem('jugadoresReg')) + 1);
                     borrar();
                 }
 

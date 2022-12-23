@@ -119,7 +119,9 @@ const BarraNavegacion = () => {
                   ))}
                 </Menu>
               </Box>
-              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
+                justifyContent="center"
+                alignItems="center">
                 {pages.map((page) => (
                   <Button
                     key={page}

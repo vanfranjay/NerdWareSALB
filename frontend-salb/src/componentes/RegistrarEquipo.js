@@ -30,7 +30,7 @@ import configData from "../config/config.json";
 const RegistrarEquipo = () => {
 
   const navigate = useNavigate();
-
+  var userID = localStorage.getItem('userID');
   const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "application/pdf"];
   const FILE_SIZE = 7340032; // 7MB de tamaño del archivo
   const phoneRegExp = /^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*$/;
@@ -78,7 +78,8 @@ const RegistrarEquipo = () => {
   }
 
   const filtrarCategoriasDelTorneo = async (categoriasData) => {
-    const resDelegado = await getDelegado(DELEGADO_URL + '/' + 1);
+    console.log('User ID: ' + userID);
+    const resDelegado = await getDelegado(DELEGADO_URL + '/' + userID);
     var delegado = await resDelegado.json();
 
     var filteredCategorias = categoriasData.filter(categoria => categoria.Cod_Torneo == delegado.Cod_Torneo);
@@ -222,7 +223,7 @@ const RegistrarEquipo = () => {
     };
     console.log("Equipo: ------> " + JSON.stringify(datos));
 
-    const resDelegadoVouchers = await getDelegado(DELEGADO_URL + '/' + 1);
+    const resDelegadoVouchers = await getDelegado(DELEGADO_URL + '/' + userID);
     const responseVouchersDisp = await resDelegadoVouchers.json();
 
     console.log("Contador voucher delegado: " + responseVouchersDisp.Contador);
@@ -235,16 +236,12 @@ const RegistrarEquipo = () => {
       //Validadando si se envio correctamente o hubo algun fallo
       console.log("Response:------> " + respuestaJson.status);
       if (respuestaJson.status === 200) {
-        const resIncVoucherDelegado = decVoucherDelegado(DEC_BOLETA_DELEGADO_URL + 1);
+        const resIncVoucherDelegado = decVoucherDelegado(DEC_BOLETA_DELEGADO_URL + userID);
         setAlertColor("success");
         setAlertContent("Se registro el equipo exitosamente");
         setOpen(true);
         borrar();
         var equipo = await respuestaJson.json();
-        localStorage.setItem('categoriaId', selectedCategoria.id);
-        localStorage.setItem('categoriaValue', selectedCategoria.Categoria);
-        localStorage.setItem('equipoId', equipo.id);
-        localStorage.setItem('jugadoresReg', 0);
       }
 
       if (respuestaJson.status === 400) {

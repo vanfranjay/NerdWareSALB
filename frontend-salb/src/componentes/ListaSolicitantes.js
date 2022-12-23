@@ -30,8 +30,8 @@ const ListaSolicitantes = () => {
     console.log(resultado.data);
   };
 
-  const updateDelegado = async (Cod_Boleta, Estado) => {
-    const boletaDelegado = await incVoucherDelegado(INC_BOLETA_DELEGADO_URL + 1);
+  const updateDelegado = async (Cod_Boleta, Estado, DelegadoID) => {
+    const boletaDelegado = await incVoucherDelegado(INC_BOLETA_DELEGADO_URL + DelegadoID);
     try {
       const { data } = await axios.put(
         `${BOLETAS_URL}/${Cod_Boleta}`,
@@ -294,7 +294,7 @@ const ListaSolicitantes = () => {
                       className="botonHabilitadoAceptar"
                       onClick={() => {
                         {
-                          updateDelegado(solicitud.Cod_Boleta, 1);
+                          updateDelegado(solicitud.Cod_Boleta, 1, solicitud.Cod_Delegado);
                           sendEmail();
                         }
                       }}
@@ -339,7 +339,7 @@ const ListaSolicitantes = () => {
                       className="botonHabilitadoAceptar"
                       onClick={() => {
                         {
-                          updateDelegado(solicitud.Cod_Boleta, 3);
+                          updateDelegado(solicitud.Cod_Boleta, 3, solicitud.Cod_Delegado);
                           sendEmailRechazado();
                         }
                       }}

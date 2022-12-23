@@ -36,9 +36,7 @@ import "moment/locale/es";
 
 
 const RegistrarPartido = () => {
-
-
-
+    var userID = localStorage.getItem('userID');
     const [open, setOpen] = React.useState(false);
     const [alertColor, setAlertColor] = useState('');
     const [alertContent, setAlertContent] = useState('');
@@ -81,7 +79,7 @@ const RegistrarPartido = () => {
     }
 
     const getEquipos = async () => {
-        await axios.get(EQUIPOS_URL + '/' + 1)
+        await axios.get(EQUIPOS_URL + '/' + userID)
             .then(response => {
                 setEquipos(response.data);
             }).catch(error => {
@@ -110,7 +108,7 @@ const RegistrarPartido = () => {
     }
 
     const filtrarCategoriasDelTorneo = async (categoriasData) => {
-        const resDelegado = await getDelegado(DELEGADO_URL + '/' + 1);
+        const resDelegado = await getDelegado(DELEGADO_URL + '/' + userID);
         var delegado = await resDelegado.json();
 
         var filteredCategorias = categoriasData.filter(categoria => categoria.Cod_Torneo == delegado.Cod_Torneo);

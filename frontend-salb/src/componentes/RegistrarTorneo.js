@@ -82,7 +82,7 @@ const postRegistrarCategorias = async (datos) => {
 }
 
 const RegistrarTorneo = () => {
-
+  var userID = localStorage.getItem('userID');
   const [open, setOpen] = React.useState(false);
   const [alertColor, setAlertColor] = useState('');
   const [alertContent, setAlertContent] = useState('');

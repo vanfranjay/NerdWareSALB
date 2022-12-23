@@ -33,9 +33,8 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import moment from "moment";
 import "moment/locale/es";
 
-
 const RegistrarVoucher = () => {
-
+    var userID = localStorage.getItem('userID');
     const BOLETAS_URL = configData.BOLETAS_API_URL || "http://127.0.0.1:8000/api/boletas";
     const TORNEOS_URL = configData.TORNEOS_API_URL || "http://127.0.0.1:8000/api/torneos";
     const DELEGADOS_URL = configData.DELEGADO_API_URL || "http://127.0.0.1:8000/api/delegados";
@@ -270,19 +269,18 @@ const RegistrarVoucher = () => {
                 "Fecha_Registro": formatedFechaDeposito,
                 "Comprobante": imageURL,
                 // TODO: Sacar el ID del delegado que esta logeado
-                "Cod_Delegado": 1
+                "Cod_Delegado": userID
             };
 
             console.log("Boleta: ------> " + JSON.stringify(datos));
 
             const respuestaJson = await postVoucher(BOLETAS_URL, datos);
-            const respuestaDelegadoTorneo = await updateDelegadoTorneo(datosDelegadoTorneo, 1);
+            const respuestaDelegadoTorneo = await updateDelegadoTorneo(datosDelegadoTorneo, userID);
 
             borrar();
             //Validadando si se envio correctamente o hubo algun fallo
             console.log("Response:------> " + respuestaJson.status);
             if (respuestaJson.status === 200) {
-                //const resIncVoucherDelegado = incVoucherDelegado(urlIncVoucherDelegado + 1);
                 setAlertColor("success");
                 setAlertContent(configData.MENSAJE_CREACION_DE_BOLETA_CON_EXITO);
                 setOpen(true);

@@ -33,10 +33,6 @@ const ListaEquipos = () => {
             })
     }
 
-    function getCategoria(categoriaID) {
-        return categorias ? categorias.find(categoria => categoria.id === categoriaID).Categoria : "";
-    }
-
     useEffect(() => {
         getCategorias();
         getEquipos();
@@ -64,10 +60,10 @@ const ListaEquipos = () => {
                 spacing={3}
                 columns={{ xs: 4, sm: 8, md: 12 }}>
 
-                {Array.from(equipos).map(({ id, Nombre_Equipo, Logo, NumJug, Cod_Categoria }) => (
+                {Array.from(equipos).map(({ id, Nombre_Equipo, Logo, NumJug, Categoria }) => (
 
                     <Grid key={id} item xs={4}>
-                        <CardEquipo codigo={id} nombreEquipo={Nombre_Equipo} logo={Logo} numJug={NumJug} categoria={categorias ? getCategoria(Cod_Categoria) : []} />
+                        <CardEquipo codigo={id} nombreEquipo={Nombre_Equipo} logo={Logo} numJug={NumJug} categoria={Categoria} />
                     </Grid>
                 ))}
             </Grid>
