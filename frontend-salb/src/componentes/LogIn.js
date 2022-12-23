@@ -37,6 +37,7 @@ const Login = () => {
   const [alertContent, setAlertContent] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [usuarioLogin, setUsuarioLogin] = useState([]);
+  const LOGIN_URL = configData.LOGIN_API_URL || "http://127.0.0.1:8000/api/login";
 
   const getUser = (datoUsuario) => {
     const datosUser = datoUsuario[0];
@@ -111,7 +112,7 @@ const Login = () => {
       //login();
       try {
         const resultado = axios
-          .post("http://127.0.0.1:8000/api/login", {
+          .post(LOGIN_URL, {
             ...values,
           })
           .then(function (response) {
