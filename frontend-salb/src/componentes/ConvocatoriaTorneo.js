@@ -218,7 +218,7 @@ const ConvocatoriaTorneo = () => {
                       {obtenerDia(torneo.Fecha_Fin_Inscripcion)}{" "}
                       {obtenerDiaNumero(torneo.Fecha_Fin_Inscripcion)} de{" "}
                       {obtenerMes(torneo.Fecha_Fin_Inscripcion)} del{" "}
-                      {obtenerAño(torneo.Fecha_Fin_Preinscripcion)}
+                      {obtenerAño(torneo.Fecha_Fin_Inscripcion)}
                     </h6>
                     <h6>
                       <b>Costo de inscripción:</b> {torneo.MontoInscripcion}$
